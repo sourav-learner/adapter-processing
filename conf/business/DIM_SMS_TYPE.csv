@@ -1,0 +1,5 @@
+ID,DESCRIPTION,POPULATION_DATE_TIME,UPDATE_DATE_TIME
+0,local SMS message,,
+1,intra-province toll SMS message,,
+2,inter-province toll SMS message,,
+3,international toll SMS message,,

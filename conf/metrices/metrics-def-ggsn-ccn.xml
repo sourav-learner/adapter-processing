@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Metrices>
+
+    <Metric id="6.1.1" name="ggsnccn_ggsn_data_recon_metric" tableName="metric_recon_data" datasource="Huawei-GGSN" filePostFix="SUM"
+            dataBase="mongo" eventName="PGWRecord_PRE\,PGWRecord_POST" derived-columns="enable">
+        <Filters>
+            <Filter sourceFieldName="RATING_GROUP" operation="notIn" threshold="10" comparator="string" />
+<!--            <Filter sourceFieldName="SRV_TYPE_KEY" operation="in" threshold="1\,2" comparator="string" />-->
+<!--            <Filter sourceFieldName="BASIC_SERVICE_KEY" operation="notIn" threshold="18" comparator="string" />-->
+<!--            <Filter sourceFieldName="EVENT_TYPE_KEY" operation="in" threshold="1\,5" comparator="string" />-->
+<!--            <Filter sourceFieldName="EVENT_DIRECTION_KEY" operation="in" threshold="1" comparator="string" />-->
+<!--            <Filter sourceFieldName="REC_TYPE_ID_KEY" operation="in" threshold="1\,4" comparator="string" />-->
+<!--            <Filter sourceFieldName="OTHER_MSISDN" operation="notStartsWith" threshold="999\,888\,249888\,2499888\,249912300000\,24991200\,24912300000" comparator="string" />-->
+        </Filters>
+        <Exclusions>
+        </Exclusions>
+        <dims>
+            <dim targetFieldName="record_date" sourceFieldName="XDR_DATE" dataType="String" format="yyyyMMdd" method=""/>
+            <dim targetFieldName="event_type" sourceFieldName="EVENT_TYPE_KEY" dataType="String"/>
+            <dim targetFieldName="srv_type" sourceFieldName="SRV_TYPE_KEY" dataType="String"/>
+            <dim targetFieldName="rating_group" sourceFieldName="RATING_GROUP" dataType="String"/>
+            <dim targetFieldName="hour" sourceFieldName="XDR_DATE" dataType="int" method="getHour"/>
+        </dims>
+        <measures>
+            <measure targetFieldName="ggsn_volume" sourceFieldName="TOTAL_VOLUME" dataType="double" type="SUM"/>
+            <measure targetFieldName="ggsn_billable_volume" sourceFieldName="BILLABLE_VOLUME" dataType="double" type="SUM"/>
+            <measure targetFieldName="ggsn_count"  type="COUNT"/>
+        </measures>
+    </Metric>
+
+    <Metric id="6.1.2" name="ggsnccn_ccn_data_recon_metric" tableName="metric_recon_data" datasource="Eric-CCN" filePostFix="SUM"
+            dataBase="mongo" eventName="GY_PRE\,GY_POST" derived-columns="enable">
+        <Filters>
+            <Filter sourceFieldName="RATING_GROUP" operation="notIn" threshold="10" comparator="string" />
+<!--            <Filter sourceFieldName="SRV_TYPE_KEY" operation="in" threshold="1\,2" comparator="string" />-->
+<!--            <Filter sourceFieldName="EVENT_TYPE_KEY" operation="in" threshold="1" comparator="string" />-->
+<!--            <Filter sourceFieldName="EVENT_DIRECTION_KEY" operation="in" threshold="1" comparator="string" />-->
+<!--            <Filter sourceFieldName="SERVED_MSISDN" operation="notStartsWith" threshold="091200\,0912300000" comparator="string" />-->
+<!--            <Filter sourceFieldName="OTHER_MSISDN" operation="notStartsWith" threshold="999\,888\,249888\,2499888\,249912300000\,24991200\,24912300000" comparator="string" />-->
+        </Filters>
+        <Exclusions>
+        </Exclusions>
+        <dims>
+            <dim targetFieldName="record_date" sourceFieldName="XDR_DATE" dataType="String" format="yyyyMMdd" method=""/>
+            <dim targetFieldName="srv_type" sourceFieldName="SRV_TYPE_KEY" dataType="String"/>
+<!--            <dim targetFieldName="nw_call_type" sourceFieldName="NW_IND_KEY" dataType="String"/>-->
+            <dim targetFieldName="rating_group" sourceFieldName="RATING_GROUP" dataType="String"/>
+            <dim targetFieldName="hour" sourceFieldName="XDR_DATE" dataType="int" method="getHour"/>
+        </dims>
+        <measures>
+            <measure targetFieldName="ccn_original_volume" sourceFieldName="ORIGINAL_VOLUME" dataType="double" type="SUM"/>
+            <measure targetFieldName="ccn_billable_volume" sourceFieldName="BILLABLE_VOLUME" dataType="double" type="SUM"/>
+            <measure targetFieldName="ccn_pulse" sourceFieldName="BILLABLE_PULSE" dataType="double" type="SUM"/>
+            <measure targetFieldName="charge" sourceFieldName="CHARGE" dataType="double" type="SUM"/>
+            <measure targetFieldName="ccn_count"  type="COUNT"/>
+        </measures>
+    </Metric>
+
+    <Metric id="6.2.1" name="ggsnccn_ggsn_data_sub_recon_metric" tableName="metric_recon_data_sub" datasource="Huawei-GGSN" filePostFix="SUM"
+            dataBase="mongo" eventName="PGWRecord_PRE\,PGWRecord_POST" derived-columns="enable">
+        <Filters>
+            <Filter sourceFieldName="RATING_GROUP" operation="notIn" threshold="10" comparator="string" />
+<!--            <Filter sourceFieldName="SRV_TYPE_KEY" operation="in" threshold="1\,2" comparator="string" />-->
+<!--            <Filter sourceFieldName="BASIC_SERVICE_KEY" operation="notIn" threshold="18" comparator="string" />-->
+<!--            <Filter sourceFieldName="EVENT_TYPE_KEY" operation="in" threshold="1\,5" comparator="string" />-->
+<!--            <Filter sourceFieldName="EVENT_DIRECTION_KEY" operation="in" threshold="1" comparator="string" />-->
+<!--            <Filter sourceFieldName="REC_TYPE_ID_KEY" operation="in" threshold="1\,4" comparator="string" />-->
+<!--            <Filter sourceFieldName="OTHER_MSISDN" operation="notStartsWith" threshold="999\,888\,249888\,2499888\,249912300000\,24991200\,24912300000" comparator="string" />-->
+        </Filters>
+        <Exclusions>
+        </Exclusions>
+        <dims>
+            <dim targetFieldName="record_date" sourceFieldName="XDR_DATE" dataType="String" format="yyyyMMdd" method=""/>
+            <dim targetFieldName="event_type" sourceFieldName="EVENT_TYPE_KEY" dataType="String"/>
+            <dim targetFieldName="srv_type" sourceFieldName="SRV_TYPE_KEY" dataType="String"/>
+            <dim targetFieldName="rating_group" sourceFieldName="RATING_GROUP" dataType="String"/>
+            <dim targetFieldName="hour" sourceFieldName="XDR_DATE" dataType="int" method="getHour"/>
+            <dim targetFieldName="served_msisdn" sourceFieldName="SERVED_MSISDN" dataType="String"/>
+        </dims>
+        <measures>
+            <measure targetFieldName="ggsn_volume" sourceFieldName="TOTAL_VOLUME" dataType="double" type="SUM"/>
+            <measure targetFieldName="ggsn_billable_volume" sourceFieldName="BILLABLE_VOLUME" dataType="double" type="SUM"/>
+            <measure targetFieldName="ggsn_count"  type="COUNT"/>
+        </measures>
+    </Metric>
+
+    <Metric id="6.2.2" name="ggsnccn_ccn_data_sub_recon_metric" tableName="metric_recon_data_sub" datasource="Eric-CCN" filePostFix="SUM"
+            dataBase="mongo" eventName="GY_PRE\,GY_POST" derived-columns="enable">
+        <Filters>
+            <Filter sourceFieldName="RATING_GROUP" operation="notIn" threshold="10" comparator="string" />
+            <!--            <Filter sourceFieldName="SRV_TYPE_KEY" operation="in" threshold="1\,2" comparator="string" />-->
+            <!--            <Filter sourceFieldName="EVENT_TYPE_KEY" operation="in" threshold="1" comparator="string" />-->
+            <!--            <Filter sourceFieldName="EVENT_DIRECTION_KEY" operation="in" threshold="1" comparator="string" />-->
+            <!--            <Filter sourceFieldName="SERVED_MSISDN" operation="notStartsWith" threshold="091200\,0912300000" comparator="string" />-->
+            <!--            <Filter sourceFieldName="OTHER_MSISDN" operation="notStartsWith" threshold="999\,888\,249888\,2499888\,249912300000\,24991200\,24912300000" comparator="string" />-->
+        </Filters>
+        <Exclusions>
+        </Exclusions>
+        <dims>
+            <dim targetFieldName="record_date" sourceFieldName="XDR_DATE" dataType="String" format="yyyyMMdd" method=""/>
+            <dim targetFieldName="srv_type" sourceFieldName="SRV_TYPE_KEY" dataType="String"/>
+<!--            <dim targetFieldName="nw_call_type" sourceFieldName="NW_IND_KEY" dataType="String"/>-->
+            <dim targetFieldName="rating_group" sourceFieldName="RATING_GROUP" dataType="String"/>
+            <dim targetFieldName="hour" sourceFieldName="XDR_DATE" dataType="int" method="getHour"/>
+            <dim targetFieldName="served_msisdn" sourceFieldName="SERVED_MSISDN" dataType="String"/>
+        </dims>
+        <measures>
+            <measure targetFieldName="ccn_original_volume" sourceFieldName="ORIGINAL_VOLUME" dataType="double" type="SUM"/>
+            <measure targetFieldName="ccn_billable_volume" sourceFieldName="BILLABLE_VOLUME" dataType="double" type="SUM"/>
+            <measure targetFieldName="ccn_pulse" sourceFieldName="BILLABLE_PULSE" dataType="double" type="SUM"/>
+            <measure targetFieldName="charge" sourceFieldName="CHARGE" dataType="double" type="SUM"/>
+            <measure targetFieldName="ccn_count"  type="COUNT"/>
+        </measures>
+    </Metric>
+</Metrices>

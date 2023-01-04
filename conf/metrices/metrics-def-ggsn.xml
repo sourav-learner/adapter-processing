@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Metrices>
+
+    <Metric id="5.1" name="ggsn_day_metric" tableName="metric_ggsn_daily" datasource="Eric-GMSC" filePostFix="SUM"
+            dataBase="mongo" eventName="PGWRecord_PRE\,PGWRecord_POST" derived-columns="enable">
+        <Filters>
+            <Filter sourceFieldName="EVENT_TYPE_KEY" operation="in" threshold="1\,2\,5" comparator="string" />
+        </Filters>
+        <Exclusions>
+        </Exclusions>
+        <dims>
+            <dim targetFieldName="record_date" sourceFieldName="XDR_DATE" dataType="String" format="yyyyMMdd" method=""/>
+            <dim targetFieldName="event_type" sourceFieldName="EVENT_TYPE_KEY" dataType="String"/>
+            <dim targetFieldName="srv_type" sourceFieldName="SRV_TYPE_KEY" dataType="String"/>
+            <dim targetFieldName="apn" sourceFieldName="APN_NAME" dataType="String"/>
+            <dim targetFieldName="rating_group" sourceFieldName="RATING_GROUP" dataType="String"/>
+            <dim targetFieldName="hour" sourceFieldName="XDR_DATE" dataType="int" method="getHour"/>
+        </dims>
+        <measures>
+            <measure targetFieldName="volume" sourceFieldName="TOTAL_VOLUME" dataType="double" type="SUM"/>
+            <measure targetFieldName="billable_volume" sourceFieldName="BILLABLE_VOLUME" dataType="double" type="SUM"/>
+            <measure targetFieldName="uplink" sourceFieldName="DATA_VOLUME_FBC_UPLINK" dataType="double" type="SUM"/>
+            <measure targetFieldName="downlink" sourceFieldName="DATA_VOLUME_FBC_DOWNLINK" dataType="double" type="SUM"/>
+            <measure targetFieldName="count"  type="COUNT"/>
+        </measures>
+    </Metric>
+
+</Metrices>

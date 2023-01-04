@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Metrices>
+
+    <Metric id="4.1" name="gmsc_voice_day_metric" tableName="metric_gmsc_daily" datasource="Eric-GMSC" filePostFix="SUM"
+            dataBase="mongo" eventName="ERIC_GMSC_FCT" derived-columns="enable">
+        <Filters>
+            <Filter sourceFieldName="EVENT_TYPE_KEY" operation="in" threshold="1\,2\,5" comparator="string" />
+        </Filters>
+        <Exclusions>
+        </Exclusions>
+        <dims>
+            <dim targetFieldName="record_date" sourceFieldName="XDR_DATE" dataType="String" format="yyyyMMdd" method=""/>
+            <dim targetFieldName="event_type" sourceFieldName="EVENT_TYPE_KEY" dataType="String"/>
+            <dim targetFieldName="srv_type" sourceFieldName="SRV_TYPE_KEY" dataType="String"/>
+            <dim targetFieldName="direction" sourceFieldName="EVENT_DIRECTION_KEY" dataType="String"/>
+            <dim targetFieldName="nw_call_type" sourceFieldName="NW_IND_KEY" dataType="String"/>
+            <dim targetFieldName="hour" sourceFieldName="XDR_DATE" dataType="int" method="getHour"/>
+            <dim targetFieldName="country" sourceFieldName="OTHER_MSISDN_COUNTRY" dataType="String"/>
+            <dim targetFieldName="operator" sourceFieldName="OTHER_MSISDN_OPER" dataType="String"/>
+        </dims>
+        <measures>
+            <measure targetFieldName="mou" sourceFieldName="ORIGINAL_DUR" dataType="double" type="SUM"/>
+            <measure targetFieldName="pulse" sourceFieldName="BILLABLE_PULSE" dataType="double" type="SUM"/>
+            <measure targetFieldName="count"  type="COUNT"/>
+        </measures>
+    </Metric>
+
+</Metrices>

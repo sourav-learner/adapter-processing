@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Metrices>
+
+    <Metric id="3.1" name="ccn_overall_day_metric" tableName="metric_ccn_daily" datasource="Eric-CCN" filePostFix="SUM"
+            dataBase="mongo" eventName="SCF_PRE\,SCF_POST\,SCAP_PRE\,SCAP_POST\,SIP_PRE\,SIP_POST" derived-columns="enable">
+        <Filters>
+        </Filters>
+        <Exclusions>
+        </Exclusions>
+        <dims>
+            <dim targetFieldName="record_date" sourceFieldName="XDR_DATE" dataType="String" format="yyyyMMdd" method=""/>
+            <dim targetFieldName="event_type" sourceFieldName="EVENT_TYPE_KEY" dataType="String"/>
+            <dim targetFieldName="srv_type" sourceFieldName="SRV_TYPE_KEY" dataType="String"/>
+            <dim targetFieldName="direction" sourceFieldName="EVENT_DIRECTION_KEY" dataType="String"/>
+            <dim targetFieldName="hour" sourceFieldName="XDR_DATE" dataType="int" method="getHour"/>
+        </dims>
+        <measures>
+            <measure targetFieldName="mou" sourceFieldName="ORIGINAL_DUR" dataType="double" type="SUM"/>
+            <measure targetFieldName="pulse" sourceFieldName="BILLABLE_PULSE" dataType="double" type="SUM"/>
+            <measure targetFieldName="charge" sourceFieldName="CHARGE" dataType="double" type="SUM"/>
+            <measure targetFieldName="count"  type="COUNT"/>
+        </measures>
+    </Metric>
+    <Metric id="3.2" name="ccn_gy_day_metric" tableName="metric_ccn_gy_daily" datasource="Eric-CCN" filePostFix="SUM"
+            dataBase="mongo" eventName="GY_PRE\,GY_POST" derived-columns="enable">
+        <Filters>
+        </Filters>
+        <Exclusions>
+        </Exclusions>
+        <dims>
+            <dim targetFieldName="record_date" sourceFieldName="XDR_DATE" dataType="String" format="yyyyMMdd" method=""/>
+            <dim targetFieldName="srv_type" sourceFieldName="SRV_TYPE_KEY" dataType="String"/>
+            <dim targetFieldName="apn" sourceFieldName="APN" dataType="String"/>
+            <dim targetFieldName="rating_group" sourceFieldName="RATING_GROUP" dataType="String"/>
+            <dim targetFieldName="hour" sourceFieldName="XDR_DATE" dataType="int" method="getHour"/>
+        </dims>
+        <measures>
+            <measure targetFieldName="original_volume" sourceFieldName="ORIGINAL_VOLUME" dataType="double" type="SUM"/>
+            <measure targetFieldName="billable_volume" sourceFieldName="BILLABLE_VOLUME" dataType="double" type="SUM"/>
+            <measure targetFieldName="pulse" sourceFieldName="BILLABLE_PULSE" dataType="double" type="SUM"/>
+            <measure targetFieldName="charge" sourceFieldName="CHARGE" dataType="double" type="SUM"/>
+            <measure targetFieldName="count"  type="COUNT"/>
+        </measures>
+    </Metric>
+</Metrices>

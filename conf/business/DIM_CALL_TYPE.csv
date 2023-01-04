@@ -1,0 +1,5 @@
+ID,DESCRIPTION,POPULATION_DATE_TIME,UPDATE_DATE_TIME
+0,local call,,
+1,toll call within a charging area,,
+2,toll call between charging areas,,
+3,international toll call,,

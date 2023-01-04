@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cache-shema>
+
+    <cache-config id="1" name="DIM_SYSTEM_CACHE" dbHandler="mongo" claz="com.gamma.components.cache.service.CachingServiceHandler" storeName="DIM_SYSTEM">
+        <keys>
+            <key type="java.lang.String">sysIdKey</key>
+        </keys>
+        <values multiple="false" type="com.gamma.telco.opco.ReferenceDimSystem"/>
+        <cache-load-policy type="advanced">
+            <components>
+                <component id="1" storeName="DIM_SYSTEM">
+                    <column>sysIdKey</column>
+                    <column>systemDesc</column>
+                    <column>forceRiInd</column>
+                    <column >populationDateTime</column>
+                    <column >updateDateTime</column>
+                </component>
+            </components>
+            <connectors>
+            </connectors>
+        </cache-load-policy>
+    </cache-config>
+
+    <cache-config id="2" name="DIM_SERVICE_TYPE_CACHE" dbHandler="mongo" claz="com.gamma.components.cache.service.CachingServiceHandler" storeName="DIM_SERVICE_TYPE">
+        <keys>
+            <key type="java.lang.String">srvTypeKey</key>
+        </keys>
+        <values multiple="false" type="com.gamma.telco.opco.ReferenceDimServiceType" />
+        <cache-load-policy type="advanced">
+            <components>
+                <component id="1" storeName="DIM_SERVICE_TYPE">
+                    <column>srvTypeKey</column>
+                    <column>servedTypeDesc</column>
+                    <column>servedTypeShortName</column>
+                    <column>forceRiInd</column>
+                    <column >populationDateTime</column>
+                    <column >updateDateTime</column>
+                </component>
+            </components>
+            <connectors>
+            </connectors>
+        </cache-load-policy>
+    </cache-config>
+
+    <cache-config id="3" name="DIM_NETWORK_ELEMENT_CACHE" dbHandler="mongo" claz="com.gamma.components.cache.service.CachingServiceHandler" storeName="DIM_NETWORK_ELEMENT">
+        <keys>
+            <key type="java.lang.String">networkElementName</key>
+        </keys>
+        <values multiple="false" type="com.gamma.telco.opco.ReferenceDimNetworkElement" />
+        <cache-load-policy type="advanced">
+            <components>
+                <component id="1" storeName="DIM_NETWORK_ELEMENT">
+                    <column>neIdKey</column>
+                    <column>networkElementType</column>
+                    <column>networkElementName</column>
+                    <column>networkElementEquipment</column>
+                    <column>buKey</column>
+                    <column>forceRiInd</column>
+                    <column >populationDateTime</column>
+                    <column >updateDateTime</column>
+                </component>
+            </components>
+            <connectors>
+            </connectors>
+        </cache-load-policy>
+    </cache-config>
+
+    <cache-config id="4" name="DIM_EVENT_TYPE_CACHE" dbHandler="mongo" claz="com.gamma.components.cache.service.CachingServiceHandler" storeName="DIM_EVENT_TYPE">
+        <keys>
+            <key type="java.lang.String">eventTypeKey</key>
+        </keys>
+        <values multiple="false" type="com.gamma.telco.opco.ReferenceDimEventType" />
+        <cache-load-policy type="advanced">
+            <components>
+                <component id="1" storeName="DIM_EVENT_TYPE">
+                    <column>eventTypeKey</column>
+                    <column>chrgUnitIdKey</column>
+                    <column>eventTypeDesc</column>
+                    <column>forceRiInd</column>
+                    <column >populationDateTime</column>
+                    <column >updateDateTime</column>
+                </component>
+            </components>
+            <connectors>
+            </connectors>
+        </cache-load-policy>
+    </cache-config>
+
+
+    <cache-config id="5" name="DIM_DIAL_DIGIT_CACHE" dbHandler="mongo" claz="com.gamma.components.cache.service.CachingServiceHandler" storeName="DIM_DIAL_DIGIT">
+        <keys>
+            <key type="java.lang.String">dialDigitKey</key>
+        </keys>
+        <values multiple="false" type="com.gamma.telco.opco.ReferenceDimDialDigit" />
+        <cache-load-policy type="advanced">
+            <components>
+                <component id="1" storeName="DIM_DIAL_DIGIT">
+                    <column>dialDigitKey</column>
+                    <column>eventDirectionKey</column>
+                    <column>sdcaLocationCode</column>
+                    <column>targetRegionDesc</column>
+                    <column>targetCountryCode</column>
+                    <column>targetCountryDesc</column>
+                    <column>ldcaName</column>
+                    <column>sdcaName</column>
+                    <column>ldccXCoord</column>
+                    <column>ldccYCoord</column>
+                    <column>cdssXCoord</column>
+                    <column>cdssYCoord</column>
+                    <column>isoCountryCode</column>
+                    <column>rateCalss</column>
+                    <column>dialDigitDesc</column>
+                    <column>prefixInd</column>
+                    <column>listTypeIdKey</column>
+                    <column>hotlistInd</column>
+                    <column>testEventInd</column>
+                    <column>eventCategoryKey</column>
+                    <column>dmInd</column>
+                    <column>eventTypeKey</column>
+                    <column>length</column>
+                    <column>providerDesc</column>
+                    <column>buKey</column>
+                    <column>nopIdKey</column>
+                    <column>forceRiInd</column>
+                    <column >populationDateTime</column>
+                    <column >updateDateTime</column>
+                </component>
+            </components>
+            <connectors>
+            </connectors>
+        </cache-load-policy>
+    </cache-config>
+
+
+    <cache-config id="6" name="DIM_CELL_CACHE" dbHandler="mongo" claz="com.gamma.components.cache.service.CachingServiceHandler" storeName="DIM_CELL">
+        <keys>
+            <key type="java.lang.String">cgiIdKey</key>
+        </keys>
+        <values multiple="false" type="com.gamma.telco.opco.ReferenceDimCell" />
+        <cache-load-policy type="advanced">
+            <components>
+                <component id="1" storeName="DIM_CELL">
+                    <column>cgiIdKey</column>
+                    <column>cellLocation</column>
+                    <column>coverageInKm</column>
+                    <column>latitude</column>
+                    <column>longitude</column>
+                    <column>neIdKey</column>
+                    <column>buKey</column>
+                    <column>forceRiInd</column>
+                    <column >populationDateTime</column>
+                    <column >updateDateTime</column>
+                    <column>cellId</column>
+                    <column>lac</column>
+                    <column>siteId</column>
+                    <column>siteCode</column>
+                    <column>siteLocation</column>
+                    <column>locationNumber</column>
+                    <column>state</column>
+                    <column src="regon" dest="region"/>
+                </component>
+            </components>
+            <connectors>
+            </connectors>
+        </cache-load-policy>
+    </cache-config>
+
+    <cache-config id="7" name="DIM_REASON_CACHE" dbHandler="mongo" claz="com.gamma.components.cache.service.CachingServiceHandler" storeName="DIM_REASON">
+        <keys>
+            <key type="java.lang.String">sysIdKey</key>
+        </keys>
+        <values multiple="false" type="com.gamma.telco.opco.ReferenceDimReasonType" />
+        <cache-load-policy type="advanced">
+            <components>
+                <component id="1" storeName="DIM_REASON">
+                    <column>reasonCodeIdKey</column>
+                    <column>sysIdKey</column>
+                    <column>reasonLevel</column>
+                    <column>parentReasonCode</column>
+                    <column>reasonCodeDesc</column>
+                    <column>reasonType</column>
+                    <column>forceRiInd</column>
+                    <column >populationDateTime</column>
+                    <column >updateDateTime</column>
+                </component>
+            </components>
+            <connectors>
+            </connectors>
+        </cache-load-policy>
+    </cache-config>
+
+
+    <cache-config id="8" name="DIM_BASIC_SERVICE_CACHE" dbHandler="mongo" claz="com.gamma.components.cache.service.CachingServiceHandler" storeName="DIM_BASIC_SERVICE">
+        <keys>
+            <key type="java.lang.String">basicServiceKey</key>
+            <key type="java.lang.String">sysIdKey</key>
+        </keys>
+        <values multiple="false" type="com.gamma.telco.opco.ReferenceDimBasicService" />
+        <cache-load-policy type="advanced">
+            <components>
+                <component id="1" storeName="DIM_BASIC_SERVICE">
+                    <column>basicServiceKey</column>
+                    <column>sysIdKey</column>
+                    <column>basicServiceType</column>
+                    <column>basicServiceDescription</column>
+                    <column>eventTypeKey</column>
+                    <column>forceRiInd</column>
+                    <column >populationDateTime</column>
+                    <column >updateDateTime</column>
+                </component>
+            </components>
+            <connectors>
+            </connectors>
+        </cache-load-policy>
+    </cache-config>
+
+
+    <cache-config id="9" name="DIM_SUBSCRIPTION_CACHE" dbHandler="mongo" claz="com.gamma.components.cache.service.CachingServiceHandler" storeName="DIM_SUBSCRIPTION">
+        <keys>
+            <key type="java.lang.String">subscriptionKey</key>
+        </keys>
+        <values multiple="false" type="com.gamma.telco.opco.ReferenceDimSubscription" />
+        <cache-load-policy type="advanced">
+            <components>
+                <component id="1" storeName="DIM_SUBSCRIPTION">
+                    <column>subscriptionKey</column>
+                    <column>subscriptionVersion</column>
+                    <column>sysIdKey</column>
+                    <column>subscriptionDesc</column>
+                    <column>subscriptionShrtDesc</column>
+                    <column>effectiveDate</column>
+                    <column>statusKey</column>
+                    <column>srvTypeKey</column>
+                    <column>peakOffPeakInd</column>
+                    <column>offPeakStartHour</column>
+                    <column>offPeakEndHour</column>
+                    <column>forceRiInd</column>
+                    <column >populationDateTime</column>
+                    <column >updateDateTime</column>
+                </component>
+            </components>
+            <connectors>
+            </connectors>
+        </cache-load-policy>
+    </cache-config>
+
+
+    <cache-config id="10" name="DIM_SERVICE_LOOKUP_CACHE" dbHandler="mongo" claz="com.gamma.components.cache.service.CachingServiceHandler" storeName="DIM_SERVICE_LOOKUP">
+        <keys>
+            <key type="java.lang.String">serviceIdentifier</key>
+            <key type="java.lang.String">serviceScenario</key>
+            <key type="java.lang.String">roamingPosition</key>
+            <key type="java.lang.String">sysIdKey</key>
+        </keys>
+        <values multiple="false" type="com.gamma.telco.opco.ReferenceDimServiceLookup" />
+        <cache-load-policy type="advanced">
+            <components>
+                <component id="1" storeName="DIM_SERVICE_LOOKUP">
+                    <column>serviceIdentifier</column>
+                    <column>serviceScenario</column>
+                    <column>roamingPosition</column>
+                    <column>teleserviceCode</column>
+                    <column>eventTypeKey</column>
+                    <column>srvTypeKey</column>
+                    <column>eventDirectionKey</column>
+                    <column>sysIdKey</column>
+                    <column>filterInd</column>
+                    <column >populationDateTime</column>
+                    <column >updateDateTime</column>
+                </component>
+            </components>
+            <connectors>
+            </connectors>
+        </cache-load-policy>
+    </cache-config>
+
+
+    <cache-config id="11" name="DIM_LOOKUP_CACHE" dbHandler="mongo" claz="com.gamma.components.cache.service.CachingServiceHandler" storeName="DIM_LOOKUP">
+        <keys>
+            <key type="java.lang.String">lookupParamCatKey</key>
+            <key type="java.lang.String">lookupParam</key>
+        </keys>
+        <values multiple="false" type="com.gamma.telco.opco.ReferenceDimLookup" />
+        <cache-load-policy type="advanced">
+            <components>
+                <component id="1" storeName="DIM_LOOKUP">
+                    <column>lookupParamCatKey</column>
+                    <column>lookupParam</column>
+                    <column>buKey</column>
+                    <column>lookupOutput</column>
+                    <column >populationDateTime</column>
+                    <column >updateDateTime</column>
+                </component>
+            </components>
+            <connectors>
+            </connectors>
+        </cache-load-policy>
+    </cache-config>
+
+
+    <cache-config id="12" name="DIM_SERVICE_CONTEXT_CACHE" dbHandler="mongo" claz="com.gamma.components.cache.service.CachingServiceHandler" storeName="DIM_SERVICE_CONTEXT">
+        <keys>
+            <key type="java.lang.String">serviceContext</key>
+        </keys>
+        <values multiple="false" type="com.gamma.telco.opco.ReferenceDimServiceContext" />
+        <cache-load-policy type="advanced">
+            <components>
+                <component id="1" storeName="DIM_SERVICE_CONTEXT">
+                    <column>serviceContext</column>
+                    <column>eventType</column>
+                    <column >populationDateTime</column>
+                    <column >updateDateTime</column>
+                </component>
+            </components>
+            <connectors>
+            </connectors>
+        </cache-load-policy>
+    </cache-config>
+
+    <cache-config id="13" name="DIM_CRM_LOOKUP_CACHE" dbHandler="mongo" claz="com.gamma.components.cache.service.CachingServiceHandler" storeName="DIM_CRM_LOOKUP">
+        <keys>
+            <key type="java.lang.String">servedMsisdn</key>
+        </keys>
+        <values multiple="false" type="com.gamma.telco.opco.ReferenceDimCRMSubscriber" />
+        <cache-load-policy type="advanced">
+            <components>
+                <component id="1" storeName="DIM_CRM_LOOKUP">
+                    <column>servedImsi</column>
+                    <column>servedMsisdn</column>
+                    <column >populationDateTime</column>
+                    <column >updateDateTime</column>
+                </component>
+            </components>
+            <connectors>
+            </connectors>
+        </cache-load-policy>
+    </cache-config>
+
+    <cache-config id="14" name="DIM_SERVICE_CLASS_CACHE" dbHandler="mongo" claz="com.gamma.components.cache.service.CachingServiceHandler" storeName="DIM_SERVICE_CLASS">
+        <keys>
+            <key type="java.lang.String">serviceClassIdKey</key>
+        </keys>
+        <values multiple="false" type="com.gamma.telco.opco.ReferenceDimServiceClass" />
+        <cache-load-policy type="advanced">
+            <components>
+                <component id="1" storeName="DIM_SERVICE_CLASS">
+                    <column>serviceClassIdKey</column>
+                    <column>subscriptionKey</column>
+                    <column>srvTypeKey</column>
+                    <column>subscriptionKey</column>
+                    <column>serviceClassDesc</column>
+                    <column>subsLevel</column>
+                    <column>forceRiInd</column>
+                    <column >populationDateTime</column>
+                    <column >updateDateTime</column>
+                </component>
+            </components>
+            <connectors>
+            </connectors>
+        </cache-load-policy>
+    </cache-config>
+
+    <cache-config id="15" name="DIM_AIR_SERVICE_CACHE" dbHandler="mongo"
+                  claz="com.gamma.components.cache.service.CachingServiceHandler" storeName="DIM_AIR_SERVICE">
+        <keys>
+            <key type="java.lang.String">airServiceNode</key>
+            <key type="java.lang.String">eventType</key>
+            <key type="java.lang.String">airServiceHost</key>
+        </keys>
+        <values multiple="false" type="com.gamma.skybase.build.server.etl.utils.ReferenceDimAirService"/>
+        <cache-load-policy type="advanced">
+            <components>
+                <component id="1" storeName="DIM_AIR_SERVICE">
+                    <column>airServiceNode</column>
+                    <column>eventType</column>
+                    <column>airServiceHost</column>
+                    <column>serviceIdKey</column>
+                    <column>populationDateTime</column>
+                    <column>updateDateTime</column>
+                </component>
+            </components>
+            <connectors>
+            </connectors>
+        </cache-load-policy>
+    </cache-config>
+
+    <cache-config id="16" name="DIM_TADIG_LOOKUP_CACHE" dbHandler="mongo"
+                  claz="com.gamma.components.cache.service.CachingServiceHandler" storeName="DIM_TADIG_LOOKUP">
+        <keys>
+            <key type="java.lang.String">plmnCode</key>
+        </keys>
+        <values multiple="false" type="com.gamma.telco.utility.reference.ReferenceDimTadigLookup"/>
+        <cache-load-policy type="advanced">
+            <components>
+                <component id="1" storeName="DIM_TADIG_LOOKUP">
+                    <column>mccmnc</column>
+                    <column>plmnCode</column>
+                    <column>operator</column>
+                    <column>country</column>
+                    <column>iso2</column>
+                    <column>iso3</column>
+                </component>
+            </components>
+            <connectors>
+            </connectors>
+        </cache-load-policy>
+    </cache-config>
+
+    <cache-config id="17" name="DIM_SERVICE_RANGE_LOOKUP_CACHE" dbHandler="mongo"
+                  claz="com.gamma.components.cache.service.CachingServiceHandler" storeName="DIM_SERVICE_RANGE_LOOKUP">
+        <keys>
+            <key type="java.lang.String">id</key>
+        </keys>
+        <values multiple="false" type="com.gamma.telco.opco.ReferenceDimServiceRangeLookup"/>
+        <cache-load-policy type="advanced">
+            <components>
+                <component id="1" storeName="DIM_SERVICE_RANGE_LOOKUP">
+                    <column>id</column>
+                    <column>lookupKey</column>
+                    <column>lookupOutput</column>
+                    <column>validFrom</column>
+                    <column>validTo</column>
+                    <column>populationDateTime</column>
+                    <column>updateDateTime</column>
+                </component>
+            </components>
+            <connectors>
+            </connectors>
+        </cache-load-policy>
+    </cache-config>
+</cache-shema>

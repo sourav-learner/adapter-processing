@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Metrices>
+
+    <Metric id="1.1.1" name="mscccn_msc_voice_recon_metric" tableName="metric_recon_voice" datasource="Eric-MSC" filePostFix="SUM"
+            dataBase="mongo" eventName="ERIC_MSC_FCT" derived-columns="enable">
+        <Filters>
+            <Filter sourceFieldName="SRV_TYPE_KEY" operation="in" threshold="1\,2" comparator="string" />
+            <Filter sourceFieldName="BASIC_SERVICE_KEY" operation="notIn" threshold="18" comparator="string" />
+            <Filter sourceFieldName="EVENT_TYPE_KEY" operation="in" threshold="1\,5" comparator="string" />
+            <Filter sourceFieldName="EVENT_DIRECTION_KEY" operation="in" threshold="1" comparator="string" />
+            <Filter sourceFieldName="REC_TYPE_ID_KEY" operation="in" threshold="1\,4" comparator="string" />
+            <Filter sourceFieldName="OTHER_MSISDN" operation="notStartsWith" threshold="999\,888\,249888\,2499888\,249912300000\,24991200\,24912300000" comparator="string" />
+        </Filters>
+        <Exclusions>
+        </Exclusions>
+        <dims>
+            <dim targetFieldName="record_date" sourceFieldName="XDR_DATE" dataType="String" format="yyyyMMdd" method=""/>
+            <dim targetFieldName="srv_type" sourceFieldName="SRV_TYPE_KEY" dataType="String"/>
+            <dim targetFieldName="nw_call_type" sourceFieldName="NW_IND_KEY" dataType="String"/>
+        </dims>
+        <measures>
+            <measure targetFieldName="msc_mou" sourceFieldName="ORIGINAL_DUR" dataType="double" type="SUM"/>
+            <measure targetFieldName="msc_count"  type="COUNT"/>
+        </measures>
+    </Metric>
+
+    <Metric id="1.1.2" name="mscccn_ccn_voice_recon_metric" tableName="metric_recon_voice" datasource="Eric-CCN" filePostFix="SUM"
+            dataBase="mongo" eventName="SCF_PRE\,SCF_POST" derived-columns="enable">
+        <Filters>
+            <Filter sourceFieldName="SRV_TYPE_KEY" operation="in" threshold="1\,2" comparator="string" />
+            <Filter sourceFieldName="EVENT_TYPE_KEY" operation="in" threshold="1" comparator="string" />
+            <Filter sourceFieldName="EVENT_DIRECTION_KEY" operation="in" threshold="1" comparator="string" />
+            <Filter sourceFieldName="SERVED_MSISDN" operation="notStartsWith" threshold="091200\,0912300000" comparator="string" />
+            <Filter sourceFieldName="OTHER_MSISDN" operation="notStartsWith" threshold="999\,888\,249888\,2499888\,249912300000\,24991200\,24912300000" comparator="string" />
+        </Filters>
+        <Exclusions>
+        </Exclusions>
+        <dims>
+            <dim targetFieldName="record_date" sourceFieldName="XDR_DATE" dataType="String" format="yyyyMMdd" method=""/>
+            <dim targetFieldName="srv_type" sourceFieldName="SRV_TYPE_KEY" dataType="String"/>
+            <dim targetFieldName="nw_call_type" sourceFieldName="NW_IND_KEY" dataType="String"/>
+        </dims>
+        <measures>
+            <measure targetFieldName="ccn_mou" sourceFieldName="ORIGINAL_DUR" dataType="double" type="SUM"/>
+            <measure targetFieldName="charge" sourceFieldName="CHARGE" dataType="double" type="SUM"/>
+            <measure targetFieldName="ccn_count"  type="COUNT"/>
+        </measures>
+    </Metric>
+
+    <Metric id="1.2.1" name="mscccn_msc_voice_call_sub_recon_metric" tableName="metric_recon_voice_sub" datasource="Eric-MSC" filePostFix="SUM"
+            dataBase="mongo" eventName="ERIC_MSC_FCT" derived-columns="enable">
+        <Filters>
+            <Filter sourceFieldName="SRV_TYPE_KEY" operation="in" threshold="1\,2" comparator="string" />
+            <Filter sourceFieldName="BASIC_SERVICE_KEY" operation="notIn" threshold="18" comparator="string" />
+            <Filter sourceFieldName="EVENT_TYPE_KEY" operation="in" threshold="1\,5" comparator="string" />
+            <Filter sourceFieldName="EVENT_DIRECTION_KEY" operation="in" threshold="1" comparator="string" />
+            <Filter sourceFieldName="REC_TYPE_ID_KEY" operation="in" threshold="1\,4" comparator="string" />
+            <Filter sourceFieldName="OTHER_MSISDN" operation="notStartsWith" threshold="999\,888\,249888\,2499888\,249912300000\,24991200\,24912300000" comparator="string" />
+        </Filters>
+        <Exclusions>
+        </Exclusions>
+        <dims>
+            <dim targetFieldName="record_date" sourceFieldName="XDR_DATE" dataType="String" format="yyyyMMdd" method=""/>
+            <dim targetFieldName="srv_type" sourceFieldName="SRV_TYPE_KEY" dataType="String"/>
+            <dim targetFieldName="nw_call_type" sourceFieldName="NW_IND_KEY" dataType="String"/>
+            <dim targetFieldName="served_msisdn" sourceFieldName="SERVED_MSISDN" dataType="String"/>
+        </dims>
+        <measures>
+            <measure targetFieldName="msc_mou" sourceFieldName="ORIGINAL_DUR" dataType="double" type="SUM"/>
+            <measure targetFieldName="msc_count"  type="COUNT"/>
+        </measures>
+    </Metric>
+
+    <Metric id="1.2.2" name="mscccn_ccn_voice_call_sub_recon_metric" tableName="metric_recon_voice_sub" datasource="Eric-CCN" filePostFix="SUM"
+            dataBase="mongo" eventName="SCF_PRE\,SCF_POST" derived-columns="enable">
+        <Filters>
+            <Filter sourceFieldName="SRV_TYPE_KEY" operation="in" threshold="1\,2" comparator="string" />
+            <Filter sourceFieldName="EVENT_TYPE_KEY" operation="in" threshold="1" comparator="string" />
+            <Filter sourceFieldName="EVENT_DIRECTION_KEY" operation="in" threshold="1" comparator="string" />
+            <Filter sourceFieldName="SERVED_MSISDN" operation="notStartsWith" threshold="091200\,0912300000" comparator="string" />
+            <Filter sourceFieldName="OTHER_MSISDN" operation="notStartsWith" threshold="999\,888\,249888\,2499888\,249912300000\,24991200\,24912300000" comparator="string" />
+        </Filters>
+        <Exclusions>
+        </Exclusions>
+        <dims>
+            <dim targetFieldName="record_date" sourceFieldName="XDR_DATE" dataType="String" format="yyyyMMdd" method=""/>
+            <dim targetFieldName="srv_type" sourceFieldName="SRV_TYPE_KEY" dataType="String"/>
+            <dim targetFieldName="nw_call_type" sourceFieldName="NW_IND_KEY" dataType="String"/>
+            <dim targetFieldName="served_msisdn" sourceFieldName="SERVED_MSISDN" dataType="String"/>
+        </dims>
+        <measures>
+            <measure targetFieldName="ccn_mou" sourceFieldName="ORIGINAL_DUR" dataType="double" type="SUM"/>
+            <measure targetFieldName="charge" sourceFieldName="CHARGE" dataType="double" type="SUM"/>
+            <measure targetFieldName="ccn_count"  type="COUNT"/>
+        </measures>
+    </Metric>
+
+    <Metric id="1.3.1" name="mscccn_msc_sms_recon_metric" tableName="metric_recon_sms" datasource="Eric-MSC" filePostFix="SUM"
+            dataBase="mongo" eventName="ERIC_MSC_FCT" derived-columns="enable">
+        <Filters>
+            <Filter sourceFieldName="SRV_TYPE_KEY" operation="in" threshold="1\,2" comparator="string" />
+            <Filter sourceFieldName="BASIC_SERVICE_KEY" operation="notIn" threshold="18" comparator="string" />
+            <Filter sourceFieldName="EVENT_TYPE_KEY" operation="in" threshold="2" comparator="string" />
+            <Filter sourceFieldName="EVENT_DIRECTION_KEY" operation="in" threshold="1" comparator="string" />
+            <Filter sourceFieldName="OTHER_MSISDN" operation="notStartsWith" threshold="999\,888\,249888\,2499888\,249912300000\,24991200\,24912300000" comparator="string" />
+        </Filters>
+        <Exclusions>
+        </Exclusions>
+        <dims>
+            <dim targetFieldName="record_date" sourceFieldName="XDR_DATE" dataType="String" format="yyyyMMdd" method=""/>
+            <dim targetFieldName="srv_type" sourceFieldName="SRV_TYPE_KEY" dataType="String"/>
+            <dim targetFieldName="nw_call_type" sourceFieldName="NW_IND_KEY" dataType="String"/>
+        </dims>
+        <measures>
+            <measure targetFieldName="msc_count"  type="COUNT"/>
+        </measures>
+    </Metric>
+
+    <Metric id="1.3.2" name="mscccn_ccn_sms_recon_metric" tableName="metric_recon_sms" datasource="Eric-CCN" filePostFix="SUM"
+            dataBase="mongo" eventName="SCF_PRE\,SCF_POST" derived-columns="enable">
+        <Filters>
+            <Filter sourceFieldName="SRV_TYPE_KEY" operation="in" threshold="1\,2" comparator="string" />
+            <Filter sourceFieldName="EVENT_TYPE_KEY" operation="in" threshold="2" comparator="string" />
+            <Filter sourceFieldName="EVENT_DIRECTION_KEY" operation="in" threshold="1" comparator="string" />
+            <Filter sourceFieldName="SERVED_MSISDN" operation="notStartsWith" threshold="091200\,0912300000" comparator="string" />
+            <Filter sourceFieldName="OTHER_MSISDN" operation="notStartsWith" threshold="999\,888\,249888\,2499888\,249912300000\,24991200\,24912300000" comparator="string" />
+        </Filters>
+        <Exclusions>
+        </Exclusions>
+        <dims>
+            <dim targetFieldName="record_date" sourceFieldName="XDR_DATE" dataType="String" format="yyyyMMdd" method=""/>
+            <dim targetFieldName="srv_type" sourceFieldName="SRV_TYPE_KEY" dataType="String"/>
+            <dim targetFieldName="nw_call_type" sourceFieldName="NW_IND_KEY" dataType="String"/>
+        </dims>
+        <measures>
+            <measure targetFieldName="charge" sourceFieldName="CHARGE" dataType="double" type="SUM"/>
+            <measure targetFieldName="ccn_count"  type="COUNT"/>
+        </measures>
+    </Metric>
+
+    <Metric id="1.4.1" name="mscccn_msc_sms_sub_recon_metric" tableName="metric_recon_sms_sub" datasource="Eric-MSC" filePostFix="SUM"
+            dataBase="mongo" eventName="ERIC_MSC_FCT" derived-columns="enable">
+        <Filters>
+            <Filter sourceFieldName="SRV_TYPE_KEY" operation="in" threshold="1\,2" comparator="string" />
+            <Filter sourceFieldName="BASIC_SERVICE_KEY" operation="notIn" threshold="18" comparator="string" />
+            <Filter sourceFieldName="EVENT_TYPE_KEY" operation="in" threshold="2" comparator="string" />
+            <Filter sourceFieldName="EVENT_DIRECTION_KEY" operation="in" threshold="1" comparator="string" />
+            <Filter sourceFieldName="OTHER_MSISDN" operation="notStartsWith" threshold="999\,888\,249888\,2499888\,249912300000\,24991200\,24912300000" comparator="string" />
+        </Filters>
+        <Exclusions>
+        </Exclusions>
+        <dims>
+            <dim targetFieldName="record_date" sourceFieldName="XDR_DATE" dataType="String" format="yyyyMMdd" method=""/>
+            <dim targetFieldName="srv_type" sourceFieldName="SRV_TYPE_KEY" dataType="String"/>
+            <dim targetFieldName="nw_call_type" sourceFieldName="NW_IND_KEY" dataType="String"/>
+            <dim targetFieldName="served_msisdn" sourceFieldName="SERVED_MSISDN" dataType="String"/>
+        </dims>
+        <measures>
+            <measure targetFieldName="msc_count"  type="COUNT"/>
+        </measures>
+    </Metric>
+
+    <Metric id="1.4.2" name="mscccn_ccn_sms_sub_recon_metric" tableName="metric_recon_sms_sub" datasource="Eric-CCN" filePostFix="SUM"
+            dataBase="mongo" eventName="SCF_PRE\,SCF_POST" derived-columns="enable">
+        <Filters>
+            <Filter sourceFieldName="SRV_TYPE_KEY" operation="in" threshold="1\,2" comparator="string" />
+            <Filter sourceFieldName="EVENT_TYPE_KEY" operation="in" threshold="2" comparator="string" />
+            <Filter sourceFieldName="EVENT_DIRECTION_KEY" operation="in" threshold="1" comparator="string" />
+            <Filter sourceFieldName="SERVED_MSISDN" operation="notStartsWith" threshold="091200\,0912300000" comparator="string" />
+            <Filter sourceFieldName="OTHER_MSISDN" operation="notStartsWith" threshold="999\,888\,249888\,2499888\,249912300000\,24991200\,24912300000" comparator="string" />
+        </Filters>
+        <Exclusions>
+        </Exclusions>
+        <dims>
+            <dim targetFieldName="record_date" sourceFieldName="XDR_DATE" dataType="String" format="yyyyMMdd" method=""/>
+            <dim targetFieldName="srv_type" sourceFieldName="SRV_TYPE_KEY" dataType="String"/>
+            <dim targetFieldName="nw_call_type" sourceFieldName="NW_IND_KEY" dataType="String"/>
+            <dim targetFieldName="served_msisdn" sourceFieldName="SERVED_MSISDN" dataType="String"/>
+        </dims>
+        <measures>
+            <measure targetFieldName="charge" sourceFieldName="CHARGE" dataType="double" type="SUM"/>
+            <measure targetFieldName="ccn_count"  type="COUNT"/>
+        </measures>
+    </Metric>
+
+</Metrices>

@@ -1,0 +1,7 @@
+ID,DESCRIPTION,POPULATION_DATE_TIME,UPDATE_DATE_TIME
+A,cash,,
+D,debit card,,
+C,credit card,,
+E,check,,
+V,voucher,,
+L,E-voucher,,

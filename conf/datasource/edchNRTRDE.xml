@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Adapter Name="EDCH-NRTRDE" Type="ASN.1" Version="1.0" Active="true" StatusDBHandler="mongo" rawJson="false"
+         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.nrtrde.AdvancedNRTRDEFileExecutor" ExecMode="server"
+         txExecClass="com.gamma.skybase.build.server.etl.tx.nrtrde.NRTRDERecordEnrichment1" ignoreLogging="false"
+         ignoreDuplicates="false" parallel="1" instance-size="1" load-factor="1" customized="enable">
+
+    <!--Extraction tag-->
+    <Extraction type="sniff" protocol="local"
+                execClass="com.gamma.skybase.server.core.collector.sniff.DefaultSniffingExtractionAgent">
+        <Settings host="" port="" path="/raetl/processing/edch-nrtrde/poll" username="" password="">
+            <Signature required="false" key=""/>
+            <Extract pattern="" metaFields="fileName\" dateFieldPattern="yyyyMMdd"/>
+        </Settings>
+    </Extraction>
+
+    <DirConfig>
+        <Source  path="/raetl/processing/edch-nrtrde/source" clogging="true"/>
+        <Backup  path="/raetl/processing/edch-nrtrde/backup" clogging="true" compress="gz"/>
+        <Staging path="/raetl/processing/edch-nrtrde/staging" clogging="true"/>
+        <Output  path="/raetl/processing/edch-nrtrde/output" clogging="false"/>
+        <Error   path="/raetl/processing/edch-nrtrde/error" clogging="true"/>
+        <Target protocol="" host="" path="/" pwd="" user="" active="true"/>
+    </DirConfig>
+
+    <DataDef>
+        <Event eventName="NRTRDE_VOICE_SMS_FCT" tableName="NRTRDE_VOICE_SMS_FCT" synonym="NRTRDE_VOICE_SMS_FCT" dataBase="hive">
+            <Field sourceFieldName="specificationVersionNumber"/>
+            <Field sourceFieldName="releaseVersionNumber"/>
+            <Field sourceFieldName="sender" targetFieldName="SENDER"/>
+            <Field sourceFieldName="recipient" targetFieldName="RECEPIENT"/>
+            <Field sourceFieldName="sequenceNumber" targetFieldName="SEQ_NO"/>
+            <Field sourceFieldName="fileAvailableTimeStamp"/>
+            <Field sourceFieldName="utcTimeOffset"/>
+            <Field sourceFieldName="callEventsCount"/>
+            <Field sourceFieldName="filename" targetFieldName="FILE_NAME"/>
+            <Field sourceFieldName="eventType" targetFieldName="EVENT_TYPE"/>
+            <Field sourceFieldName="imsi" targetFieldName="SERVED_IMSI"/>
+            <Field sourceFieldName="imei" targetFieldName="SERVED_IMEI"/>
+            <Field sourceFieldName="utcTimeOffset" targetFieldName="UTC_TIME_OFFSET"/>
+            <Field sourceFieldName="callEventStartTimeStamp" targetFieldName="EVENT_START_TIME"/>
+            <Field sourceFieldName="callEventDuration" targetFieldName="ORIGINAL_DUR"/>
+            <Field sourceFieldName="causeForTermination" targetFieldName="CAUSE_FOR_TERMINATION"/>
+            <Field sourceFieldName="teleServiceCode" targetFieldName="BASIC_SERVICE_KEY"/>
+            <Field sourceFieldName="dialledDigits" targetFieldName="DIALLED_DIGITS"/>
+            <Field sourceFieldName="connectedNumber" targetFieldName="OTHER_MSISDN"/>
+            <Field sourceFieldName="recEntityId" targetFieldName="REC_ENTITY_ID"/>
+            <Field sourceFieldName="callReference" targetFieldName="EVENT_REF_NUM"/>
+            <Field sourceFieldName="chargeAmount" targetFieldName="CHARGE"/>
+            <Field sourceFieldName="servingNetwork" targetFieldName="servingNetwork"/>
+            <Field sourceFieldName="msisdn" targetFieldName="SERVED_MSISDN"/>
+            <Field sourceFieldName="locationArea" targetFieldName="LOCATION_AREA"/>
+            <Field sourceFieldName="cellId" targetFieldName="CELL_ID"/>
+            <Field sourceFieldName="eventTypeKey" targetFieldName="EVENT_TYPE_KEY"/>
+            <Field sourceFieldName="eventDirectionKey" targetFieldName="EVENT_DIRECTION_KEY"/>
+            <Field sourceFieldName="partnerCountryName" targetFieldName="PARTNER_COUNTRY"/>
+            <Field sourceFieldName="partnerOper" targetFieldName="PARTNER_OPERATOR"/>
+            <Field sourceFieldName="partnerCountryISO" targetFieldName="PARTNER_COUNTRY_ISO"/>
+            <Field sourceFieldName="srvTypeKey" targetFieldName="SRV_TYPE_KEY"/>
+            <Field sourceFieldName="billablePulse" targetFieldName="BILLABLE_PULSE"/>
+            <Field sourceFieldName="EVENT_DATE" targetFieldName="EVENT_DATE"/>
+            <Field sourceFieldName="OTHER_MSISDN_DIAL_DIGIT_KEY" targetFieldName="OTHER_MSISDN_DIAL_DIGIT_KEY"/>
+            <Field sourceFieldName="" targetFieldName="OTHER_MSISDN_ISO_CODE"/>
+            <Field sourceFieldName="" targetFieldName="OTHER_OPER"/>
+            <Field sourceFieldName="EVENT_START_TIME"/>
+            <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+            <Field sourceFieldName="POPULATION_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+        </Event>
+
+        <Event eventName="NRTRDE_GPRS_FCT" tableName="NRTRDE_GPRS_FCT" synonym="NRTRDE_GPRS_FCT" dataBase="hive">
+            <Field sourceFieldName="specificationVersionNumber"/>
+            <Field sourceFieldName="releaseVersionNumber"/>
+            <Field sourceFieldName="sender" targetFieldName="SENDER"/>
+            <Field sourceFieldName="recipient" targetFieldName="RECEPIENT"/>
+            <Field sourceFieldName="sequenceNumber" targetFieldName="SEQ_NO"/>
+            <Field sourceFieldName="fileAvailableTimeStamp"/>
+            <Field sourceFieldName="utcTimeOffset"/>
+            <Field sourceFieldName="callEventsCount"/>
+            <Field sourceFieldName="filename" targetFieldName="FILE_NAME"/>
+            <Field sourceFieldName="eventType" targetFieldName="eventType"/>
+            <Field sourceFieldName="imsi" targetFieldName="SERVED_IMSI"/>
+            <Field sourceFieldName="imei" targetFieldName="SERVED_IMEI"/>
+            <Field sourceFieldName="utcTimeOffset" targetFieldName="UTC_TIME_OFFSET"/>
+            <Field sourceFieldName="callEventStartTimeStamp" targetFieldName="EVENT_START_TIME"/>
+            <Field sourceFieldName="callEventDuration" targetFieldName="ORIGINAL_DUR"/>
+            <Field sourceFieldName="causeForTermination" targetFieldName="CAUSE_FOR_TERMINATION"/>
+            <Field sourceFieldName="accessPointNameNI" targetFieldName="APN_NI"/>
+            <Field sourceFieldName="dataVolumeOutgoing" targetFieldName="GPRS_UPLINK_VOLUME"/>
+            <Field sourceFieldName="dataVolumeIncoming" targetFieldName="GPRS_DOWNLINK_VOLUME"/>
+            <Field sourceFieldName="sgsnAddress" targetFieldName="SGSN_ADDRESS"/>
+            <Field sourceFieldName="ggsnAddress" targetFieldName="GGSN_ADDRESS"/>
+            <Field sourceFieldName="chargingId" targetFieldName="EVENT_REF_NUM"/>
+            <Field sourceFieldName="servingNetwork" targetFieldName="servingNetwork"/>
+            <Field sourceFieldName="msisdn" targetFieldName="SERVED_MSISDN"/>
+            <Field sourceFieldName="locationArea" targetFieldName="locationArea"/>
+            <Field sourceFieldName="cellId" targetFieldName="CellID"/>
+            <Field sourceFieldName="eventTypeKey" targetFieldName="EVENT_TYPE_KEY" default="4"/>
+            <Field sourceFieldName="eventDirectionKey" targetFieldName="EVENT_DIRECTION_KEY" default="1"/>
+            <Field sourceFieldName="partnerCountryName" targetFieldName="PARTNER_COUNTRY"/>
+            <Field sourceFieldName="partnerOper" targetFieldName="PARTNER_OPERATOR"/>
+            <Field sourceFieldName="partnerCountryISO" targetFieldName="PARTNER_COUNTRY_ISO"/>
+            <Field sourceFieldName="srvTypeKey" targetFieldName="SRV_TYPE_KEY"/>
+            <Field sourceFieldName="billablePulse" targetFieldName="BILLABLE_PULSE"/>
+            <Field sourceFieldName="EVENT_DATE" targetFieldName="EVENT_DATE"/>
+            <Field sourceFieldName="cdrType" targetFieldName="CDR_TYPE"/>
+            <Field sourceFieldName="OTHER_MSISDN_DIAL_DIGIT_KEY" targetFieldName="OTHER_MSISDN_DIAL_DIGIT_KEY" default="-99"/>
+            <Field sourceFieldName="OTHER_MSISDN_ISO_CODE" targetFieldName="OTHER_MSISDN_ISO_CODE"/>
+            <Field sourceFieldName="OTHER_OPER" targetFieldName="OTHER_OPER"/>
+            <Field sourceFieldName="EVENT_START_TIME"/>
+            <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+            <Field sourceFieldName="POPULATION_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+        </Event>
+
+        <Event eventName="NRTRDE_VOICE_SMS_RAW" tableName="NRTRDE_VOICE_SMS_RAW" synonym="NRTRDE_VOICE_SMS_RAW" dataBase="">
+            <Field sourceFieldName="filename" targetFieldName="UNIV_FILE_NAME"/>
+            <Field sourceFieldName="callEventStartTimeStamp" targetFieldName="EVENT_START_TIME"/>
+            <Field sourceFieldName="imsi" targetFieldName="SERVED_IMSI"/>
+            <Field sourceFieldName="imei" targetFieldName="SERVED_IMEI"/>
+            <Field sourceFieldName="ORIGINAL_A_NUM" targetFieldName="ORIGINAL_A_NUM"/>
+            <Field sourceFieldName="ORIGINAL_B_NUM" targetFieldName="ORIGINAL_B_NUM"/>
+            <Field sourceFieldName="thirdPartyNumber" targetFieldName="ORIGINAL_C_NUM"/>
+            <Field sourceFieldName="msisdn" targetFieldName="SERVED_MSISDN" default="0"/>
+            <Field sourceFieldName="connectedNumber" targetFieldName="OTHER_MSISDN"/>
+            <Field sourceFieldName="THIRD_PARTY_MSISDN" targetFieldName="THIRD_PARTY_MSISDN"/>
+            <Field sourceFieldName="callEventDuration" targetFieldName="ORIGINAL_DUR"/>
+            <Field sourceFieldName="FLEXI_COL_1" targetFieldName="FLEXI_COL_1"/>
+            <Field sourceFieldName="chargeAmount" targetFieldName="CHARGE"/>
+            <Field sourceFieldName="EVENT_REF_NUM" targetFieldName="EVENT_REF_NUM"/>
+            <Field sourceFieldName="basicServiceKey" targetFieldName="BASIC_SERVICE_KEY" default="-99"/>
+            <Field sourceFieldName="causeForTermination" targetFieldName="TERMINATION_REASON_KEY" default="-99"/>
+            <Field sourceFieldName="cellId" targetFieldName="CGI_ID_KEY" default="-99"/>
+            <Field sourceFieldName="billablePulse" targetFieldName="BILLABLE_PULSE"/>
+        </Event>
+
+        <Event eventName="NRTRDE_GPRS_RAW" tableName="NRTRDE_GPRS_RAW" synonym="NRTRDE_GPRS_RAW" dataBase="">
+            <Field sourceFieldName="filename" targetFieldName="UNIV_FILE_NAME"/>
+            <Field sourceFieldName="callEventStartTimeStamp" targetFieldName="EVENT_START_TIME"/>
+            <Field sourceFieldName="imsi" targetFieldName="SERVED_IMSI"/>
+            <Field sourceFieldName="SERVED_IMEI" targetFieldName="SERVED_IMEI"/>
+            <Field sourceFieldName="ORIGINAL_A_NUM" targetFieldName="ORIGINAL_A_NUM"/>
+            <Field sourceFieldName="accessPointNameNI" targetFieldName="ORIGINAL_B_NUM"/>
+            <Field sourceFieldName="msisdn" targetFieldName="SERVED_MSISDN"/>
+            <Field sourceFieldName="accessPointNameNI" targetFieldName="OTHER_MSISDN"/>
+            <Field sourceFieldName="callEventDuration" targetFieldName="ORIGINAL_DUR"/>
+            <Field sourceFieldName="sgsnAddress" targetFieldName="FLEXI_COL_1"/>
+            <Field sourceFieldName="chargeAmount" targetFieldName="CHARGE" dataType="double" default="0"/>
+            <Field sourceFieldName="chargingId" targetFieldName="EVENT_REF_NUM"/>
+            <Field sourceFieldName="basicServiceKey" targetFieldName="BASIC_SERVICE_KEY" default="-99"/>
+            <Field sourceFieldName="causeForTermination" targetFieldName="TERMINATION_REASON_KEY" default="-99"/>
+            <Field sourceFieldName="cellId" targetFieldName="CGI_ID_KEY"/>
+            <Field sourceFieldName="dataVolumeIncoming" targetFieldName="ORIGINAL_DOWNLINK_VOLUME"/>
+            <Field sourceFieldName="dataVolumeOutgoing" targetFieldName="ORIGINAL_UPLINK_VOLUME"/>
+            <Field sourceFieldName="billableBytes" targetFieldName="BILLABLE_BYTES" default="0"/>
+        </Event>
+    </DataDef>
+</Adapter>

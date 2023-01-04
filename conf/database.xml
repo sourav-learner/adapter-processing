@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBConfigs>
+    <DBConfig id="1" name="mongo" active="true" case-sensitive="false">
+        <host>127.0.0.1</host>
+        <port>27017</port>
+        <database>skybase_zain_sudan_db</database>
+        <username>appUser</username>
+        <password>aUYoxHBC9ksKo08gXaBidBeV2KjZ5gUC</password>
+        <authSource>admin</authSource>
+        <driver></driver>
+    </DBConfig>
+
+    <DBConfig id="2" name="oracle" active="true" case-sensitive="false">
+        <host>192.168.0.104</host>
+        <port>1521</port>
+        <database>ORCL</database>
+        <username>C##GAMMA</username>
+        <!--<password>OkJF0qsYkTCY72ErXg0F0osIg+3NXyXT</password>-->
+        <password>TxrOK0AGZvzm41D1omX9pLI/qmPOaXxF</password>
+        <driver>oracle.jdbc.driver.OracleDriver</driver>
+
+        <autoCommit>true</autoCommit>
+        <connectionTimeOutInMillis>30000</connectionTimeOutInMillis>
+        <idleTimeOutInMillis>600000</idleTimeOutInMillis>
+        <maxLifetimeInMillis>1800000</maxLifetimeInMillis>
+        <connectionTestQuery>select 1</connectionTestQuery>
+        <maximumPoolSize>20</maximumPoolSize>
+
+        <dataSourceProperty key="cachePrepStmts">true</dataSourceProperty>
+        <dataSourceProperty key="prepStmtCacheSize">250</dataSourceProperty>
+        <dataSourceProperty key="prepStmtCacheSqlLimit">2048</dataSourceProperty>
+
+    </DBConfig>
+</DBConfigs>
