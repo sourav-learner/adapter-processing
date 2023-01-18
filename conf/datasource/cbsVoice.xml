@@ -59,10 +59,10 @@
             <Field sourceFieldName="ACTUAL_USAGE" targetFieldName="ORIGINAL_DURATION"/>
             <Field sourceFieldName="RATE_USAGE" targetFieldName="RATED_DURATION"/>
             <Field sourceFieldName="SERVICE_UNIT_TYPE" targetFieldName="SERVICE_UNIT_TYPE"/>
-            <Field sourceFieldName="USAGE_MEASURE_ID2" targetFieldName=""/>
-            <Field sourceFieldName="ACTUAL_USAGE2" targetFieldName=""/>
-            <Field sourceFieldName="RATE_USAGE2" targetFieldName=""/>
-            <Field sourceFieldName="SERVICE_UNIT_TYPE2" targetFieldName=""/>
+            <Field sourceFieldName="USAGE_MEASURE_ID2" targetFieldName="USAGE_MEASURE_ID2"/>
+            <Field sourceFieldName="ACTUAL_USAGE2" targetFieldName="ACTUAL_USAGE2"/>
+            <Field sourceFieldName="RATE_USAGE2" targetFieldName="RATE_USAGE2"/>
+            <Field sourceFieldName="SERVICE_UNIT_TYPE2" targetFieldName="SERVICE_UNIT_TYPE2"/>
             <Field sourceFieldName="DEBIT_AMOUNT" targetFieldName="DEBIT_AMOUNT"/>
             <Field sourceFieldName="UN_DEBIT_AMOUNT" targetFieldName="UN_DEBIT_AMOUNT"/>
             <Field sourceFieldName="DEBIT_FROM_PREPAID" targetFieldName="DEBIT_FROM_PREPAID"/>
@@ -455,9 +455,9 @@
             <Field sourceFieldName="Recipient_cp_id" targetFieldName="RECIPIENT_CP_ID"/>
             <Field sourceFieldName="Advance_prepaid_balance" targetFieldName="ADVANCE_PREPAID_BALANCE"/>
             <Field sourceFieldName="Credit_postpid_Balance" targetFieldName="CREDIT_POSTPID_BALANCE"/>
-            <Field sourceFieldName="SERVED_MSISDN_DIALED_KEY" targetFieldName="SERVED_MSISDN_DIALED_KEY"/>
-            <Field sourceFieldName="OTHER_MSISDN_DIALED_KEY" targetFieldName="OTHER_MSISDN_DIALED_KEY"/>
-            <Field sourceFieldName="SERVED_ROAM_DIALED_KEY" targetFieldName="SERVED_ROAM_DIALED_KEY"/>
+            <Field sourceFieldName="SERVED_MSISDN_DIALED_KEY" targetFieldName="SERVED_MSISDN_DIALED_KEY" default="-99"/>
+            <Field sourceFieldName="OTHER_MSISDN_DIALED_KEY" targetFieldName="OTHER_MSISDN_DIALED_KEY" default="-99"/>
+            <Field sourceFieldName="SERVED_ROAM_DIALED_KEY" targetFieldName="SERVED_ROAM_DIALED_KEY" default="-99"/>
             <Field sourceFieldName="ZERO_CHARGE_IND" targetFieldName="ZERO_CHARGE_IND"/>
             <Field sourceFieldName="ZERO_DURATION_IND" targetFieldName="ZERO_DURATION_IND"/>
             <Field sourceFieldName="BLACK_LIST_IND" targetFieldName="BLACK_LIST_IND"/>
