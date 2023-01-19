@@ -94,6 +94,7 @@ public class CBS_VOICEEnrichmentUtil {
                     break;
                 default:
                     status = "UNKNOWN";
+                    break;
             }
         }
         if (status != null)
@@ -121,6 +122,7 @@ public class CBS_VOICEEnrichmentUtil {
                     break;
                 default:
                     objType = "UNKNOWN";
+                    break;
             }
         }
         if (objType != null)
@@ -139,6 +141,7 @@ public class CBS_VOICEEnrichmentUtil {
                     break;
                 default:
                     resultCode = "Fail";
+                    break;
             }
         }
         if (resultCode != null)
@@ -218,6 +221,7 @@ public class CBS_VOICEEnrichmentUtil {
                     break;
                 default:
                     onlineChargingFlag = "unknown";
+                    break;
             }
         }
 
@@ -240,6 +244,7 @@ public class CBS_VOICEEnrichmentUtil {
                     break;
                 default:
                     groupPayFlag = "corp/personal";
+                    break;
             }
         }
 
@@ -287,19 +292,7 @@ public class CBS_VOICEEnrichmentUtil {
     public Optional<String> getZeroDurationInd() {
         zeroDurationInd = getValue("ACTUAL_USAGE");
 
-        System.out.println("\n\nACTUAL_USAGE\n\n" + zeroDurationInd);
-//        if (zeroDurationInd != null) {
-//            switch (zeroDurationInd) {
-//                case "0":
-//                    zeroDurationInd = "1";
-//                    break;
-//                default:
-//                    zeroDurationInd = "0";
-//            }
-//        }
-
         if (zeroDurationInd != null) {
-            System.out.println("\n\nACTUAL_USAGE1" + zeroDurationInd);
             return Optional.of(zeroDurationInd);
         }
         return Optional.empty();
@@ -318,20 +311,6 @@ public class CBS_VOICEEnrichmentUtil {
         }
         return Optional.empty();
     }
-
-//    String acctId;
-
-//    public Optional<String> getAcctId(String ACCT_ID) {
-//        acctId = getValue(ACCT_ID);
-//        if (acctId != null) {
-//            try {
-//                Double.parseDouble(acctId);
-//                return Optional.of(acctId);
-//            } catch (Exception ignored) {
-//            }
-//        }
-//        return Optional.empty();
-//    }
 
     public Optional<String> getOtherMSISDN() {
         return Optional.empty();
