@@ -23,440 +23,440 @@
 
     <DataDef>
         <Event eventName="FCT_CBS_SMS" tableName="FCT_CBS_SMS" synonym="FCT_CBS_SMS" dataBase="">
-            <Field sourceFieldName="CDR_ID" targetFieldName="CDR_ID"/>
-            <Field sourceFieldName="CDR_SUB_ID" targetFieldName="CDR_SUB_ID"/>
-            <Field sourceFieldName="CDR_TYPE" targetFieldName="CDR_TYPE"/>
-            <Field sourceFieldName="SPLIT_CDR_REASON" targetFieldName="SPLIT_CDR_REASON"/>
-            <Field sourceFieldName="CDR_BATCH_ID" targetFieldName="CDR_BATCH_ID"/>
-            <Field sourceFieldName="SRC_REC_LINE_NO" targetFieldName="SRC_REC_LINE_NO"/>
-            <Field sourceFieldName="SRC_CDR_ID" targetFieldName="SRC_CDR_ID"/>
-            <Field sourceFieldName="SRC_CDR_NO" targetFieldName="REC_SEQ_NUM"/>
-            <Field sourceFieldName="STATUS" targetFieldName="STATUS"/>
-            <Field sourceFieldName="RE_RATING_TIMES" targetFieldName="RE_RATING_TIMES"/>
-            <Field sourceFieldName="CREATE_DATE" targetFieldName="CREATE_DATE"/>
-            <Field sourceFieldName="START_DATE" targetFieldName="START_DATE"/>
-            <Field sourceFieldName="END_DATE" targetFieldName="END_DATE"/>
-            <Field sourceFieldName="CUST_LOCAL_START_DATE" targetFieldName="EVENT_START_TIME"/>
-            <Field sourceFieldName="CUST_LOCAL_END_DATE" targetFieldName="EVENT_END_TIME"/>
-            <Field sourceFieldName="STD_EVT_TYPE_ID" targetFieldName="STD_EVT_TYPE_ID"/>
-            <Field sourceFieldName="EVT_SOURCE_CATEGORY" targetFieldName="EVT_SOURCE_CATEGORY"/>
-            <Field sourceFieldName="OBJ_TYPE" targetFieldName="OBJ_TYPE"/>
-            <Field sourceFieldName="OBJ_ID" targetFieldName="OBJ_ID"/>
-            <Field sourceFieldName="OWNER_CUST_ID" targetFieldName="OWNER_CUST_ID"/>
-            <Field sourceFieldName="DEFAULT_ACCT_ID" targetFieldName="DEFAULT_ACCT_ID"/>
-            <Field sourceFieldName="PRI_IDENTITY" targetFieldName="SERVED_MSISDN"/>
-            <Field sourceFieldName="BILL_CYCLE_ID" targetFieldName="BILL_CYCLE_ID"/>
-            <Field sourceFieldName="SERVICE_CATEGORY" targetFieldName="EVENT_TYPE_KEY"/>
-            <Field sourceFieldName="USAGE_SERVICE_TYPE" targetFieldName="USAGE_SERVICE_TYPE"/>
-            <Field sourceFieldName="SESSION_ID" targetFieldName="SESSION_ID"/>
-            <Field sourceFieldName="RESULT_CODE" targetFieldName="RESULT_CODE"/>
-            <Field sourceFieldName="RESULT_REASON" targetFieldName="RESULT_REASON"/>
-            <Field sourceFieldName="BE_ID" targetFieldName="BE_ID"/>
-            <Field sourceFieldName="HOT_SEQ" targetFieldName="HOT_SEQ"/>
-            <Field sourceFieldName="CP_ID" targetFieldName="CP_ID"/>
-            <Field sourceFieldName="RECIPIENT_NUMBER" targetFieldName="OTHER_MSISDN"/>
-            <Field sourceFieldName="USAGE_MEASURE_ID" targetFieldName="USAGE_MEASURE_ID"/>
-            <Field sourceFieldName="ACTUAL_USAGE" targetFieldName="ORIGINAL_DURATION"/>
-            <Field sourceFieldName="RATE_USAGE" targetFieldName="RATED_DURATION"/>
-            <Field sourceFieldName="SERVICE_UNIT_TYPE" targetFieldName="SERVICE_UNIT_TYPE"/>
-            <Field sourceFieldName="USAGE_MEASURE_ID2"/>
-            <Field sourceFieldName="ACTUAL_USAGE2"/>
-            <Field sourceFieldName="RATE_USAGE2"/>
-            <Field sourceFieldName="SERVICE_UNIT_TYPE2"/>
-            <Field sourceFieldName="DEBIT_AMOUNT" targetFieldName="DEBIT_AMOUNT"/>
-            <Field sourceFieldName="UN_DEBIT_AMOUNT" targetFieldName="UN_DEBIT_AMOUNT"/>
-            <Field sourceFieldName="DEBIT_FROM_PREPAID" targetFieldName="DEBIT_FROM_PREPAID"/>
-            <Field sourceFieldName="DEBIT_FROM_ADVANCE_PREPAID" targetFieldName="DEBIT_FROM_ADVANCE_PREPAID"/>
-            <Field sourceFieldName="DEBIT_FROM_POSTPAID" targetFieldName="DEBIT_FROM_POSTPAID"/>
-            <Field sourceFieldName="DEBIT_FROM_ADVANCE_POSTPAID" targetFieldName="DEBIT_FROM_ADVANCE_POSTPAID"/>
-            <Field sourceFieldName="DEBIT_FROM_CREDIT_POSTPAID" targetFieldName="DEBIT_FROM_CREDIT_POSTPAID"/>
-            <Field sourceFieldName="TOTAL_TAX" targetFieldName="TOTAL_TAX"/>
-            <Field sourceFieldName="FREE_UNIT_AMOUNT_OF_TIMES" targetFieldName="FREE_UNIT_AMOUNT_OF_TIMES"/>
-            <Field sourceFieldName="FREE_UNIT_AMOUNT_OF_DURATION" targetFieldName="FREE_UNIT_AMOUNT_OF_DURATION"/>
-            <Field sourceFieldName="FREE_UNIT_AMOUNT_OF_FLUX" targetFieldName="FREE_UNIT_AMOUNT_OF_FLUX"/>
-            <Field sourceFieldName="ACCT_ID" targetFieldName="BC1_ACCT_ID"/>
-            <Field sourceFieldName="ACCT_BALANCE_ID" targetFieldName="BC1_ACCT_BALANCE_ID"/>
-            <Field sourceFieldName="BALANCE_TYPE" targetFieldName="BC1_BALANCE_TYPE"/>
-            <Field sourceFieldName="CUR_BALANCE" targetFieldName="BC1_CUR_BALANCE"/>
-            <Field sourceFieldName="CHG_BALANCE" targetFieldName="BC1_CHG_BALANCE"/>
-            <Field sourceFieldName="CURRENCY_ID" targetFieldName="BC1_CURRENCY_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="BC1_OPER_TYPE"/>
-            <Field sourceFieldName="ACCT_ID" targetFieldName="BC2_ACCT_ID"/>
-            <Field sourceFieldName="ACCT_BALANCE_ID" targetFieldName="BC2_ACCT_BALANCE_ID"/>
-            <Field sourceFieldName="BALANCE_TYPE" targetFieldName="BC2_BALANCE_TYPE"/>
-            <Field sourceFieldName="CUR_BALANCE" targetFieldName="BC2_CUR_BALANCE"/>
-            <Field sourceFieldName="CHG_BALANCE" targetFieldName="BC2_CHG_BALANCE"/>
-            <Field sourceFieldName="CURRENCY_ID" targetFieldName="BC2_CURRENCY_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="BC2_OPER_TYPE"/>
-            <Field sourceFieldName="ACCT_ID" targetFieldName="BC3_ACCT_ID"/>
-            <Field sourceFieldName="ACCT_BALANCE_ID" targetFieldName="BC3_ACCT_BALANCE_ID"/>
-            <Field sourceFieldName="BALANCE_TYPE" targetFieldName="BC3_BALANCE_TYPE"/>
-            <Field sourceFieldName="CUR_BALANCE" targetFieldName="BC3_CUR_BALANCE"/>
-            <Field sourceFieldName="CHG_BALANCE" targetFieldName="BC3_CHG_BALANCE"/>
-            <Field sourceFieldName="CURRENCY_ID" targetFieldName="BC3_CURRENCY_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="BC3_OPER_TYPE"/>
-            <Field sourceFieldName="ACCT_ID" targetFieldName="BC4_ACCT_ID"/>
-            <Field sourceFieldName="ACCT_BALANCE_ID" targetFieldName="BC4_ACCT_BALANCE_ID"/>
-            <Field sourceFieldName="BALANCE_TYPE" targetFieldName="BC4_BALANCE_TYPE"/>
-            <Field sourceFieldName="CUR_BALANCE" targetFieldName="BC4_CUR_BALANCE"/>
-            <Field sourceFieldName="CHG_BALANCE" targetFieldName="BC4_CHG_BALANCE"/>
-            <Field sourceFieldName="CURRENCY_ID" targetFieldName="BC4_CURRENCY_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="BC4_OPER_TYPE"/>
-            <Field sourceFieldName="ACCT_ID" targetFieldName="BC5_ACCT_ID"/>
-            <Field sourceFieldName="ACCT_BALANCE_ID" targetFieldName="BC5_ACCT_BALANCE_ID"/>
-            <Field sourceFieldName="BALANCE_TYPE" targetFieldName="BC5_BALANCE_TYPE"/>
-            <Field sourceFieldName="CUR_BALANCE" targetFieldName="BC5_CUR_BALANCE"/>
-            <Field sourceFieldName="CHG_BALANCE" targetFieldName="BC5_CHG_BALANCE"/>
-            <Field sourceFieldName="CURRENCY_ID" targetFieldName="BC5_CURRENCY_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="BC5_OPER_TYPE"/>
-            <Field sourceFieldName="ACCT_ID" targetFieldName="BC6_ACCT_ID"/>
-            <Field sourceFieldName="ACCT_BALANCE_ID" targetFieldName="BC6_ACCT_BALANCE_ID"/>
-            <Field sourceFieldName="BALANCE_TYPE" targetFieldName="BC6_BALANCE_TYPE"/>
-            <Field sourceFieldName="CUR_BALANCE" targetFieldName="BC6_CUR_BALANCE"/>
-            <Field sourceFieldName="CHG_BALANCE" targetFieldName="BC6_CHG_BALANCE"/>
-            <Field sourceFieldName="CURRENCY_ID" targetFieldName="BC6_CURRENCY_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="BC6_OPER_TYPE"/>
-            <Field sourceFieldName="ACCT_ID" targetFieldName="BC7_ACCT_ID"/>
-            <Field sourceFieldName="ACCT_BALANCE_ID" targetFieldName="BC7_ACCT_BALANCE_ID"/>
-            <Field sourceFieldName="BALANCE_TYPE" targetFieldName="BC7_BALANCE_TYPE"/>
-            <Field sourceFieldName="CUR_BALANCE" targetFieldName="BC7_CUR_BALANCE"/>
-            <Field sourceFieldName="CHG_BALANCE" targetFieldName="BC7_CHG_BALANCE"/>
-            <Field sourceFieldName="CURRENCY_ID" targetFieldName="BC7_CURRENCY_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="BC7_OPER_TYPE"/>
-            <Field sourceFieldName="ACCT_ID" targetFieldName="BC8_ACCT_ID"/>
-            <Field sourceFieldName="ACCT_BALANCE_ID" targetFieldName="BC8_ACCT_BALANCE_ID"/>
-            <Field sourceFieldName="BALANCE_TYPE" targetFieldName="BC8_BALANCE_TYPE"/>
-            <Field sourceFieldName="CUR_BALANCE" targetFieldName="BC8_CUR_BALANCE"/>
-            <Field sourceFieldName="CHG_BALANCE" targetFieldName="BC8_CHG_BALANCE"/>
-            <Field sourceFieldName="CURRENCY_ID" targetFieldName="BC8_CURRENCY_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="BC8_OPER_TYPE"/>
-            <Field sourceFieldName="ACCT_ID" targetFieldName="BC9_ACCT_ID"/>
-            <Field sourceFieldName="ACCT_BALANCE_ID" targetFieldName="BC9_ACCT_BALANCE_ID"/>
-            <Field sourceFieldName="BALANCE_TYPE" targetFieldName="BC9_BALANCE_TYPE"/>
-            <Field sourceFieldName="CUR_BALANCE" targetFieldName="BC9_CUR_BALANCE"/>
-            <Field sourceFieldName="CHG_BALANCE" targetFieldName="BC9_CHG_BALANCE"/>
-            <Field sourceFieldName="CURRENCY_ID" targetFieldName="BC9_CURRENCY_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="BC9_OPER_TYPE"/>
-            <Field sourceFieldName="ACCT_ID" targetFieldName="BC10_ACCT_ID"/>
-            <Field sourceFieldName="ACCT_BALANCE_ID" targetFieldName="BC10_ACCT_BALANCE_ID"/>
-            <Field sourceFieldName="BALANCE_TYPE" targetFieldName="BC10_BALANCE_TYPE"/>
-            <Field sourceFieldName="CUR_BALANCE" targetFieldName="BC10_CUR_BALANCE"/>
-            <Field sourceFieldName="CHG_BALANCE" targetFieldName="BC10_CHG_BALANCE"/>
-            <Field sourceFieldName="CURRENCY_ID" targetFieldName="BC10_CURRENCY_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="BC10_OPER_TYPE"/>
-            <Field sourceFieldName="FU_OWN_TYPE" targetFieldName="FC1_FU_OWN_TYPE"/>
-            <Field sourceFieldName="FU_OWN_ID" targetFieldName="FC1_FU_OWN_ID"/>
-            <Field sourceFieldName="FREE_UNIT_ID" targetFieldName="FC1_FREE_UNIT_ID"/>
-            <Field sourceFieldName="FREE_UNIT_TYPE" targetFieldName="FC1_FREE_UNIT_TYPE"/>
-            <Field sourceFieldName="CUR_AMOUNT" targetFieldName="FC1_CUR_AMOUNT"/>
-            <Field sourceFieldName="CHG_AMOUNT" targetFieldName="FC1_CHG_AMOUNT"/>
-            <Field sourceFieldName="FU_MEASURE_ID" targetFieldName="FC1_FU_MEASURE_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="FC1_OPER_TYPE"/>
-            <Field sourceFieldName="FU_OWN_TYPE" targetFieldName="FC2_FU_OWN_TYPE"/>
-            <Field sourceFieldName="FU_OWN_ID" targetFieldName="FC2_FU_OWN_ID"/>
-            <Field sourceFieldName="FREE_UNIT_ID" targetFieldName="FC2_FREE_UNIT_ID"/>
-            <Field sourceFieldName="FREE_UNIT_TYPE" targetFieldName="FC2_FREE_UNIT_TYPE"/>
-            <Field sourceFieldName="CUR_AMOUNT" targetFieldName="FC2_CUR_AMOUNT"/>
-            <Field sourceFieldName="CHG_AMOUNT" targetFieldName="FC2_CHG_AMOUNT"/>
-            <Field sourceFieldName="FU_MEASURE_ID" targetFieldName="FC2_FU_MEASURE_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="FC2_OPER_TYPE"/>
-            <Field sourceFieldName="FU_OWN_TYPE" targetFieldName="FC3_FU_OWN_TYPE"/>
-            <Field sourceFieldName="FU_OWN_ID" targetFieldName="FC3_FU_OWN_ID"/>
-            <Field sourceFieldName="FREE_UNIT_ID" targetFieldName="FC3_FREE_UNIT_ID"/>
-            <Field sourceFieldName="FREE_UNIT_TYPE" targetFieldName="FC3_FREE_UNIT_TYPE"/>
-            <Field sourceFieldName="CUR_AMOUNT" targetFieldName="FC3_CUR_AMOUNT"/>
-            <Field sourceFieldName="CHG_AMOUNT" targetFieldName="FC3_CHG_AMOUNT"/>
-            <Field sourceFieldName="FU_MEASURE_ID" targetFieldName="FC3_FU_MEASURE_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="FC3_OPER_TYPE"/>
-            <Field sourceFieldName="FU_OWN_TYPE" targetFieldName="FC4_FU_OWN_TYPE"/>
-            <Field sourceFieldName="FU_OWN_ID" targetFieldName="FC4_FU_OWN_ID"/>
-            <Field sourceFieldName="FREE_UNIT_ID" targetFieldName="FC4_FREE_UNIT_ID"/>
-            <Field sourceFieldName="FREE_UNIT_TYPE" targetFieldName="FC4_FREE_UNIT_TYPE"/>
-            <Field sourceFieldName="CUR_AMOUNT" targetFieldName="FC4_CUR_AMOUNT"/>
-            <Field sourceFieldName="CHG_AMOUNT" targetFieldName="FC4_CHG_AMOUNT"/>
-            <Field sourceFieldName="FU_MEASURE_ID" targetFieldName="FC4_FU_MEASURE_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="FC4_OPER_TYPE"/>
-            <Field sourceFieldName="FU_OWN_TYPE" targetFieldName="FC5_FU_OWN_TYPE"/>
-            <Field sourceFieldName="FU_OWN_ID" targetFieldName="FC5_FU_OWN_ID"/>
-            <Field sourceFieldName="FREE_UNIT_ID" targetFieldName="FC5_FREE_UNIT_ID"/>
-            <Field sourceFieldName="FREE_UNIT_TYPE" targetFieldName="FC5_FREE_UNIT_TYPE"/>
-            <Field sourceFieldName="CUR_AMOUNT" targetFieldName="FC5_CUR_AMOUNT"/>
-            <Field sourceFieldName="CHG_AMOUNT" targetFieldName="FC5_CHG_AMOUNT"/>
-            <Field sourceFieldName="FU_MEASURE_ID" targetFieldName="FC5_FU_MEASURE_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="FC5_OPER_TYPE"/>
-            <Field sourceFieldName="FU_OWN_TYPE" targetFieldName="FC6_FU_OWN_TYPE"/>
-            <Field sourceFieldName="FU_OWN_ID" targetFieldName="FC6_FU_OWN_ID"/>
-            <Field sourceFieldName="FREE_UNIT_ID" targetFieldName="FC6_FREE_UNIT_ID"/>
-            <Field sourceFieldName="FREE_UNIT_TYPE" targetFieldName="FC6_FREE_UNIT_TYPE"/>
-            <Field sourceFieldName="CUR_AMOUNT" targetFieldName="FC6_CUR_AMOUNT"/>
-            <Field sourceFieldName="CHG_AMOUNT" targetFieldName="FC6_CHG_AMOUNT"/>
-            <Field sourceFieldName="FU_MEASURE_ID" targetFieldName="FC6_FU_MEASURE_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="FC6_OPER_TYPE"/>
-            <Field sourceFieldName="FU_OWN_TYPE" targetFieldName="FC7_FU_OWN_TYPE"/>
-            <Field sourceFieldName="FU_OWN_ID" targetFieldName="FC7_FU_OWN_ID"/>
-            <Field sourceFieldName="FREE_UNIT_ID" targetFieldName="FC7_FREE_UNIT_ID"/>
-            <Field sourceFieldName="FREE_UNIT_TYPE" targetFieldName="FC7_FREE_UNIT_TYPE"/>
-            <Field sourceFieldName="CUR_AMOUNT" targetFieldName="FC7_CUR_AMOUNT"/>
-            <Field sourceFieldName="CHG_AMOUNT" targetFieldName="FC7_CHG_AMOUNT"/>
-            <Field sourceFieldName="FU_MEASURE_ID" targetFieldName="FC7_FU_MEASURE_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="FC7_OPER_TYPE"/>
-            <Field sourceFieldName="FU_OWN_TYPE" targetFieldName="FC8_FU_OWN_TYPE"/>
-            <Field sourceFieldName="FU_OWN_ID" targetFieldName="FC8_FU_OWN_ID"/>
-            <Field sourceFieldName="FREE_UNIT_ID" targetFieldName="FC8_FREE_UNIT_ID"/>
-            <Field sourceFieldName="FREE_UNIT_TYPE" targetFieldName="FC8_FREE_UNIT_TYPE"/>
-            <Field sourceFieldName="CUR_AMOUNT" targetFieldName="FC8_CUR_AMOUNT"/>
-            <Field sourceFieldName="CHG_AMOUNT" targetFieldName="FC8_CHG_AMOUNT"/>
-            <Field sourceFieldName="FU_MEASURE_ID" targetFieldName="FC8_FU_MEASURE_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="FC8_OPER_TYPE"/>
-            <Field sourceFieldName="FU_OWN_TYPE" targetFieldName="FC9_FU_OWN_TYPE"/>
-            <Field sourceFieldName="FU_OWN_ID" targetFieldName="FC9_FU_OWN_ID"/>
-            <Field sourceFieldName="FREE_UNIT_ID" targetFieldName="FC9_FREE_UNIT_ID"/>
-            <Field sourceFieldName="FREE_UNIT_TYPE" targetFieldName="FC9_FREE_UNIT_TYPE"/>
-            <Field sourceFieldName="CUR_AMOUNT" targetFieldName="FC9_CUR_AMOUNT"/>
-            <Field sourceFieldName="CHG_AMOUNT" targetFieldName="FC9_CHG_AMOUNT"/>
-            <Field sourceFieldName="FU_MEASURE_ID" targetFieldName="FC9_FU_MEASURE_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="FC9_OPER_TYPE"/>
-            <Field sourceFieldName="FU_OWN_TYPE" targetFieldName="FC10_FU_OWN_TYPE"/>
-            <Field sourceFieldName="FU_OWN_ID" targetFieldName="FC10_FU_OWN_ID"/>
-            <Field sourceFieldName="FREE_UNIT_ID" targetFieldName="FC10_FREE_UNIT_ID"/>
-            <Field sourceFieldName="FREE_UNIT_TYPE" targetFieldName="FC10_FREE_UNIT_TYPE"/>
-            <Field sourceFieldName="CUR_AMOUNT" targetFieldName="FC10_CUR_AMOUNT"/>
-            <Field sourceFieldName="CHG_AMOUNT" targetFieldName="FC10_CHG_AMOUNT"/>
-            <Field sourceFieldName="FU_MEASURE_ID" targetFieldName="FC10_FU_MEASURE_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="FC10_OPER_TYPE"/>
-            <Field sourceFieldName="ACCT_ID" targetFieldName="BD1_ACCT_ID"/>
-            <Field sourceFieldName="ACCT_BALANCE_ID" targetFieldName="BD1_ACCT_BALANCE_ID"/>
-            <Field sourceFieldName="BALANCE_TYPE" targetFieldName="BD1_BALANCE_TYPE"/>
-            <Field sourceFieldName="BONUS_AMOUNT" targetFieldName="BD1_BONUS_AMOUNT"/>
-            <Field sourceFieldName="CURRENT_BALANCE" targetFieldName="BD1_CURRENT_BALANCE"/>
-            <Field sourceFieldName="CURRENCY_ID" targetFieldName="BD1_CURRENCY_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="BD1_OPER_TYPE"/>
-            <Field sourceFieldName="ACCT_ID" targetFieldName="BD2_ACCT_ID"/>
-            <Field sourceFieldName="ACCT_BALANCE_ID" targetFieldName="BD2_ACCT_BALANCE_ID"/>
-            <Field sourceFieldName="BALANCE_TYPE" targetFieldName="BD2_BALANCE_TYPE"/>
-            <Field sourceFieldName="BONUS_AMOUNT" targetFieldName="BD2_BONUS_AMOUNT"/>
-            <Field sourceFieldName="CURRENT_BALANCE" targetFieldName="BD2_CURRENT_BALANCE"/>
-            <Field sourceFieldName="CURRENCY_ID" targetFieldName="BD2_CURRENCY_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="BD2_OPER_TYPE"/>
-            <Field sourceFieldName="ACCT_ID" targetFieldName="BD3_ACCT_ID"/>
-            <Field sourceFieldName="ACCT_BALANCE_ID" targetFieldName="BD3_ACCT_BALANCE_ID"/>
-            <Field sourceFieldName="BALANCE_TYPE" targetFieldName="BD3_BALANCE_TYPE"/>
-            <Field sourceFieldName="BONUS_AMOUNT" targetFieldName="BD3_BONUS_AMOUNT"/>
-            <Field sourceFieldName="CURRENT_BALANCE" targetFieldName="BD3_CURRENT_BALANCE"/>
-            <Field sourceFieldName="CURRENCY_ID" targetFieldName="BD3_CURRENCY_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="BD3_OPER_TYPE"/>
-            <Field sourceFieldName="ACCT_ID" targetFieldName="BD4_ACCT_ID"/>
-            <Field sourceFieldName="ACCT_BALANCE_ID" targetFieldName="BD4_ACCT_BALANCE_ID"/>
-            <Field sourceFieldName="BALANCE_TYPE" targetFieldName="BD4_BALANCE_TYPE"/>
-            <Field sourceFieldName="BONUS_AMOUNT" targetFieldName="BD4_BONUS_AMOUNT"/>
-            <Field sourceFieldName="CURRENT_BALANCE" targetFieldName="BD4_CURRENT_BALANCE"/>
-            <Field sourceFieldName="CURRENCY_ID" targetFieldName="BD4_CURRENCY_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="BD4_OPER_TYPE"/>
-            <Field sourceFieldName="ACCT_ID" targetFieldName="BD5_ACCT_ID"/>
-            <Field sourceFieldName="ACCT_BALANCE_ID" targetFieldName="BD5_ACCT_BALANCE_ID"/>
-            <Field sourceFieldName="BALANCE_TYPE" targetFieldName="BD5_BALANCE_TYPE"/>
-            <Field sourceFieldName="BONUS_AMOUNT" targetFieldName="BD5_BONUS_AMOUNT"/>
-            <Field sourceFieldName="CURRENT_BALANCE" targetFieldName="BD5_CURRENT_BALANCE"/>
-            <Field sourceFieldName="CURRENCY_ID" targetFieldName="BD5_CURRENCY_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="BD5_OPER_TYPE"/>
-            <Field sourceFieldName="ACCT_ID" targetFieldName="BD6_ACCT_ID"/>
-            <Field sourceFieldName="ACCT_BALANCE_ID" targetFieldName="BD6_ACCT_BALANCE_ID"/>
-            <Field sourceFieldName="BALANCE_TYPE" targetFieldName="BD6_BALANCE_TYPE"/>
-            <Field sourceFieldName="BONUS_AMOUNT" targetFieldName="BD6_BONUS_AMOUNT"/>
-            <Field sourceFieldName="CURRENT_BALANCE" targetFieldName="BD6_CURRENT_BALANCE"/>
-            <Field sourceFieldName="CURRENCY_ID" targetFieldName="BD6_CURRENCY_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="BD6_OPER_TYPE"/>
-            <Field sourceFieldName="ACCT_ID" targetFieldName="BD7_ACCT_ID"/>
-            <Field sourceFieldName="ACCT_BALANCE_ID" targetFieldName="BD7_ACCT_BALANCE_ID"/>
-            <Field sourceFieldName="BALANCE_TYPE" targetFieldName="BD7_BALANCE_TYPE"/>
-            <Field sourceFieldName="BONUS_AMOUNT" targetFieldName="BD7_BONUS_AMOUNT"/>
-            <Field sourceFieldName="CURRENT_BALANCE" targetFieldName="BD7_CURRENT_BALANCE"/>
-            <Field sourceFieldName="CURRENCY_ID" targetFieldName="BD7_CURRENCY_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="BD7_OPER_TYPE"/>
-            <Field sourceFieldName="ACCT_ID" targetFieldName="BD8_ACCT_ID"/>
-            <Field sourceFieldName="ACCT_BALANCE_ID" targetFieldName="BD8_ACCT_BALANCE_ID"/>
-            <Field sourceFieldName="BALANCE_TYPE" targetFieldName="BD8_BALANCE_TYPE"/>
-            <Field sourceFieldName="BONUS_AMOUNT" targetFieldName="BD8_BONUS_AMOUNT"/>
-            <Field sourceFieldName="CURRENT_BALANCE" targetFieldName="BD8_CURRENT_BALANCE"/>
-            <Field sourceFieldName="CURRENCY_ID" targetFieldName="BD8_CURRENCY_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="BD8_OPER_TYPE"/>
-            <Field sourceFieldName="ACCT_ID" targetFieldName="BD9_ACCT_ID"/>
-            <Field sourceFieldName="ACCT_BALANCE_ID" targetFieldName="BD9_ACCT_BALANCE_ID"/>
-            <Field sourceFieldName="BALANCE_TYPE" targetFieldName="BD9_BALANCE_TYPE"/>
-            <Field sourceFieldName="BONUS_AMOUNT" targetFieldName="BD9_BONUS_AMOUNT"/>
-            <Field sourceFieldName="CURRENT_BALANCE" targetFieldName="BD9_CURRENT_BALANCE"/>
-            <Field sourceFieldName="CURRENCY_ID" targetFieldName="BD9_CURRENCY_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="BD9_OPER_TYPE"/>
-            <Field sourceFieldName="ACCT_ID" targetFieldName="BD10_ACCT_ID"/>
-            <Field sourceFieldName="ACCT_BALANCE_ID" targetFieldName="BD10_ACCT_BALANCE_ID"/>
-            <Field sourceFieldName="BALANCE_TYPE" targetFieldName="BD10_BALANCE_TYPE"/>
-            <Field sourceFieldName="BONUS_AMOUNT" targetFieldName="BD10_BONUS_AMOUNT"/>
-            <Field sourceFieldName="CURRENT_BALANCE" targetFieldName="BD10_CURRENT_BALANCE"/>
-            <Field sourceFieldName="CURRENCY_ID" targetFieldName="BD10_CURRENCY_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="BD10_OPER_TYPE"/>
-            <Field sourceFieldName="FU_OWN_TYPE" targetFieldName="FR1_FU_OWN_TYPE"/>
-            <Field sourceFieldName="FU_OWN_ID" targetFieldName="FR1_FU_OWN_ID"/>
-            <Field sourceFieldName="FREE_UNIT_TYPE" targetFieldName="FR1_FREE_UNIT_TYPE"/>
-            <Field sourceFieldName="FREE_UNIT_ID" targetFieldName="FR1_FREE_UNIT_ID"/>
-            <Field sourceFieldName="BONUS_AMOUNT" targetFieldName="FR1_BONUS_AMOUNT"/>
-            <Field sourceFieldName="CURRENT_AMOUNT" targetFieldName="FR1_CURRENT_AMOUNT"/>
-            <Field sourceFieldName="FU_MEASURE_ID" targetFieldName="FR1_FU_MEASURE_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="FR1_OPER_TYPE"/>
-            <Field sourceFieldName="FU_OWN_TYPE" targetFieldName="FR2_FU_OWN_TYPE"/>
-            <Field sourceFieldName="FU_OWN_ID" targetFieldName="FR2_FU_OWN_ID"/>
-            <Field sourceFieldName="FREE_UNIT_TYPE" targetFieldName="FR2_FREE_UNIT_TYPE"/>
-            <Field sourceFieldName="FREE_UNIT_ID" targetFieldName="FR2_FREE_UNIT_ID"/>
-            <Field sourceFieldName="BONUS_AMOUNT" targetFieldName="FR2_BONUS_AMOUNT"/>
-            <Field sourceFieldName="CURRENT_AMOUNT" targetFieldName="FR2_CURRENT_AMOUNT"/>
-            <Field sourceFieldName="FU_MEASURE_ID" targetFieldName="FR2_FU_MEASURE_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="FR2_OPER_TYPE"/>
-            <Field sourceFieldName="FU_OWN_TYPE" targetFieldName="FR3_FU_OWN_TYPE"/>
-            <Field sourceFieldName="FU_OWN_ID" targetFieldName="FR3_FU_OWN_ID"/>
-            <Field sourceFieldName="FREE_UNIT_TYPE" targetFieldName="FR3_FREE_UNIT_TYPE"/>
-            <Field sourceFieldName="FREE_UNIT_ID" targetFieldName="FR3_FREE_UNIT_ID"/>
-            <Field sourceFieldName="BONUS_AMOUNT" targetFieldName="FR3_BONUS_AMOUNT"/>
-            <Field sourceFieldName="CURRENT_AMOUNT" targetFieldName="FR3_CURRENT_AMOUNT"/>
-            <Field sourceFieldName="FU_MEASURE_ID" targetFieldName="FR3_FU_MEASURE_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="FR3_OPER_TYPE"/>
-            <Field sourceFieldName="FU_OWN_TYPE" targetFieldName="FR4_FU_OWN_TYPE"/>
-            <Field sourceFieldName="FU_OWN_ID" targetFieldName="FR4_FU_OWN_ID"/>
-            <Field sourceFieldName="FREE_UNIT_TYPE" targetFieldName="FR4_FREE_UNIT_TYPE"/>
-            <Field sourceFieldName="FREE_UNIT_ID" targetFieldName="FR4_FREE_UNIT_ID"/>
-            <Field sourceFieldName="BONUS_AMOUNT" targetFieldName="FR4_BONUS_AMOUNT"/>
-            <Field sourceFieldName="CURRENT_AMOUNT" targetFieldName="FR4_CURRENT_AMOUNT"/>
-            <Field sourceFieldName="FU_MEASURE_ID" targetFieldName="FR4_FU_MEASURE_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="FR4_OPER_TYPE"/>
-            <Field sourceFieldName="FU_OWN_TYPE" targetFieldName="FR5_FU_OWN_TYPE"/>
-            <Field sourceFieldName="FU_OWN_ID" targetFieldName="FR5_FU_OWN_ID"/>
-            <Field sourceFieldName="FREE_UNIT_TYPE" targetFieldName="FR5_FREE_UNIT_TYPE"/>
-            <Field sourceFieldName="FREE_UNIT_ID" targetFieldName="FR5_FREE_UNIT_ID"/>
-            <Field sourceFieldName="BONUS_AMOUNT" targetFieldName="F52_BONUS_AMOUNT"/>
-            <Field sourceFieldName="CURRENT_AMOUNT" targetFieldName="FR5_CURRENT_AMOUNT"/>
-            <Field sourceFieldName="FU_MEASURE_ID" targetFieldName="FR5_FU_MEASURE_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="FR5_OPER_TYPE"/>
-            <Field sourceFieldName="FU_OWN_TYPE" targetFieldName="FR6_FU_OWN_TYPE"/>
-            <Field sourceFieldName="FU_OWN_ID" targetFieldName="FR6_FU_OWN_ID"/>
-            <Field sourceFieldName="FREE_UNIT_TYPE" targetFieldName="FR6_FREE_UNIT_TYPE"/>
-            <Field sourceFieldName="FREE_UNIT_ID" targetFieldName="FR6_FREE_UNIT_ID"/>
-            <Field sourceFieldName="BONUS_AMOUNT" targetFieldName="FR6_BONUS_AMOUNT"/>
-            <Field sourceFieldName="CURRENT_AMOUNT" targetFieldName="FR6_CURRENT_AMOUNT"/>
-            <Field sourceFieldName="FU_MEASURE_ID" targetFieldName="FR6_FU_MEASURE_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="FR6_OPER_TYPE"/>
-            <Field sourceFieldName="FU_OWN_TYPE" targetFieldName="FR7_FU_OWN_TYPE"/>
-            <Field sourceFieldName="FU_OWN_ID" targetFieldName="FR7_FU_OWN_ID"/>
-            <Field sourceFieldName="FREE_UNIT_TYPE" targetFieldName="FR7_FREE_UNIT_TYPE"/>
-            <Field sourceFieldName="FREE_UNIT_ID" targetFieldName="FR7_FREE_UNIT_ID"/>
-            <Field sourceFieldName="BONUS_AMOUNT" targetFieldName="FR7_BONUS_AMOUNT"/>
-            <Field sourceFieldName="CURRENT_AMOUNT" targetFieldName="FR7_CURRENT_AMOUNT"/>
-            <Field sourceFieldName="FU_MEASURE_ID" targetFieldName="FR7_FU_MEASURE_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="FR7_OPER_TYPE"/>
-            <Field sourceFieldName="FU_OWN_TYPE" targetFieldName="FR8_FU_OWN_TYPE"/>
-            <Field sourceFieldName="FU_OWN_ID" targetFieldName="FR8_FU_OWN_ID"/>
-            <Field sourceFieldName="FREE_UNIT_TYPE" targetFieldName="FR8_FREE_UNIT_TYPE"/>
-            <Field sourceFieldName="FREE_UNIT_ID" targetFieldName="FR8_FREE_UNIT_ID"/>
-            <Field sourceFieldName="BONUS_AMOUNT" targetFieldName="FR8_BONUS_AMOUNT"/>
-            <Field sourceFieldName="CURRENT_AMOUNT" targetFieldName="FR8_CURRENT_AMOUNT"/>
-            <Field sourceFieldName="FU_MEASURE_ID" targetFieldName="FR8_FU_MEASURE_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="FR8_OPER_TYPE"/>
-            <Field sourceFieldName="FU_OWN_TYPE" targetFieldName="FR9_FU_OWN_TYPE"/>
-            <Field sourceFieldName="FU_OWN_ID" targetFieldName="FR9_FU_OWN_ID"/>
-            <Field sourceFieldName="FREE_UNIT_TYPE" targetFieldName="FR9_FREE_UNIT_TYPE"/>
-            <Field sourceFieldName="FREE_UNIT_ID" targetFieldName="FR9_FREE_UNIT_ID"/>
-            <Field sourceFieldName="BONUS_AMOUNT" targetFieldName="FR9_BONUS_AMOUNT"/>
-            <Field sourceFieldName="CURRENT_AMOUNT" targetFieldName="FR9_CURRENT_AMOUNT"/>
-            <Field sourceFieldName="FU_MEASURE_ID" targetFieldName="FR9_FU_MEASURE_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="FR9_OPER_TYPE"/>
-            <Field sourceFieldName="FU_OWN_TYPE" targetFieldName="FR10_FU_OWN_TYPE"/>
-            <Field sourceFieldName="FU_OWN_ID" targetFieldName="FR10_FU_OWN_ID"/>
-            <Field sourceFieldName="FREE_UNIT_TYPE" targetFieldName="FR10_FREE_UNIT_TYPE"/>
-            <Field sourceFieldName="FREE_UNIT_ID" targetFieldName="FR10_FREE_UNIT_ID"/>
-            <Field sourceFieldName="BONUS_AMOUNT" targetFieldName="FR10_BONUS_AMOUNT"/>
-            <Field sourceFieldName="CURRENT_AMOUNT" targetFieldName="FR10_CURRENT_AMOUNT"/>
-            <Field sourceFieldName="FU_MEASURE_ID" targetFieldName="FR10_FU_MEASURE_ID"/>
-            <Field sourceFieldName="OPER_TYPE" targetFieldName="FR10_OPER_TYPE"/>
-            <Field sourceFieldName="CallingPartyNumber" targetFieldName="SERVED_MSISDN"/>
-            <Field sourceFieldName="CalledPartyNumber" targetFieldName="OTHER_MSISDN"/>
-            <Field sourceFieldName="CallingPartyIMSI" targetFieldName="SERVED_IMSI"/>
-            <Field sourceFieldName="CallingPartyIMSI" targetFieldName="OTHER_IMSI"/>
-            <Field sourceFieldName="DialedNumber" targetFieldName="DIALED_NUMBER"/>
-            <Field sourceFieldName="OriginalCalledParty" targetFieldName="THIRD_PARTY_MSISDN"/>
-            <Field sourceFieldName="ServiceFlow" targetFieldName="EVENT_DIRECTION_KEY"/>
-            <Field sourceFieldName="CallForwardIndicator" targetFieldName="CF_Ind"/>
-            <Field sourceFieldName="CallingRoamInfo" targetFieldName="SERVED_PLMN"/>
-            <Field sourceFieldName="CallingCellID" targetFieldName="SERVED_CELL"/>
-            <Field sourceFieldName="CalledRoamInfo" targetFieldName="OTHER_PLMN"/>
-            <Field sourceFieldName="CalledCellID" targetFieldName="OTHER_CEll"/>
-            <Field sourceFieldName="TimeStampOfSSP" targetFieldName="TIME_STAMP_OF_SSP"/>
-            <Field sourceFieldName="TimeZoneOfSSP" targetFieldName="TIME_ZONE_OF_SSP"/>
-            <Field sourceFieldName="BearerCapability" targetFieldName="BEARER_CAPABILITY"/>
-            <Field sourceFieldName="ChargingTime" targetFieldName="CHARGING_TIME"/>
-            <Field sourceFieldName="SendResult" targetFieldName="SEND_RESULT"/>
-            <Field sourceFieldName="SMSID" targetFieldName="SMSID"/>
-            <Field sourceFieldName="IMEI" targetFieldName="SERVED_IMEI"/>
-            <Field sourceFieldName="SMLength" targetFieldName="SMLength"/>
-            <Field sourceFieldName="SMSCAddress" targetFieldName="SMSC_ADDRESS"/>
-            <Field sourceFieldName="RefundIndicator" targetFieldName="REFUND_INDICATOR"/>
-            <Field sourceFieldName="BrandID" targetFieldName="BRAND_ID"/>
-            <Field sourceFieldName="MainOfferingID" targetFieldName="MAIN_OFFERING_ID"/>
-            <Field sourceFieldName="ChargingPartyNumber" targetFieldName="CHARGING_PARTY_NUMBER"/>
-            <Field sourceFieldName="ChargePartyIndicator" targetFieldName="CHARGE_PARTY_INDICATOR"/>
-            <Field sourceFieldName="PayType" targetFieldName="SERVED_TYPE"/>
-            <Field sourceFieldName="ChargingType" targetFieldName="CHARGING_TYPE"/>
-            <Field sourceFieldName="SMSType" targetFieldName="SMS_TYPE"/>
-            <Field sourceFieldName="OnNetIndicator" targetFieldName="ON_NET_INDICATOR"/>
-            <Field sourceFieldName="RoamState" targetFieldName="ROAM_STATE"/>
-            <Field sourceFieldName="CallingHomeCountryCode" targetFieldName="SERVED_CC"/>
-            <Field sourceFieldName="CallingHomeAreaNumber" targetFieldName="SERVED_AREA_CODE"/>
-            <Field sourceFieldName="CallingHomeNetworkCode" targetFieldName="SERVED_NETWORK__CODE"/>
-            <Field sourceFieldName="CallingRoamCountryCode" targetFieldName="SERVE_ROAMING_CC"/>
-            <Field sourceFieldName="CallingRoamAreaNumber" targetFieldName="SERVED_ROAM_AREA_CODE"/>
-            <Field sourceFieldName="CallingRoamNetworkCode" targetFieldName="SERVED_ROAM_NETWORK_CODE"/>
-            <Field sourceFieldName="CalledHomeCountryCode" targetFieldName="OTHER_CC"/>
-            <Field sourceFieldName="CalledHomeAreaNumber" targetFieldName="OTHER_AREA_CODE"/>
-            <Field sourceFieldName="CalledHomeNetworkCode" targetFieldName="OTHER_NETWORK_CODE"/>
-            <Field sourceFieldName="CalledRoamCountryCode" targetFieldName="OTHER_ROAM_CC"/>
-            <Field sourceFieldName="CalledRoamAreaNumber" targetFieldName="OTHER_ROAM_AREA_CODE"/>
-            <Field sourceFieldName="CalledRoamNetworkCode" targetFieldName="OTHER_ROAM_NETWORK_CODE"/>
-            <Field sourceFieldName="ServiceType" targetFieldName="SERVICE_TYPE"/>
-            <Field sourceFieldName="SpecialNumberIndicator" targetFieldName="SPECIAL_NUMBER_INDICATOR"/>
-            <Field sourceFieldName="NPFlag" targetFieldName="NP_FLAG"/>
-            <Field sourceFieldName="NPPrefix" targetFieldName="NP_PREFIX"/>
-            <Field sourceFieldName="CallingCUGNo" targetFieldName="SERVED_CUG"/>
-            <Field sourceFieldName="CalledCUGNo" targetFieldName="OTHER_CUG"/>
-            <Field sourceFieldName="OpposeNetworkType" targetFieldName="OPPOSE_NW_TYPE"/>
-            <Field sourceFieldName="OpposeNumberType" targetFieldName="OPPOSE_NUMBER_TYPE"/>
-            <Field sourceFieldName="CallingNetworkType" targetFieldName="SERVED_NW_TYPE"/>
-            <Field sourceFieldName="CalledNetworkType" targetFieldName="OTHER_NW_TYPE"/>
-            <Field sourceFieldName="CallingVPNTopGroupNumber" targetFieldName="SERVED_VPN_TOP_GROUP_NUMBER"/>
-            <Field sourceFieldName="CallingVPNGroupNumber" targetFieldName="SERVED_VPN_GROUP_NUMBER"/>
-            <Field sourceFieldName="CallingVPNShortNumber" targetFieldName="SERVED_VPN_SHORT_NUMBER"/>
-            <Field sourceFieldName="CalledVPNTopGroupNumber" targetFieldName="OTHER_VPN_TOP_GROUP_NUMBER"/>
-            <Field sourceFieldName="CalledVPNGroupNumber" targetFieldName="OTHER_VPN_GROUP_NUMBER"/>
-            <Field sourceFieldName="CalledVPNShortNumber" targetFieldName="OTHER_VPN_SHORT_NUMBER"/>
-            <Field sourceFieldName="GroupCallType" targetFieldName="GROUP_CALL_TYPE"/>
-            <Field sourceFieldName="OnlineChargingFlag" targetFieldName="ONLINE_CHARGING_FLAG"/>
-            <Field sourceFieldName="StartTimeOfBillCycle" targetFieldName="START_TIME_OF_BILL_CYCLE"/>
-            <Field sourceFieldName="LastEffectOffering" targetFieldName="LAST_EFFECT_OFFERING"/>
-            <Field sourceFieldName="DTDiscount" targetFieldName="DT_DISCOUNT"/>
-            <Field sourceFieldName="OpposeMainOfferingID" targetFieldName="OPPOSE_MAIN_OFFERING_ID"/>
-            <Field sourceFieldName="HomeZoneID" targetFieldName="HOME_ZONE_ID"/>
-            <Field sourceFieldName="SpecialZoneID" targetFieldName="SPECIAL_ZONE_ID"/>
-            <Field sourceFieldName="MainBalanceInfo" targetFieldName="MAIN_BALANCE_INFO"/>
-            <Field sourceFieldName="ChgBalanceInfo" targetFieldName="CHG_BALANCE_INFO"/>
-            <Field sourceFieldName="ChgFreeUnitInfo" targetFieldName="CHG_FREE_UNIT_INFO"/>
-            <Field sourceFieldName="UserState" targetFieldName="USER_STATE"/>
-            <Field sourceFieldName="GroupPayFlag" targetFieldName="GROUP_PAY_FLAG"/>
-            <Field sourceFieldName="RoamingZoneID" targetFieldName="ROAMING_ZONE_ID"/>
-            <Field sourceFieldName="PrimaryOfferChgAmt" targetFieldName="PRIMARY_OFFER_CHGAMT"/>
-            <Field sourceFieldName="LostAmount" targetFieldName="LOST_AMOUNT"/>
-            <Field sourceFieldName="Recipient_cp_id" targetFieldName="RECIPIENT_CP_ID"/>
+            <Field sourceFieldName="CDR_ID "/>
+            <Field sourceFieldName="CDR_SUB_ID "/>
+            <Field sourceFieldName="CDR_TYPE "/>
+            <Field sourceFieldName="SPLIT_CDR_REASON "/>
+            <Field sourceFieldName="CDR_BATCH_ID "/>
+            <Field sourceFieldName="SRC_REC_LINE_NO "/>
+            <Field sourceFieldName="SRC_CDR_ID "/>
+            <Field sourceFieldName="SRC_CDR_NO " targetFieldName="REC_SEQ_NUM"/>
+            <Field sourceFieldName="STATUS "/>
+            <Field sourceFieldName="RE_RATING_TIMES "/>
+            <Field sourceFieldName="CREATE_DATE "/>
+            <Field sourceFieldName="START_DATE "/>
+            <Field sourceFieldName="END_DATE "/>
+            <Field sourceFieldName="CUST_LOCAL_START_DATE " targetFieldName="EVENT_START_TIME"/>
+            <Field sourceFieldName="CUST_LOCAL_END_DATE " targetFieldName="EVENT_END_TIME"/>
+            <Field sourceFieldName="STD_EVT_TYPE_ID "/>
+            <Field sourceFieldName="EVT_SOURCE_CATEGORY "/>
+            <Field sourceFieldName="OBJ_TYPE "/>
+            <Field sourceFieldName="OBJ_ID "/>
+            <Field sourceFieldName="OWNER_CUST_ID "/>
+            <Field sourceFieldName="DEFAULT_ACCT_ID "/>
+            <Field sourceFieldName="PRI_IDENTITY "/>
+            <Field sourceFieldName="BILL_CYCLE_ID "/>
+            <Field sourceFieldName="SERVICE_CATEGORY " targetFieldName="EVENT_TYPE_KEY"/>
+            <Field sourceFieldName="USAGE_SERVICE_TYPE "/>
+            <Field sourceFieldName="SESSION_ID "/>
+            <Field sourceFieldName="RESULT_CODE "/>
+            <Field sourceFieldName="RESULT_REASON "/>
+            <Field sourceFieldName="BE_ID "/>
+            <Field sourceFieldName="HOT_SEQ "/>
+            <Field sourceFieldName="CP_ID "/>
+            <Field sourceFieldName="RECIPIENT_NUMBER " targetFieldName="OTHER_MSISDN"/>
+            <Field sourceFieldName="USAGE_MEASURE_ID "/>
+            <Field sourceFieldName="ACTUAL_USAGE " targetFieldName="ORIGINAL_DURATION"/>
+            <Field sourceFieldName="RATE_USAGE " targetFieldName="RATED_DURATION"/>
+            <Field sourceFieldName="SERVICE_UNIT_TYPE "/>
+            <Field sourceFieldName="USAGE_MEASURE_ID2 "/>
+            <Field sourceFieldName="ACTUAL_USAGE2 "/>
+            <Field sourceFieldName="RATE_USAGE2 "/>
+            <Field sourceFieldName="SERVICE_UNIT_TYPE2 "/>
+            <Field sourceFieldName="DEBIT_AMOUNT "/>
+            <Field sourceFieldName="UN_DEBIT_AMOUNT "/>
+            <Field sourceFieldName="DEBIT_FROM_PREPAID "/>
+            <Field sourceFieldName="DEBIT_FROM_ADVANCE_PREPAID "/>
+            <Field sourceFieldName="DEBIT_FROM_POSTPAID "/>
+            <Field sourceFieldName="DEBIT_FROM_ADVANCE_POSTPAID "/>
+            <Field sourceFieldName="DEBIT_FROM_CREDIT_POSTPAID "/>
+            <Field sourceFieldName="TOTAL_TAX "/>
+            <Field sourceFieldName="FREE_UNIT_AMOUNT_OF_TIMES "/>
+            <Field sourceFieldName="FREE_UNIT_AMOUNT_OF_DURATION "/>
+            <Field sourceFieldName="FREE_UNIT_AMOUNT_OF_FLUX "/>
+            <Field sourceFieldName="BC1_ACCT_ID "/>
+            <Field sourceFieldName="BC1_ACCT_BALANCE_ID "/>
+            <Field sourceFieldName="BC1_BALANCE_TYPE "/>
+            <Field sourceFieldName="BC1_CUR_BALANCE "/>
+            <Field sourceFieldName="BC1_CHG_BALANCE "/>
+            <Field sourceFieldName="BC1_CURRENCY_ID "/>
+            <Field sourceFieldName="BC1_OPER_TYPE "/>
+            <Field sourceFieldName="BC2_ACCT_ID "/>
+            <Field sourceFieldName="BC2_ACCT_BALANCE_ID "/>
+            <Field sourceFieldName="BC2_BALANCE_TYPE "/>
+            <Field sourceFieldName="BC2_CUR_BALANCE "/>
+            <Field sourceFieldName="BC2_CHG_BALANCE "/>
+            <Field sourceFieldName="BC2_CURRENCY_ID "/>
+            <Field sourceFieldName="BC2_OPER_TYPE "/>
+            <Field sourceFieldName="BC3_ACCT_ID "/>
+            <Field sourceFieldName="BC3_ACCT_BALANCE_ID "/>
+            <Field sourceFieldName="BC3_BALANCE_TYPE "/>
+            <Field sourceFieldName="BC3_CUR_BALANCE "/>
+            <Field sourceFieldName="BC3_CHG_BALANCE "/>
+            <Field sourceFieldName="BC3_CURRENCY_ID "/>
+            <Field sourceFieldName="BC3_OPER_TYPE "/>
+            <Field sourceFieldName="BC4_ACCT_ID "/>
+            <Field sourceFieldName="BC4_ACCT_BALANCE_ID "/>
+            <Field sourceFieldName="BC4_BALANCE_TYPE "/>
+            <Field sourceFieldName="BC4_CUR_BALANCE "/>
+            <Field sourceFieldName="BC4_CHG_BALANCE "/>
+            <Field sourceFieldName="BC4_CURRENCY_ID "/>
+            <Field sourceFieldName="BC4_OPER_TYPE "/>
+            <Field sourceFieldName="BC5_ACCT_ID "/>
+            <Field sourceFieldName="BC5_ACCT_BALANCE_ID "/>
+            <Field sourceFieldName="BC5_BALANCE_TYPE "/>
+            <Field sourceFieldName="BC5_CUR_BALANCE "/>
+            <Field sourceFieldName="BC5_CHG_BALANCE "/>
+            <Field sourceFieldName="BC5_CURRENCY_ID "/>
+            <Field sourceFieldName="BC5_OPER_TYPE "/>
+            <Field sourceFieldName="BC6_ACCT_ID "/>
+            <Field sourceFieldName="BC6_ACCT_BALANCE_ID "/>
+            <Field sourceFieldName="BC6_BALANCE_TYPE "/>
+            <Field sourceFieldName="BC6_CUR_BALANCE "/>
+            <Field sourceFieldName="BC6_CHG_BALANCE "/>
+            <Field sourceFieldName="BC6_CURRENCY_ID "/>
+            <Field sourceFieldName="BC6_OPER_TYPE "/>
+            <Field sourceFieldName="BC7_ACCT_ID "/>
+            <Field sourceFieldName="BC7_ACCT_BALANCE_ID "/>
+            <Field sourceFieldName="BC7_BALANCE_TYPE "/>
+            <Field sourceFieldName="BC7_CUR_BALANCE "/>
+            <Field sourceFieldName="BC7_CHG_BALANCE "/>
+            <Field sourceFieldName="BC7_CURRENCY_ID "/>
+            <Field sourceFieldName="BC7_OPER_TYPE "/>
+            <Field sourceFieldName="BC8_ACCT_ID "/>
+            <Field sourceFieldName="BC8_ACCT_BALANCE_ID "/>
+            <Field sourceFieldName="BC8_BALANCE_TYPE "/>
+            <Field sourceFieldName="BC8_CUR_BALANCE "/>
+            <Field sourceFieldName="BC8_CHG_BALANCE "/>
+            <Field sourceFieldName="BC8_CURRENCY_ID "/>
+            <Field sourceFieldName="BC8_OPER_TYPE "/>
+            <Field sourceFieldName="BC9_ACCT_ID "/>
+            <Field sourceFieldName="BC9_ACCT_BALANCE_ID "/>
+            <Field sourceFieldName="BC9_BALANCE_TYPE "/>
+            <Field sourceFieldName="BC9_CUR_BALANCE "/>
+            <Field sourceFieldName="BC9_CHG_BALANCE "/>
+            <Field sourceFieldName="BC9_CURRENCY_ID "/>
+            <Field sourceFieldName="BC9_OPER_TYPE "/>
+            <Field sourceFieldName="BC10_ACCT_ID "/>
+            <Field sourceFieldName="BC10_ACCT_BALANCE_ID "/>
+            <Field sourceFieldName="BC10_BALANCE_TYPE "/>
+            <Field sourceFieldName="BC10_CUR_BALANCE "/>
+            <Field sourceFieldName="BC10_CHG_BALANCE "/>
+            <Field sourceFieldName="BC10_CURRENCY_ID "/>
+            <Field sourceFieldName="BC10_OPER_TYPE "/>
+            <Field sourceFieldName="FC1_FU_OWN_TYPE "/>
+            <Field sourceFieldName="FC1_FU_OWN_ID "/>
+            <Field sourceFieldName="FC1_FREE_UNIT_ID "/>
+            <Field sourceFieldName="FC1_FREE_UNIT_TYPE "/>
+            <Field sourceFieldName="FC1_CUR_AMOUNT "/>
+            <Field sourceFieldName="FC1_CHG_AMOUNT "/>
+            <Field sourceFieldName="FC1_FU_MEASURE_ID "/>
+            <Field sourceFieldName="FC1_OPER_TYPE "/>
+            <Field sourceFieldName="FC2_FU_OWN_TYPE "/>
+            <Field sourceFieldName="FC2_FU_OWN_ID "/>
+            <Field sourceFieldName="FC2_FREE_UNIT_ID "/>
+            <Field sourceFieldName="FC2_FREE_UNIT_TYPE "/>
+            <Field sourceFieldName="FC2_CUR_AMOUNT "/>
+            <Field sourceFieldName="FC2_CHG_AMOUNT "/>
+            <Field sourceFieldName="FC2_FU_MEASURE_ID "/>
+            <Field sourceFieldName="FC2_OPER_TYPE "/>
+            <Field sourceFieldName="FC3_FU_OWN_TYPE "/>
+            <Field sourceFieldName="FC3_FU_OWN_ID "/>
+            <Field sourceFieldName="FC3_FREE_UNIT_ID "/>
+            <Field sourceFieldName="FC3_FREE_UNIT_TYPE "/>
+            <Field sourceFieldName="FC3_CUR_AMOUNT "/>
+            <Field sourceFieldName="FC3_CHG_AMOUNT "/>
+            <Field sourceFieldName="FC3_FU_MEASURE_ID "/>
+            <Field sourceFieldName="FC3_OPER_TYPE "/>
+            <Field sourceFieldName="FC4_FU_OWN_TYPE "/>
+            <Field sourceFieldName="FC4_FU_OWN_ID "/>
+            <Field sourceFieldName="FC4_FREE_UNIT_ID "/>
+            <Field sourceFieldName="FC4_FREE_UNIT_TYPE "/>
+            <Field sourceFieldName="FC4_CUR_AMOUNT "/>
+            <Field sourceFieldName="FC4_CHG_AMOUNT "/>
+            <Field sourceFieldName="FC4_FU_MEASURE_ID "/>
+            <Field sourceFieldName="FC4_OPER_TYPE "/>
+            <Field sourceFieldName="FC5_FU_OWN_TYPE "/>
+            <Field sourceFieldName="FC5_FU_OWN_ID "/>
+            <Field sourceFieldName="FC5_FREE_UNIT_ID "/>
+            <Field sourceFieldName="FC5_FREE_UNIT_TYPE "/>
+            <Field sourceFieldName="FC5_CUR_AMOUNT "/>
+            <Field sourceFieldName="FC5_CHG_AMOUNT "/>
+            <Field sourceFieldName="FC5_FU_MEASURE_ID "/>
+            <Field sourceFieldName="FC5_OPER_TYPE "/>
+            <Field sourceFieldName="FC6_FU_OWN_TYPE "/>
+            <Field sourceFieldName="FC6_FU_OWN_ID "/>
+            <Field sourceFieldName="FC6_FREE_UNIT_ID "/>
+            <Field sourceFieldName="FC6_FREE_UNIT_TYPE "/>
+            <Field sourceFieldName="FC6_CUR_AMOUNT "/>
+            <Field sourceFieldName="FC6_CHG_AMOUNT "/>
+            <Field sourceFieldName="FC6_FU_MEASURE_ID "/>
+            <Field sourceFieldName="FC6_OPER_TYPE "/>
+            <Field sourceFieldName="FC7_FU_OWN_TYPE "/>
+            <Field sourceFieldName="FC7_FU_OWN_ID "/>
+            <Field sourceFieldName="FC7_FREE_UNIT_ID "/>
+            <Field sourceFieldName="FC7_FREE_UNIT_TYPE "/>
+            <Field sourceFieldName="FC7_CUR_AMOUNT "/>
+            <Field sourceFieldName="FC7_CHG_AMOUNT "/>
+            <Field sourceFieldName="FC7_FU_MEASURE_ID "/>
+            <Field sourceFieldName="FC7_OPER_TYPE "/>
+            <Field sourceFieldName="FC8_FU_OWN_TYPE "/>
+            <Field sourceFieldName="FC8_FU_OWN_ID "/>
+            <Field sourceFieldName="FC8_FREE_UNIT_ID "/>
+            <Field sourceFieldName="FC8_FREE_UNIT_TYPE "/>
+            <Field sourceFieldName="FC8_CUR_AMOUNT "/>
+            <Field sourceFieldName="FC8_CHG_AMOUNT "/>
+            <Field sourceFieldName="FC8_FU_MEASURE_ID "/>
+            <Field sourceFieldName="FC8_OPER_TYPE "/>
+            <Field sourceFieldName="FC9_FU_OWN_TYPE "/>
+            <Field sourceFieldName="FC9_FU_OWN_ID "/>
+            <Field sourceFieldName="FC9_FREE_UNIT_ID "/>
+            <Field sourceFieldName="FC9_FREE_UNIT_TYPE "/>
+            <Field sourceFieldName="FC9_CUR_AMOUNT "/>
+            <Field sourceFieldName="FC9_CHG_AMOUNT "/>
+            <Field sourceFieldName="FC9_FU_MEASURE_ID "/>
+            <Field sourceFieldName="FC9_OPER_TYPE "/>
+            <Field sourceFieldName="FC10_FU_OWN_TYPE "/>
+            <Field sourceFieldName="FC10_FU_OWN_ID "/>
+            <Field sourceFieldName="FC10_FREE_UNIT_ID "/>
+            <Field sourceFieldName="FC10_FREE_UNIT_TYPE "/>
+            <Field sourceFieldName="FC10_CUR_AMOUNT "/>
+            <Field sourceFieldName="FC10_CHG_AMOUNT "/>
+            <Field sourceFieldName="FC10_FU_MEASURE_ID "/>
+            <Field sourceFieldName="FC10_OPER_TYPE "/>
+            <Field sourceFieldName="BD1_ACCT_ID "/>
+            <Field sourceFieldName="BD1_ACCT_BALANCE_ID "/>
+            <Field sourceFieldName="BD1_BALANCE_TYPE "/>
+            <Field sourceFieldName="BD1_BONUS_AMOUNT "/>
+            <Field sourceFieldName="BD1_CURRENT_BALANCE "/>
+            <Field sourceFieldName="BD1_CURRENCY_ID "/>
+            <Field sourceFieldName="BD1_OPER_TYPE "/>
+            <Field sourceFieldName="BD2_ACCT_ID "/>
+            <Field sourceFieldName="BD2_ACCT_BALANCE_ID "/>
+            <Field sourceFieldName="BD2_BALANCE_TYPE "/>
+            <Field sourceFieldName="BD2_BONUS_AMOUNT "/>
+            <Field sourceFieldName="BD2_CURRENT_BALANCE "/>
+            <Field sourceFieldName="BD2_CURRENCY_ID "/>
+            <Field sourceFieldName="BD2_OPER_TYPE "/>
+            <Field sourceFieldName="BD3_ACCT_ID "/>
+            <Field sourceFieldName="BD3_ACCT_BALANCE_ID "/>
+            <Field sourceFieldName="BD3_BALANCE_TYPE "/>
+            <Field sourceFieldName="BD3_BONUS_AMOUNT "/>
+            <Field sourceFieldName="BD3_CURRENT_BALANCE "/>
+            <Field sourceFieldName="BD3_CURRENCY_ID "/>
+            <Field sourceFieldName="BD3_OPER_TYPE "/>
+            <Field sourceFieldName="BD4_ACCT_ID "/>
+            <Field sourceFieldName="BD4_ACCT_BALANCE_ID "/>
+            <Field sourceFieldName="BD4_BALANCE_TYPE "/>
+            <Field sourceFieldName="BD4_BONUS_AMOUNT "/>
+            <Field sourceFieldName="BD4_CURRENT_BALANCE "/>
+            <Field sourceFieldName="BD4_CURRENCY_ID "/>
+            <Field sourceFieldName="BD4_OPER_TYPE "/>
+            <Field sourceFieldName="BD5_ACCT_ID "/>
+            <Field sourceFieldName="BD5_ACCT_BALANCE_ID "/>
+            <Field sourceFieldName="BD5_BALANCE_TYPE "/>
+            <Field sourceFieldName="BD5_BONUS_AMOUNT "/>
+            <Field sourceFieldName="BD5_CURRENT_BALANCE "/>
+            <Field sourceFieldName="BD5_CURRENCY_ID "/>
+            <Field sourceFieldName="BD5_OPER_TYPE "/>
+            <Field sourceFieldName="BD6_ACCT_ID "/>
+            <Field sourceFieldName="BD6_ACCT_BALANCE_ID "/>
+            <Field sourceFieldName="BD6_BALANCE_TYPE "/>
+            <Field sourceFieldName="BD6_BONUS_AMOUNT "/>
+            <Field sourceFieldName="BD6_CURRENT_BALANCE "/>
+            <Field sourceFieldName="BD6_CURRENCY_ID "/>
+            <Field sourceFieldName="BD6_OPER_TYPE "/>
+            <Field sourceFieldName="BD7_ACCT_ID "/>
+            <Field sourceFieldName="BD7_ACCT_BALANCE_ID "/>
+            <Field sourceFieldName="BD7_BALANCE_TYPE "/>
+            <Field sourceFieldName="BD7_BONUS_AMOUNT "/>
+            <Field sourceFieldName="BD7_CURRENT_BALANCE "/>
+            <Field sourceFieldName="BD7_CURRENCY_ID "/>
+            <Field sourceFieldName="BD7_OPER_TYPE "/>
+            <Field sourceFieldName="BD8_ACCT_ID "/>
+            <Field sourceFieldName="BD8_ACCT_BALANCE_ID "/>
+            <Field sourceFieldName="BD8_BALANCE_TYPE "/>
+            <Field sourceFieldName="BD8_BONUS_AMOUNT "/>
+            <Field sourceFieldName="BD8_CURRENT_BALANCE "/>
+            <Field sourceFieldName="BD8_CURRENCY_ID "/>
+            <Field sourceFieldName="BD8_OPER_TYPE "/>
+            <Field sourceFieldName="BD9_ACCT_ID "/>
+            <Field sourceFieldName="BD9_ACCT_BALANCE_ID "/>
+            <Field sourceFieldName="BD9_BALANCE_TYPE "/>
+            <Field sourceFieldName="BD9_BONUS_AMOUNT "/>
+            <Field sourceFieldName="BD9_CURRENT_BALANCE "/>
+            <Field sourceFieldName="BD9_CURRENCY_ID "/>
+            <Field sourceFieldName="BD9_OPER_TYPE "/>
+            <Field sourceFieldName="BD10_ACCT_ID "/>
+            <Field sourceFieldName="BD10_ACCT_BALANCE_ID "/>
+            <Field sourceFieldName="BD10_BALANCE_TYPE "/>
+            <Field sourceFieldName="BD10_BONUS_AMOUNT "/>
+            <Field sourceFieldName="BD10_CURRENT_BALANCE "/>
+            <Field sourceFieldName="BD10_CURRENCY_ID "/>
+            <Field sourceFieldName="BD10_OPER_TYPE "/>
+            <Field sourceFieldName="FR1_FU_OWN_TYPE "/>
+            <Field sourceFieldName="FR1_FU_OWN_ID "/>
+            <Field sourceFieldName="FR1_FREE_UNIT_TYPE "/>
+            <Field sourceFieldName="FR1_FREE_UNIT_ID "/>
+            <Field sourceFieldName="FR1_BONUS_AMOUNT "/>
+            <Field sourceFieldName="FR1_CURRENT_AMOUNT "/>
+            <Field sourceFieldName="FR1_FU_MEASURE_ID "/>
+            <Field sourceFieldName="FR1_OPER_TYPE "/>
+            <Field sourceFieldName="FR2_FU_OWN_TYPE "/>
+            <Field sourceFieldName="FR2_FU_OWN_ID "/>
+            <Field sourceFieldName="FR2_FREE_UNIT_TYPE "/>
+            <Field sourceFieldName="FR2_FREE_UNIT_ID "/>
+            <Field sourceFieldName="FR2_BONUS_AMOUNT "/>
+            <Field sourceFieldName="FR2_CURRENT_AMOUNT "/>
+            <Field sourceFieldName="FR2_FU_MEASURE_ID "/>
+            <Field sourceFieldName="FR2_OPER_TYPE "/>
+            <Field sourceFieldName="FR3_FU_OWN_TYPE "/>
+            <Field sourceFieldName="FR3_FU_OWN_ID "/>
+            <Field sourceFieldName="FR3_FREE_UNIT_TYPE "/>
+            <Field sourceFieldName="FR3_FREE_UNIT_ID "/>
+            <Field sourceFieldName="FR3_BONUS_AMOUNT "/>
+            <Field sourceFieldName="FR3_CURRENT_AMOUNT "/>
+            <Field sourceFieldName="FR3_FU_MEASURE_ID "/>
+            <Field sourceFieldName="FR3_OPER_TYPE "/>
+            <Field sourceFieldName="FR4_FU_OWN_TYPE "/>
+            <Field sourceFieldName="FR4_FU_OWN_ID "/>
+            <Field sourceFieldName="FR4_FREE_UNIT_TYPE "/>
+            <Field sourceFieldName="FR4_FREE_UNIT_ID "/>
+            <Field sourceFieldName="FR4_BONUS_AMOUNT "/>
+            <Field sourceFieldName="FR4_CURRENT_AMOUNT "/>
+            <Field sourceFieldName="FR4_FU_MEASURE_ID "/>
+            <Field sourceFieldName="FR4_OPER_TYPE "/>
+            <Field sourceFieldName="FR5_FU_OWN_TYPE "/>
+            <Field sourceFieldName="FR5_FU_OWN_ID "/>
+            <Field sourceFieldName="FR5_FREE_UNIT_TYPE "/>
+            <Field sourceFieldName="FR5_FREE_UNIT_ID "/>
+            <Field sourceFieldName="F52_BONUS_AMOUNT "/>
+            <Field sourceFieldName="FR5_CURRENT_AMOUNT "/>
+            <Field sourceFieldName="FR5_FU_MEASURE_ID "/>
+            <Field sourceFieldName="FR5_OPER_TYPE "/>
+            <Field sourceFieldName="FR6_FU_OWN_TYPE "/>
+            <Field sourceFieldName="FR6_FU_OWN_ID "/>
+            <Field sourceFieldName="FR6_FREE_UNIT_TYPE "/>
+            <Field sourceFieldName="FR6_FREE_UNIT_ID "/>
+            <Field sourceFieldName="FR6_BONUS_AMOUNT "/>
+            <Field sourceFieldName="FR6_CURRENT_AMOUNT "/>
+            <Field sourceFieldName="FR6_FU_MEASURE_ID "/>
+            <Field sourceFieldName="FR6_OPER_TYPE "/>
+            <Field sourceFieldName="FR7_FU_OWN_TYPE "/>
+            <Field sourceFieldName="FR7_FU_OWN_ID "/>
+            <Field sourceFieldName="FR7_FREE_UNIT_TYPE "/>
+            <Field sourceFieldName="FR7_FREE_UNIT_ID "/>
+            <Field sourceFieldName="FR7_BONUS_AMOUNT "/>
+            <Field sourceFieldName="FR7_CURRENT_AMOUNT "/>
+            <Field sourceFieldName="FR7_FU_MEASURE_ID "/>
+            <Field sourceFieldName="FR7_OPER_TYPE "/>
+            <Field sourceFieldName="FR8_FU_OWN_TYPE "/>
+            <Field sourceFieldName="FR8_FU_OWN_ID "/>
+            <Field sourceFieldName="FR8_FREE_UNIT_TYPE "/>
+            <Field sourceFieldName="FR8_FREE_UNIT_ID "/>
+            <Field sourceFieldName="FR8_BONUS_AMOUNT "/>
+            <Field sourceFieldName="FR8_CURRENT_AMOUNT "/>
+            <Field sourceFieldName="FR8_FU_MEASURE_ID "/>
+            <Field sourceFieldName="FR8_OPER_TYPE "/>
+            <Field sourceFieldName="FR9_FU_OWN_TYPE "/>
+            <Field sourceFieldName="FR9_FU_OWN_ID "/>
+            <Field sourceFieldName="FR9_FREE_UNIT_TYPE "/>
+            <Field sourceFieldName="FR9_FREE_UNIT_ID "/>
+            <Field sourceFieldName="FR9_BONUS_AMOUNT "/>
+            <Field sourceFieldName="FR9_CURRENT_AMOUNT "/>
+            <Field sourceFieldName="FR9_FU_MEASURE_ID "/>
+            <Field sourceFieldName="FR9_OPER_TYPE "/>
+            <Field sourceFieldName="FR10_FU_OWN_TYPE "/>
+            <Field sourceFieldName="FR10_FU_OWN_ID "/>
+            <Field sourceFieldName="FR10_FREE_UNIT_TYPE "/>
+            <Field sourceFieldName="FR10_FREE_UNIT_ID "/>
+            <Field sourceFieldName="FR10_BONUS_AMOUNT "/>
+            <Field sourceFieldName="FR10_CURRENT_AMOUNT "/>
+            <Field sourceFieldName="FR10_FU_MEASURE_ID "/>
+            <Field sourceFieldName="FR10_OPER_TYPE "/>
+            <Field sourceFieldName="CallingPartyNumber " targetFieldName="SERVED_MSISDN"/>
+            <Field sourceFieldName="CalledPartyNumber " targetFieldName="OTHER_MSISDN"/>
+            <Field sourceFieldName="CallingPartyIMSI " targetFieldName="SERVED_IMSI"/>
+            <Field sourceFieldName="CallingPartyIMSI " targetFieldName="OTHER_IMSI"/>
+            <Field sourceFieldName="DialedNumber " targetFieldName="DIALED_NUMBER"/>
+            <Field sourceFieldName="OriginalCalledParty " targetFieldName="THIRD_PARTY_MSISDN"/>
+            <Field sourceFieldName="ServiceFlow " targetFieldName="EVENT_DIRECTION_KEY"/>
+            <Field sourceFieldName="CallForwardIndicator " targetFieldName="CF_IND"/>
+            <Field sourceFieldName="CallingRoamInfo " targetFieldName="SERVED_PLMN"/>
+            <Field sourceFieldName="CallingCellID " targetFieldName="SERVED_CELL"/>
+            <Field sourceFieldName="CalledRoamInfo " targetFieldName="OTHER_PLMN"/>
+            <Field sourceFieldName="CalledCellID " targetFieldName="OTHER_CEll"/>
+            <Field sourceFieldName="TimeStampOfSSP " targetFieldName="TIME_STAMP_OF_SSP"/>
+            <Field sourceFieldName="TimeZoneOfSSP " targetFieldName="TIME_ZONE_OF_SSP"/>
+            <Field sourceFieldName="BearerCapability " targetFieldName="BEARER_CAPABILITY"/>
+            <Field sourceFieldName="ChargingTime " targetFieldName="CHARGING_TIME"/>
+            <Field sourceFieldName="SendResult " targetFieldName="SEND_RESULT"/>
+            <Field sourceFieldName="SMSID " targetFieldName="SMSID"/>
+            <Field sourceFieldName="IMEI " targetFieldName="SERVED_IMEI"/>
+            <Field sourceFieldName="SMLength " targetFieldName="SM_LENGTH"/>
+            <Field sourceFieldName="SMSCAddress " targetFieldName="SMSC_ADDRESS"/>
+            <Field sourceFieldName="RefundIndicator " targetFieldName="REFUND_INDICATOR"/>
+            <Field sourceFieldName="BrandID " targetFieldName="BRAND_ID"/>
+            <Field sourceFieldName="MainOfferingID " targetFieldName="MAIN_OFFERING_ID"/>
+            <Field sourceFieldName="ChargingPartyNumber " targetFieldName="CHARGING_PARTY_NUMBER"/>
+            <Field sourceFieldName="ChargePartyIndicator " targetFieldName="CHARGE_PARTY_INDICATOR"/>
+            <Field sourceFieldName="PayType " targetFieldName="SERVED_TYPE"/>
+            <Field sourceFieldName="ChargingType " targetFieldName="CHARGING_TYPE"/>
+            <Field sourceFieldName="SMSType " targetFieldName="SMS_TYPE"/>
+            <Field sourceFieldName="OnNetIndicator " targetFieldName="ON_NET_INDICATOR"/>
+            <Field sourceFieldName="RoamState " targetFieldName="ROAM_STATE"/>
+            <Field sourceFieldName="CallingHomeCountryCode " targetFieldName="SERVED_CC"/>
+            <Field sourceFieldName="CallingHomeAreaNumber " targetFieldName="SERVED_AREA_CODE"/>
+            <Field sourceFieldName="CallingHomeNetworkCode " targetFieldName="SERVED_NETWORK_CODE"/>
+            <Field sourceFieldName="CallingRoamCountryCode " targetFieldName="SERVE_ROAMING_CC"/>
+            <Field sourceFieldName="CallingRoamAreaNumber " targetFieldName="SERVED_ROAM_AREA_CODE"/>
+            <Field sourceFieldName="CallingRoamNetworkCode " targetFieldName="SERVED_ROAM_NETWORK_CODE"/>
+            <Field sourceFieldName="CalledHomeCountryCode " targetFieldName="OTHER_CC"/>
+            <Field sourceFieldName="CalledHomeAreaNumber " targetFieldName="OTHER_AREA_CODE"/>
+            <Field sourceFieldName="CalledHomeNetworkCode " targetFieldName="OTHER_NETWORK_CODE"/>
+            <Field sourceFieldName="CalledRoamCountryCode " targetFieldName="OTHER_ROAM_CC"/>
+            <Field sourceFieldName="CalledRoamAreaNumber " targetFieldName="OTHER_ROAM_AREA_CODE"/>
+            <Field sourceFieldName="CalledRoamNetworkCode " targetFieldName="OTHER_ROAM_NETWORK_CODE"/>
+            <Field sourceFieldName="ServiceType " targetFieldName="SERVICE_TYPE"/>
+            <Field sourceFieldName="SpecialNumberIndicator " targetFieldName="SPECIAL_NUMBER_INDICATOR"/>
+            <Field sourceFieldName="NPFlag " targetFieldName="NP_FLAG"/>
+            <Field sourceFieldName="NPPrefix " targetFieldName="NP_PREFIX"/>
+            <Field sourceFieldName="CallingCUGNo " targetFieldName="SERVED_CUG"/>
+            <Field sourceFieldName="CalledCUGNo " targetFieldName="OTHER_CUG"/>
+            <Field sourceFieldName="OpposeNetworkType " targetFieldName="OPPOSE_NW_TYPE"/>
+            <Field sourceFieldName="OpposeNumberType " targetFieldName="OPPOSE_NUMBER_TYPE"/>
+            <Field sourceFieldName="CallingNetworkType " targetFieldName="SERVED_NW_TYPE"/>
+            <Field sourceFieldName="CalledNetworkType " targetFieldName="OTHER_NW_TYPE"/>
+            <Field sourceFieldName="CallingVPNTopGroupNumber " targetFieldName="SERVED_VPN_TOP_GROUP_NUMBER"/>
+            <Field sourceFieldName="CallingVPNGroupNumber " targetFieldName="SERVED_VPN_GROUP_NUMBER"/>
+            <Field sourceFieldName="CallingVPNShortNumber " targetFieldName="SERVED_VPN_SHORT_NUMBER"/>
+            <Field sourceFieldName="CalledVPNTopGroupNumber " targetFieldName="OTHER_VPN_TOP_GROUP_NUMBER"/>
+            <Field sourceFieldName="CalledVPNGroupNumber " targetFieldName="OTHER_VPN_GROUP_NUMBER"/>
+            <Field sourceFieldName="CalledVPNShortNumber " targetFieldName="OTHER_VPN_SHORT_NUMBER"/>
+            <Field sourceFieldName="GroupCallType " targetFieldName="GROUP_CALL_TYPE"/>
+            <Field sourceFieldName="OnlineChargingFlag " targetFieldName="ONLINE_CHARGING_FLAG"/>
+            <Field sourceFieldName="StartTimeOfBillCycle " targetFieldName="START_TIME_OF_BILL_CYCLE"/>
+            <Field sourceFieldName="LastEffectOffering " targetFieldName="LAST_EFFECT_OFFERING"/>
+            <Field sourceFieldName="DTDiscount " targetFieldName="DT_DISCOUNT"/>
+            <Field sourceFieldName="OpposeMainOfferingID " targetFieldName="OPPOSE_MAIN_OFFERING_ID"/>
+            <Field sourceFieldName="HomeZoneID " targetFieldName="HOME_ZONE_ID"/>
+            <Field sourceFieldName="SpecialZoneID " targetFieldName="SPECIAL_ZONE_ID"/>
+            <Field sourceFieldName="MainBalanceInfo " targetFieldName="MAIN_BALANCE_INFO"/>
+            <Field sourceFieldName="ChgBalanceInfo " targetFieldName="CHG_BALANCE_INFO"/>
+            <Field sourceFieldName="ChgFreeUnitInfo " targetFieldName="CHG_FREE_UNIT_INFO"/>
+            <Field sourceFieldName="UserState " targetFieldName="USER_STATE"/>
+            <Field sourceFieldName="GroupPayFlag " targetFieldName="GROUP_PAY_FLAG"/>
+            <Field sourceFieldName="RoamingZoneID " targetFieldName="ROAMING_ZONE_ID"/>
+            <Field sourceFieldName="PrimaryOfferChgAmt " targetFieldName="PRIMARY_OFFER_CHG_AMT"/>
+            <Field sourceFieldName="LostAmount " targetFieldName="LOST_AMOUNT"/>
+            <Field sourceFieldName="Recipient_cp_id " targetFieldName="RECIPIENT_CP_ID"/>
             <Field sourceFieldName="Advance_prepaid_balance" targetFieldName="ADVANCE_PREPAID_BALANCE"/>
             <Field sourceFieldName="Credit_postpid_Balance" targetFieldName="CREDIT_POSTPID_BALANCE"/>
-            <Field sourceFieldName="OTHER_MSISDN_DIALED_KEY" targetFieldName="OTHER_MSISDN_DIALED_KEY"/>
-            <Field sourceFieldName="SERVED_ROAM_DIALED_KEY" targetFieldName="SERVED_ROAM_DIALED_KEY"/>
-            <Field sourceFieldName="ZERO_CHARGE_IND" targetFieldName="ZERO_CHARGE_IND"/>
+            <Field sourceFieldName="" targetFieldName="OTHER_MSISDN_DIALED_KEY"/>
+            <Field sourceFieldName="" targetFieldName="SERVED_ROAM_DIALED_KEY"/>
+            <Field sourceFieldName="" targetFieldName="ZERO_CHARGE_IND"/>
             <Field sourceFieldName="ZERO_DURATION_IND" targetFieldName="ZERO_DURATION_IND"/>
-            <Field sourceFieldName="BLACK_LIST_IND" targetFieldName="BLACK_LIST_IND"/>
+            <Field sourceFieldName="BLACK_LIST_IND" targetFieldName="BLACK_LIST_IND" default="-97"/>
             <Field sourceFieldName="CHARGE" targetFieldName="CHARGE"/>
             <Field sourceFieldName="EVENT_DATE" targetFieldName="EVENT_DATE"/>
             <Field sourceFieldName="filename" targetFieldName="File_Name"/>
