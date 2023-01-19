@@ -160,8 +160,51 @@ public class CBS_VOICEEnrichmentUtil {
         return Optional.empty();
     }
 
+    String servedType, roamState, payType;
+
+    public Optional<String> getServedType() {
+        payType = getValue("PayType");
+        roamState = getValue("RoamState");
+
+        if (roamState != null) {
+            switch (roamState) {
+                case "3":
+                    switch (payType) {
+                        case "1":
+                            servedType = "5";
+                            break;
+                        case "0":
+                            servedType = "6";
+                            break;
+                        case "2":
+                            servedType = "8";
+                            break;
+                    }
+                    break;
+                case "0":
+                    switch (payType) {
+                        case "0":
+                            servedType = "2";
+                            break;
+                        case "1":
+                            servedType = "1";
+                            break;
+                        case "3":
+                            servedType = "7";
+                            break;
+                    }
+                    break;
+                default:
+                    servedType = payType;
+                    break;
+            }
+        }
+        if (servedType != null)
+            return Optional.of(servedType);
+        return Optional.empty();
+    }
+
     String onlineChargingFlag;
-//    if 1 then 'Online' elsif 2 then ''offline' else 'unknown'
 
     public Optional<String> getOnlineChargingFlag() {
         onlineChargingFlag = getValue("OnlineChargingFlag");
@@ -219,22 +262,23 @@ public class CBS_VOICEEnrichmentUtil {
         return Optional.empty();
     }
 
-    String zeroChargeInd;
+    String eventDirectionKey;
 
-    public Optional<String> getZeroChargeInd() {
-        zeroChargeInd = getValue("ACTUAL_USAGE");
-        if (zeroChargeInd != null) {
-            switch (zeroChargeInd) {
-                case "0":
-                    zeroChargeInd = "1";
+    public Optional<String> getEventDirectionKey() {
+        eventDirectionKey = getValue("ServiceFlow");
+        if (eventDirectionKey != null) {
+            switch (eventDirectionKey) {
+                case "1":
+                case "3":
+                    eventDirectionKey = "1";
                     break;
-                default:
-                    zeroChargeInd = "0";
+                case "2":
+                    eventDirectionKey = "2";
+                    break;
             }
         }
-
-        if (zeroChargeInd != null)
-            return Optional.of(zeroChargeInd);
+        if (eventDirectionKey != null)
+            return Optional.of(eventDirectionKey);
         return Optional.empty();
     }
 
@@ -242,18 +286,22 @@ public class CBS_VOICEEnrichmentUtil {
 
     public Optional<String> getZeroDurationInd() {
         zeroDurationInd = getValue("ACTUAL_USAGE");
-        if (zeroDurationInd != null) {
-            switch (zeroDurationInd) {
-                case "0":
-                    zeroDurationInd = "1";
-                    break;
-                default:
-                    zeroDurationInd = "0";
-            }
-        }
 
-        if (zeroDurationInd != null)
+        System.out.println("\n\nACTUAL_USAGE\n\n" + zeroDurationInd);
+//        if (zeroDurationInd != null) {
+//            switch (zeroDurationInd) {
+//                case "0":
+//                    zeroDurationInd = "1";
+//                    break;
+//                default:
+//                    zeroDurationInd = "0";
+//            }
+//        }
+
+        if (zeroDurationInd != null) {
+            System.out.println("\n\nACTUAL_USAGE1" + zeroDurationInd);
             return Optional.of(zeroDurationInd);
+        }
         return Optional.empty();
     }
 
@@ -271,11 +319,29 @@ public class CBS_VOICEEnrichmentUtil {
         return Optional.empty();
     }
 
+//    String acctId;
+
+//    public Optional<String> getAcctId(String ACCT_ID) {
+//        acctId = getValue(ACCT_ID);
+//        if (acctId != null) {
+//            try {
+//                Double.parseDouble(acctId);
+//                return Optional.of(acctId);
+//            } catch (Exception ignored) {
+//            }
+//        }
+//        return Optional.empty();
+//    }
+
     public Optional<String> getOtherMSISDN() {
         return Optional.empty();
     }
 
     public Optional<String> getServedMSISDN() {
+        return Optional.empty();
+    }
+
+    public Optional<String> getServedROAM() {
         return Optional.empty();
     }
 
