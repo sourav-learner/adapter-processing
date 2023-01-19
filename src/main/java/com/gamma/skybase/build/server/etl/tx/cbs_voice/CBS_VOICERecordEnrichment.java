@@ -8,6 +8,7 @@ import com.gamma.telco.opco.ReferenceDimDialDigit;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class CBS_VOICERecordEnrichment implements IEnrichment {
@@ -24,11 +25,11 @@ public class CBS_VOICERecordEnrichment implements IEnrichment {
 
         //  STATUS
         Optional<String> status = tx.getStatus();
-        status.ifPresent(s -> record.put("STATUS",s));
+        status.ifPresent(s -> record.put("STATUS", s));
 
-       // OBJ_TYPE
+        // OBJ_TYPE
         Optional<String> objType = tx.getObjType();
-        objType.ifPresent(s -> record.put("OBJ_TYPE",s));
+        objType.ifPresent(s -> record.put("OBJ_TYPE", s));
 
         // EVENT_START_TIME
         Optional<String> starTime = tx.getStartTime("CUST_LOCAL_START_DATE");
@@ -45,25 +46,33 @@ public class CBS_VOICERecordEnrichment implements IEnrichment {
         Optional<String> endTime = tx.getEndTime("CUST_LOCAL_START_DATE", "CUST_LOCAL_END_DATE");
         endTime.ifPresent(s -> record.put("CUST_LOCAL_END_DATE", s));
 
+        //  EVENT_DIRECTION_KEY
+        Optional<String> eventDirectionKey = tx.getEventDirectionKey();
+        eventDirectionKey.ifPresent(s -> record.put("ServiceFlow", s));
+
         // RESULT_CODE
         Optional<String> resultCode = tx.getResultCode();
-        resultCode.ifPresent(s -> record.put("RESULT_CODE",s));
+        resultCode.ifPresent(s -> record.put("RESULT_CODE", s));
 
         // ChargingTime
         Optional<String> chargingTime = tx.getChargingTime("ChargingTime");
-        chargingTime.ifPresent(s -> record.put("ChargingTime",s));
+        chargingTime.ifPresent(s -> record.put("ChargingTime", s));
+
+//      SERVED_TYPE
+        Optional<String> servedType = tx.getServedType();
+        servedType.ifPresent(s -> record.put("PayType", s));
 
         //  OnlineChargingFlag
         Optional<String> onlineChargingFlag = tx.getOnlineChargingFlag();
-        onlineChargingFlag.ifPresent(s -> record.put("OnlineChargingFlag",s));
+        onlineChargingFlag.ifPresent(s -> record.put("OnlineChargingFlag", s));
 
         //  GroupPayFlag
         Optional<String> groupPayFlag = tx.getGroupPayFlag();
-        groupPayFlag.ifPresent(s -> record.put("GroupPayFlag",s));
+        groupPayFlag.ifPresent(s -> record.put("GroupPayFlag", s));
 
         //  StartTimeOfBillCycle
         Optional<String> startTimeOfBill = tx.getStartTimeOfBillCycle("StartTimeOfBillCycle");
-        startTimeOfBill.ifPresent(s -> record.put("StartTimeOfBillCycle",s));
+        startTimeOfBill.ifPresent(s -> record.put("StartTimeOfBillCycle", s));
 
         // CHARGE, ZERO_CHRG_IND
         Optional<String> charge = tx.getCharge("DEBIT_AMOUNT");
@@ -73,12 +82,15 @@ public class CBS_VOICERecordEnrichment implements IEnrichment {
         });
 
 //        ZeroDurationInd
+        AtomicInteger zeroDurationIndDefault = new AtomicInteger(1);
         Optional<String> zeroDurationInd = tx.getZeroDurationInd();
-        zeroDurationInd.ifPresent(s -> record.put("ZERO_DURATION_IND", s));
+        zeroDurationInd.ifPresent(s -> {
+            if (!s.equals("0")) zeroDurationIndDefault.set(0);
+        });
+        record.put("ZERO_DURATION_IND", zeroDurationIndDefault.get());
 
-        // POPULATION_DATE_TIME , UPDATE_DATE_TIME , EVENT_DATE
+        // POPULATION_DATE_TIME
         record.put("POPULATION_DATE_TIME", tx.sdfT.get().format(new Date()));
-        record.put("UPDATE_DATE_TIME", tx.sdfT.get().format(new Date()));
 
         //  EVENT_DATE
         record.put("EVENT_DATE", tx.genFullDate);
@@ -92,7 +104,7 @@ public class CBS_VOICERecordEnrichment implements IEnrichment {
                 if (ddk != null) {
                     record.put("OTHER_MSISDN_DIALED_KEY", ddk.getDialDigitKey());
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
@@ -105,7 +117,19 @@ public class CBS_VOICERecordEnrichment implements IEnrichment {
                 if (ddk != null) {
                     record.put("SERVED_MSISDN_DIALED_KEY", ddk.getDialDigitKey());
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        Optional<String> servedROAM = tx.getServedROAM();
+        servedROAM.ifPresent(s -> {
+            try {
+                ReferenceDimDialDigit ddk = tx.getDialedDigitSettings(s);
+                if (ddk != null) {
+                    record.put("SERVED_ROAM_DIALED_KEY", ddk.getDialDigitKey());
+                }
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
