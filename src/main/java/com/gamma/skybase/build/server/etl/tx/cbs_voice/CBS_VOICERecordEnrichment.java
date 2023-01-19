@@ -89,9 +89,6 @@ public class CBS_VOICERecordEnrichment implements IEnrichment {
         });
         record.put("ZERO_DURATION_IND", zeroDurationIndDefault.get());
 
-        // POPULATION_DATE_TIME
-        record.put("POPULATION_DATE_TIME", tx.sdfT.get().format(new Date()));
-
         //  EVENT_DATE
         record.put("EVENT_DATE", tx.genFullDate);
 
