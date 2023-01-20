@@ -1,5 +1,6 @@
 package com.gamma.skybase.build.server.etl.decoder.cbs_recharge;
 
+import com.gamma.components.commons.constants.GammaConstants;
 import com.gamma.components.structure.IDatum;
 import com.gamma.decoder.ascii.DelimitedFileDecoder;
 import com.gamma.skybase.contract.decoders.IEnrichment;
@@ -11,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -50,6 +52,8 @@ public class CBS_RECHARGEFileExecutor extends CBS_RECHARGEFileProcessor {
             while (decoder.hasNext()) {
                 try {
                     LinkedHashMap<String, Object> record = decoder.next();
+                    if (jsonOutputRequired) jsonRecords.add(record);
+
                     record.put("fileName", metadata.decompFileName);
                     processRecord(record, enrichment);
                 } catch (Exception e) {
@@ -63,6 +67,12 @@ public class CBS_RECHARGEFileExecutor extends CBS_RECHARGEFileProcessor {
             }
             if (metadata.noOfBadRecord > 0) metadata.status = "partial";
             if (metadata.noOfParsedRecord == 0 && recCount > 0) metadata.status = "failed";
+
+            if (jsonOutputRequired) {
+                FileWriter writer = new FileWriter("out" + GammaConstants.PATH_SEP + fn + ".json");
+                writer.write(gson.toJson(jsonRecords));
+                writer.flush();
+            }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         } finally {
