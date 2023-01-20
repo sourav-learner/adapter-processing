@@ -51,6 +51,8 @@ public class CBS_VOICEFileExecutor extends CBS_VOICEFileProcessor {
             while (decoder.hasNext()) {
                 try {
                     LinkedHashMap<String, Object> record = decoder.next();
+                    if (jsonOutputRequired) jsonRecords.add(record);
+
                     record.put("fileName", metadata.decompFileName);
                     processRecord(record, enrichment);
                 } catch (Exception e) {
