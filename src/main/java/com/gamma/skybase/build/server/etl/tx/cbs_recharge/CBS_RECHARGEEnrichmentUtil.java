@@ -123,9 +123,6 @@ public class CBS_RECHARGEEnrichmentUtil {
 
     String payType;
 
-//    IF 0 THEN 'PREPAID ELSIF 2 THEN 'POSTPAID' ELSIF '3' THEN 'HYBRID' ELSE'UNKNOW'
-//      PayType
-
     public Optional<String> getServedType() {
         payType = getValue("PayType");
 
