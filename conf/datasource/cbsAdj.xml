@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Adapter Name="CBS_ADJ" Type="ASN.1" Version="1.0" Active="true" StatusDBHandler="mongo" rawJson="true"
-         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.cbs_adj.CBS_ADJFileExecutor" ExecMode="server"
-         txExecClass="com.gamma.skybase.build.server.etl.tx.cbs_adj.CBS_ADJRecordEnrichment" ignoreLogging="false"
+         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.cbs_adj.cbsAdjFileExecutor" ExecMode="server"
+         txExecClass="com.gamma.skybase.build.server.etl.tx.cbs_adj.cbsAdjRecordEnrichment" ignoreLogging="false"
          ignoreDuplicates="false" parallel="1" instance-size="1" load-factor="1" customized="enable">
 
     <!--Extraction tag-->
@@ -490,13 +490,13 @@
             <Field sourceFieldName="ACCOUNT"/>
             <Field sourceFieldName="MAIN_BALANCE_INFO"/>
             <Field sourceFieldName="CHG_BALANCE_INFO"/>
-            <Field sourceFieldName="CHG_FREEUNIT_INFO"/>
+            <Field sourceFieldName="CHG_FREE_UNIT_INFO"/>
             <Field sourceFieldName="USER_STATE"/>
             <Field sourceFieldName="OLD_USER_STATE"/>
             <Field sourceFieldName="SPID"/>
             <Field sourceFieldName="ADDITIONAL_INFO"/>
             <Field sourceFieldName="MERCHANT"/>
-            <Field sourceFieldName="SERVICE" />
+            <Field sourceFieldName="SERVICE"/>
             <Field sourceFieldName="filename" targetFieldName="FILE_NAME"/>
             <Field  sourceFieldName="EVENT_DATE" targetFieldName="EVENT_DATE"/>
             <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
