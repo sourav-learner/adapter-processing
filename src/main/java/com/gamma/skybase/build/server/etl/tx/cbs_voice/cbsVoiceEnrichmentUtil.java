@@ -2,7 +2,6 @@ package com.gamma.skybase.build.server.etl.tx.cbs_voice;
 
 import com.gamma.components.commons.app.AppConfig;
 import com.gamma.telco.OpcoBusinessTransformation;
-import com.gamma.telco.opco.ReferenceDimDialDigit;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,20 +34,6 @@ public class cbsVoiceEnrichmentUtil {
             if (!s1.equals("")) return s1;
         }
         return null;
-    }
-
-    Long callDuration;
-
-    public Optional<String> getCallDuration(String field) {
-        String s = getValue(field);
-        callDuration = 0L;
-        try {
-            if (s != null)
-                callDuration = Long.parseLong(s);
-            return Optional.of(String.valueOf(callDuration));
-        } catch (NumberFormatException e) { // Ignore non numbers
-        }
-        return Optional.empty();
     }
 
     Date callStartTime;
