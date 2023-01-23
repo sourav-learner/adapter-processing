@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class CBS_GPRSRecordEnrichment implements IEnrichment {
+public class cbsGprsRecordEnrichment implements IEnrichment {
 
     private AppConfig appConfig = AppConfig.instance();
     private final ThreadLocal<SimpleDateFormat> sdfS = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMddHHmmss"));
@@ -19,7 +19,7 @@ public class CBS_GPRSRecordEnrichment implements IEnrichment {
         MEnrichmentResponse response = new MEnrichmentResponse();
         LinkedHashMap<String, Object> record = request.getRequest();
 
-        CBS_GPRSEnrichmentUtil tx = CBS_GPRSEnrichmentUtil.of(record);
+        cbsGprsEnrichmentUtil tx = cbsGprsEnrichmentUtil.of(record);
 
         //  STATUS
         Optional<String> status = tx.getStatus();
@@ -33,7 +33,7 @@ public class CBS_GPRSRecordEnrichment implements IEnrichment {
         });
 
         // EVENT_END_TIME
-        Optional<String> endTime = tx.getEndTime("CUST_LOCAL_START_DATE", "CUST_LOCAL_END_DATE");
+        Optional<String> endTime = tx.getEndTime("CUST_LOCAL_END_DATE");
         endTime.ifPresent(s -> record.put("CUST_LOCAL_END_DATE", s));
 
         // OBJ_TYPE
@@ -44,10 +44,6 @@ public class CBS_GPRSRecordEnrichment implements IEnrichment {
         Optional<String> resultCode = tx.getResultCode();
         resultCode.ifPresent(s -> record.put("RESULT_CODE", s));
 
-//      USAGE_MEASURE_ID
-        Optional<String> usageMeasureId = tx.getUsageMeasureId();
-        usageMeasureId.ifPresent(s -> record.put("USAGE_MEASURE_ID", s));
-
         //  EVENT_DIRECTION_KEY
         Optional<String> eventDirectionKey = tx.getEventDirectionKey();
         eventDirectionKey.ifPresent(s -> record.put("ServiceFlow", s));
@@ -55,20 +51,6 @@ public class CBS_GPRSRecordEnrichment implements IEnrichment {
         // ChargingTime
         Optional<String> chargingTime = tx.getChargingTime("ChargingTime");
         chargingTime.ifPresent(s -> record.put("ChargingTime", s));
-
-
-        // UploadVolume
-        Optional<Long> uploadVolume = tx.getUploadVolume("UpFlux");
-        uploadVolume.ifPresent(s -> record.put("UpFlux", s));
-
-        // DownloadVolume
-        Optional<Long> downloadVolume = tx.getDownloadVolume("DownFlux");
-        downloadVolume.ifPresent(s -> record.put("DownFlux", s));
-
-        // TotalFlux
-        Optional<Long> totalFlux = tx.getTotalVol("TotalFlux");
-        totalFlux.ifPresent(s -> record.put("TotalFlux", s));
-
 
 //      SERVED_TYPE
         Optional<String> servedType = tx.getServedType();
@@ -82,7 +64,6 @@ public class CBS_GPRSRecordEnrichment implements IEnrichment {
         Optional<String> startTimeOfBill = tx.getStartTimeOfBillCycle("StartTimeOfBillCycle");
         startTimeOfBill.ifPresent(s -> record.put("StartTimeOfBillCycle", s));
 
-
         // CHARGE, ZERO_CHRG_IND
         Optional<Double> charge = tx.getCharge("DEBIT_AMOUNT");
         charge.ifPresent(s -> {
@@ -90,9 +71,30 @@ public class CBS_GPRSRecordEnrichment implements IEnrichment {
             record.put("ZERO_CHARGE_IND", s == 0 ? "1" : "0");
         });
 
+        // UploadVolume
+        Optional<Long> uploadVolume = tx.getUploadVolume("UpFlux");
+        uploadVolume.ifPresent(s -> record.put("COMPUTED_UPLOAD_VOL", s));
+        String UpFlux = tx.getValue("UpFlux");
+        record.put("UpFlux", UpFlux);
+
+        // DownloadVolume
+        Optional<Long> downloadVolume = tx.getDownloadVolume("DownFlux");
+        downloadVolume.ifPresent(s -> record.put("COMPUTED_DOWNLOAD_VOL", s));
+        String DownFlux = tx.getValue("DownFlux");
+        record.put("DownFlux", DownFlux);
+
+        // TotalFlux
+        Optional<Long> totalFlux = tx.getTotalVol("TotalFlux");
+        totalFlux.ifPresent(s -> record.put("COMPUTED_TOTAL_VOL", s));
+        String TotalFlux = tx.getValue("TotalFlux");
+        record.put("TotalFlux", TotalFlux);
+
+//      SERVICE_CATEGORY
+        String serviceCategory = tx.getValue("SERVICE_CATEGORY");
+        record.put("SERVICE_CATEGORY1",serviceCategory);
+
         record.put("FILE_NAME", record.get("fileName"));
         record.put("POPULATION_DATE", sdfT.get().format(new Date()));
-
 
         // POPULATION_DATE_TIME , EVENT_DATE
         record.put("POPULATION_DATE_TIME", tx.sdfT.get().format(new Date()));
