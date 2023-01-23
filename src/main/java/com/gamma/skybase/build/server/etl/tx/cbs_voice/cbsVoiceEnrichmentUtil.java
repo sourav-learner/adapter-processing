@@ -3,13 +3,12 @@ package com.gamma.skybase.build.server.etl.tx.cbs_voice;
 import com.gamma.components.commons.app.AppConfig;
 import com.gamma.telco.OpcoBusinessTransformation;
 import com.gamma.telco.opco.ReferenceDimDialDigit;
-import com.gamma.telco.utility.reference.ReferenceDimTadigLookup;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class CBS_VOICEEnrichmentUtil {
+public class cbsVoiceEnrichmentUtil {
     private final AppConfig appConfig = AppConfig.instance();
     private final String homePlmnCode = appConfig.getProperty("app.datasource.plmn");
     private final OpcoBusinessTransformation txLib = new OpcoBusinessTransformation();
@@ -21,12 +20,12 @@ public class CBS_VOICEEnrichmentUtil {
             () -> new SimpleDateFormat("yyyyMMddHHmmss"));
     LinkedHashMap<String, Object> rec;
 
-    private CBS_VOICEEnrichmentUtil(LinkedHashMap<String, Object> record) {
+    private cbsVoiceEnrichmentUtil(LinkedHashMap<String, Object> record) {
         rec = record;
     }
 
-    public static CBS_VOICEEnrichmentUtil of(LinkedHashMap<String, Object> record) {
-        return new CBS_VOICEEnrichmentUtil(record);
+    public static cbsVoiceEnrichmentUtil of(LinkedHashMap<String, Object> record) {
+        return new cbsVoiceEnrichmentUtil(record);
     }
 
     public String getValue(String field) {
@@ -70,14 +69,17 @@ public class CBS_VOICEEnrichmentUtil {
 
     Date callEndTime;
 
-    public Optional<String> getEndTime(String time, String callEventDuration) {
-        if (callDuration == null) getCallDuration(callEventDuration);
-        if (callStartTime == null) getStartTime(time);
-
-        if (callStartTime == null || callDuration == null) return Optional.empty();
-
-        callEndTime = new Date(callStartTime.getTime() / 1000 + callDuration);
-        return Optional.of(sdfT.get().format(callEndTime));
+    public Optional<String> getEndTime(String field) {
+        String s = getValue(field);
+        try {
+            if (s != null) {
+                callEndTime = sdfS.get().parse(s);
+                return Optional.of(sdfT.get().format(callEndTime));
+            }
+        }
+        catch (Exception e){
+        }
+        return Optional.empty();
     }
 
     String status;
@@ -192,7 +194,7 @@ public class CBS_VOICEEnrichmentUtil {
                         case "1":
                             servedType = "1";
                             break;
-                        case "3":
+                        case "2":
                             servedType = "7";
                             break;
                     }
@@ -267,12 +269,12 @@ public class CBS_VOICEEnrichmentUtil {
         return Optional.empty();
     }
 
-    String eventDirectionKey;
+    String eventDirectionKey , serviceFlow;
 
     public Optional<String> getEventDirectionKey() {
-        eventDirectionKey = getValue("ServiceFlow");
-        if (eventDirectionKey != null) {
-            switch (eventDirectionKey) {
+        serviceFlow = getValue("ServiceFlow");
+        if (serviceFlow != null) {
+            switch (serviceFlow) {
                 case "1":
                 case "3":
                     eventDirectionKey = "1";
@@ -310,21 +312,5 @@ public class CBS_VOICEEnrichmentUtil {
             }
         }
         return Optional.empty();
-    }
-
-    public Optional<String> getOtherMSISDN() {
-        return Optional.empty();
-    }
-
-    public Optional<String> getServedMSISDN() {
-        return Optional.empty();
-    }
-
-    public Optional<String> getServedROAM() {
-        return Optional.empty();
-    }
-
-    ReferenceDimDialDigit getDialedDigitSettings(String otherMSISDN) {
-        return txLib.getDialedDigitSettings(otherMSISDN);
     }
 }
