@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Adapter Name="CBS_SMS" Type="ASN.1" Version="1.0" Active="true" StatusDBHandler="mongo" rawJson="true"
-         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.cbs_sms.CBS_SMSFileExecutor" ExecMode="server"
-         txExecClass="com.gamma.skybase.build.server.etl.tx.cbs_sms.CBS_SMSRecordEnrichment" ignoreLogging="false"
+         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.cbs_sms.cbsSmsFileExecutor" ExecMode="server"
+         txExecClass="com.gamma.skybase.build.server.etl.tx.cbs_sms.cbsSmsRecordEnrichment" ignoreLogging="false"
          ignoreDuplicates="false" parallel="1" instance-size="1" load-factor="1" customized="enable">
 
     <!--Extraction tag-->
@@ -458,6 +458,9 @@
             <Field sourceFieldName="ZERO_DURATION_IND" targetFieldName="ZERO_DURATION_IND"/>
             <Field sourceFieldName="BLACK_LIST_IND" targetFieldName="BLACK_LIST_IND" default="-97"/>
             <Field sourceFieldName="CHARGE" targetFieldName="CHARGE"/>
+            <Field sourceFieldName="PAY_TYPE"/>
+            <Field sourceFieldName="SERVICE_FLOW"/>
+            <Field sourceFieldName="SERVICE_CATEGORY1"/>
             <Field sourceFieldName="EVENT_DATE" targetFieldName="EVENT_DATE"/>
             <Field sourceFieldName="filename" targetFieldName="File_Name"/>
             <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
