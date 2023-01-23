@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Optional;
 
-public class CBS_GPRSEnrichmentUtil {
+public class cbsGprsEnrichmentUtil {
     private final AppConfig appConfig = AppConfig.instance();
     private final String homePlmnCode = appConfig.getProperty("app.datasource.plmn");
     private final OpcoBusinessTransformation txLib = new OpcoBusinessTransformation();
@@ -21,12 +21,12 @@ public class CBS_GPRSEnrichmentUtil {
             () -> new SimpleDateFormat("yyyyMMddHHmmss"));
     LinkedHashMap<String, Object> rec;
 
-    private CBS_GPRSEnrichmentUtil(LinkedHashMap<String, Object> record) {
+    private cbsGprsEnrichmentUtil(LinkedHashMap<String, Object> record) {
         rec = record;
     }
 
-    public static CBS_GPRSEnrichmentUtil of(LinkedHashMap<String, Object> record) {
-        return new CBS_GPRSEnrichmentUtil(record);
+    public static cbsGprsEnrichmentUtil of(LinkedHashMap<String, Object> record) {
+        return new cbsGprsEnrichmentUtil(record);
     }
 
     public String getValue(String field) {
@@ -36,20 +36,6 @@ public class CBS_GPRSEnrichmentUtil {
             if (!s1.equals("")) return s1;
         }
         return null;
-    }
-
-    Long callDuration;
-
-    public Optional<String> getCallDuration(String field) {
-        String s = getValue(field);
-        callDuration = 0L;
-        try {
-            if (s != null)
-                callDuration = Long.parseLong(s);
-            return Optional.of(String.valueOf(callDuration));
-        } catch (NumberFormatException e) { // Ignore non numbers
-        }
-        return Optional.empty();
     }
 
     String status;
@@ -92,14 +78,17 @@ public class CBS_GPRSEnrichmentUtil {
 
     Date callEndTime;
 
-    public Optional<String> getEndTime(String time, String callEventDuration) {
-        if (callDuration == null) getCallDuration(callEventDuration);
-        if (callStartTime == null) getStartTime(time);
-
-        if (callStartTime == null || callDuration == null) return Optional.empty();
-
-        callEndTime = new Date(callStartTime.getTime() / 1000 + callDuration);
-        return Optional.of(sdfT.get().format(callEndTime));
+    public Optional<String> getEndTime(String field) {
+        String s = getValue(field);
+        try {
+            if (s != null) {
+                callEndTime = sdfS.get().parse(s);
+                return Optional.of(sdfT.get().format(callEndTime));
+            }
+        }
+        catch (Exception e){
+        }
+        return Optional.empty();
     }
 
     String objType;
@@ -146,31 +135,6 @@ public class CBS_GPRSEnrichmentUtil {
         }
         if (resultCode != null)
             return Optional.of(resultCode);
-        return Optional.empty();
-    }
-
-    String usageMeasureId;
-
-    public Optional<String> getUsageMeasureId() {
-        usageMeasureId = getValue("USAGE_MEASURE_ID");
-        if (usageMeasureId != null) {
-            switch (usageMeasureId) {
-                case "1003":
-                    usageMeasureId = "Seconds";
-                    break;
-                case "1002":
-                    usageMeasureId = "SMS Event";
-                    break;
-                case "1006":
-                    usageMeasureId = "DATA";
-                    break;
-                default:
-                    usageMeasureId = "-99";
-                    break;
-            }
-        }
-        if (usageMeasureId != null)
-            return Optional.of(usageMeasureId);
         return Optional.empty();
     }
 
@@ -284,7 +248,7 @@ public class CBS_GPRSEnrichmentUtil {
                         case "1":
                             servedType = "1";
                             break;
-                        case "3":
+                        case "2":
                             servedType = "7";
                             break;
                     }
