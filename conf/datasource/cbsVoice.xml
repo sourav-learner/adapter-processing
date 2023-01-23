@@ -5,7 +5,8 @@
          ignoreDuplicates="false" parallel="1" instance-size="1" load-factor="1" customized="enable">
 
     <!--Extraction tag-->
-    <Extraction type="sniff" protocol="local" execClass="com.gamma.skybase.server.core.collector.sniff.DefaultSniffingExtractionAgent">
+    <Extraction type="sniff" protocol="local"
+                execClass="com.gamma.skybase.server.core.collector.sniff.DefaultSniffingExtractionAgent">
         <Settings host="" port="" path="/raetl/processing/cbs_voice/poll" username="" password="">
             <Signature required="false" key=""/>
             <Extract pattern="" metaFields="fileName\" dateFieldPattern="yyyyMMdd"/>
@@ -374,18 +375,18 @@
             <Field sourceFieldName="FR10_CURRENT_AMOUNT"/>
             <Field sourceFieldName="FR10_FU_MEASURE_ID"/>
             <Field sourceFieldName="FR10_OPER_TYPE"/>
-            <Field sourceFieldName="CallingPartyNumber" targetFieldName="SERVED_MSISDN"/>
-            <Field sourceFieldName="CalledPartyNumber" targetFieldName="OTHER_MSISDN"/>
-            <Field sourceFieldName="CallingPartyIMSI" targetFieldName="SERVED_IMSI"/>
-            <Field sourceFieldName="CalledPartyIMSI" targetFieldName="OTHER_IMSI"/>
+            <Field sourceFieldName="SERVED_MSISDN"/>
+            <Field sourceFieldName="OTHER_MSISDN"/>
+            <Field sourceFieldName="SERVED_IMSI"/>
+            <Field sourceFieldName="OTHER_IMSI"/>
             <Field sourceFieldName="DialedNumber" targetFieldName="DIALED_NUMBER"/>
             <Field sourceFieldName="OriginalCalledParty" targetFieldName="THIRD_PARTY_MSISDN"/>
             <Field sourceFieldName="ServiceFlow" targetFieldName="EVENT_DIRECTION_KEY"/>
             <Field sourceFieldName="CallForwardIndicator" targetFieldName="CFIND"/>
-            <Field sourceFieldName="CallingRoamInfo" targetFieldName="SERVED_PLMN"/>
-            <Field sourceFieldName="CallingCellID" targetFieldName="SERVED_CELL"/>
-            <Field sourceFieldName="CalledRoamInfo" targetFieldName="OTHER_PLMN"/>
-            <Field sourceFieldName="CalledCellID" targetFieldName="OTHER_CEll"/>
+            <Field sourceFieldName="SERVED_PLMN"/>
+            <Field sourceFieldName="SERVED_CELL"/>
+            <Field sourceFieldName="OTHER_PLMN"/>
+            <Field sourceFieldName="OTHER_CEll"/>
             <Field sourceFieldName="TimeStampOfSSP" targetFieldName="TIME_STAMP_OfSSP"/>
             <Field sourceFieldName="TimeZoneOfSSP" targetFieldName="TIME_ZONE_OF_SSP"/>
             <Field sourceFieldName="BearerCapability" targetFieldName="BEARER_CAPABILITY"/>
@@ -406,35 +407,35 @@
             <Field sourceFieldName="ChargingType" targetFieldName="CHARGING_TYPE"/>
             <Field sourceFieldName="CallType" targetFieldName="CALL_TYPE"/>
             <Field sourceFieldName="RoamState" targetFieldName="ROAM_STATE"/>
-            <Field sourceFieldName="CallingHomeCountryCode" targetFieldName="SERVED_CC"/>
-            <Field sourceFieldName="CallingHomeAreaNumber" targetFieldName="SERVED_AREA_CODE"/>
-            <Field sourceFieldName="CallingHomeNetworkCode" targetFieldName="SERVED_NETWORK_CODE"/>
-            <Field sourceFieldName="CallingRoamCountryCode" targetFieldName="SERVE_ROAMING_CC"/>
-            <Field sourceFieldName="CallingRoamAreaNumber" targetFieldName="SERVED_ROAM_AREA_CODE"/>
-            <Field sourceFieldName="CallingRoamNetworkCode" targetFieldName="SERVED_ROAM_NETWORK_CODE"/>
-            <Field sourceFieldName="CalledHomeCountryCode" targetFieldName="OTHER_CC"/>
-            <Field sourceFieldName="CalledHomeAreaNumber" targetFieldName="OTHER_AREA_CODE"/>
-            <Field sourceFieldName="CalledHomeNetworkCode" targetFieldName="OTHER_NETWORK_CODE"/>
-            <Field sourceFieldName="CalledRoamCountryCode" targetFieldName="OTHER_ROAM_CC"/>
-            <Field sourceFieldName="CalledRoamAreaNumber" targetFieldName="OTHER_ROAM_AREA_CODE"/>
-            <Field sourceFieldName="CalledRoamNetworkCode" targetFieldName="OTHER_ROAM_NETWORK_CODE"/>
+            <Field sourceFieldName="SERVED_CC"/>
+            <Field sourceFieldName="SERVED_AREA_CODE"/>
+            <Field sourceFieldName="SERVED_NETWORK_CODE"/>
+            <Field sourceFieldName="SERVE_ROAMING_CC"/>
+            <Field sourceFieldName="SERVED_ROAM_AREA_CODE"/>
+            <Field sourceFieldName="SERVED_ROAM_NETWORK_CODE"/>
+            <Field sourceFieldName="OTHER_CC"/>
+            <Field sourceFieldName="OTHER_AREA_CODE"/>
+            <Field sourceFieldName="OTHER_NETWORK_CODE"/>
+            <Field sourceFieldName="OTHER_ROAM_CC"/>
+            <Field sourceFieldName="OTHER_ROAM_AREA_CODE"/>
+            <Field sourceFieldName="OTHER_ROAM_NETWORK_CODE"/>
             <Field sourceFieldName="ServiceType" targetFieldName="SERVICE_TYPE"/>
             <Field sourceFieldName="HotLineIndicator" targetFieldName="HOT_LINE_INDICATOR"/>
             <Field sourceFieldName="HomeZoneID" targetFieldName="HOME_ZONE_ID"/>
             <Field sourceFieldName="SpecialZoneID" targetFieldName="SPECIAL_ZONE_ID"/>
             <Field sourceFieldName="NPFlag" targetFieldName="NP_FLAG"/>
             <Field sourceFieldName="NPPrefix" targetFieldName="NP_Prefix"/>
-            <Field sourceFieldName="CallingCUGNo" targetFieldName="SERVED_CUG"/>
-            <Field sourceFieldName="CalledCUGNo" targetFieldName="OTHER_CUG"/>
-            <Field sourceFieldName="OpposeNumberType" targetFieldName="OPPOSE_NW_TYPE"/>
-            <Field sourceFieldName="CallingNetworkType" targetFieldName="SERVED_NW_TYPE"/>
-            <Field sourceFieldName="CalledNetworkType" targetFieldName="OTHER_NW_TYPE"/>
-            <Field sourceFieldName="CallingVPNTopGroupNumber" targetFieldName="SERVED_VPN_TOP_GROUP_NUBMER"/>
-            <Field sourceFieldName="CallingVPNGroupNumber" targetFieldName="SERVED_VPN_GROUP_NUMBER"/>
-            <Field sourceFieldName="CallingVPNShortNumber" targetFieldName="SERVED_VPN_SHORT_NUMBER"/>
-            <Field sourceFieldName="CalledVPNTopGroupNumber" targetFieldName="OTHER_VPN_TOP_GROUP_NUMBER"/>
-            <Field sourceFieldName="CalledVPNGroupNumber" targetFieldName="OTHER_VPN_GROUP_NUMBER"/>
-            <Field sourceFieldName="CalledVPNShortNumber" targetFieldName="OTHER_VPN_SHORT_NUMBER"/>
+            <Field sourceFieldName="SERVED_CUG"/>
+            <Field sourceFieldName="OTHER_CUG"/>
+            <Field sourceFieldName="OPPOSE_NW_TYPE"/>
+            <Field sourceFieldName="SERVED_NW_TYPE"/>
+            <Field sourceFieldName="OTHER_NW_TYPE"/>
+            <Field sourceFieldName="SERVED_VPN_TOP_GROUP_NUBMER"/>
+            <Field sourceFieldName="SERVED_VPN_GROUP_NUMBER"/>
+            <Field sourceFieldName="SERVED_VPN_SHORT_NUMBER"/>
+            <Field sourceFieldName="OTHER_VPN_TOP_GROUP_NUMBER"/>
+            <Field sourceFieldName="OTHER_VPN_GROUP_NUMBER"/>
+            <Field sourceFieldName="OTHER_VPN_SHORT_NUMBER"/>
             <Field sourceFieldName="GroupCallType" targetFieldName="GROUP_CALL_TYPE"/>
             <Field sourceFieldName="OnlineChargingFlag" targetFieldName="ONLINE_CHARGING_FLAG"/>
             <Field sourceFieldName="StartTimeOfBillCycle" targetFieldName="START_TIME_OF_BILL_CYCLE"/>
