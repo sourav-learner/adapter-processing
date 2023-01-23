@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-public class CBS_SMSRecordEnrichment implements IEnrichment {
+public class cbsSmsRecordEnrichment implements IEnrichment {
 
     private AppConfig appConfig = AppConfig.instance();
     private final ThreadLocal<SimpleDateFormat> sdfS = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMddHHmmss"));
@@ -20,7 +20,7 @@ public class CBS_SMSRecordEnrichment implements IEnrichment {
         MEnrichmentResponse response = new MEnrichmentResponse();
         LinkedHashMap<String, Object> record = request.getRequest();
 
-        CBS_SMSEnrichmentUtil tx = CBS_SMSEnrichmentUtil.of(record);
+        cbsSmsEnrichmentUtil tx = cbsSmsEnrichmentUtil.of(record);
 
         //  STATUS
         Optional<String> status = tx.getStatus();
@@ -34,7 +34,7 @@ public class CBS_SMSRecordEnrichment implements IEnrichment {
         });
 
         // EVENT_END_TIME
-        Optional<String> endTime = tx.getEndTime("CUST_LOCAL_START_DATE", "CUST_LOCAL_END_DATE");
+        Optional<String> endTime = tx.getEndTime("CUST_LOCAL_END_DATE");
         endTime.ifPresent(s -> record.put("CUST_LOCAL_END_DATE", s));
 
         // OBJ_TYPE
@@ -44,10 +44,6 @@ public class CBS_SMSRecordEnrichment implements IEnrichment {
         // RESULT_CODE
         Optional<String> resultCode = tx.getResultCode();
         resultCode.ifPresent(s -> record.put("RESULT_CODE", s));
-
-//      USAGE_MEASURE_ID
-        Optional<String> usageMeasureId = tx.getUsageMeasureId();
-        usageMeasureId.ifPresent(s -> record.put("USAGE_MEASURE_ID", s));
 
         //  EVENT_DIRECTION_KEY
         Optional<String> eventDirectionKey = tx.getEventDirectionKey();
@@ -64,7 +60,6 @@ public class CBS_SMSRecordEnrichment implements IEnrichment {
 //        RefundIndicator
         Optional<String> refundIndicator = tx.getRefundIndicator();
         refundIndicator.ifPresent(s -> record.put("RefundIndicator", s));
-
 
 //      SERVED_TYPE
         Optional<String> servedType = tx.getServedType();
@@ -100,6 +95,18 @@ public class CBS_SMSRecordEnrichment implements IEnrichment {
             if (!s.equals("0")) zeroDurationIndDefault.set(0);
         });
         record.put("ZERO_DURATION_IND", zeroDurationIndDefault.get());
+
+        // PAY_TYPE
+        String payType = tx.getValue("PayType");
+        record.put("PAY_TYPE", payType);
+
+        //SERVICE_FLOW
+        String serviceFlow = tx.getValue("ServiceFlow");
+        record.put("SERVICE_FLOW", serviceFlow);
+
+//      SERVICE_CATEGORY
+        String serviceCategory = tx.getValue("SERVICE_CATEGORY");
+        record.put("SERVICE_CATEGORY1",serviceCategory);
 
 //        FILE_NAME , POPULATION_DATE , EVENT_DATE
         record.put("FILE_NAME", record.get("fileName"));
