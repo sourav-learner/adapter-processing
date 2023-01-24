@@ -54,7 +54,7 @@
             <Field sourceFieldName="BE_ID"/>
             <Field sourceFieldName="HOT_SEQ"/>
             <Field sourceFieldName="CP_ID"/>
-            <Field sourceFieldName="RECIPIENT_NUMBER" targetFieldName="OTHER_MSISDN1"/>
+            <Field sourceFieldName="RECIPIENT_NUMBER" targetFieldName="OTHER_MSISDN"/>
             <Field sourceFieldName="USAGE_MEASURE_ID"/>
             <Field sourceFieldName="ACTUAL_USAGE" targetFieldName="ORIGINAL_DURATION"/>
             <Field sourceFieldName="RATE_USAGE" targetFieldName="RATED_DURATION"/>
