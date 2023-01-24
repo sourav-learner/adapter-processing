@@ -54,7 +54,7 @@ public class cbsGprsRecordEnrichment implements IEnrichment {
 
 //      SERVED_TYPE
         Optional<String> servedType = tx.getServedType();
-        servedType.ifPresent(s -> record.put("PayType", s));
+        servedType.ifPresent(s -> record.put("SERVED_TYPE", s));
 
         //  OnlineChargingFlag
         Optional<String> onlineChargingFlag = tx.getOnlineChargingFlag();
@@ -92,6 +92,10 @@ public class cbsGprsRecordEnrichment implements IEnrichment {
 //      SERVICE_CATEGORY
         String serviceCategory = tx.getValue("SERVICE_CATEGORY");
         record.put("SERVICE_CATEGORY1",serviceCategory);
+
+        // PAY_TYPE
+        String payType = tx.getValue("PayType");
+        record.put("PAY_TYPE", payType);
 
         record.put("FILE_NAME", record.get("fileName"));
         record.put("POPULATION_DATE", sdfT.get().format(new Date()));
