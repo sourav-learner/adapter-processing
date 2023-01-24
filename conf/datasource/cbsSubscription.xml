@@ -382,7 +382,7 @@
             <Field sourceFieldName="OPERATION_TYPE"/>
             <Field sourceFieldName="BRAND_ID"/>
             <Field sourceFieldName="MAIN_OFFERING_ID"/>
-            <Field sourceFieldName="PayType" targetFieldName="SERVED_TYPE"/>
+            <Field sourceFieldName="SERVED_TYPE"/>
             <Field sourceFieldName="START_TIME_OF_BILL_CYCLE"/>
             <Field sourceFieldName="RESERVE"/>
             <Field sourceFieldName="MERCHANT"/>
@@ -408,7 +408,9 @@
             <Field sourceFieldName="ACCESS_METHOD"/>
             <Field sourceFieldName="ADVANCE_PREPAID_BALANCE"/>
             <Field sourceFieldName="CREDIT_POSTPAID_BALANCE"/>
+            <Field sourceFieldName="SERVICE_CATEGORY1"/>
             <Field sourceFieldName="EVENT_DATE"/>
+            <Field sourceFieldName="PAY_TYPE"/>
             <Field sourceFieldName="filename" targetFieldName="FILE_NAME"/>
             <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
             <Field sourceFieldName="POPULATION_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
