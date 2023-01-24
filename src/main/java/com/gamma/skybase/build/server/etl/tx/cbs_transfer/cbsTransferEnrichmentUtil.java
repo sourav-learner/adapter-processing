@@ -1,8 +1,5 @@
 package com.gamma.skybase.build.server.etl.tx.cbs_transfer;
 
-import com.gamma.components.commons.app.AppConfig;
-import com.gamma.telco.OpcoBusinessTransformation;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,9 +7,6 @@ import java.util.LinkedHashMap;
 import java.util.Optional;
 
 public class cbsTransferEnrichmentUtil {
-    private final AppConfig appConfig = AppConfig.instance();
-    private final String homePlmnCode = appConfig.getProperty("app.datasource.plmn");
-    private final OpcoBusinessTransformation txLib = new OpcoBusinessTransformation();
     final ThreadLocal<SimpleDateFormat> sdfT = ThreadLocal.withInitial(
             () -> new SimpleDateFormat("yyyyMMdd HH:mm:ss"));
     final ThreadLocal<SimpleDateFormat> fullDate = ThreadLocal.withInitial(
@@ -143,7 +137,7 @@ public class cbsTransferEnrichmentUtil {
         return Optional.empty();
     }
 
-    String payType;
+    String payType , servedType;
 
     public Optional<String> getServedType() {
         payType = getValue("PayType");
@@ -151,21 +145,21 @@ public class cbsTransferEnrichmentUtil {
         if (payType != null) {
             switch (payType) {
                 case "0":
-                    payType = "PREPAID";
+                    servedType = "PREPAID";
+                    break;
+                case "1":
+                    servedType = "POSTPAID";
                     break;
                 case "2":
-                    payType = "POSTPAID";
-                    break;
-                case "3":
-                    payType = "HYBRID";
+                    servedType = "HYBRID";
                     break;
                 default:
-                    payType = "UNKNOW";
+                    servedType = "UNKNOW";
                     break;
             }
         }
-        if (payType != null)
-            return Optional.of(payType);
+        if (servedType != null)
+            return Optional.of(servedType);
         return Optional.empty();
     }
 }
