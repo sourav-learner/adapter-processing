@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class CBS_RECHARGERecordEnrichment implements IEnrichment {
+public class cbsRechargeRecordEnrichment implements IEnrichment {
 
     private AppConfig appConfig = AppConfig.instance();
     private final ThreadLocal<SimpleDateFormat> sdfS = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMddHHmmss"));
@@ -19,7 +19,7 @@ public class CBS_RECHARGERecordEnrichment implements IEnrichment {
         MEnrichmentResponse response = new MEnrichmentResponse();
         LinkedHashMap<String, Object> record = request.getRequest();
 
-        CBS_RECHARGEEnrichmentUtil tx = CBS_RECHARGEEnrichmentUtil.of(record);
+        cbsRechargeEnrichmentUtil tx = cbsRechargeEnrichmentUtil.of(record);
 
         // ENTRY_DATE
         Optional<String> starTime = tx.getStartTime("ENTRY_DATE");
@@ -37,8 +37,12 @@ public class CBS_RECHARGERecordEnrichment implements IEnrichment {
         status.ifPresent(s -> record.put("STATUS", s));
 
 //      SERVED_TYPE
-        Optional<String> payType = tx.getServedType();
-        payType.ifPresent(s -> record.put("PayType", s));
+        Optional<String> servedType = tx.getServedType();
+        servedType.ifPresent(s -> record.put("SERVED_TYPE", s));
+
+        // PAY_TYPE
+        String payType = tx.getValue("PayType");
+        record.put("PAY_TYPE", payType);
 
 //        FILE_NAME , POPULATION_DATE
         record.put("FILE_NAME", record.get("fileName"));
