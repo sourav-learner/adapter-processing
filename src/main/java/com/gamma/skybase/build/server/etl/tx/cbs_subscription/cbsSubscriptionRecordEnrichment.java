@@ -1,18 +1,14 @@
 package com.gamma.skybase.build.server.etl.tx.cbs_subscription;
 
-import com.gamma.components.commons.app.AppConfig;
 import com.gamma.skybase.contract.decoders.IEnrichment;
 import com.gamma.skybase.contract.decoders.MEnrichmentReq;
 import com.gamma.skybase.contract.decoders.MEnrichmentResponse;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class cbsSubscriptionRecordEnrichment implements IEnrichment {
 
-    private AppConfig appConfig = AppConfig.instance();
-    private final ThreadLocal<SimpleDateFormat> sdfS = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMddHHmmss"));
     private final ThreadLocal<SimpleDateFormat> sdfT = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMdd HH:mm:ss"));
 
     public MEnrichmentResponse transform(MEnrichmentReq request) {
@@ -33,7 +29,7 @@ public class cbsSubscriptionRecordEnrichment implements IEnrichment {
         });
 
         // EVENT_END_TIME
-        Optional<String> endTime = tx.getEndTime("CUST_LOCAL_START_DATE", "CUST_LOCAL_END_DATE");
+        Optional<String> endTime = tx.getEndTime("CUST_LOCAL_END_DATE");
         endTime.ifPresent(s -> record.put("CUST_LOCAL_END_DATE", s));
 
         // OBJ_TYPE
@@ -44,6 +40,17 @@ public class cbsSubscriptionRecordEnrichment implements IEnrichment {
         Optional<String> resultCode = tx.getResultCode();
         resultCode.ifPresent(s -> record.put("RESULT_CODE", s));
 
+//      SERVICE_CATEGORY
+        String serviceCategory = tx.getValue("SERVICE_CATEGORY");
+        record.put("SERVICE_CATEGORY1",serviceCategory);
+
+//      SERVED_TYPE
+        Optional<String> servedType = tx.getServedType();
+        servedType.ifPresent(s -> record.put("SERVED_TYPE", s));
+
+        // PAY_TYPE
+        String payType = tx.getValue("PayType");
+        record.put("PAY_TYPE", payType);
 
         // FILE_NAME , POPULATION_DATE , EVENT_DATE
         record.put("FILE_NAME", record.get("fileName"));
