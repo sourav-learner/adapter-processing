@@ -124,14 +124,14 @@ public class cbsAdjEnrichmentUtil {
                 case "0":
                     payType = "PREPAID";
                     break;
-                case "2":
+                case "1":
                     payType = "POSTPAID";
                     break;
-                case "3":
+                case "2":
                     payType = "HYBRID";
                     break;
                 default:
-                    payType = "UNKNOW";
+                    payType = "UNKNOWN";
                     break;
             }
         }
