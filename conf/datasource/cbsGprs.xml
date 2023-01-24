@@ -405,7 +405,7 @@
             <Field sourceFieldName=" BrandID" targetFieldName=" BRAND_ID"/>
             <Field sourceFieldName="MainOfferingID" targetFieldName="MAIN_OFFERING_ID"/>
             <Field sourceFieldName="ChargingPartyNumber" targetFieldName="CHARGING_PARTY_NUMBER"/>
-            <Field sourceFieldName="PayType" targetFieldName="SERVED_TYPE"/>
+            <Field sourceFieldName="SERVED_TYPE"/>
             <Field sourceFieldName="ChargingType" targetFieldName="CHARGING_TYPE"/>
             <Field sourceFieldName="RoamState" targetFieldName="ROAM_STATE"/>
             <Field sourceFieldName="CallingHomeCountryCode" targetFieldName="SERVED_CC"/>
