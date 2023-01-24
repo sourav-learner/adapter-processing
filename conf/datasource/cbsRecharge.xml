@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Adapter Name="CBS_RECHARGE" Type="ASN.1" Version="1.0" Active="true" StatusDBHandler="mongo" rawJson="true"
-         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.cbs_recharge.CBS_RECHARGEFileExecutor" ExecMode="server"
-         txExecClass="com.gamma.skybase.build.server.etl.tx.cbs_recharge.CBS_RECHARGERecordEnrichment" ignoreLogging="false"
+         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.cbs_recharge.cbsRechargeFileExecutor" ExecMode="server"
+         txExecClass="com.gamma.skybase.build.server.etl.tx.cbs_recharge.cbsRechargeRecordEnrichment" ignoreLogging="false"
          ignoreDuplicates="false" parallel="1" instance-size="1" load-factor="1" customized="enable">
 
     <!--Extraction tag-->
@@ -512,7 +512,7 @@
             <Field sourceFieldName="RECHARGE_CELL_ID"/>
             <Field sourceFieldName="BRAND_ID"/>
             <Field sourceFieldName="MAIN_OFFERING_ID"/>
-            <Field sourceFieldName="PayType" targetFieldName="SERVED_TYPE"/>
+            <Field sourceFieldName="SERVED_TYPE"/>
             <Field sourceFieldName="START_TIME_OF_BILL_CYCLE"/>
             <Field sourceFieldName="ACCOUNT"/>
             <Field sourceFieldName="MAIN_BALANCE_INFO"/>
@@ -529,6 +529,7 @@
             <Field sourceFieldName="SUB_IDENTITY_TYPE"/>
             <Field sourceFieldName="OLD_VALIDITY"/>
             <Field sourceFieldName="NEW_VALIDITY"/>
+            <Field sourceFieldName="PAY_TYPE"/>
             <Field sourceFieldName="filename" targetFieldName="FILE_NAME"/>
             <Field sourceFieldName="EVENT_DATE"/>
             <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
