@@ -1,6 +1,5 @@
 package com.gamma.skybase.build.server.etl.tx.cbs_transfer;
 
-import com.gamma.components.commons.app.AppConfig;
 import com.gamma.skybase.contract.decoders.IEnrichment;
 import com.gamma.skybase.contract.decoders.MEnrichmentReq;
 import com.gamma.skybase.contract.decoders.MEnrichmentResponse;
@@ -11,8 +10,6 @@ import java.util.stream.Collectors;
 
 public class cbsTransferRecordEnrichment implements IEnrichment {
 
-    private AppConfig appConfig = AppConfig.instance();
-    private final ThreadLocal<SimpleDateFormat> sdfS = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMddHHmmss"));
     private final ThreadLocal<SimpleDateFormat> sdfT = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMdd HH:mm:ss"));
 
     public MEnrichmentResponse transform(MEnrichmentReq request) {
@@ -41,9 +38,12 @@ public class cbsTransferRecordEnrichment implements IEnrichment {
         status.ifPresent(s -> record.put("STATUS", s));
 
 //      SERVED_TYPE
-        Optional<String> payType = tx.getServedType();
-        payType.ifPresent(s -> record.put("PayType", s));
+        Optional<String> servedType = tx.getServedType();
+        servedType.ifPresent(s -> record.put("SERVED_TYPE", s));
 
+        // PAY_TYPE
+        String payType = tx.getValue("PayType");
+        record.put("PAY_TYPE", payType);
 
         // FILE_NAME , POPULATION_DATE , EVENT_DATE
         record.put("FILE_NAME", record.get("fileName"));
