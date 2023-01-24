@@ -481,7 +481,7 @@
             <Field sourceFieldName="FR10_OPER_TYPE"/>
             <Field sourceFieldName="BrandID" targetFieldName="BRAND_ID"/>
             <Field sourceFieldName="MainOfferingID" targetFieldName="MAIN_OFFERING_ID"/>
-            <Field sourceFieldName="PayType" targetFieldName="SERVED_TYPE"/>
+            <Field sourceFieldName="SERVED_TYPE"/>
             <Field sourceFieldName="StartTimeOfBillCycle" targetFieldName="START_TIME_OF_BILL_CYCLE"/>
             <Field sourceFieldName="StartTimeOfBillCycle" targetFieldName="START_TIME_OF_BILL_CYCLE"/>
             <Field sourceFieldName="Account" targetFieldName="ACCOUNT"/>
@@ -496,6 +496,7 @@
             <Field sourceFieldName="AdditionalInfo" targetFieldName="ADDITIONAL_INFO"/>
             <Field sourceFieldName="Merchant" targetFieldName="MERCHANT"/>
             <Field sourceFieldName="Service" targetFieldName="SERVICE"/>
+            <Field sourceFieldName="PAY_TYPE"/>
             <Field sourceFieldName="filename" targetFieldName="FileName"/>
             <Field sourceFieldName="EVENT_DATE" targetFieldName="EVENT_DATE"/>
             <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
