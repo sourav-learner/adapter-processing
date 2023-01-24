@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Optional;
 
-public class CBS_RECHARGEEnrichmentUtil {
+public class cbsRechargeEnrichmentUtil {
     private final AppConfig appConfig = AppConfig.instance();
     private final String homePlmnCode = appConfig.getProperty("app.datasource.plmn");
     private final OpcoBusinessTransformation txLib = new OpcoBusinessTransformation();
@@ -21,12 +21,12 @@ public class CBS_RECHARGEEnrichmentUtil {
             () -> new SimpleDateFormat("yyyyMMddHHmmss"));
     LinkedHashMap<String, Object> rec;
 
-    private CBS_RECHARGEEnrichmentUtil(LinkedHashMap<String, Object> record) {
+    private cbsRechargeEnrichmentUtil(LinkedHashMap<String, Object> record) {
         rec = record;
     }
 
-    public static CBS_RECHARGEEnrichmentUtil of(LinkedHashMap<String, Object> record) {
-        return new CBS_RECHARGEEnrichmentUtil(record);
+    public static cbsRechargeEnrichmentUtil of(LinkedHashMap<String, Object> record) {
+        return new cbsRechargeEnrichmentUtil(record);
     }
 
     public String getValue(String field) {
@@ -36,20 +36,6 @@ public class CBS_RECHARGEEnrichmentUtil {
             if (!s1.equals("")) return s1;
         }
         return null;
-    }
-
-    Long callDuration;
-
-    public Optional<String> getCallDuration(String field) {
-        String s = getValue(field);
-        callDuration = 0L;
-        try {
-            if (s != null)
-                callDuration = Long.parseLong(s);
-            return Optional.of(String.valueOf(callDuration));
-        } catch (NumberFormatException e) { // Ignore non numbers
-        }
-        return Optional.empty();
     }
 
     Date callStartTime;
@@ -66,18 +52,6 @@ public class CBS_RECHARGEEnrichmentUtil {
         } catch (ParseException e) {// Ignore invalid Date format
         }
         return Optional.empty();
-    }
-
-    Date callEndTime;
-
-    public Optional<String> getEndTime(String time, String callEventDuration) {
-        if (callDuration == null) getCallDuration(callEventDuration);
-        if (callStartTime == null) getStartTime(time);
-
-        if (callStartTime == null || callDuration == null) return Optional.empty();
-
-        callEndTime = new Date(callStartTime.getTime() / 1000 + callDuration);
-        return Optional.of(sdfT.get().format(callEndTime));
     }
 
     String resultCode;
@@ -112,7 +86,7 @@ public class CBS_RECHARGEEnrichmentUtil {
                     status = "Reversal";
                     break;
                 default:
-                    status = "UNKNOW";
+                    status = "UNKNOWN";
                     break;
             }
         }
@@ -121,7 +95,7 @@ public class CBS_RECHARGEEnrichmentUtil {
         return Optional.empty();
     }
 
-    String payType;
+    String payType , servedType;
 
     public Optional<String> getServedType() {
         payType = getValue("PayType");
@@ -129,22 +103,21 @@ public class CBS_RECHARGEEnrichmentUtil {
         if (payType != null) {
             switch (payType) {
                 case "0":
-                   payType = "PREPAID";
+                    servedType = "PREPAID";
+                    break;
+                case "1":
+                    servedType = "POSTPAID";
                     break;
                 case "2":
-                    payType = "POSTPAID";
-                    break;
-                case "3":
-                    payType = "HYBRID";
+                    servedType = "HYBRID";
                     break;
                 default:
-                    payType = "UNKNOW";
+                    servedType = "UNKNOWN";
                     break;
             }
         }
-        if (payType != null)
-            return Optional.of(payType);
+        if (servedType != null)
+            return Optional.of(servedType);
         return Optional.empty();
     }
-
 }
