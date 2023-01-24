@@ -1,8 +1,5 @@
 package com.gamma.skybase.build.server.etl.tx.cbs_subscription;
 
-import com.gamma.components.commons.app.AppConfig;
-import com.gamma.telco.OpcoBusinessTransformation;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,9 +7,6 @@ import java.util.LinkedHashMap;
 import java.util.Optional;
 
 public class cbsSubscriptionEnrichmentUtil {
-    private final AppConfig appConfig = AppConfig.instance();
-    private final String homePlmnCode = appConfig.getProperty("app.datasource.plmn");
-    private final OpcoBusinessTransformation txLib = new OpcoBusinessTransformation();
     final ThreadLocal<SimpleDateFormat> sdfT = ThreadLocal.withInitial(
             () -> new SimpleDateFormat("yyyyMMdd HH:mm:ss"));
     final ThreadLocal<SimpleDateFormat> fullDate = ThreadLocal.withInitial(
@@ -38,17 +32,25 @@ public class cbsSubscriptionEnrichmentUtil {
         return null;
     }
 
-    Long callDuration;
+    String status;
 
-    public Optional<String> getCallDuration(String field) {
-        String s = getValue(field);
-        callDuration = 0L;
-        try {
-            if (s != null)
-                callDuration = Long.parseLong(s);
-            return Optional.of(String.valueOf(callDuration));
-        } catch (NumberFormatException e) { // Ignore non numbers
+    public Optional<String> getStatus() {
+        status = getValue("STATUS");
+        if (status != null) {
+            switch (status) {
+                case "A":
+                    status = "VALID";
+                    break;
+                case "D":
+                    status = "INVALID";
+                    break;
+                default:
+                    status = "UNKNOWN";
+                    break;
+            }
         }
+        if (status != null)
+            return Optional.of(status);
         return Optional.empty();
     }
 
@@ -70,36 +72,16 @@ public class cbsSubscriptionEnrichmentUtil {
 
     Date callEndTime;
 
-    public Optional<String> getEndTime(String time, String callEventDuration) {
-        if (callDuration == null) getCallDuration(callEventDuration);
-        if (callStartTime == null) getStartTime(time);
-
-        if (callStartTime == null || callDuration == null) return Optional.empty();
-
-        callEndTime = new Date(callStartTime.getTime() / 1000 + callDuration);
-        return Optional.of(sdfT.get().format(callEndTime));
-    }
-
-    String status;
-//    IF 'A' THEN 'VALID' ELSEIF 'D' THEN 'INVALID' ELSE 'UNKNOWN'
-
-    public Optional<String> getStatus() {
-        status = getValue("STATUS");
-        if (status != null) {
-            switch (status) {
-                case "A":
-                    status = "VALID";
-                    break;
-                case "D":
-                    status = "INVALID";
-                    break;
-                default:
-                    status = "UNKNOWN";
-                    break;
+    public Optional<String> getEndTime(String field) {
+        String s = getValue(field);
+        try {
+            if (s != null) {
+                callEndTime = sdfS.get().parse(s);
+                return Optional.of(sdfT.get().format(callEndTime));
             }
         }
-        if (status != null)
-            return Optional.of(status);
+        catch (Exception e){
+        }
         return Optional.empty();
     }
 
@@ -147,6 +129,32 @@ public class cbsSubscriptionEnrichmentUtil {
         }
         if (resultCode != null)
             return Optional.of(resultCode);
+        return Optional.empty();
+    }
+
+    String payType , servedType;
+
+    public Optional<String> getServedType() {
+        payType = getValue("PayType");
+
+        if (payType != null) {
+            switch (payType) {
+                case "0":
+                    servedType = "PREPAID";
+                    break;
+                case "1":
+                    servedType = "POSTPAID";
+                    break;
+                case "2":
+                    servedType = "HYBRID";
+                    break;
+                default:
+                    servedType = "UNKNOW";
+                    break;
+            }
+        }
+        if (servedType != null)
+            return Optional.of(servedType);
         return Optional.empty();
     }
 }
