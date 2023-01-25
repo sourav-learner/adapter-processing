@@ -403,7 +403,7 @@
             <Field sourceFieldName="MainOfferingID" targetFieldName="MAIN_OFFERING_ID"/>
             <Field sourceFieldName="ChargingPartyNumber" targetFieldName="CHARGING_PARTY_NUMBER"/>
             <Field sourceFieldName="ChargePartyIndicator" targetFieldName="CHARGE_PARTY_INDICATOR"/>
-            <Field sourceFieldName="PayType" targetFieldName="SERVED_TYPE"/>
+            <Field sourceFieldName="SERVED_TYPE"/>
             <Field sourceFieldName="ChargingType" targetFieldName="CHARGING_TYPE"/>
             <Field sourceFieldName="CallType" targetFieldName="CALL_TYPE"/>
             <Field sourceFieldName="RoamState" targetFieldName="ROAM_STATE"/>

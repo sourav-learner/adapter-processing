@@ -1,6 +1,5 @@
 package com.gamma.skybase.build.server.etl.tx.cbs_voice;
 
-import com.gamma.components.commons.app.AppConfig;
 import com.gamma.skybase.contract.decoders.IEnrichment;
 import com.gamma.skybase.contract.decoders.MEnrichmentReq;
 import com.gamma.skybase.contract.decoders.MEnrichmentResponse;
@@ -8,7 +7,6 @@ import com.gamma.skybase.contract.decoders.MEnrichmentResponse;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 public class cbsVoiceRecordEnrichment implements IEnrichment {
 
@@ -57,7 +55,7 @@ public class cbsVoiceRecordEnrichment implements IEnrichment {
 
 //      SERVED_TYPE
         Optional<String> servedType = tx.getServedType();
-        servedType.ifPresent(s -> record.put("PayType", s));
+        servedType.ifPresent(s -> record.put("SERVED_TYPE", s));
 
         //  ONLINE_CHARGING_FLAG
         Optional<String> onlineChargingFlag = tx.getOnlineChargingFlag();
