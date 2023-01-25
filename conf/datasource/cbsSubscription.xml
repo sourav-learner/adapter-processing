@@ -34,16 +34,16 @@
             <Field sourceFieldName="SRC_REC_LINE_NO"/>
             <Field sourceFieldName="SRC_CDR_ID"/>
             <Field sourceFieldName="SRC_CDR_NO" targetFieldName="REC_SEQ_NUM"/>
-            <Field sourceFieldName="STATUS"/>
+            <Field sourceFieldName="CDR_STATUS"/>
             <Field sourceFieldName="RE_RATING_TIMES"/>
             <Field sourceFieldName="CREATE_DATE"/>
             <Field sourceFieldName="START_DATE"/>
             <Field sourceFieldName="END_DATE"/>
-            <Field sourceFieldName="CUST_LOCAL_START_DATE" targetFieldName="EVENT_START_TIME"/>
-            <Field sourceFieldName="CUST_LOCAL_END_DATE" targetFieldName="EVENT_END_TIME"/>
+            <Field sourceFieldName="EVENT_START_TIME"/>
+            <Field sourceFieldName="EVENT_END_TIME"/>
             <Field sourceFieldName="STD_EVT_TYPE_ID"/>
             <Field sourceFieldName="EVT_SOURCE_CATEGORY"/>
-            <Field sourceFieldName="OBJ_TYPE"/>
+            <Field sourceFieldName="OBJTYPE"/>
             <Field sourceFieldName="OBJ_ID"/>
             <Field sourceFieldName="OWNER_CUST_ID"/>
             <Field sourceFieldName="DEFAULT_ACCT_ID"/>
@@ -52,7 +52,7 @@
             <Field sourceFieldName="EVENT_TYPE_KEY"/>
             <Field sourceFieldName="USAGE_SERVICE_TYPE"/>
             <Field sourceFieldName="SESSION_ID"/>
-            <Field sourceFieldName="RESULT_CODE"/>
+            <Field sourceFieldName="RESULTCODE"/>
             <Field sourceFieldName="RESULT_REASON"/>
             <Field sourceFieldName="BE_ID"/>
             <Field sourceFieldName="HOT_SEQ"/>

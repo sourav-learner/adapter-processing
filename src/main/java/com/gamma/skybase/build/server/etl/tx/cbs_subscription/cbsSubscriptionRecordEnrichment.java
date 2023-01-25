@@ -17,28 +17,28 @@ public class cbsSubscriptionRecordEnrichment implements IEnrichment {
 
         cbsSubscriptionEnrichmentUtil tx = cbsSubscriptionEnrichmentUtil.of(record);
 
-        //  STATUS
+        //  CDR_STATUS
         Optional<String> status = tx.getStatus();
-        status.ifPresent(s -> record.put("STATUS", s));
+        status.ifPresent(s -> record.put("CDR_STATUS", s));
 
         // EVENT_START_TIME
         Optional<String> starTime = tx.getStartTime("CUST_LOCAL_START_DATE");
         starTime.ifPresent(s -> {
-            record.put("CUST_LOCAL_START_DATE", s);
+            record.put("EVENT_START_TIME", s);
             record.put("XDR_DATE", s);
         });
 
         // EVENT_END_TIME
         Optional<String> endTime = tx.getEndTime("CUST_LOCAL_END_DATE");
-        endTime.ifPresent(s -> record.put("CUST_LOCAL_END_DATE", s));
+        endTime.ifPresent(s -> record.put("EVENT_END_TIME", s));
 
-        // OBJ_TYPE
+        // OBJTYPE
         Optional<String> objType = tx.getObjType();
-        objType.ifPresent(s -> record.put("OBJ_TYPE", s));
+        objType.ifPresent(s -> record.put("OBJTYPE", s));
 
-        // RESULT_CODE
+        // RESULTCODE
         Optional<String> resultCode = tx.getResultCode();
-        resultCode.ifPresent(s -> record.put("RESULT_CODE", s));
+        resultCode.ifPresent(s -> record.put("RESULTCODE", s));
 
 //      SERVICE_CATEGORY
         String serviceCategory = tx.getValue("SERVICE_CATEGORY");
