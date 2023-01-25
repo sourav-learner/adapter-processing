@@ -32,7 +32,7 @@
             <Field sourceFieldName="BATCH_NO"/>
             <Field sourceFieldName="CHANNEL_ID"/>
             <Field sourceFieldName="REASON_CODE"/>
-            <Field sourceFieldName="RESULT_CODE"/>
+            <Field sourceFieldName="RESULTCODE"/>
             <Field sourceFieldName="ERROR_TYPE"/>
             <Field sourceFieldName="REQUEST_ACCT_BALANCE_ID"/>
             <Field sourceFieldName="DEST_ACCT_ID"/>
@@ -50,8 +50,8 @@
             <Field sourceFieldName="REVERSAL_REASON_CODE"/>
             <Field sourceFieldName="REVERSAL_DATE"/>
             <Field sourceFieldName="EXT_REF_ID"/>
-            <Field sourceFieldName="STATUS"/>
-            <Field sourceFieldName="TRANSFER_DATE"/>
+            <Field sourceFieldName="CDR_STATUS"/>
+            <Field sourceFieldName="TRANSFERDATE"/>
             <Field sourceFieldName="REMARK"/>
             <Field sourceFieldName="OPER_ID"/>
             <Field sourceFieldName="DEPT_ID"/>

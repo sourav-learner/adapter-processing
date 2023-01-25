@@ -6,7 +6,6 @@ import com.gamma.skybase.contract.decoders.MEnrichmentResponse;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class cbsTransferRecordEnrichment implements IEnrichment {
 
@@ -18,24 +17,24 @@ public class cbsTransferRecordEnrichment implements IEnrichment {
 
         cbsTransferEnrichmentUtil tx = cbsTransferEnrichmentUtil.of(record);
 
-        // RESULT_CODE
+        // RESULTCODE
         Optional<String> resultCode = tx.getResultCode();
-        resultCode.ifPresent(s -> record.put("RESULT_CODE", s));
+        resultCode.ifPresent(s -> record.put("RESULTCODE", s));
 
-        // TRANSFER_TYPE
+        // TRANSFERTYPE
         Optional<String> transferType = tx.getTransferType();
-        transferType.ifPresent(s -> record.put("TRANSFER_TYPE", s));
+        transferType.ifPresent(s -> record.put("TRANSFERTYPE", s));
 
-        // TRANSFER_DATE
+        // TRANSFERDATE
         Optional<String> starTime = tx.getStartTime("TRANSFER_DATE");
         starTime.ifPresent(s -> {
-            record.put("TRANSFER_DATE",s);
+            record.put("TRANSFERDATE",s);
             record.put("XDR_DATE", s);
         });
 
-        //  STATUS
+        // CDR_STATUS
         Optional<String> status = tx.getStatus();
-        status.ifPresent(s -> record.put("STATUS", s));
+        status.ifPresent(s -> record.put("CDR_STATUS", s));
 
 //      SERVED_TYPE
         Optional<String> servedType = tx.getServedType();
@@ -59,17 +58,4 @@ public class cbsTransferRecordEnrichment implements IEnrichment {
     public LinkedHashMap<String, Object> transform(LinkedHashMap<String, Object> record) {
         return record;
     }
-
-    private List<Map<String, Object>> getElementsList(List<Map<String, Object>> chargeInformation, String name) {
-        List<Map<String, Object>> cd = new ArrayList<>();
-        if (chargeInformation != null) {
-            List<List<Map<String, Object>>> l = chargeInformation.stream()
-                    .filter(e -> e.containsKey(name))
-                    .map(e -> (List<Map<String, Object>>) e.get(name))
-                    .collect(Collectors.toList());
-            for (List<Map<String, Object>> i : l) cd.addAll(i);
-        }
-        return cd;
-    }
-
 }
