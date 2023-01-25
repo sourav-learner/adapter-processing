@@ -31,16 +31,16 @@
             <Field sourceFieldName="SRC_REC_LINE_NO"/>
             <Field sourceFieldName="SRC_CDR_ID"/>
             <Field sourceFieldName="SRC_CDR_NO" targetFieldName="REC_SEQ_NUM"/>
-            <Field sourceFieldName="STATUS"/>
+            <Field sourceFieldName="CDR_STATUS"/>
             <Field sourceFieldName="RE_RATING_TIMES"/>
             <Field sourceFieldName="CREATE_DATE"/>
             <Field sourceFieldName="START_DATE"/>
             <Field sourceFieldName="END_DATE"/>
-            <Field sourceFieldName="CUST_LOCAL_START_DATE" targetFieldName="Event_Start_Time"/>
-            <Field sourceFieldName="CUST_LOCAL_END_DATE" targetFieldName="Event_End_Time"/>
+            <Field sourceFieldName="EVENT_START_TIME"/>
+            <Field sourceFieldName="EVENT_END_TIME"/>
             <Field sourceFieldName="STD_EVT_TYPE_ID"/>
             <Field sourceFieldName="EVT_SOURCE_CATEGORY"/>
-            <Field sourceFieldName="OBJ_TYPE"/>
+            <Field sourceFieldName="OBJTYPE"/>
             <Field sourceFieldName="OBJ_ID"/>
             <Field sourceFieldName="OWNER_CUST_ID"/>
             <Field sourceFieldName="DEFAULT_ACCT_ID"/>
@@ -49,7 +49,7 @@
             <Field sourceFieldName="SERVICE_CATEGORY" targetFieldName="EVENT_TYPE_KEY"/>
             <Field sourceFieldName="USAGE_SERVICE_TYPE"/>
             <Field sourceFieldName="SESSION_ID" targetFieldName="SESSION_ID"/>
-            <Field sourceFieldName="RESULT_CODE"/>
+            <Field sourceFieldName="RESULTCODE"/>
             <Field sourceFieldName="RESULT_REASON"/>
             <Field sourceFieldName="BE_ID"/>
             <Field sourceFieldName="HOT_SEQ"/>
@@ -378,10 +378,10 @@
             <Field sourceFieldName="MainOfferingID" targetFieldName="MAIN_OFFERING_ID"/>
             <Field sourceFieldName="SERVED_TYPE"/>
             <Field sourceFieldName="ChargingPartyNumber" targetFieldName="SERVED_MSISDN"/>
-            <Field sourceFieldName="ChargingPartyType" targetFieldName="CHARGING_PARTY_TYPE"/>
+            <Field sourceFieldName="CHARGING_PARTY_TYPE"/>
             <Field sourceFieldName="CycleBeginTime" targetFieldName="CYCLE_BEGIN_TIME"/>
             <Field sourceFieldName="CycleEndTime" targetFieldName="CYCLE_END_TIME"/>
-            <Field sourceFieldName="CycleType" targetFieldName="CYCLE_TYPE"/>
+            <Field sourceFieldName="CYCLE_TYPE"/>
             <Field sourceFieldName="CycleLength" targetFieldName="CYCLE_LENGTH"/>
             <Field sourceFieldName="ElapseCycles" targetFieldName="ELAPSE_CYCLES"/>
             <Field sourceFieldName="InnerCycleBeginTime" targetFieldName="INNER_CYCLE_BEGIN_TIME"/>
@@ -389,10 +389,10 @@
             <Field sourceFieldName="ProductID" targetFieldName="PRODUCT_ID"/>
             <Field sourceFieldName="OfferingID" targetFieldName="OFFERING_ID"/>
             <Field sourceFieldName="OfferingInstID" targetFieldName="OFFERING_INST_ID"/>
-            <Field sourceFieldName="OrderStatus" targetFieldName="ORDER_STATUS"/>
+            <Field sourceFieldName="ORDER_STATUS"/>
             <Field sourceFieldName="ProrateFlag" targetFieldName="PRO_RATE_FLAG"/>
             <Field sourceFieldName="StartTimeOfBillCycle" targetFieldName="START_TIME_OF_BILL_CYCLE"/>
-            <Field sourceFieldName="ChargePartyIndicator" targetFieldName="CHARGE_PARTY_INDICATOR"/>
+            <Field sourceFieldName="CHARGE_PARTY_INDICATOR"/>
             <Field sourceFieldName="PosRentMode" targetFieldName="POS_RENT_MODE"/>
             <Field sourceFieldName="TriggerMode" targetFieldName="TRIGGER_MODE"/>
             <Field sourceFieldName="ExecuteFlag" targetFieldName="EXECUTE_FLAG"/>

@@ -18,50 +18,49 @@ public class cbsRecurringRecordEnrichment implements IEnrichment {
 
         cbsRecurringEnrichmentUtil tx = cbsRecurringEnrichmentUtil.of(record);
 
-        // RESULT_CODE
+        // RESULTCODE
         Optional<String> resultCode = tx.getResultCode();
-        resultCode.ifPresent(s -> record.put("RESULT_CODE", s));
+        resultCode.ifPresent(s -> record.put("RESULTCODE", s));
 
-        //  STATUS
+        //  CDR_STATUS
         Optional<String> status = tx.getStatus();
-        status.ifPresent(s -> record.put("STATUS", s));
+        status.ifPresent(s -> record.put("CDR_STATUS", s));
 
-        // CUST_LOCAL_START_DATE
+        // EVENT_START_TIME
         Optional<String> starTime = tx.getStartTime("CUST_LOCAL_START_DATE");
         starTime.ifPresent(s -> {
-            record.put("CUST_LOCAL_START_DATE",s);
+            record.put("EVENT_START_TIME",s);
             record.put("XDR_DATE", s);
         });
 
-//      CUST_LOCAL_END_DATE
+//      EVENT_END_TIME
         Optional<String> endTime = tx.getStartTime("CUST_LOCAL_END_DATE");
-        endTime.ifPresent(s -> {
-            record.put("CUST_LOCAL_END_DATE",s);
-        });
+        endTime.ifPresent(s -> record.put("EVENT_END_TIME",s));
 
-        // OBJ_TYPE
+
+        // OBJTYPE
         Optional<String> objType = tx.getObjType();
-        objType.ifPresent(s -> record.put("OBJ_TYPE", s));
+        objType.ifPresent(s -> record.put("OBJTYPE", s));
 
 //      CHARGING_PARTY_TYPE
         Optional<String> chargingPartyType = tx.getChargingPartyType();
-        chargingPartyType.ifPresent(s -> record.put("ChargingPartyType", s));
+        chargingPartyType.ifPresent(s -> record.put("CHARGING_PARTY_TYPE", s));
 
-//        CycleType
+//        CYCLE_TYPE
         Optional<String> cycleType = tx.getCycleType();
-        cycleType.ifPresent(s -> record.put("CycleType", s));
+        cycleType.ifPresent(s -> record.put("CYCLE_TYPE", s));
 
 //      SERVED_TYPE
         Optional<String> servedType = tx.getServedType();
         servedType.ifPresent(s -> record.put("SERVED_TYPE", s));
 
-//      OrderStatus
+//      ORDER_STATUS
         Optional<String> orderStatus = tx.getOrderStatus();
-        orderStatus.ifPresent(s -> record.put("OrderStatus", s));
+        orderStatus.ifPresent(s -> record.put("ORDER_STATUS", s));
 
-//      ChargePartyIndicator
+//      CHARGE_PARTY_INDICATOR
         Optional<String> chargePartyIndicator = tx.getChargePartyIndicator();
-        chargePartyIndicator.ifPresent(s -> record.put("ChargePartyIndicator", s));
+        chargePartyIndicator.ifPresent(s -> record.put("CHARGE_PARTY_INDICATOR", s));
 
         // PAY_TYPE
         String payType = tx.getValue("PayType");
