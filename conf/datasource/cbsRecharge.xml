@@ -46,7 +46,7 @@
             <Field sourceFieldName="RECHARGE_TYPE"/>
             <Field sourceFieldName="CHANNEL_ID"/>
             <Field sourceFieldName="RECHARGE_REASON"/>
-            <Field sourceFieldName="RESULT_CODE"/>
+            <Field sourceFieldName="RESULTCODE"/>
             <Field sourceFieldName="ERROR_TYPE"/>
             <Field sourceFieldName="VALID_DAY_ADDED"/>
             <Field sourceFieldName="DIAMETER_SESSIONID"/>
@@ -60,7 +60,7 @@
             <Field sourceFieldName="REVERSAL_OPER_ID"/>
             <Field sourceFieldName="REVERSAL_DEPT_ID"/>
             <Field sourceFieldName="REVERSAL_DATE"/>
-            <Field sourceFieldName="STATUS"/>
+            <Field sourceFieldName="CDR_STATUS"/>
             <Field sourceFieldName="REMARK"/>
             <Field sourceFieldName="BE_ID"/>
             <Field sourceFieldName="BE_CODE"/>
