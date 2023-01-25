@@ -18,22 +18,22 @@ public class cbsAdjRecordEnrichment implements IEnrichment {
 
         // RESULT_CODE
         Optional<String> resultCode = tx.getResultCode();
-        resultCode.ifPresent(s -> record.put("RESULT_CODE", s));
+        resultCode.ifPresent(s -> record.put("RESULTCODE", s));
 
         //  STATUS
         Optional<String> status = tx.getStatus();
-        status.ifPresent(s -> record.put("STATUS", s));
+        status.ifPresent(s -> record.put("CDR_STATUS", s));
 
         // ENTRY_DATE
         Optional<String> starTime = tx.getStartTime("ENTRY_DATE");
         starTime.ifPresent(s -> {
-            record.put("ENTRY_DATE",s);
+            record.put("ENTRYDATE",s);
             record.put("XDR_DATE", s);
         });
 
 //      SERVED_TYPE
         Optional<String> payType = tx.getServedType();
-        payType.ifPresent(s -> record.put("PayType", s));
+        payType.ifPresent(s -> record.put("SERVED_TYPE", s));
 
         // FILE_NAME , POPULATION_DATE , EVENT_DATE
         record.put("FILE_NAME", record.get("fileName"));

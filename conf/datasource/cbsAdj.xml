@@ -32,7 +32,7 @@
             <Field sourceFieldName="BATCH_NO"/>
             <Field sourceFieldName="CHANNEL_ID"/>
             <Field sourceFieldName="REASON_CODE"/>
-            <Field sourceFieldName="RESULT_CODE"/>
+            <Field sourceFieldName="RESULTCODE"/>
             <Field sourceFieldName="ERROR_TYPE"/>
             <Field sourceFieldName="ACCT_BALANCE_ID"/>
             <Field sourceFieldName="ADJUST_AMT"/>
@@ -43,8 +43,8 @@
             <Field sourceFieldName="REVERSAL_TRANS_ID"/>
             <Field sourceFieldName="REVERSAL_REASON_CODE"/>
             <Field sourceFieldName="REVERSAL_DATE"/>
-            <Field sourceFieldName="STATUS"/>
-            <Field sourceFieldName="ENTRY_DATE"/>
+            <Field sourceFieldName="CDR_STATUS"/>
+            <Field sourceFieldName="ENTRYDATE"/>
             <Field sourceFieldName="OPER_ID"/>
             <Field sourceFieldName="DEPT_ID"/>
             <Field sourceFieldName="REMARK"/>
@@ -485,7 +485,7 @@
             <Field sourceFieldName="FR10_OPER_TYPE"/>
             <Field sourceFieldName="BRAND_ID"/>
             <Field sourceFieldName="MAIN_OFFERING_ID"/>
-            <Field sourceFieldName="PayType" targetFieldName="SERVED_TYPE"/>
+            <Field sourceFieldName="SERVED_TYPE"/>
             <Field sourceFieldName="START_TIME_OF_BILL_CYCLE"/>
             <Field sourceFieldName="ACCOUNT"/>
             <Field sourceFieldName="MAIN_BALANCE_INFO"/>
