@@ -12,8 +12,6 @@ import java.util.stream.Collectors;
 
 public class cbsVoiceRecordEnrichment implements IEnrichment {
 
-    private AppConfig appConfig = AppConfig.instance();
-    private final ThreadLocal<SimpleDateFormat> sdfS = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMddHHmmss"));
     private final ThreadLocal<SimpleDateFormat> sdfT = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMdd HH:mm:ss"));
 
     public MEnrichmentResponse transform(MEnrichmentReq request) {
@@ -24,16 +22,16 @@ public class cbsVoiceRecordEnrichment implements IEnrichment {
 
         //  STATUS
         Optional<String> status = tx.getStatus();
-        status.ifPresent(s -> record.put("STATUS", s));
+        status.ifPresent(s -> record.put("CDR_STATUS", s));
 
         // OBJ_TYPE
         Optional<String> objType = tx.getObjType();
-        objType.ifPresent(s -> record.put("OBJ_TYPE", s));
+        objType.ifPresent(s -> record.put("OBJTYPE", s));
 
         // EVENT_START_TIME
         Optional<String> starTime = tx.getStartTime("CUST_LOCAL_START_DATE");
         starTime.ifPresent(s -> {
-            record.put("CUST_LOCAL_START_DATE", s);
+            record.put("EVENT_START_TIME", s);
             record.put("XDR_DATE", s);
         });
 
@@ -43,35 +41,35 @@ public class cbsVoiceRecordEnrichment implements IEnrichment {
 
         // EVENT_END_TIME
         Optional<String> endTime = tx.getEndTime("CUST_LOCAL_END_DATE");
-        endTime.ifPresent(s -> record.put("CUST_LOCAL_END_DATE", s));
+        endTime.ifPresent(s -> record.put("EVENT_END_TIME", s));
 
         //  EVENT_DIRECTION_KEY
         Optional<String> eventDirectionKey = tx.getEventDirectionKey();
-        eventDirectionKey.ifPresent(s -> record.put("ServiceFlow", s));
+        eventDirectionKey.ifPresent(s -> record.put("EVENT_DIRECTION_KEY", s));
 
         // RESULT_CODE
         Optional<String> resultCode = tx.getResultCode();
-        resultCode.ifPresent(s -> record.put("RESULT_CODE", s));
+        resultCode.ifPresent(s -> record.put("RESULTCODE", s));
 
-        // ChargingTime
+        // CHARGING_TIME
         Optional<String> chargingTime = tx.getChargingTime("ChargingTime");
-        chargingTime.ifPresent(s -> record.put("ChargingTime", s));
+        chargingTime.ifPresent(s -> record.put("CHARGING_TIME", s));
 
 //      SERVED_TYPE
         Optional<String> servedType = tx.getServedType();
         servedType.ifPresent(s -> record.put("PayType", s));
 
-        //  OnlineChargingFlag
+        //  ONLINE_CHARGING_FLAG
         Optional<String> onlineChargingFlag = tx.getOnlineChargingFlag();
-        onlineChargingFlag.ifPresent(s -> record.put("OnlineChargingFlag", s));
+        onlineChargingFlag.ifPresent(s -> record.put("ONLINE_CHARGING_FLAG", s));
 
-        //  GroupPayFlag
+        //  GROUP_PAY_FLAG
         Optional<String> groupPayFlag = tx.getGroupPayFlag();
-        groupPayFlag.ifPresent(s -> record.put("GroupPayFlag", s));
+        groupPayFlag.ifPresent(s -> record.put("GROUP_PAY_FLAG", s));
 
-        //  StartTimeOfBillCycle
+        //  START_TIME_OF_BILL_CYCLE
         Optional<String> startTimeOfBill = tx.getStartTimeOfBillCycle("StartTimeOfBillCycle");
-        startTimeOfBill.ifPresent(s -> record.put("StartTimeOfBillCycle", s));
+        startTimeOfBill.ifPresent(s -> record.put("START_TIME_OF_BILL_CYCLE", s));
 
         // CHARGE, ZERO_CHRG_IND
         Optional<String> charge = tx.getCharge("DEBIT_AMOUNT");
@@ -178,17 +176,4 @@ public class cbsVoiceRecordEnrichment implements IEnrichment {
     public LinkedHashMap<String, Object> transform(LinkedHashMap<String, Object> record) {
         return record;
     }
-
-    private List<Map<String, Object>> getElementsList(List<Map<String, Object>> chargeInformation, String name) {
-        List<Map<String, Object>> cd = new ArrayList<>();
-        if (chargeInformation != null) {
-            List<List<Map<String, Object>>> l = chargeInformation.stream()
-                    .filter(e -> e.containsKey(name))
-                    .map(e -> (List<Map<String, Object>>) e.get(name))
-                    .collect(Collectors.toList());
-            for (List<Map<String, Object>> i : l) cd.addAll(i);
-        }
-        return cd;
-    }
-
 }

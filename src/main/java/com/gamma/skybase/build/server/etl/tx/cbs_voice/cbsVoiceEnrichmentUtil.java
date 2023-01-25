@@ -1,16 +1,11 @@
 package com.gamma.skybase.build.server.etl.tx.cbs_voice;
 
 import com.gamma.components.commons.app.AppConfig;
-import com.gamma.telco.OpcoBusinessTransformation;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class cbsVoiceEnrichmentUtil {
-    private final AppConfig appConfig = AppConfig.instance();
-    private final String homePlmnCode = appConfig.getProperty("app.datasource.plmn");
-    private final OpcoBusinessTransformation txLib = new OpcoBusinessTransformation();
     final ThreadLocal<SimpleDateFormat> sdfT = ThreadLocal.withInitial(
             () -> new SimpleDateFormat("yyyyMMdd HH:mm:ss"));
     final ThreadLocal<SimpleDateFormat> fullDate = ThreadLocal.withInitial(

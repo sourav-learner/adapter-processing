@@ -32,16 +32,16 @@
             <Field sourceFieldName="SRC_REC_LINE_NO"/>
             <Field sourceFieldName="SRC_CDR_ID"/>
             <Field sourceFieldName="SRC_CDR_NO" targetFieldName="REC_SEQ_NUM"/>
-            <Field sourceFieldName="STATUS"/>
+            <Field sourceFieldName="CDR_STATUS"/>
             <Field sourceFieldName="RE_RATING_TIMES"/>
             <Field sourceFieldName="CREATE_DATE"/>
             <Field sourceFieldName="START_DATE"/>
             <Field sourceFieldName="END_DATE"/>
-            <Field sourceFieldName="CUST_LOCAL_START_DATE" targetFieldName="EVENT_START_TIME"/>
-            <Field sourceFieldName="CUST_LOCAL_END_DATE" targetFieldName="EVENT_END_TIME"/>
+            <Field sourceFieldName="EVENT_START_TIME"/>
+            <Field sourceFieldName="EVENT_END_TIME"/>
             <Field sourceFieldName="STD_EVT_TYPE_ID"/>
             <Field sourceFieldName="EVT_SOURCE_CATEGORY"/>
-            <Field sourceFieldName="OBJ_TYPE"/>
+            <Field sourceFieldName="OBJTYPE"/>
             <Field sourceFieldName="OBJ_ID"/>
             <Field sourceFieldName="OWNER_CUST_ID"/>
             <Field sourceFieldName="DEFAULT_ACCT_ID"/>
@@ -50,7 +50,7 @@
             <Field sourceFieldName="SERVICE_CATEGORY" targetFieldName="EVENT_TYPE_KEY"/>
             <Field sourceFieldName="USAGE_SERVICE_TYPE"/>
             <Field sourceFieldName="SESSION_ID"/>
-            <Field sourceFieldName="RESULT_CODE"/>
+            <Field sourceFieldName="RESULTCODE"/>
             <Field sourceFieldName="RESULT_REASON"/>
             <Field sourceFieldName="BE_ID"/>
             <Field sourceFieldName="HOT_SEQ"/>
@@ -381,7 +381,7 @@
             <Field sourceFieldName="OTHER_IMSI"/>
             <Field sourceFieldName="DialedNumber" targetFieldName="DIALED_NUMBER"/>
             <Field sourceFieldName="OriginalCalledParty" targetFieldName="THIRD_PARTY_MSISDN"/>
-            <Field sourceFieldName="ServiceFlow" targetFieldName="EVENT_DIRECTION_KEY"/>
+            <Field sourceFieldName="EVENT_DIRECTION_KEY"/>
             <Field sourceFieldName="CallForwardIndicator" targetFieldName="CFIND"/>
             <Field sourceFieldName="SERVED_PLMN"/>
             <Field sourceFieldName="SERVED_CELL"/>
@@ -390,7 +390,7 @@
             <Field sourceFieldName="TimeStampOfSSP" targetFieldName="TIME_STAMP_OfSSP"/>
             <Field sourceFieldName="TimeZoneOfSSP" targetFieldName="TIME_ZONE_OF_SSP"/>
             <Field sourceFieldName="BearerCapability" targetFieldName="BEARER_CAPABILITY"/>
-            <Field sourceFieldName="ChargingTime" targetFieldName="CHARGING_TIME"/>
+            <Field sourceFieldName="CHARGING_TIME"/>
             <Field sourceFieldName="WaitDuration" targetFieldName="WAIT_DURATION"/>
             <Field sourceFieldName="TerminationReason" targetFieldName="TERMINATION_REASON_KEY"/>
             <Field sourceFieldName="CallReferenceNumber" targetFieldName="EVENT_REFERENCE"/>
@@ -437,8 +437,8 @@
             <Field sourceFieldName="OTHER_VPN_GROUP_NUMBER"/>
             <Field sourceFieldName="OTHER_VPN_SHORT_NUMBER"/>
             <Field sourceFieldName="GroupCallType" targetFieldName="GROUP_CALL_TYPE"/>
-            <Field sourceFieldName="OnlineChargingFlag" targetFieldName="ONLINE_CHARGING_FLAG"/>
-            <Field sourceFieldName="StartTimeOfBillCycle" targetFieldName="START_TIME_OF_BILL_CYCLE"/>
+            <Field sourceFieldName="ONLINE_CHARGING_FLAG"/>
+            <Field sourceFieldName="START_TIME_OF_BILL_CYCLE"/>
             <Field sourceFieldName="LastEffectOffering" targetFieldName="LAST_EFFECT_OFFERING"/>
             <Field sourceFieldName="DTDiscount" targetFieldName="DT_DISCOUNT"/>
             <Field sourceFieldName="OpposeMainOfferingID" targetFieldName="OPPOSE_MAIN_OFFERING_ID"/>
@@ -446,7 +446,7 @@
             <Field sourceFieldName="ChgBalanceInfo" targetFieldName="CHG_BALANCE_INFO"/>
             <Field sourceFieldName="ChgFreeUnitInfo" targetFieldName="CHG_FREE_UNIT_INFO"/>
             <Field sourceFieldName="UserState" targetFieldName="USER_STATE"/>
-            <Field sourceFieldName="GroupPayFlag" targetFieldName="GROUP_PAY_FLAG"/>
+            <Field sourceFieldName="GROUP_PAY_FLAG"/>
             <Field sourceFieldName="RoamingZoneID" targetFieldName="ROAMING_ZONE_ID"/>
             <Field sourceFieldName="PrimaryOfferChgAmt" targetFieldName="PRIMARY_OFFER_CHG_AMT"/>
             <Field sourceFieldName="OriginatingIOI" targetFieldName="ORIGINATING_IOI"/>
