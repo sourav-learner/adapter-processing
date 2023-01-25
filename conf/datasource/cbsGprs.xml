@@ -31,16 +31,16 @@
             <Field sourceFieldName="SRC_REC_LINE_NO"/>
             <Field sourceFieldName="SRC_CDR_ID"/>
             <Field sourceFieldName="SRC_CDR_NO" targetFieldName="REC_SEQ_NUM"/>
-            <Field sourceFieldName="STATUS"/>
+            <Field sourceFieldName="CDR_STATUS"/>
             <Field sourceFieldName="RE_RATING_TIMES"/>
             <Field sourceFieldName="CREATE_DATE"/>
             <Field sourceFieldName="START_DATE"/>
             <Field sourceFieldName="END_DATE"/>
-            <Field sourceFieldName="CUST_LOCAL_START_DATE" targetFieldName="EVENT_START_TIME"/>
-            <Field sourceFieldName="CUST_LOCAL_END_DATE" targetFieldName="EVENT_END_TIME"/>
+            <Field sourceFieldName="EVENT_START_TIME"/>
+            <Field sourceFieldName="EVENT_END_TIME"/>
             <Field sourceFieldName="STD_EVT_TYPE_ID"/>
             <Field sourceFieldName="EVT_SOURCE_CATEGORY"/>
-            <Field sourceFieldName="OBJ_TYPE"/>
+            <Field sourceFieldName="OBJTYPE"/>
             <Field sourceFieldName="OBJ_ID"/>
             <Field sourceFieldName="OWNER_CUST_ID"/>
             <Field sourceFieldName="DEFAULT_ACCT_ID"/>
@@ -49,7 +49,7 @@
             <Field sourceFieldName="SERVICE_CATEGORY" targetFieldName="EVENT_TYPE_KEY"/>
             <Field sourceFieldName="USAGE_SERVICE_TYPE"/>
             <Field sourceFieldName="SESSION_ID"/>
-            <Field sourceFieldName="RESULT_CODE"/>
+            <Field sourceFieldName="RESULTCODE"/>
             <Field sourceFieldName="RESULT_REASON"/>
             <Field sourceFieldName="BE_ID"/>
             <Field sourceFieldName="HOT_SEQ"/>
@@ -385,10 +385,7 @@
             <Field sourceFieldName="TimeStampOfSGSN" targetFieldName="TIME_STAMP_OF_SGSN"/>
             <Field sourceFieldName="TimeZoneOfSGSN" targetFieldName="TIME_ZONE_OF_SGSN"/>
             <Field sourceFieldName="BearerCapability" targetFieldName="BEARER_CAPABILITY"/>
-            <Field sourceFieldName="ChargingTime" targetFieldName="CHARGING_TIME"/>
-<!--            <Field sourceFieldName="TotalFlux" targetFieldName="TOTAL_VOL"/>-->
-<!--            <Field sourceFieldName="UpFlux" targetFieldName="UPLOAD_VOLUME"/>-->
-<!--            <Field sourceFieldName="DownFlux" targetFieldName="DOWNLOAD_VOLUME"/>-->
+            <Field sourceFieldName="CHARGING_TIME"/>
             <Field sourceFieldName="ElapseDuration" targetFieldName="ELAPSE_DURATION"/>
             <Field sourceFieldName="IMEI" targetFieldName="SERVED_IMEI"/>
             <Field sourceFieldName="ServiceID" targetFieldName="SERVICE_ID"/>
@@ -418,8 +415,8 @@
             <Field sourceFieldName="CallingNetworkType" targetFieldName="SERVED_NETWORK_TYPE"/>
             <Field sourceFieldName="CallingVPNTopGroupNumber" targetFieldName="SERVED_VPN_TOP_GROUP_NUMBER"/>
             <Field sourceFieldName="CallingVPNGroupNumber" targetFieldName="SERVED_VPN_GROUP_NUMBER"/>
-            <Field sourceFieldName="OnlineChargingFlag" targetFieldName="ONLINE_CHARGING_FLAG"/>
-            <Field sourceFieldName="StartTimeOfBillCycle" targetFieldName="START_TIME_OF_BILL_CYCLE"/>
+            <Field sourceFieldName="ONLINE_CHARGING_FLAG"/>
+            <Field sourceFieldName="START_TIME_OF_BILL_CYCLE"/>
             <Field sourceFieldName="LastEffectOffering" targetFieldName="LAST_EFFECT_OFFERING"/>
             <Field sourceFieldName="DTDiscount" targetFieldName="DT_DISCOUNT"/>
             <Field sourceFieldName="RatingGroup" targetFieldName="RATING_GROUP"/>
