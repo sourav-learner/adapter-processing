@@ -37,7 +37,6 @@ public class cbsRecurringRecordEnrichment implements IEnrichment {
         Optional<String> endTime = tx.getStartTime("CUST_LOCAL_END_DATE");
         endTime.ifPresent(s -> record.put("EVENT_END_TIME",s));
 
-
         // OBJTYPE
         Optional<String> objType = tx.getObjType();
         objType.ifPresent(s -> record.put("OBJTYPE", s));
@@ -61,6 +60,19 @@ public class cbsRecurringRecordEnrichment implements IEnrichment {
 //      CHARGE_PARTY_INDICATOR
         Optional<String> chargePartyIndicator = tx.getChargePartyIndicator();
         chargePartyIndicator.ifPresent(s -> record.put("CHARGE_PARTY_INDICATOR", s));
+
+//        SERVED_MSISDN
+        String chargingPartyNumber = tx.getValue("ChargingPartyNumber");
+        if(chargingPartyNumber != null) {
+            String servedMsisdn;
+            if (chargingPartyNumber.length()<12){
+                servedMsisdn = "966" + chargingPartyNumber;
+            }
+            else {
+                servedMsisdn = chargingPartyNumber;
+            }
+            record.put("SERVED_MSISDN",servedMsisdn);
+        }
 
         // PAY_TYPE
         String payType = tx.getValue("PayType");

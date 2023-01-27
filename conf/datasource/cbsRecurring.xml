@@ -377,7 +377,7 @@
             <Field sourceFieldName="BrandID" targetFieldName="BRAND_ID"/>
             <Field sourceFieldName="MainOfferingID" targetFieldName="MAIN_OFFERING_ID"/>
             <Field sourceFieldName="SERVED_TYPE"/>
-            <Field sourceFieldName="ChargingPartyNumber" targetFieldName="SERVED_MSISDN"/>
+            <Field sourceFieldName="SERVED_MSISDN"/>
             <Field sourceFieldName="CHARGING_PARTY_TYPE"/>
             <Field sourceFieldName="CycleBeginTime" targetFieldName="CYCLE_BEGIN_TIME"/>
             <Field sourceFieldName="CycleEndTime" targetFieldName="CYCLE_END_TIME"/>
