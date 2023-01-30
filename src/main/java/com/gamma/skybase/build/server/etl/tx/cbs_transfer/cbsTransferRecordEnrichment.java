@@ -44,6 +44,19 @@ public class cbsTransferRecordEnrichment implements IEnrichment {
         String payType = tx.getValue("PayType");
         record.put("PAY_TYPE", payType);
 
+        // SERVED_MSISDN
+        String priIdentity = tx.getValue("PRI_IDENTITY");
+        if(priIdentity != null) {
+            String servedMsisdn;
+            if (priIdentity.length()<12){
+                servedMsisdn = "966" + priIdentity;
+            }
+            else {
+                servedMsisdn = priIdentity;
+            }
+            record.put("SERVED_MSISDN",servedMsisdn);
+        }
+
         // FILE_NAME , POPULATION_DATE , EVENT_DATE
         record.put("FILE_NAME", record.get("fileName"));
         record.put("POPULATION_DATE", sdfT.get().format(new Date()));

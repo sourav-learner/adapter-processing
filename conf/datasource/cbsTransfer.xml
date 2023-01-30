@@ -13,11 +13,11 @@
     </Extraction>
 
     <DirConfig>
-        <Source  path="/raetl/processing/cbs_transfer/source" clogging="true"/>
-        <Backup  path="/raetl/processing/cbs_transfer/backup" clogging="true" compress="gz"/>
+        <Source path="/raetl/processing/cbs_transfer/source" clogging="true"/>
+        <Backup path="/raetl/processing/cbs_transfer/backup" clogging="true" compress="gz"/>
         <Staging path="/raetl/processing/cbs_transfer/staging" clogging="true"/>
-        <Output  path="/raetl/processing/cbs_transfer/output" clogging="true"/>
-        <Error   path="/raetl/processing/cbs_transfer/error" clogging="true"/>
+        <Output path="/raetl/processing/cbs_transfer/output" clogging="true"/>
+        <Error path="/raetl/processing/cbs_transfer/error" clogging="true"/>
         <Target protocol="" host="" path="/" pwd="" user="" active="true"/>
     </DirConfig>
 
@@ -28,7 +28,7 @@
             <Field sourceFieldName="ACCT_ID"/>
             <Field sourceFieldName="CUST_ID"/>
             <Field sourceFieldName="SUB_ID"/>
-            <Field sourceFieldName="PRI_IDENTITY" targetFieldName="SERVED_MSISDN"/>
+            <Field sourceFieldName="SERVED_MSISDN"/>
             <Field sourceFieldName="BATCH_NO"/>
             <Field sourceFieldName="CHANNEL_ID"/>
             <Field sourceFieldName="REASON_CODE"/>
