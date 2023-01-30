@@ -27,7 +27,7 @@
             <Field sourceFieldName="ACCT_ID"/>
             <Field sourceFieldName="CUST_ID"/>
             <Field sourceFieldName="SUB_ID"/>
-            <Field sourceFieldName="PRI_IDENTITY" targetFieldName="SERVED_MSISDN"/>
+            <Field sourceFieldName="SERVED_MSISDN"/>
             <Field sourceFieldName="PAY_TYPE"/>
             <Field sourceFieldName="BATCH_NO"/>
             <Field sourceFieldName="CHANNEL_ID"/>
