@@ -13,11 +13,11 @@
     </Extraction>
 
     <DirConfig>
-        <Source  path="/raetl/processing/cbs_recharge/source" clogging="true"/>
-        <Backup  path="/raetl/processing/cbs_recharge/backup" clogging="true" compress="gz"/>
+        <Source path="/raetl/processing/cbs_recharge/source" clogging="true"/>
+        <Backup path="/raetl/processing/cbs_recharge/backup" clogging="true" compress="gz"/>
         <Staging path="/raetl/processing/cbs_recharge/staging" clogging="true"/>
-        <Output  path="/raetl/processing/cbs_recharge/output" clogging="true"/>
-        <Error   path="/raetl/processing/cbs_recharge/error" clogging="true"/>
+        <Output path="/raetl/processing/cbs_recharge/output" clogging="true"/>
+        <Error path="/raetl/processing/cbs_recharge/error" clogging="true"/>
         <Target protocol="" host="" path="/" pwd="" user="" active="true"/>
     </DirConfig>
 
@@ -28,7 +28,7 @@
             <Field sourceFieldName="RECHARGE_AMT"/>
             <Field sourceFieldName="ACCT_ID"/>
             <Field sourceFieldName="SUB_ID"/>
-            <Field sourceFieldName="PRI_IDENTITY" targetFieldName="SERVED_MSISDN"/>
+            <Field sourceFieldName="SERVED_MSISDN"/>
             <Field sourceFieldName="THIRD_PARTY_NUMBER" targetFieldName="THIRD_PARTY_MSISDN"/>
             <Field sourceFieldName="CURRENCY_ID"/>
             <Field sourceFieldName="ORIGINAL_AMT"/>

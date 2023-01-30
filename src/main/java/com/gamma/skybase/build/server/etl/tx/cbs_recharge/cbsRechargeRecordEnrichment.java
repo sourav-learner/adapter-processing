@@ -6,7 +6,6 @@ import com.gamma.skybase.contract.decoders.MEnrichmentResponse;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class cbsRechargeRecordEnrichment implements IEnrichment {
 
@@ -40,6 +39,19 @@ public class cbsRechargeRecordEnrichment implements IEnrichment {
         // PAY_TYPE
         String payType = tx.getValue("PayType");
         record.put("PAY_TYPE", payType);
+
+        // SERVED_MSISDN
+        String priIdentity = tx.getValue("PRI_IDENTITY");
+        if(priIdentity != null) {
+            String servedMsisdn;
+            if (priIdentity.length()<12){
+                servedMsisdn = "966" + priIdentity;
+            }
+            else {
+                servedMsisdn = priIdentity;
+            }
+            record.put("SERVED_MSISDN",servedMsisdn);
+        }
 
 //        FILE_NAME , POPULATION_DATE
         record.put("FILE_NAME", record.get("fileName"));
