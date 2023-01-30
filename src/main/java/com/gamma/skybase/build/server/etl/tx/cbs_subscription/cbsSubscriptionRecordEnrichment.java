@@ -52,6 +52,19 @@ public class cbsSubscriptionRecordEnrichment implements IEnrichment {
         String payType = tx.getValue("PayType");
         record.put("PAY_TYPE", payType);
 
+        // SERVED_MSISDN
+        String callingPartyNumber = tx.getValue("CallingPartyNumber");
+        if(callingPartyNumber != null) {
+            String servedMsisdn;
+            if (callingPartyNumber.length()<12){
+                servedMsisdn = "966" + callingPartyNumber;
+            }
+            else {
+                servedMsisdn = callingPartyNumber;
+            }
+            record.put("SERVED_MSISDN",servedMsisdn);
+        }
+
         // FILE_NAME , POPULATION_DATE , EVENT_DATE
         record.put("FILE_NAME", record.get("fileName"));
         record.put("POPULATION_DATE", sdfT.get().format(new Date()));
