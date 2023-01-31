@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Adapter Name="MOBILY_MSC" Type="ASN.1" Version="1.0" Active="true" StatusDBHandler="mongo" rawJson="true"
+         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.mobily_msc.mobilyMscFileExecutor" ExecMode="server"
+         txExecClass="com.gamma.skybase.build.server.etl.tx.mobily_msc.mobilyMscRecordEnrichment" ignoreLogging="false"
+         ignoreDuplicates="false" parallel="1" instance-size="1" load-factor="1" customized="enable">
+
+    <!--Extraction tag-->
+    <Extraction type="sniff" protocol="local" execClass="com.gamma.skybase.server.core.collector.sniff.DefaultSniffingExtractionAgent">
+        <Settings host="" port="" path="/raetl/processing/mobily_msc/poll" username="" password="">
+            <Signature required="false" key=""/>
+            <Extract pattern="" metaFields="fileName\" dateFieldPattern="yyyyMMdd"/>
+        </Settings>
+    </Extraction>
+
+    <DirConfig>
+        <Source path="/raetl/processing/mobily_msc/source" clogging="true"/>
+        <Backup path="/raetl/processing/mobily_msc/backup" clogging="true" compress="gz"/>
+        <Staging path="/raetl/processing/mobily_msc/staging" clogging="true"/>
+        <Output path="/raetl/processing/mobily_msc/output" clogging="true"/>
+        <Error path="/raetl/processing/mobily_msc/error" clogging="true"/>
+        <Target protocol="" host="" path="/" pwd="" user="" active="true"/>
+    </DirConfig>
+
+    <DataDef>
+        <Event eventName="FCT_Mob_MSC" tableName="FCT_Mob_MSC" synonym="FCT_Mob_MSC" dataBase="">
+            <Field sourceFieldName="SEQUENCENUMBER" targetFieldName="EDR_SEQ_NUM"/>
+            <Field sourceFieldName="BATCHNUMBER" targetFieldName="BATCH_NUMBER"/>
+            <Field sourceFieldName="SERVICECLASS" targetFieldName="SERVICE_CLASS"/>
+            <Field sourceFieldName="TOTALTYPE" targetFieldName="TYPE_OF_SERVICE"/>
+            <Field sourceFieldName="CALLINDICATOR" targetFieldName="CALL_TYPE"/>
+            <Field sourceFieldName="A_NUMBER" targetFieldName="ORIGINAL_A_NUM"/>
+            <Field sourceFieldName="B_NUMBER" targetFieldName="ORIGINAL_B_NUM"/>
+            <Field sourceFieldName="STARTDATE" targetFieldName="START_DATE"/>
+            <Field sourceFieldName="STARTTIME" targetFieldName="START_TIME"/>
+            <Field sourceFieldName="DURATION" targetFieldName="ORIGINAL_DUR"/>
+            <Field sourceFieldName="A_PARTYCATEGORY" targetFieldName="A_PARTY_CATEGORY"/>
+            <Field sourceFieldName="B_PARTYCATEGORY" targetFieldName="B_PARTY_CATEGORY"/>
+            <Field sourceFieldName="INCOMINGTRUNK" targetFieldName="IN_TG_ID_KEY"/>
+            <Field sourceFieldName="OUTGOINGTRUNK" targetFieldName="OUT_TG_ID_KEY"/>
+            <Field sourceFieldName="PARTIAL_CALL_INDICATOR" targetFieldName="REC_TYPE_ID_KEY"/>
+            <Field sourceFieldName="C_NUMBER" targetFieldName="ORIGINAL_C_NUM"/>
+            <Field sourceFieldName="IMSI" targetFieldName="SERVED_IMSI"/>
+            <Field sourceFieldName="SERVICETYPE" targetFieldName="SERVICE_TYPE"/>
+            <Field sourceFieldName="SERVICEID" targetFieldName="BASIC_SERVICE_KEY"/>
+            <Field sourceFieldName="EQUIPID_A" targetFieldName="SERVED_IMEI"/>
+            <Field sourceFieldName="EQUIP_ID_B" targetFieldName="EQUIP_ID_B"/>
+            <Field sourceFieldName="CELL_NAME_FIRST" targetFieldName="FIRST_CELL_ID"/>
+            <Field sourceFieldName="CELL_NAME_LAST" targetFieldName="LAST_CELL_ID"/>
+            <Field sourceFieldName="LOCATION_AREA_ID_LAST" targetFieldName="LAST_LOCATION_ID"/>
+            <Field sourceFieldName="LOCATION_AREA_ID_FIRST" targetFieldName="FIRST_LOCATION_ID"/>
+            <Field sourceFieldName="MSCLASSMARK" targetFieldName="MS_CLASSMARK"/>
+            <Field sourceFieldName="DATAVOLUME" targetFieldName="DATA_VOLUME"/>
+            <Field sourceFieldName="DATAVOLUMEREF" targetFieldName="DATA_VOLUME_REF"/>
+            <Field sourceFieldName="MSRN" targetFieldName="ORIGINAL_MSRN"/>
+            <Field sourceFieldName="MSCID" targetFieldName="MSC_ID"/>
+            <Field sourceFieldName="RECORDINGENTITYTYPE" targetFieldName="RECORDINGENTITYTYPE"/>
+            <Field sourceFieldName="CAMELINDICATOR" targetFieldName="CAMEL_INDICATOR"/>
+            <Field sourceFieldName="CAMELSERVERADDRESS" targetFieldName="CAMEL_SERVER_ADDRESS"/>
+            <Field sourceFieldName="CAMELSERVICELEVEL" targetFieldName="CAMEL_SERVICE_LEVEL"/>
+            <Field sourceFieldName="CAMELSERVICEKEY" targetFieldName="CAMEL_SERVICE_KEY"/>
+            <Field sourceFieldName="CAMELMSCADDRESS" targetFieldName="CAMEL_MSC_ADDRESS"/>
+            <Field sourceFieldName="CAMELREFERENCENUMBER" targetFieldName="CAMEL_REF_NUM"/>
+            <Field sourceFieldName="CAMELDESTINATIONNUMBER" targetFieldName="CAMEL_DEST_NUM"/>
+            <Field sourceFieldName="CAMELINITIATEDCFINDICATOR" targetFieldName="CAMEL_INITIATED_CF_IND"/>
+            <Field sourceFieldName="PORTINFLAG" targetFieldName="PORT_IN_FLAG"/>
+            <Field sourceFieldName="SERVED_MSISDN"/>
+            <Field sourceFieldName="SERVED_MRSN"/>
+            <Field sourceFieldName="THIRD_PARTY_MSISDN" default="-99"/>
+            <Field sourceFieldName="SERVED_MSISDN_DIAL_DIGIT_KEY"/>
+            <Field sourceFieldName="SERVED_MSISDN_NOP_ID_KEY"/>
+            <Field sourceFieldName="OTHER_MSISDN"/>
+            <Field sourceFieldName="OTHER_MSISDN_DIAL_DIGIT_KEY"/>
+            <Field sourceFieldName="OTHER_MSISDN_NOP_ID_KEY"/>
+            <Field sourceFieldName="SERVED_MSRN_DIAL_DIGIT_KEY"/>
+            <Field sourceFieldName="OTHER_MSISDN_NW_IND_KEY"/>
+            <Field sourceFieldName="NETWORK_CALL_REF" default="-97"/>
+            <Field sourceFieldName="ZERO_DURATION_IND"/>
+            <Field sourceFieldName="SRV_TYPE_KEY"/>
+            <Field sourceFieldName="CHRG_UNIT_ID_KEY"/>
+            <Field sourceFieldName="EVENT_DIRECTION_KEY"/>
+            <Field sourceFieldName="SERVED_MSRN_DIAL_DIGIT_KEY"/>
+            <Field sourceFieldName="TERMINATION_REASON_KEY" default="-97"/>
+            <Field sourceFieldName="EVENT_TYPE_KEY"/>
+            <Field sourceFieldName="BILLABLE_PULSE"/>
+            <Field sourceFieldName="EVENT_START_TIME"/>
+            <Field sourceFieldName="EVENT_END_TIME"/>
+            <Field sourceFieldName="FLEXI_COL1"/>
+            <Field sourceFieldName="FLEXI_COL2"/>
+            <Field sourceFieldName="filename" targetFieldName="FILE_NAME"/>
+            <Field sourceFieldName="EVENT_DATE" targetFieldName="EVENT_DATE"/>
+            <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+            <Field sourceFieldName="POPULATION_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+        </Event>
+    </DataDef>
+</Adapter>
