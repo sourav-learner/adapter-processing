@@ -6,15 +6,15 @@ import com.gamma.skybase.contract.decoders.MEnrichmentResponse;
 import com.gamma.telco.opco.ReferenceDimDialDigit;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class mobilyMscRecordEnrichment implements IEnrichment {
 
-    private final ThreadLocal<SimpleDateFormat> sdfT = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMdd HH:mm:ss"));
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
 
     public MEnrichmentResponse transform(MEnrichmentReq request) {
         MEnrichmentResponse response = new MEnrichmentResponse();
@@ -32,7 +32,7 @@ public class mobilyMscRecordEnrichment implements IEnrichment {
                     record.put("SERVED_MSISDN_DIAL_DIGIT_KEY", ddk.getDialDigitKey());
                     record.put("SERVED_MSISDN_NOP_ID_KEY", ddk.getNopIdKey());
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
@@ -51,11 +51,28 @@ public class mobilyMscRecordEnrichment implements IEnrichment {
                     record.put("OTHER_MSISDN_DIAL_DIGIT_KEY", ddk.getDialDigitKey());
                     record.put("OTHER_MSISDN_NOP_ID_KEY", ddk.getNopIdKey());
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
 
+//      SERVED_MRSN
+        Optional<String> serveMSRN = tx.getServeMSRN();
+        serveMSRN.ifPresent(s -> {
+            record.put("SERVED_MRSN", s);
+            try {
+                ReferenceDimDialDigit ddk = tx.getDialedDigitSettings(s);
+                if (ddk != null) {
+                    record.put("SERVED_MSRN_DIAL_DIGIT_KEY", ddk.getDialDigitKey());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+//        SRV_TYPE_KEY
+        Optional<String> srvTypeKey = tx.getSrvTypeKey();
+        srvTypeKey.ifPresent(s -> record.put("SRV_TYPE_KEY" ,s));
 
 //      CHRG_UNIT_ID_KEY
         Optional<String> chrgUnitIdKey = tx.getChrgUnitIdKey();
@@ -84,23 +101,26 @@ public class mobilyMscRecordEnrichment implements IEnrichment {
 //        EVENT_START_TIME , XDR_DATE
         Optional<String> eventStartTime = tx.getStartTime();
         eventStartTime.ifPresent(s -> {
-            record.put("EVENT_START_TIME",s);
+            record.put("EVENT_START_TIME", s);
             record.put("XDR_DATE", s);
         });
 
 //        EVENT_END_TIME
-        Optional<String> eventEndTime = null;
+        Optional<String> eventEndTime;
         try {
             eventEndTime = tx.getEndTime();
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-        eventEndTime.ifPresent(s -> record.put("EVENT_END_TIME",s));
+        eventEndTime.ifPresent(s -> record.put("EVENT_END_TIME", s));
 
-        // FILE_NAME , POPULATION_DATE , EVENT_DATE
+//        FILE_NAME , EVENT_DATE
         record.put("FILE_NAME", record.get("fileName"));
-        record.put("POPULATION_DATE", sdfT.get().format(new Date()));
         record.put("EVENT_DATE", tx.genFullDate);
+
+//        POPULATION_DATE
+        LocalDateTime ldt = LocalDateTime.now();
+        record.put("POPULATION_DATE",dtf.format(ldt));
 
         response.setResponseCode(true);
         response.setResponse(record);
