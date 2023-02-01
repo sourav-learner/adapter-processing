@@ -1,23 +1,24 @@
 package com.gamma.skybase.build.server.etl.tx.mobily_msc;
 
 import com.gamma.telco.OpcoBusinessTransformation;
+import com.gamma.telco.opco.ReferenceDimCRMSubscriber;
 import com.gamma.telco.opco.ReferenceDimDialDigit;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Optional;
+
+import static com.gamma.telco.utility.TelcoBusinessTransformation.cache;
 
 public class mobilyMscEnrichmentUtil {
 
     private final OpcoBusinessTransformation txLib = new OpcoBusinessTransformation();
-    final ThreadLocal<SimpleDateFormat> sdfT = ThreadLocal.withInitial(
-            () -> new SimpleDateFormat("yyyyMMdd HH:mm:ss"));
-    final ThreadLocal<SimpleDateFormat> fullDate = ThreadLocal.withInitial(
-            () -> new SimpleDateFormat("yyyyMMdd"));
-    private final ThreadLocal<SimpleDateFormat> sdfS = ThreadLocal.withInitial(
-            () -> new SimpleDateFormat("yyyyMMddHHmmss"));
+//    TelcoBusinessTransformation zz= new TelcoBusinessTransformation();
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
+    DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("yyyyMMdd");
+    DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
     LinkedHashMap<String, Object> rec;
 
     private mobilyMscEnrichmentUtil(LinkedHashMap<String, Object> record) {
@@ -71,7 +72,7 @@ public class mobilyMscEnrichmentUtil {
         callIndicator = getValue("CALLINDICATOR");
         A_Number = getValue("A_NUMBER");
         if (callIndicator != null)
-            if (callIndicator.toLowerCase().equals("fwd")) {
+            if (callIndicator.equalsIgnoreCase("fwd")) {
                 if (A_Number != null) {
                     thirdPartyMSISDN = A_Number;
                 } else {
@@ -125,6 +126,61 @@ public class mobilyMscEnrichmentUtil {
 
         if (zeroDurationInd != null) {
             return Optional.of(zeroDurationInd);
+        }
+        return Optional.empty();
+    }
+
+    String srvTypeKey , msrn;
+
+    public int isPrepaid(String servedMSISDN) {
+        String value;
+        ReferenceDimCRMSubscriber subInfo = (ReferenceDimCRMSubscriber) cache.getRecord("DIM_CRM_INF_SUBSCRIBER_ALL", servedMSISDN);
+        //todo fix it
+        if (subInfo != null) {
+            value = subInfo.getServedMsisdn();
+            if (value != null) {
+//                return Integer.parseInt(subInfo.getPrepaidFlag());//TODO
+                return 0;
+            }
+        }
+        return 1;
+    }
+
+    public Optional<String> getSrvTypeKey(){
+        msrn = getValue("MSRN");
+        boolean msrnFlag;
+        if(msrn!=null) {
+            msrnFlag = msrn.startsWith("966");
+            int flag = isPrepaid(servedMSISDN);
+            switch (flag){
+                case 0:
+                    if(msrnFlag){
+                        srvTypeKey = "1";
+                    }else {
+                        srvTypeKey = "5";
+                    }
+                    break;
+                case 1:
+                    if(msrnFlag){
+                        srvTypeKey = "2";
+                    }else {
+                        srvTypeKey = "6";
+                    }
+                    break;
+                case 3:
+                    if(msrnFlag){
+                        srvTypeKey = "7";
+                    }else {
+                        srvTypeKey = "8";
+                    }
+                    break;
+                default:
+                    srvTypeKey = "-99";
+                    break;
+            }
+
+            if (srvTypeKey != null)
+                return Optional.of(srvTypeKey);
         }
         return Optional.empty();
     }
@@ -208,28 +264,24 @@ public class mobilyMscEnrichmentUtil {
         return Optional.empty();
     }
 
-    Date callStartTime;
-    String genFullDate;
+    LocalDateTime callStartTime;
 
-    String startDate, startTime, eventStartTime;
+    String genFullDate , startDate, startTime, eventStartTime;
 
     public Optional<String> getStartTime() {
         startDate = getValue("STARTDATE");
         startTime = getValue("STARTTIME");
         eventStartTime = startDate.concat(startTime);
-        try {
-            if (eventStartTime != null) {
-                callStartTime = sdfS.get().parse(eventStartTime);
-                genFullDate = fullDate.get().format(callStartTime);
-                return Optional.of(sdfT.get().format(callStartTime));
-            }
-        } catch (ParseException e) {
+        if (eventStartTime != null) {
+            callStartTime = LocalDateTime.parse(eventStartTime, dtf2);
+            genFullDate = callStartTime.toLocalDate().format(dtf1);
+            return Optional.of(dtf.format(callStartTime));
         }
         return Optional.empty();
     }
 
-    Date callEndTime;
-    int eventEndTime1 , startTime1 , duration1;
+    LocalDateTime callEndTime;
+    int eventEndTime1, startTime1, duration1;
 
     String eventEndTime;
 
@@ -239,10 +291,14 @@ public class mobilyMscEnrichmentUtil {
         eventEndTime1 = startTime1 +duration1;
 
         eventEndTime = startDate+eventEndTime1;
-        callEndTime = sdfS.get().parse(String.valueOf(eventEndTime));
-        return Optional.of(sdfT.get().format(callEndTime));
+        callEndTime = LocalDateTime.parse(eventEndTime,dtf2);
+        return Optional.of(dtf.format(callEndTime));
     }
 
+
+    public Optional<String> getServeMSRN(){
+        return Optional.empty();
+    }
     ReferenceDimDialDigit getDialedDigitSettings(String otherMSISDN) {
         return txLib.getDialedDigitSettings(otherMSISDN);
     }
