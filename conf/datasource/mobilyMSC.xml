@@ -75,7 +75,7 @@
             <Field sourceFieldName="OTHER_MSISDN_NW_IND_KEY"/>
             <Field sourceFieldName="NETWORK_CALL_REF" default="-97"/>
             <Field sourceFieldName="ZERO_DURATION_IND"/>
-            <Field sourceFieldName="SRV_TYPE_KEY"/>
+            <Field sourceFieldName="SRV_TYPE_KEY" default="-99"/>
             <Field sourceFieldName="CHRG_UNIT_ID_KEY"/>
             <Field sourceFieldName="EVENT_DIRECTION_KEY"/>
             <Field sourceFieldName="SERVED_MSRN_DIAL_DIGIT_KEY"/>
