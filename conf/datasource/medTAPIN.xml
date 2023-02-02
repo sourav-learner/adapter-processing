@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Adapter Name="MED_TAPIN" Type="ASN.1" Version="1.0" Active="true" StatusDBHandler="mongo" rawJson="false"
+         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.med_tapin.medTAPINFileExecutor" ExecMode="server"
+         txExecClass="com.gamma.skybase.build.server.etl.tx.med_tapin.medTAPINRecordEnrichment" ignoreLogging="false"
+         ignoreDuplicates="false" parallel="1" instance-size="1" load-factor="1" customized="enable">
+
+    <!--Extraction tag-->
+    <Extraction type="sniff" protocol="local"
+                execClass="com.gamma.skybase.server.core.collector.sniff.DefaultSniffingExtractionAgent">
+        <Settings host="" port="" path="/raetl/processing/med_tapin/poll" username="" password="">
+            <Signature required="false" key=""/>
+            <Extract pattern="" metaFields="fileName\" dateFieldPattern="yyyyMMdd"/>
+        </Settings>
+    </Extraction>
+
+    <DirConfig>
+        <Source path="/raetl/processing/med_tapin/source" clogging="true"/>
+        <Backup path="/raetl/processing/med_tapin/backup" clogging="true" compress="gz"/>
+        <Staging path="/raetl/processing/med_tapin/staging" clogging="true"/>
+        <Output path="/raetl/processing/med_tapin/output" clogging="true"/>
+        <Error path="/raetl/processing/med_tapin/error" clogging="true"/>
+        <Target protocol="" host="" path="/" pwd="" user="" active="true"/>
+    </DirConfig>
+
+    <DataDef>
+        <Event eventName="FCT_MED_TAPIN_VOICE_SMS_GPRS" tableName="FCT_MED_TAPIN_VOICE_SMS_GPRS" synonym="FCT_MED_TAPIN_VOICE_SMS_GPRS" dataBase="">
+            <Field sourceFieldName="TAP_REC_ID" targetFieldName="TAP_RECORD_ID"/>
+            <Field sourceFieldName="CALL_TERMINATING_FLAG" targetFieldName="CALL_TERM_FLAG"/>
+            <Field sourceFieldName="SERVED_MSISDN"/>
+            <Field sourceFieldName="OTHER_MSISDN"/>
+            <Field sourceFieldName="S_ID"/>
+            <Field sourceFieldName="IMSI" targetFieldName="SERVED_IMSI"/>
+            <Field sourceFieldName="EVENT_START_TIME"/>
+            <Field sourceFieldName="DURATION" targetFieldName="ORIGINAL_DUR"/>
+            <Field sourceFieldName="TADIG_CODE" targetFieldName="SENDER"/>
+            <Field sourceFieldName="TAPFILE_SEQ_NO" targetFieldName="TAP_FILE_SEQ_NUM"/>
+            <Field sourceFieldName="UTC_OFFSET_TIMEZONE" targetFieldName="UTC_OFFSET"/>
+            <Field sourceFieldName="SECONDS_PER_BILL_CYCLE"/>
+            <Field sourceFieldName="AIRTIME_CHARGE" targetFieldName="AIR_TIME_CHARGE"/>
+            <Field sourceFieldName="PSTN_CHARGE" targetFieldName="PSTN_CHRG"/>
+            <Field sourceFieldName="TOTAL_CHARGE" targetFieldName="TOTAL_CHRG"/>
+            <Field sourceFieldName="CALL_TYPE"/>
+            <Field sourceFieldName="SLAB_ID"/>
+            <Field sourceFieldName="TARIFFPLAN_ID"/>
+            <Field sourceFieldName="TADIG_GROUP_ID"/>
+            <Field sourceFieldName="NETWORK_ID"/>
+            <Field sourceFieldName="TERMINATION_REASON_KEY"/>
+            <Field sourceFieldName="ERR_DESCRIPTION"/>
+            <Field sourceFieldName="PARTNER_CODE"/>
+            <Field sourceFieldName="VOISE_SUBSCRIBER_YN"/>
+            <Field sourceFieldName="RECORD_PROCESS_STATUS"/>
+            <Field sourceFieldName="TAP_RATED_DATE"/>
+            <Field sourceFieldName="VOLUME_OUTGOING"/>
+            <Field sourceFieldName="TOTAL_VOLUME"/>
+            <Field sourceFieldName="TYPE_OF_SERVICE"/>
+            <Field sourceFieldName="TELESERVICE_CODE" targetFieldName="BASIC_SERVICE_KEY"/>
+            <Field sourceFieldName="TAP_AIRTIME_CHARGE"/>
+            <Field sourceFieldName="TAP_TOLL_CHARGE"/>
+            <Field sourceFieldName="TAP_TOTAL_CHARGE"/>
+            <Field sourceFieldName="IMEI_NO" targetFieldName="SERVED_IMEI"/>
+            <Field sourceFieldName="MSC_ID"/>
+            <Field sourceFieldName="VOLUME_INCOMING"/>
+            <Field sourceFieldName="RECIPIENT" default="SAUET"/>
+            <Field sourceFieldName="PARTNER_COUNTRY"/>
+            <Field sourceFieldName="PARTNER_OPER"/>
+            <Field sourceFieldName="SERVED_MSISDN_DIAL_DIGIT_KEY"/>
+            <Field sourceFieldName="SRV_TYPE_KEY"/>
+            <Field sourceFieldName="EVENT_DIRECTION_KEY"/>
+            <Field sourceFieldName="CHRG_UNIT_ID_KEY"/>
+            <Field sourceFieldName="EVENT_TYPE_KEY"/>
+            <Field sourceFieldName="OTHER_MSISDN_DIAL_DIGIT_KEY"/>
+            <Field sourceFieldName="OTHER_MSISDN_NOP_ID_KEY"/>
+            <Field sourceFieldName="OTHER_MSISDN_OPER"/>
+            <Field sourceFieldName="BILLABLE_PULSE"/>
+            <Field sourceFieldName="CHARGE"/>
+            <Field sourceFieldName="XDR_CHARGE"/>
+            <Field sourceFieldName="ZERO_DUR_IND"/>
+            <Field sourceFieldName="EVENT_END_TIME"/>
+            <Field sourceFieldName="PARTNER_CURRENCY" default="-97"/>
+            <Field sourceFieldName="TAP_DECIMAL_PLACES" default="-97"/>
+            <Field sourceFieldName="ZERO_CHRG_IND"/>
+            <Field sourceFieldName="GPRS_UPLINK_VOLUME"/>
+            <Field sourceFieldName="GPRS_DOWNLINK_VOLUME"/>
+            <Field sourceFieldName="GPRS_TOTAL_VOLUME"/>
+            <Field sourceFieldName="PDP_ADDRESS" default="-97"/>
+            <Field sourceFieldName="EXCHANGE_RATE"/>
+            <Field sourceFieldName="APN_NAME" default="-97"/>
+            <Field sourceFieldName="FLEXI_COL_1"/>
+            <Field sourceFieldName="filename" targetFieldName="FILE_NAME"/>
+            <Field sourceFieldName="EVENT_DATE" targetFieldName="EVENT_DATE"/>
+            <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+            <Field sourceFieldName="POPULATION_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+        </Event>
+    </DataDef>
+</Adapter>
