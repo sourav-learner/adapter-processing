@@ -66,19 +66,19 @@
             <Field sourceFieldName="SERVED_MSISDN"/>
             <Field sourceFieldName="SERVED_MRSN"/>
             <Field sourceFieldName="THIRD_PARTY_MSISDN" default="-99"/>
-            <Field sourceFieldName="SERVED_MSISDN_DIAL_DIGIT_KEY"/>
-            <Field sourceFieldName="SERVED_MSISDN_NOP_ID_KEY"/>
+            <Field sourceFieldName="SERVED_MSISDN_DIAL_DIGIT_KEY" default="-99"/>
+            <Field sourceFieldName="SERVED_MSISDN_NOP_ID_KEY" default="-99"/>
             <Field sourceFieldName="OTHER_MSISDN"/>
-            <Field sourceFieldName="OTHER_MSISDN_DIAL_DIGIT_KEY"/>
-            <Field sourceFieldName="OTHER_MSISDN_NOP_ID_KEY"/>
-            <Field sourceFieldName="SERVED_MSRN_DIAL_DIGIT_KEY"/>
-            <Field sourceFieldName="OTHER_MSISDN_NW_IND_KEY"/>
+            <Field sourceFieldName="OTHER_MSISDN_DIAL_DIGIT_KEY" default="-99"/>
+            <Field sourceFieldName="OTHER_MSISDN_NOP_ID_KEY" default="-99"/>
+            <Field sourceFieldName="SERVED_MSRN_DIAL_DIGIT_KEY" default="-99"/>
+            <Field sourceFieldName="OTHER_MSISDN_NW_IND_KEY" default="-99"/>
             <Field sourceFieldName="NETWORK_CALL_REF" default="-97"/>
             <Field sourceFieldName="ZERO_DURATION_IND"/>
             <Field sourceFieldName="SRV_TYPE_KEY" default="-99"/>
             <Field sourceFieldName="CHRG_UNIT_ID_KEY"/>
             <Field sourceFieldName="EVENT_DIRECTION_KEY"/>
-            <Field sourceFieldName="SERVED_MSRN_DIAL_DIGIT_KEY"/>
+            <Field sourceFieldName="SERVED_MSRN_DIAL_DIGIT_KEY" default="-99"/>
             <Field sourceFieldName="TERMINATION_REASON_KEY" default="-97"/>
             <Field sourceFieldName="EVENT_TYPE_KEY"/>
             <Field sourceFieldName="BILLABLE_PULSE"/>
