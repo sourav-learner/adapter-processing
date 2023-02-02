@@ -22,7 +22,7 @@ import java.util.Map;
 public class medGGSNFileExecutor extends medGGSNFileProcessor {
     private static final Logger logger = LoggerFactory.getLogger(medGGSNFileExecutor.class);
     private List<LinkedHashMap<String, Object>> jsonRecords;
-    String[] headers = new String[]{"SERVED_IMSI" , "CHARGING_ID" , "CHANGE_TIME" , "RECORD_OPENING_TIME" , "DURATION" , "RECORD_SEQUENCE_NUMBER" , "LOCAL_SEQUENCE_NUMBER" , "SERVED_MSISDN" , "DATA_VOLUME_GPRS_UPLINK" , "DATA_VOLUME_GPRS_DOWNLINK" , "FLEXI_COL_1" , "FLEXI_COL_2" , "FLEXI_COL_3" , "FLEXI_COL_4"};
+    String[] headers = new String[]{"SERVED_IMSI" , "CHARGING_ID" , "CHANGE_TIME" , "RECORD_OPENING_TIME" , "DURATION" , "RECORD_SEQUENCE_NUMBER" , "LOCAL_SEQUENCE_NUMBER" , "SERVED_MSISDN" , "DATA_VOLUME_GPRS_UPLINK" , "DATA_VOLUME_GPRS_DOWNLINK" , "SERVED_MSISDN", "FLEXI_COL_1" , "FLEXI_COL_2" , "FLEXI_COL_3"};
 
     @Override
     public void parseFile(String fileName) throws Exception {
