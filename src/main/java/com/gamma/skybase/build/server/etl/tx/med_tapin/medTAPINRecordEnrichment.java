@@ -97,13 +97,6 @@ public class medTAPINRecordEnrichment implements IEnrichment {
             record.put("ZERO_DUR_IND", s.equals("0") ? "0" : "1");
         });
 
-//        CHARGE, ZERO_CHRG_IND
-        Optional<String> charge = tx.getCharge();
-        charge.ifPresent(s -> {
-            record.put("CHARGE", s);
-            record.put("ZERO_CHARGE_IND", s.equals("0") ? "1" : "0");
-        });
-
 //        GPRS_UPLINK_VOLUME
         Optional<String> uplinkVolume = tx.getGprsUplinkVolume();
         uplinkVolume.ifPresent(s -> record.put("GPRS_UPLINK_VOLUME", s));

@@ -307,19 +307,6 @@ public class medTAPINEnrichmentUtil {
         return Optional.empty();
     }
 
-    String charge;
-
-    public Optional<String> getCharge() {
-        if (charge != null) {
-            try {
-                Double.parseDouble(charge);
-                return Optional.of(charge);
-            } catch (Exception ignored) {
-            }
-        }
-        return Optional.empty();
-    }
-
     String volumeOut , uplinkVolume;
 
     public Optional<String> getGprsUplinkVolume() {
