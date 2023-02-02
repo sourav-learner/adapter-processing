@@ -30,12 +30,12 @@
             <Field sourceFieldName="OTHER_MSISDN"/>
             <Field sourceFieldName="S_ID"/>
             <Field sourceFieldName="IMSI" targetFieldName="SERVED_IMSI"/>
-            <Field sourceFieldName="EVENT_START_TIME"/>
+            <Field sourceFieldName="CALL_TIMESTAMP" targetFieldName="EVENT_START_TIME"/>
             <Field sourceFieldName="DURATION" targetFieldName="ORIGINAL_DUR"/>
             <Field sourceFieldName="TADIG_CODE" targetFieldName="SENDER"/>
             <Field sourceFieldName="TAPFILE_SEQ_NO" targetFieldName="TAP_FILE_SEQ_NUM"/>
             <Field sourceFieldName="UTC_OFFSET_TIMEZONE" targetFieldName="UTC_OFFSET"/>
-            <Field sourceFieldName="SECONDS_PER_BILL_CYCLE"/>
+            <Field sourceFieldName="SECONDS_PER_BILLING_CYCLE" targetFieldName="SECONDS_PER_BILL_CYCLE"/>
             <Field sourceFieldName="AIRTIME_CHARGE" targetFieldName="AIR_TIME_CHARGE"/>
             <Field sourceFieldName="PSTN_CHARGE" targetFieldName="PSTN_CHRG"/>
             <Field sourceFieldName="TOTAL_CHARGE" targetFieldName="TOTAL_CHRG"/>
@@ -44,8 +44,8 @@
             <Field sourceFieldName="TARIFFPLAN_ID"/>
             <Field sourceFieldName="TADIG_GROUP_ID"/>
             <Field sourceFieldName="NETWORK_ID"/>
-            <Field sourceFieldName="TERMINATION_REASON_KEY"/>
-            <Field sourceFieldName="ERR_DESCRIPTION"/>
+            <Field sourceFieldName="ERROR_CODE" targetFieldName="TERMINATION_REASON_KEY"/>
+            <Field sourceFieldName="ERROR_DESCRIPTION" targetFieldName="ERR_DESCRIPTION"/>
             <Field sourceFieldName="PARTNER_CODE"/>
             <Field sourceFieldName="VOISE_SUBSCRIBER_YN"/>
             <Field sourceFieldName="RECORD_PROCESS_STATUS"/>
@@ -63,18 +63,18 @@
             <Field sourceFieldName="RECIPIENT" default="SAUET"/>
             <Field sourceFieldName="PARTNER_COUNTRY"/>
             <Field sourceFieldName="PARTNER_OPER"/>
-            <Field sourceFieldName="SERVED_MSISDN_DIAL_DIGIT_KEY"/>
+            <Field sourceFieldName="SERVED_MSISDN_DIAL_DIGIT_KEY" default="-99"/>
             <Field sourceFieldName="SRV_TYPE_KEY"/>
             <Field sourceFieldName="EVENT_DIRECTION_KEY"/>
             <Field sourceFieldName="CHRG_UNIT_ID_KEY"/>
             <Field sourceFieldName="EVENT_TYPE_KEY"/>
-            <Field sourceFieldName="OTHER_MSISDN_DIAL_DIGIT_KEY"/>
-            <Field sourceFieldName="OTHER_MSISDN_NOP_ID_KEY"/>
-            <Field sourceFieldName="OTHER_MSISDN_OPER"/>
+            <Field sourceFieldName="OTHER_MSISDN_DIAL_DIGIT_KEY" default="-99"/>
+            <Field sourceFieldName="OTHER_MSISDN_NOP_ID_KEY" default="-99"/>
+            <Field sourceFieldName="OTHER_MSISDN_OPER" default="-99"/>
             <Field sourceFieldName="BILLABLE_PULSE"/>
-            <Field sourceFieldName="CHARGE"/>
-            <Field sourceFieldName="XDR_CHARGE"/>
-            <Field sourceFieldName="ZERO_DUR_IND"/>
+            <Field sourceFieldName="CHARGE" default="-97"/>
+            <Field sourceFieldName="XDR_CHARGE" default="-97"/>
+            <Field sourceFieldName="ZERO_DUR_IND" default="-97"/>
             <Field sourceFieldName="EVENT_END_TIME"/>
             <Field sourceFieldName="PARTNER_CURRENCY" default="-97"/>
             <Field sourceFieldName="TAP_DECIMAL_PLACES" default="-97"/>
