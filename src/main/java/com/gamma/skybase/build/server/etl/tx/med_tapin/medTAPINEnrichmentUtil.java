@@ -36,22 +36,22 @@ public class medTAPINEnrichmentUtil {
     }
 
     LocalDateTime eventStartTime;
-    String genFullDate , callTimeStamp;
+    String genFullDate, callTimeStamp;
 
     public Optional<String> getEventStartTime(String field) {
         callTimeStamp = getValue(field);
         try {
-            if (callTimeStamp != null){
-                eventStartTime = LocalDateTime.parse(callTimeStamp,dtf2);
+            if (callTimeStamp != null) {
+                eventStartTime = LocalDateTime.parse(callTimeStamp, dtf2);
                 genFullDate = eventStartTime.toLocalDate().format(dtf1);
                 return Optional.of(dtf.format(eventStartTime));
             }
-        }catch (Exception e){
+        } catch (Exception e) {
         }
         return Optional.empty();
     }
 
-    String servedMSISDN , aPartyNumber , callTerminatingFlag , bPartyNumber;
+    String servedMSISDN, aPartyNumber, callTerminatingFlag, bPartyNumber;
 
     public Optional<String> getServedMSISDN() {
         callTerminatingFlag = getValue("CALL_TERMINATING_FLAG");
@@ -73,7 +73,7 @@ public class medTAPINEnrichmentUtil {
         return Optional.empty();
     }
 
-    String otherMSISDN ;
+    String otherMSISDN;
 
     public Optional<String> getOtherMSISDN() {
         if (callTerminatingFlag != null)
@@ -93,28 +93,25 @@ public class medTAPINEnrichmentUtil {
     }
 
     LocalDateTime tapRatedDate;
+
     public Optional<String> getTapRatedDate(String field) {
         String s = getValue(field);
         try {
-            if (s != null){
-                tapRatedDate = LocalDateTime.parse(s,dtf2);
+            if (s != null) {
+                tapRatedDate = LocalDateTime.parse(s, dtf2);
                 return Optional.of(dtf.format(tapRatedDate));
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
         }
         return Optional.empty();
     }
 
-    String volumeOutgoing , typeOfService;
+    String volumeOutgoing;
 
     public Optional<String> getVolumeOutgoing() {
-        typeOfService = getValue("TYPE_OF_SERVICE");
-        if (typeOfService != null)
-            switch (typeOfService) {
-                case "G":
-                    volumeOutgoing = typeOfService;
-                    break;
+        String typeService = getValue("TYPE_OF_SERVICE");
+        if (typeService != null)
+            switch (typeService.toUpperCase()) {
                 case "C":
                 case "S":
                     volumeOutgoing = "NA";
@@ -130,11 +127,9 @@ public class medTAPINEnrichmentUtil {
     String totalVolume;
 
     public Optional<String> getTotalVolume() {
-        if (typeOfService != null)
-            switch (typeOfService) {
-                case "G":
-                    totalVolume = typeOfService;
-                    break;
+        String typeService = getValue("TYPE_OF_SERVICE");
+        if (typeService != null)
+            switch (typeService) {
                 case "C":
                 case "S":
                     totalVolume = "NA";
@@ -150,11 +145,9 @@ public class medTAPINEnrichmentUtil {
     String volumeIncoming;
 
     public Optional<String> getVolumeIncoming() {
-        if (typeOfService != null)
-            switch (typeOfService) {
-                case "G":
-                    volumeIncoming = typeOfService;
-                    break;
+        String typeService = getValue("TYPE_OF_SERVICE");
+        if (typeService != null)
+            switch (typeService) {
                 case "C":
                 case "S":
                     volumeIncoming = "NA";
@@ -167,7 +160,7 @@ public class medTAPINEnrichmentUtil {
         return Optional.empty();
     }
 
-    String srvTypeKey , msrn;
+    String srvTypeKey, msrn;
 
     public int isPrepaid(String servedMSISDN) {
         String value;
@@ -183,31 +176,31 @@ public class medTAPINEnrichmentUtil {
         return 1;
     }
 
-    public Optional<String> getSrvTypeKey(){
+    public Optional<String> getSrvTypeKey() {
         msrn = getValue("MSRN");
         boolean msrnFlag;
-        if(msrn!=null) {
+        if (msrn != null) {
             msrnFlag = msrn.startsWith("966");
             int flag = isPrepaid(servedMSISDN);
-            switch (flag){
+            switch (flag) {
                 case 0:
-                    if(msrnFlag){
+                    if (msrnFlag) {
                         srvTypeKey = "1";
-                    }else {
+                    } else {
                         srvTypeKey = "5";
                     }
                     break;
                 case 1:
-                    if(msrnFlag){
+                    if (msrnFlag) {
                         srvTypeKey = "2";
-                    }else {
+                    } else {
                         srvTypeKey = "6";
                     }
                     break;
                 case 3:
-                    if(msrnFlag){
+                    if (msrnFlag) {
                         srvTypeKey = "7";
-                    }else {
+                    } else {
                         srvTypeKey = "8";
                     }
                     break;
@@ -222,7 +215,7 @@ public class medTAPINEnrichmentUtil {
         return Optional.empty();
     }
 
-    String eventDirectionKey ;
+    String eventDirectionKey;
 
     public Optional<String> getEventDirectionKey() {
         if (callTerminatingFlag != null)
@@ -245,6 +238,7 @@ public class medTAPINEnrichmentUtil {
     String chrgUnitIdKey;
 
     public Optional<String> getChrgUnitIdKey() {
+        String typeOfService = getValue("TYPE_OF_SERVICE");
         if (typeOfService != null)
             switch (typeOfService) {
                 case "C":
@@ -268,20 +262,21 @@ public class medTAPINEnrichmentUtil {
     String eventTypeKey;
 
     public Optional<String> getEventTypeKey() {
+        String typeOfService = getValue("TYPE_OF_SERVICE");
         if (typeOfService != null)
-            switch (typeOfService) {
-                case "C":
-                    eventTypeKey = "1";
-                    break;
-                case "S":
-                    eventTypeKey = "2";
-                    break;
-                case "G":
-                    eventTypeKey = "4";
-                    break;
-                default:
-                    break;
-            }
+        switch (typeOfService) {
+            case "C":
+                eventTypeKey = "1";
+                break;
+            case "S":
+                eventTypeKey = "2";
+                break;
+            case "G":
+                eventTypeKey = "4";
+                break;
+            default:
+                break;
+        }
         if (eventTypeKey != null)
             return Optional.of(eventTypeKey);
         return Optional.empty();
@@ -300,39 +295,51 @@ public class medTAPINEnrichmentUtil {
             } catch (Exception ignore) {
             }
         }
-        if (typeOfService.equals("G")){
+        String typeOfService = getValue("TYPE_OF_SERVICE");
+        if (typeOfService.equals("G")) {
             billablePulse = -97;
         }
 
         return Optional.empty();
     }
 
-    String volumeOut , uplinkVolume;
+    String volumeOut, uplinkVolume;
 
     public Optional<String> getGprsUplinkVolume() {
         volumeOut = getValue("VOLUME_OUTGOING");
+        String typeOfService = getValue("TYPE_OF_SERVICE");
         if (typeOfService != null) {
-            switch (typeOfService){
+            switch (typeOfService) {
                 case "G":
-                    uplinkVolume = String.valueOf(Long.parseLong(volumeOut) / 1024);
+                    try {
+                        Long v = Long.parseLong(volumeOut);
+                        double d = v / 1024;
+                        uplinkVolume = String.valueOf(d);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     break;
                 case "C":
                 case "S":
                     uplinkVolume = "NA";
                     break;
+                default:
+                    break;
             }
         }
-        if (uplinkVolume != null){
+        if (uplinkVolume != null) {
             return Optional.of(uplinkVolume);
         }
         return Optional.empty();
     }
 
-    String volumeIn , downLinkVolume;
+    String volumeIn, downLinkVolume;
+
     public Optional<String> getGprsDownlinkVolume() {
         volumeIn = getValue("VOLUME_INCOMING");
+        String typeOfService = getValue("TYPE_OF_SERVICE");
         if (typeOfService != null) {
-            switch (typeOfService){
+            switch (typeOfService) {
                 case "G":
                     downLinkVolume = String.valueOf(Long.parseLong(volumeIn) / 1024);
                     break;
@@ -340,19 +347,23 @@ public class medTAPINEnrichmentUtil {
                 case "S":
                     downLinkVolume = "NA";
                     break;
+                default:
+                    break;
             }
         }
-        if (downLinkVolume != null){
+        if (downLinkVolume != null) {
             return Optional.of(downLinkVolume);
         }
         return Optional.empty();
     }
 
-    String totalVol , total;
+    String totalVol, total;
+
     public Optional<String> getGprsTotalVolume() {
         totalVol = getValue("TOTAL_VOLUME");
+        String typeOfService = getValue("TYPE_OF_SERVICE");
         if (typeOfService != null) {
-            switch (typeOfService){
+            switch (typeOfService) {
                 case "G":
                     total = String.valueOf(Long.parseLong(totalVol) / 1024);
                     break;
@@ -360,12 +371,13 @@ public class medTAPINEnrichmentUtil {
                 case "S":
                     total = "NA";
                     break;
+                default:
+                    break;
             }
-        }
-        else {
+        } else {
             total = volumeIn + volumeOut;
         }
-        if (total != null){
+        if (total != null) {
             return Optional.of(total);
         }
         return Optional.empty();
