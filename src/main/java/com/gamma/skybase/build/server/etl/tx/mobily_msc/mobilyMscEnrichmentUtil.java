@@ -11,11 +11,12 @@ import java.util.LinkedHashMap;
 import java.util.Optional;
 
 import static com.gamma.telco.utility.TelcoBusinessTransformation.cache;
+import static com.gamma.telco.utility.TelcoEnrichmentUtility.ltrim;
 
 public class mobilyMscEnrichmentUtil {
 
     private final OpcoBusinessTransformation txLib = new OpcoBusinessTransformation();
-//    TelcoBusinessTransformation zz= new TelcoBusinessTransformation();
+    //    TelcoBusinessTransformation zz= new TelcoBusinessTransformation();
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
     DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("yyyyMMdd");
     DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
@@ -39,24 +40,27 @@ public class mobilyMscEnrichmentUtil {
     }
 
     String callIndicator, servedMSISDN;
-    String A_Number, B_Number;
+//    String A_Number, B_Number , aNumber , bNumber;
 
     public Optional<String> getServedMSISDN() {
         callIndicator = getValue("CALLINDICATOR");
-        A_Number = getValue("A_NUMBER");
-        B_Number = getValue("B_NUMBER");
+        String A_Number = getValue("A_NUMBER");
+        String B_Number = getValue("B_NUMBER");
+        String aNumber = normalizeMSISDN(A_Number);
+        String bNumber = normalizeMSISDN(B_Number);
+
         if (callIndicator != null)
             switch (callIndicator.toLowerCase()) {
                 case "moc":
-                    if (A_Number != null) {
-                        servedMSISDN = A_Number;
+                    if (aNumber != null) {
+                        servedMSISDN = aNumber;
                     }
                     break;
 
                 case "mtc":
                 case "fwd":
-                    if (B_Number != null) {
-                        servedMSISDN = B_Number;
+                    if (bNumber != null) {
+                        servedMSISDN = bNumber;
                     }
                     break;
             }
@@ -70,7 +74,8 @@ public class mobilyMscEnrichmentUtil {
 
     public Optional<String> getThirdPartyMSISDN() {
         callIndicator = getValue("CALLINDICATOR");
-        A_Number = getValue("A_NUMBER");
+        String A_Number = getValue("A_NUMBER");
+
         if (callIndicator != null)
             if (callIndicator.equalsIgnoreCase("fwd")) {
                 if (A_Number != null) {
@@ -85,13 +90,14 @@ public class mobilyMscEnrichmentUtil {
         return Optional.empty();
     }
 
-    String otherMSISDN, C_Number;
+    String otherMSISDN;
 
     public Optional<String> getOtherMSISDN() {
         callIndicator = getValue("CALLINDICATOR");
-        A_Number = getValue("A_NUMBER");
-        B_Number = getValue("B_NUMBER");
-        C_Number = getValue("C_NUMBER");
+        String A_Number = getValue("A_NUMBER");
+        String B_Number = getValue("B_NUMBER");
+        String C_Number = getValue("C_NUMBER");
+
         if (callIndicator != null)
             switch (callIndicator.toLowerCase()) {
                 case "moc":
@@ -130,7 +136,7 @@ public class mobilyMscEnrichmentUtil {
         return Optional.empty();
     }
 
-    String srvTypeKey , msrn;
+    String srvTypeKey, msrn;
 
     public int isPrepaid(String servedMSISDN) {
         String value;
@@ -146,31 +152,31 @@ public class mobilyMscEnrichmentUtil {
         return 1;
     }
 
-    public Optional<String> getSrvTypeKey(){
+    public Optional<String> getSrvTypeKey() {
         msrn = getValue("MSRN");
         boolean msrnFlag;
-        if(msrn!=null) {
+        if (msrn != null) {
             msrnFlag = msrn.startsWith("966");
             int flag = isPrepaid(servedMSISDN);
-            switch (flag){
+            switch (flag) {
                 case 0:
-                    if(msrnFlag){
+                    if (msrnFlag) {
                         srvTypeKey = "1";
-                    }else {
+                    } else {
                         srvTypeKey = "5";
                     }
                     break;
                 case 1:
-                    if(msrnFlag){
+                    if (msrnFlag) {
                         srvTypeKey = "2";
-                    }else {
+                    } else {
                         srvTypeKey = "6";
                     }
                     break;
                 case 3:
-                    if(msrnFlag){
+                    if (msrnFlag) {
                         srvTypeKey = "7";
-                    }else {
+                    } else {
                         srvTypeKey = "8";
                     }
                     break;
@@ -266,7 +272,7 @@ public class mobilyMscEnrichmentUtil {
 
     LocalDateTime callStartTime;
 
-    String genFullDate , startDate, startTime, eventStartTime;
+    String genFullDate, startDate, startTime, eventStartTime;
 
     public Optional<String> getStartTime() {
         startDate = getValue("STARTDATE");
@@ -288,18 +294,45 @@ public class mobilyMscEnrichmentUtil {
     public Optional<String> getEndTime() throws ParseException {
         startTime1 = Integer.parseInt(getValue("STARTTIME"));
         duration1 = Integer.parseInt(getValue("DURATION"));
-        eventEndTime1 = startTime1 +duration1;
+        eventEndTime1 = startTime1 + duration1;
 
-        eventEndTime = startDate+eventEndTime1;
-        callEndTime = LocalDateTime.parse(eventEndTime,dtf2);
+        eventEndTime = startDate + eventEndTime1;
+        callEndTime = LocalDateTime.parse(eventEndTime, dtf2);
         return Optional.of(dtf.format(callEndTime));
     }
 
+    String servedMSRN;
 
-    public Optional<String> getServeMSRN(){
+    public Optional<String> getServeMSRN() {
+        msrn = getValue("MSRN");
+        if (msrn != null) {
+            servedMSRN = normalizeMSRN(msrn);
+            return Optional.of(servedMSRN);
+        }
         return Optional.empty();
     }
+
     ReferenceDimDialDigit getDialedDigitSettings(String otherMSISDN) {
         return txLib.getDialedDigitSettings(otherMSISDN);
+    }
+
+    String normalizeMSISDN(String number) {
+        if (number.startsWith("0")) {
+            number = ltrim(number, '0');
+            if (number.length() < 10) {
+                number = "966" + number;
+            }
+        }
+        return number;
+    }
+
+    String normalizeMSRN(String number) {
+        if (number.startsWith("966"))
+            return number;
+        else {
+            String remove = number.substring(2);
+            number = remove;
+        }
+        return number;
     }
 }
