@@ -78,7 +78,7 @@
             <Field sourceFieldName="EVENT_END_TIME"/>
             <Field sourceFieldName="PARTNER_CURRENCY" default="-97"/>
             <Field sourceFieldName="TAP_DECIMAL_PLACES" default="-97"/>
-            <Field sourceFieldName="ZERO_CHRG_IND"/>
+            <Field sourceFieldName="ZERO_CHRG_IND" default="-97"/>
             <Field sourceFieldName="GPRS_UPLINK_VOLUME"/>
             <Field sourceFieldName="GPRS_DOWNLINK_VOLUME"/>
             <Field sourceFieldName="GPRS_TOTAL_VOLUME"/>
