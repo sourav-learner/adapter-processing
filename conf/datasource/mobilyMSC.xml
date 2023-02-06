@@ -65,7 +65,7 @@
             <Field sourceFieldName="PORTINFLAG" targetFieldName="PORT_IN_FLAG"/>
             <Field sourceFieldName="SERVED_MSISDN"/>
             <Field sourceFieldName="SERVED_MRSN"/>
-            <Field sourceFieldName="THIRD_PARTY_MSISDN" default="-99"/>
+            <Field sourceFieldName="THIRD_PARTY_MSISDN"/>
             <Field sourceFieldName="SERVED_MSISDN_DIAL_DIGIT_KEY" default="-99"/>
             <Field sourceFieldName="SERVED_MSISDN_NOP_ID_KEY" default="-99"/>
             <Field sourceFieldName="OTHER_MSISDN"/>
