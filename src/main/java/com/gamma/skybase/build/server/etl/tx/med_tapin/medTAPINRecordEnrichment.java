@@ -5,6 +5,7 @@ import com.gamma.skybase.contract.decoders.MEnrichmentReq;
 import com.gamma.skybase.contract.decoders.MEnrichmentResponse;
 import com.gamma.telco.opco.ReferenceDimDialDigit;
 
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
@@ -112,6 +113,16 @@ public class medTAPINRecordEnrichment implements IEnrichment {
 //        partnerCountryName , partnerOper
         Map<String, Object> basicInfo = tx.getTAPINBasicInfo();
         record.putAll(basicInfo);
+
+//        EVENT_END_TIME
+        Optional<String> eventEndTime;
+        try {
+            eventEndTime = tx.getEndTime();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        eventEndTime.ifPresent(s -> record.put("EVENT_END_TIME", s));
+
 
 //        FILE_NAME
         record.put("FILE_NAME", record.get("fileName"));

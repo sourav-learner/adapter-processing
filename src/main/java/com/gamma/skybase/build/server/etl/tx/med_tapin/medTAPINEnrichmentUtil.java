@@ -5,6 +5,7 @@ import com.gamma.telco.opco.ReferenceDimCRMSubscriber;
 import com.gamma.telco.opco.ReferenceDimDialDigit;
 import com.gamma.telco.utility.reference.ReferenceDimTadigLookup;
 
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -49,6 +50,20 @@ public class medTAPINEnrichmentUtil {
         } catch (Exception e) {
         }
         return Optional.empty();
+    }
+
+    String eventEndTime1;
+    LocalDateTime callEndTime;
+
+    public Optional<String> getEndTime() throws ParseException {
+        String dur =getValue("DURATION");
+
+        if (dur != null){
+            eventEndTime1 = "callTimeStamp" + "dur";
+
+            callEndTime = LocalDateTime.parse(eventEndTime1, dtf2);
+        }
+        return Optional.of(dtf.format(callEndTime));
     }
 
     String servedMSISDN, aPartyNumber, callTerminatingFlag, bPartyNumber;
