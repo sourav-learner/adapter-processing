@@ -26,6 +26,8 @@
         <Event eventName="FCT_MED_TAPIN_VOICE_SMS_GPRS" tableName="FCT_MED_TAPIN_VOICE_SMS_GPRS" synonym="FCT_MED_TAPIN_VOICE_SMS_GPRS" dataBase="">
             <Field sourceFieldName="TAP_REC_ID" targetFieldName="TAP_RECORD_ID"/>
             <Field sourceFieldName="CALL_TERMINATING_FLAG" targetFieldName="CALL_TERM_FLAG"/>
+            <Field sourceFieldName="A_PARTY_NUMBER" targetFieldName="ORIGINAL_A_NUM"/>
+            <Field sourceFieldName="B_PARTY_NUMBER" targetFieldName="ORIGINAL_B_NUM"/>
             <Field sourceFieldName="SERVED_MSISDN"/>
             <Field sourceFieldName="OTHER_MSISDN"/>
             <Field sourceFieldName="S_ID"/>
