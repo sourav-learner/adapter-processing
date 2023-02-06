@@ -250,7 +250,8 @@ public class mobilyMscEnrichmentUtil {
         serviceID = getValue("SERVICEID");
         if (serviceID != null)
             switch (serviceID) {
-                case "11":    //voice
+                case "11"://voice
+                case "12":
                     eventTypeKey = "1";
                     break;
                 case "22":    //sms
@@ -328,15 +329,20 @@ public class mobilyMscEnrichmentUtil {
         return txLib.getDialedDigitSettings(otherMSISDN);
     }
 
+    String num , num1;
+
     String normalizeMSISDN(String number) {
         if (number != null){
             if (number.startsWith("0")) {
-                number = ltrim(number, '0');
-                if (number.length() < 10) {
-                    number = "966" + number;
+                num = ltrim(number, '0');
+                if (num.length() < 10) {
+                    num1 = "966" + number;
+                }
+                else {
+                    num1 = number;
                 }
             }
-            return number;
+            return num1;
         }
         return "";
     }
@@ -345,7 +351,7 @@ public class mobilyMscEnrichmentUtil {
         if (number.startsWith("966"))
             return number;
         else {
-            String remove = number.substring(1);
+            String remove = number.substring(2);
             number = remove;
         }
         return number;
