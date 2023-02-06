@@ -30,7 +30,7 @@
             <Field sourceFieldName="OTHER_MSISDN"/>
             <Field sourceFieldName="S_ID"/>
             <Field sourceFieldName="IMSI" targetFieldName="SERVED_IMSI"/>
-            <Field sourceFieldName="CALL_TIMESTAMP" targetFieldName="EVENT_START_TIME"/>
+            <Field sourceFieldName="EVENT_START_TIME"/>
             <Field sourceFieldName="DURATION" targetFieldName="ORIGINAL_DUR"/>
             <Field sourceFieldName="TADIG_CODE" targetFieldName="SENDER"/>
             <Field sourceFieldName="TAPFILE_SEQ_NO" targetFieldName="TAP_FILE_SEQ_NUM"/>
