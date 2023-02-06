@@ -15,7 +15,7 @@ public class medTAPINEnrichmentUtil {
     private final OpcoBusinessTransformation txLib = new OpcoBusinessTransformation();
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
     DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("yyyyMMdd");
-    DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("dd-MM-yyyy HHmmss");
+    DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
     LinkedHashMap<String, Object> rec;
 
     private medTAPINEnrichmentUtil(LinkedHashMap<String, Object> record) {
