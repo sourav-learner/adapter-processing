@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Adapter Name="HLR" Type="ASN.1" Version="1.0" Active="true" StatusDBHandler="mongo" rawJson="true"
+         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.hlr.HLRFileExecutor" ExecMode="server"
+         txExecClass="com.gamma.skybase.build.server.etl.tx.hlr.hlrRecordEnrichment" ignoreLogging="false"
+         ignoreDuplicates="false" parallel="1" instance-size="1" load-factor="1" customized="enable">
+
+    <!--Extraction tag-->
+    <Extraction type="sniff" protocol="local" execClass="com.gamma.skybase.server.core.collector.sniff.DefaultSniffingExtractionAgent">
+        <Settings host="" port="" path="/raetl/processing/hlr/poll" username="" password="">
+            <Signature required="false" key=""/>
+            <Extract pattern="" metaFields="fileName\" dateFieldPattern="yyyyMMdd"/>
+        </Settings>
+    </Extraction>
+
+    <DirConfig>
+        <Source path="/raetl/processing/hlr/source" clogging="true"/>
+        <Backup path="/raetl/processing/hlr/backup" clogging="true" compress="gz"/>
+        <Staging path="/raetl/processing/hlr/staging" clogging="true"/>
+        <Output path="/raetl/processing/hlr/output" clogging="true"/>
+        <Error path="/raetl/processing/hlr/error" clogging="true"/>
+        <Target protocol="" host="" path="/" pwd="" user="" active="true"/>
+    </DirConfig>
+
+    <DataDef>
+        <Event eventName="HLR_FCT" tableName="HLR_FCT" synonym="HLR_FCT" dataBase="">
+            <Field sourceFieldName="HLR_INDEX"/>
+            <Field sourceFieldName="IMSI" targetFieldName="SERVED_IMSI"/>
+            <Field sourceFieldName="MSISDN" targetFieldName="SERVED_MSISDN"/>
+            <Field sourceFieldName="GPRS_SUBSCRIBED"/>
+            <Field sourceFieldName="APN"/>
+            <Field sourceFieldName="PDP_ADD"/>
+            <Field sourceFieldName="NAM" targetFieldName="NETWORK_ACCESS_MODE"/>
+            <Field sourceFieldName="ODBIC" targetFieldName="ODB_INCOMING_CALL"/>
+            <Field sourceFieldName="ODBOC" targetFieldName="ODB_OUTGOING_CALL"/>
+            <Field sourceFieldName="ODBPLMN1"/>
+            <Field sourceFieldName="ODBPLMN2"/>
+            <Field sourceFieldName="ODBPLMN3"/>
+            <Field sourceFieldName="ODBPLMN4"/>
+            <Field sourceFieldName="ODB_ROAM"/>
+            <Field sourceFieldName="ODBDECT" targetFieldName="ODBDECT_CALLTRANSFER"/>
+            <Field sourceFieldName="ODBMECT" targetFieldName="ODBMECT_CALLTRANSFER"/>
+            <Field sourceFieldName="ODBINFO" targetFieldName="ODB_INFO_SERVICE"/>
+            <Field sourceFieldName="ODBECT" targetFieldName="ODB_ECT"/>
+            <Field sourceFieldName="ODBPOS" targetFieldName="ODB_PACKET_ORIENTED_SERVICE"/>
+            <Field sourceFieldName="ODBPOSTYPE" targetFieldName="ODB_PACKET_ORIENTED_SERVICE_TYPE"/>
+            <Field sourceFieldName="ODBRCF" targetFieldName="ODB_REG_CALL_FWD"/>
+            <Field sourceFieldName="ODBENTER" targetFieldName="ODB_PREMIUM"/>
+            <Field sourceFieldName="ODBSS" targetFieldName="ODB_SUPP_SERV"/>
+            <Field sourceFieldName="LOCK_SABLCKIN"/>
+            <Field sourceFieldName="LOCK_SABLCKOUT"/>
+            <Field sourceFieldName="LOCK_MSCLCKIN"/>
+            <Field sourceFieldName="LOCK_MSCLCKOUT"/>
+            <Field sourceFieldName="LOCK_SGSNLCK"/>
+            <Field sourceFieldName="UTRANNOTALLOWED" targetFieldName="UTRANNOTALLOWED_3G"/>
+            <Field sourceFieldName="GERANNOTALLOWED" targetFieldName="GERANNOTALLOWED_2G"/>
+            <Field sourceFieldName="CARD_TYPE"/>
+            <Field sourceFieldName="CATEGORY"/>
+            <Field sourceFieldName="TS10" targetFieldName="TS10_ALL_SPEECH"/>
+            <Field sourceFieldName="TS11" targetFieldName="TS11_TELEPHONY_SERVICE"/>
+            <Field sourceFieldName="TS12" targetFieldName="TS12_EMEREGENCY_SERVICE"/>
+            <Field sourceFieldName="TS20" targetFieldName="TS20_ALL_SMS"/>
+            <Field sourceFieldName="TS21" targetFieldName="TS21_SMSMT"/>
+            <Field sourceFieldName="TS22" targetFieldName="TS22_SMSMO"/>
+            <Field sourceFieldName="TS60" targetFieldName="TS60_FASCIMILE"/>
+            <Field sourceFieldName="TS61" targetFieldName="TS61_ALTSPEECH_FASCIMILE"/>
+            <Field sourceFieldName="TS62" targetFieldName="TS62_AUTO_FAXIMILE_GRP3"/>
+            <Field sourceFieldName="BS20" targetFieldName="BS20_ASYNCH_GEN_BEARER_SERVICE"/>
+            <Field sourceFieldName="BS21" targetFieldName="BS21_ASYNCH_300_BPS"/>
+            <Field sourceFieldName="BS22" targetFieldName="BS22_ASYNCH_1POINT2_KBPS"/>
+            <Field sourceFieldName="BS23" targetFieldName="BS23_ASYNCH_1200_75_BPS"/>
+            <Field sourceFieldName="BS24" targetFieldName="BS24_ASYNCH_2POINT4_KBPS"/>
+            <Field sourceFieldName="BS25" targetFieldName="BS25_ASYNCH_4POINT8_KBPS"/>
+            <Field sourceFieldName="BS26" targetFieldName="BS26_ASYNCH_9POINT6_KBPS"/>
+            <Field sourceFieldName="BS2G" targetFieldName="BS2G_SERVICE"/>
+            <Field sourceFieldName="BS30" targetFieldName="BS30_SYNCH_EN_BEARER_SERVICE"/>
+            <Field sourceFieldName="BS31" targetFieldName="BS31_SYNCH_1POINT2_KBPS"/>
+            <Field sourceFieldName="BS32" targetFieldName="BS32_SYNCH_9POINT6_KBPS"/>
+            <Field sourceFieldName="BS33" targetFieldName="BS33_SYNCH_4POINT8_KBPS"/>
+            <Field sourceFieldName="BS34" targetFieldName="BS34_SYNCH_9POINT6_KBPS"/>
+            <Field sourceFieldName="BS3G" targetFieldName="BS3G_SERVICE"/>
+            <Field sourceFieldName="BS40" targetFieldName="BS40_GEN_PAD_ACC_BEARER_SERVICE"/>
+            <Field sourceFieldName="BS41" targetFieldName="BS41_PAD_ACC_300_BPS"/>
+            <Field sourceFieldName="BS42" targetFieldName="BS42_PAD_ACC_1POINT2_KBPS"/>
+            <Field sourceFieldName="BS43" targetFieldName="BS43_PAD_ACC_1200_75_BPS"/>
+            <Field sourceFieldName="BS44" targetFieldName="BS44_PAD_ACC_2POINT4_KBPS"/>
+            <Field sourceFieldName="BS45" targetFieldName="BS45_PAD_ACC_4POINT8_KBPS"/>
+            <Field sourceFieldName="BS46" targetFieldName="BS46_PAD_ACC_9POINT6_KBPS"/>
+            <Field sourceFieldName="BS4G" targetFieldName="BS4G_SERVICE"/>
+            <Field sourceFieldName="BS50" targetFieldName="BS50_GEN_PKT_ACC_BEARER_SERVICE"/>
+            <Field sourceFieldName="BS51" targetFieldName="BS51_GEN_PKT_ACC_2POINT6_KBPS"/>
+            <Field sourceFieldName="BS52" targetFieldName="BS52_GEN_PKT_ACC_4POINT8_KBPS"/>
+            <Field sourceFieldName="BS53" targetFieldName="BS53_GEN_PKT_ACC_4POINT8_KBPS"/>
+            <Field sourceFieldName="BS5G" targetFieldName="BS_5G_SERVICE"/>
+            <Field sourceFieldName="BS61" targetFieldName="BS61_ALT_SPEECH_DATA"/>
+            <Field sourceFieldName="BS62" targetFieldName="BS62_SERVICE"/>
+            <Field sourceFieldName="BS81" targetFieldName="BS81_SPEECH_FOLLOWED_DATA"/>
+            <Field sourceFieldName="BS82" targetFieldName="BS82_SERVICE"/>
+            <Field sourceFieldName="CF_CFU" targetFieldName="CF_UNCONDITIONAL"/>
+            <Field sourceFieldName="CFU_FTN" targetFieldName="CFU_FORWARD_TO_MSISDN"/>
+            <Field sourceFieldName="CF_CFB" targetFieldName="CF_BUSY"/>
+            <Field sourceFieldName="CFB_FTN" targetFieldName="CFB_FORWARD_TO_MSISDN"/>
+            <Field sourceFieldName="CF_CFNRY" targetFieldName="CF_NO_REPLY"/>
+            <Field sourceFieldName="CFNRY_FTN" targetFieldName="CFNR_FORWARD_TO_MSISDN"/>
+            <Field sourceFieldName="CF_CFNRC" targetFieldName="CF_NOT_REACH"/>
+            <Field sourceFieldName="CFNRC_FTN" targetFieldName="CFNREACH_FORWARD_TO_MSISDN"/>
+            <Field sourceFieldName="CF_CFD" targetFieldName="CF_DEFAULT"/>
+            <Field sourceFieldName="CFD_FTN" targetFieldName="CFD_FORWARD_TO_MSISDN"/>
+            <Field sourceFieldName="CB_BAOC" targetFieldName="CB_OUTBGOING_CALL"/>
+            <Field sourceFieldName="CB_BOIC" targetFieldName="CB_OUTGOING_INTL_CALL"/>
+            <Field sourceFieldName="CB_BAIC" targetFieldName="CB_INCOMING_CALL"/>
+            <Field sourceFieldName="CLIP"/>
+            <Field sourceFieldName="CLIP_OVERRIDE" targetFieldName="CLIP_OVERRIDE"/>
+            <Field sourceFieldName="CLIR"/>
+            <Field sourceFieldName="CLIROPTION"/>
+            <Field sourceFieldName="COLP"/>
+            <Field sourceFieldName="COLR"/>
+            <Field sourceFieldName="CW"/>
+            <Field sourceFieldName="ECT"/>
+            <Field sourceFieldName="HOLD"/>
+            <Field sourceFieldName="MPTY"/>
+            <Field sourceFieldName="OCSITPL" targetFieldName="OCS"/>
+            <Field sourceFieldName="TCSITPL" targetFieldName="TCS"/>
+            <Field sourceFieldName="UCSITPL" targetFieldName="UCS"/>
+            <Field sourceFieldName="SMSCSITPL" targetFieldName="SMSC_CAMEL"/>
+            <Field sourceFieldName="MTSMSCSITPL" targetFieldName="SMSMT_CAMEL"/>
+            <Field sourceFieldName="GPRSCSITPL" targetFieldName="GPRS_CAMEL"/>
+            <Field sourceFieldName="SSCSITPL" targetFieldName="SUPL_SERVICE_CAMEL"/>
+            <Field sourceFieldName="VBS"/>
+            <Field sourceFieldName="VGCS"/>
+            <Field sourceFieldName="VLR_NUMBER"/>
+            <Field sourceFieldName="MSC_NUMBER"/>
+            <Field sourceFieldName="SGSN_NUMBER"/>
+            <Field sourceFieldName="SGSN_ADDRESS"/>
+            <Field sourceFieldName="MSCRESTRICTFLAG"/>
+            <Field sourceFieldName="SGSNRESTRICTFLAG"/>
+            <Field sourceFieldName="VLRTPL"/>
+            <Field sourceFieldName="SGSNTPL"/>
+            <Field sourceFieldName="RRRTPL"/>
+            <Field sourceFieldName="CUG"/>
+            <Field sourceFieldName="PLMNSPECIFICTS_1"/>
+            <Field sourceFieldName="PLMNSPECIFICTS_2"/>
+            <Field sourceFieldName="PLMNSPECIFICTS_3"/>
+            <Field sourceFieldName="PLMNSPECIFICTS_4"/>
+            <Field sourceFieldName="PLMNSPECIFICTS_5"/>
+            <Field sourceFieldName="PLMNSPECIFICTS_6"/>
+            <Field sourceFieldName="PLMNSPECIFICTS_7"/>
+            <Field sourceFieldName="PLMNSPECIFICTS_8"/>
+            <Field sourceFieldName="PLMNSPECIFICTS_9"/>
+            <Field sourceFieldName="PLMNSPECIFICTS_A"/>
+            <Field sourceFieldName="PLMNSPECIFICTS_B"/>
+            <Field sourceFieldName="PLMNSPECIFICTS_C"/>
+            <Field sourceFieldName="PLMNSPECIFICTS_D"/>
+            <Field sourceFieldName="PLMNSPECIFICTS_E"/>
+            <Field sourceFieldName="PLMNSPECIFICTS_F"/>
+            <Field sourceFieldName="ALLPLMN_SPECIFICSS"/>
+            <Field sourceFieldName="PLMNSPECIFICSS_1"/>
+            <Field sourceFieldName="PLMNSPECIFICSS_2"/>
+            <Field sourceFieldName="PLMNSPECIFICSS_3"/>
+            <Field sourceFieldName="PLMNSPECIFICSS_4"/>
+            <Field sourceFieldName="PLMNSPECIFICSS_5"/>
+            <Field sourceFieldName="PLMNSPECIFICSS_6"/>
+            <Field sourceFieldName="PLMNSPECIFICSS_7"/>
+            <Field sourceFieldName="PLMNSPECIFICSS_8"/>
+            <Field sourceFieldName="PLMNSPECIFICSS_9"/>
+            <Field sourceFieldName="PLMNSPECIFICSS_A"/>
+            <Field sourceFieldName="PLMNSPECIFICSS_B"/>
+            <Field sourceFieldName="PLMNSPECIFICSS_C"/>
+            <Field sourceFieldName="PLMNSPECIFICSS_D"/>
+            <Field sourceFieldName="PLMNSPECIFICSS_E"/>
+            <Field sourceFieldName="PLMNSPECIFICSS_F"/>
+            <Field sourceFieldName="VLRINHPLMN"/>
+            <Field sourceFieldName="VLRINTERNATIONAL"/>
+            <Field sourceFieldName="SGSNINHPLMN"/>
+            <Field sourceFieldName="SGSNINTERNATIONAL"/>
+            <Field sourceFieldName="SUBRES"/>
+            <Field sourceFieldName="ACR_STATUS" targetFieldName="ANON_CALL_REJECTION"/>
+            <Field sourceFieldName="SMSROUTETPL_ID"/>
+            <Field sourceFieldName="UPLCSLCK"/>
+            <Field sourceFieldName="UPLPSLCK"/>
+            <Field sourceFieldName="UPL_TIME"/>
+            <Field sourceFieldName="PURGE_TIME_ATMSC"/>
+            <Field sourceFieldName="GPRSUPL_TIME"/>
+            <Field sourceFieldName="PURGE_TIME_ATSGSN"/>
+            <Field sourceFieldName="SMDP"/>
+            <Field sourceFieldName="LCS"/>
+            <Field sourceFieldName="ARD"/>
+            <Field sourceFieldName="VTCSI"/>
+            <Field sourceFieldName="DCSI"/>
+            <Field sourceFieldName="TIFCSI"/>
+            <Field sourceFieldName="MCSI"/>
+            <Field sourceFieldName="CHARGE_GLOBA" targetFieldName="GLOB_CAHRGING_CHARACTER"/>
+            <Field sourceFieldName="OPT_GPRSTPL_ID"/>
+            <Field sourceFieldName="OKSC"/>
+            <Field sourceFieldName="GANNOTALLOWED" targetFieldName="GERAN"/>
+            <Field sourceFieldName="IHSPAENOTALLOWED" targetFieldName="I_HSPA_E"/>
+            <Field sourceFieldName="EUTRANNOTALLOWED" targetFieldName="EUTRAN"/>
+            <Field sourceFieldName="N3GPPNOTALLOWED" targetFieldName="THREE_GPP"/>
+            <Field sourceFieldName="EPSLOCK"/>
+            <Field sourceFieldName="NON3GPPLOCK"/>
+            <Field sourceFieldName="STANDBY_IMSI"/>
+            <Field sourceFieldName="EXPIRY_DATE"/>
+            <Field sourceFieldName="STD_CHARGE_GLOBAL"/>
+            <Field sourceFieldName="USERCATEGORY" targetFieldName="USER_CATEGORY_M2M"/>
+            <Field sourceFieldName="SMSCF" targetFieldName="SMS_CALL_FRWD"/>
+            <Field sourceFieldName="SMS_OFATPL_ID"/>
+            <Field sourceFieldName="SMS_FTN"/>
+            <Field sourceFieldName="SMSCF_ssStaus" targetFieldName="SMSCF_STATUS"/>
+            <Field sourceFieldName="SMSCF_ftnInHPLMNC" targetFieldName="SMSCF_HPLMN"/>
+            <Field sourceFieldName="SMSCF_ftnInVPLMNC" targetFieldName="SMSCF_VPPLMN"/>
+            <Field sourceFieldName="SMSCF_FORWARD_MSISDN"/>
+            <Field sourceFieldName="SMSCF_ftnInfo"/>
+            <Field sourceFieldName="SMSCF_ftnVMS"/>
+            <Field sourceFieldName="MCI"/>
+            <Field sourceFieldName="CNAP"/>
+            <Field sourceFieldName="CCBS_B"/>
+            <Field sourceFieldName="CCBS_A"/>
+            <Field sourceFieldName="MAH"/>
+            <Field sourceFieldName="AOCC"/>
+            <Field sourceFieldName="AOCI"/>
+            <Field sourceFieldName="UUS_1"/>
+            <Field sourceFieldName="UUS_2"/>
+            <Field sourceFieldName="UUS_3"/>
+            <Field sourceFieldName="MC_NBR_SB"/>
+            <Field sourceFieldName="MC_NBR_USER"/>
+            <Field sourceFieldName="MAX_PRIORITY"/>
+            <Field sourceFieldName="DEF_PRIORITY"/>
+            <Field sourceFieldName="NLR"/>
+            <Field sourceFieldName="VVDN"/>
+            <Field sourceFieldName="COLPOC"/>
+            <Field sourceFieldName="CONTROL"/>
+            <Field sourceFieldName="WPA"/>
+            <Field sourceFieldName="PW"/>
+            <Field sourceFieldName="CARP"/>
+            <Field sourceFieldName="VGCSR"/>
+            <Field sourceFieldName="VBSR"/>
+            <Field sourceFieldName="ACR"/>
+            <Field sourceFieldName="IST_ALERT_TIMER"/>
+            <Field sourceFieldName="IST_ALERT_RESPONSE"/>
+            <Field sourceFieldName="NAEA"/>
+            <Field sourceFieldName="MIMSI_TYPE"/>
+            <Field sourceFieldName="MIMSI_SMS"/>
+            <Field sourceFieldName="MIMSI_VOBB"/>
+            <Field sourceFieldName="CURRENT_PSI_INDEX"/>
+            <Field sourceFieldName="EOCSI_SK"/>
+            <Field sourceFieldName="ETCSI_SK"/>
+            <Field sourceFieldName="ACC_LENGTH"/>
+            <Field sourceFieldName="STYPE"/>
+            <Field sourceFieldName="RBTINDEX"/>
+            <Field sourceFieldName="PRE_VOICENUMBER"/>
+            <Field sourceFieldName="SEC_VOICENUMBER"/>
+            <Field sourceFieldName="EXEXROUTECATEGORY"/>
+            <Field sourceFieldName="NIR_INDEX"/>
+            <Field sourceFieldName="MMEHOST"/>
+            <Field sourceFieldName="SGSNHOST"/>
+            <Field sourceFieldName="MMETIMESTAMP"/>
+            <Field sourceFieldName="STNSR"/>
+            <Field sourceFieldName="APNOI"/>
+            <Field sourceFieldName="TGPPAMBRMAXUL"/>
+            <Field sourceFieldName="TGPPAMBRMAXDL"/>
+            <Field sourceFieldName="RATFREQSELPRI"/>
+            <Field sourceFieldName="PLMNTPLID"/>
+            <Field sourceFieldName="DIAMNODETPL_ID"/>
+            <Field sourceFieldName="FMInit"/>
+            <Field sourceFieldName="FMSupervisor"/>
+            <Field sourceFieldName="FMRemote"/>
+            <Field sourceFieldName="EPS_QOSTPL_ID"/>
+            <Field sourceFieldName="PROFILE_ID"/>
+            <Field sourceFieldName="MCSISTATE"/>
+            <Field sourceFieldName="OCSISTATE"/>
+            <Field sourceFieldName="TCSISTATE"/>
+            <Field sourceFieldName="TS63"/>
+            <Field sourceFieldName="ROUTECATEGORY" targetFieldName="ENHANCED_ROUTING"/>
+            <Field sourceFieldName="GPRS_OPTION_GPRS_ACCESS"/>
+            <Field sourceFieldName="CAMEL_ACTIVE_O_COLL_INFO_DP"/>
+            <Field sourceFieldName="STATUS_SUBS_DEACT"/>
+            <Field sourceFieldName="CORE_INAP"/>
+            <Field sourceFieldName="SCP"/>
+            <Field sourceFieldName="SMS_SERV_KEY"/>
+            <Field sourceFieldName="BOIC"/>
+            <Field sourceFieldName="BIRO"/>
+            <Field sourceFieldName="BORO"/>
+            <Field sourceFieldName="BAOC"/>
+            <Field sourceFieldName="BAIC"/>
+            <Field sourceFieldName="OPTGPRS_CONTEXTID"/>
+            <Field sourceFieldName="APNTPLID"/>
+            <Field sourceFieldName="QOS"/>
+            <Field sourceFieldName="VPLMNS"/>
+            <Field sourceFieldName="OPTGPRS_PDPADD"/>
+            <Field sourceFieldName="OPT_CHARGE_DETAILS"/>
+            <Field sourceFieldName="APN_TYPE"/>
+            <Field sourceFieldName="DEFAULT_FLAG"/>
+            <Field sourceFieldName="WILDCARD_FLAG"/>
+            <Field sourceFieldName="PDP_TYPE"/>
+            <Field sourceFieldName="STD_CHARGE_OPT"/>
+            <Field sourceFieldName="PDP_ADDIPV4"/>
+            <Field sourceFieldName="PURGEDONMME"/>
+            <Field sourceFieldName="PURGEDONSGSN"/>
+            <Field sourceFieldName="SERSELECTION"/>
+            <Field sourceFieldName="APNDYN_CONTEXTID"/>
+            <Field sourceFieldName="MIPHAHOST"/>
+            <Field sourceFieldName="MIPHAREALM"/>
+            <Field sourceFieldName="MIPHAADDRIPV4"/>
+            <Field sourceFieldName="MIPHAADDRIPV6"/>
+            <Field sourceFieldName="WILDCARDFLAG"/>
+            <Field sourceFieldName="VNI"/>
+            <Field sourceFieldName="APNDYN_TIME_STAMP"/>
+            <Field sourceFieldName="APNDYN_LOCATION_ID"/>
+            <Field sourceFieldName="ACTIVETIMER"/>
+            <Field sourceFieldName="EUTRANEDRXCYCLE"/>
+            <Field sourceFieldName="NBIOTEDRXCYCLE"/>
+            <Field sourceFieldName="ETICK"/>
+            <Field sourceFieldName="NON3GPP_TIME_STAMP_UPL"/>
+            <Field sourceFieldName="ARBT_INDEX"/>
+            <Field sourceFieldName="CS_UTRAN"/>
+            <Field sourceFieldName="CS_GERAN"/>
+            <Field sourceFieldName="CS_GAN"/>
+            <Field sourceFieldName="CS_I_HSPA"/>
+            <Field sourceFieldName="CS_E_UTRAN"/>
+            <Field sourceFieldName="PS_UTRAN"/>
+            <Field sourceFieldName="PS_GERAN"/>
+            <Field sourceFieldName="PS_GAN"/>
+            <Field sourceFieldName="PS_I_HSPA"/>
+            <Field sourceFieldName="PS_E_UTRAN"/>
+            <Field sourceFieldName="IMEI_SVN"/>
+            <Field sourceFieldName="APNOITPLID"/>
+            <Field sourceFieldName="PS_CONTEXT_ID"/>
+            <Field sourceFieldName="PS_APNQOSTPLID"/>
+            <Field sourceFieldName="PS_PDP_ADD"/>
+            <Field sourceFieldName="PS_ADD_INDICATOR"/>
+            <Field sourceFieldName="PS_PDP_ADDIPV4"/>
+            <Field sourceFieldName="EPS_CONTEXT_ID"/>
+            <Field sourceFieldName="EPS_APNQOSTPLID"/>
+            <Field sourceFieldName="EPS_PDP_ADD"/>
+            <Field sourceFieldName="EPS_ADD_INDICATOR"/>
+            <Field sourceFieldName="EPS_PDP_ADDIPV4"/>
+            <Field sourceFieldName="EPS_DEFAULT_FLAG"/>
+            <Field sourceFieldName="EOICK"/>
+            <Field sourceFieldName="NAEACICTYPE"/>
+            <Field sourceFieldName="CAPL"/>
+            <Field sourceFieldName="ICI"/>
+            <Field sourceFieldName="PSODBROAM"/>
+            <Field sourceFieldName="EPSODBPOS"/>
+            <Field sourceFieldName="CS_ROAMPERTPL_ID"/>
+            <Field sourceFieldName="PS_ROAMPERTPL_ID"/>
+            <Field sourceFieldName="SPN_OFATPL_ID"/>
+            <Field sourceFieldName="STE"/>
+            <Field sourceFieldName="GMLC_ADD"/>
+            <Field sourceFieldName="UCSITPLID"/>
+            <Field sourceFieldName="ETCSICONVER_TPLID"/>
+            <Field sourceFieldName="O_IM_CSI"/>
+            <Field sourceFieldName="VT_IM_CSI"/>
+            <Field sourceFieldName="MAXEXTBRUPL"/>
+            <Field sourceFieldName="MAXEXTBRDWL"/>
+            <Field sourceFieldName="LONG_FTN_SUPPORTED"/>
+            <Field sourceFieldName="RAUTAUTIMER"/>
+            <Field sourceFieldName="EUTRANNBIOTNOTALLOWED"/>
+            <Field sourceFieldName="EPS_DEFAULTNONIP_FLAG"/>
+            <Field sourceFieldName="UEUSAGETYPE"/>
+            <Field sourceFieldName="NGRANNOTALLOWED"/>
+            <Field sourceFieldName="AMBRNRUL"/>
+            <Field sourceFieldName="AMBRNRDL"/>
+            <Field sourceFieldName="NSA5G"/>
+            <Field sourceFieldName="SUB_CREATE_TIME"/>
+            <Field sourceFieldName="RRR_TPL_ID_PS"/>
+            <Field sourceFieldName="APNLIST_APN_TYPE"/>
+            <Field sourceFieldName="APNLIST_CONTEXT_ID"/>
+            <Field sourceFieldName="APNLIST_APN"/>
+            <Field sourceFieldName="EPSLCKOPTGPRSFLAG"/>
+            <Field sourceFieldName="filename" targetFieldName="FILE_NAME"/>
+            <Field sourceFieldName="EVENT_DATE" targetFieldName="EVENT_DATE"/>
+            <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+            <Field sourceFieldName="POPULATION_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+        </Event>
+    </DataDef>
+</Adapter>
