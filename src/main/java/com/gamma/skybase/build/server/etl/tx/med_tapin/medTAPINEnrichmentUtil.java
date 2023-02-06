@@ -160,7 +160,7 @@ public class medTAPINEnrichmentUtil {
         return Optional.empty();
     }
 
-    String srvTypeKey, msrn;
+    String srvTypeKey;
 
     public int isPrepaid(String servedMSISDN) {
         String value;
@@ -177,41 +177,27 @@ public class medTAPINEnrichmentUtil {
     }
 
     public Optional<String> getSrvTypeKey() {
-        msrn = getValue("MSRN");
-        boolean msrnFlag;
-        if (msrn != null) {
-            msrnFlag = msrn.startsWith("966");
-            int flag = isPrepaid(servedMSISDN);
-            switch (flag) {
-                case 0:
-                    if (msrnFlag) {
-                        srvTypeKey = "1";
-                    } else {
-                        srvTypeKey = "5";
-                    }
-                    break;
-                case 1:
-                    if (msrnFlag) {
-                        srvTypeKey = "2";
-                    } else {
-                        srvTypeKey = "6";
-                    }
-                    break;
-                case 3:
-                    if (msrnFlag) {
-                        srvTypeKey = "7";
-                    } else {
+            String flag = String.valueOf(isPrepaid(servedMSISDN));
+            if (flag != null){
+                switch (flag) {
+                    case "0":
+                            srvTypeKey = "5";
+                        break;
+                    case "1":
+                            srvTypeKey = "6";
+                        break;
+                    case "3":
                         srvTypeKey = "8";
-                    }
-                    break;
-                default:
-                    srvTypeKey = "-99";
-                    break;
+                        break;
+                    default:
+                        srvTypeKey = "-99";
+                        break;
+                }
             }
 
             if (srvTypeKey != null)
                 return Optional.of(srvTypeKey);
-        }
+
         return Optional.empty();
     }
 
