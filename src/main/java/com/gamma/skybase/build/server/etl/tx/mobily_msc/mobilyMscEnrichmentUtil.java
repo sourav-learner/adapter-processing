@@ -40,7 +40,6 @@ public class mobilyMscEnrichmentUtil {
     }
 
     String callIndicator, servedMSISDN;
-//    String A_Number, B_Number , aNumber , bNumber;
 
     public Optional<String> getServedMSISDN() {
         callIndicator = getValue("CALLINDICATOR");
@@ -75,14 +74,23 @@ public class mobilyMscEnrichmentUtil {
     public Optional<String> getThirdPartyMSISDN() {
         callIndicator = getValue("CALLINDICATOR");
         String A_Number = getValue("A_NUMBER");
+        String aNum = normalizeMSISDN(A_Number);
 
         if (callIndicator != null)
-            if (callIndicator.equalsIgnoreCase("fwd")) {
-                if (A_Number != null) {
-                    thirdPartyMSISDN = A_Number;
-                } else {
+            switch (callIndicator.toLowerCase()) {
+                case "moc":
                     thirdPartyMSISDN = "-99";
-                }
+                    break;
+                case "mtc":
+                    thirdPartyMSISDN = "-99";
+                    break;
+                case "fwd":
+                    if (aNum != null) {
+                        thirdPartyMSISDN = aNum;
+                    }
+                    break;
+                default:
+                    break;
             }
 
         if (thirdPartyMSISDN != null)
@@ -98,23 +106,27 @@ public class mobilyMscEnrichmentUtil {
         String B_Number = getValue("B_NUMBER");
         String C_Number = getValue("C_NUMBER");
 
+        String aNums = normalizeMSISDN(A_Number);
+        String bNums = normalizeMSISDN(B_Number);
+        String cNums = normalizeMSISDN(C_Number);
+
         if (callIndicator != null)
             switch (callIndicator.toLowerCase()) {
                 case "moc":
-                    if (B_Number != null) {
-                        otherMSISDN = B_Number;
+                    if (bNums != null) {
+                        otherMSISDN = bNums;
                     }
                     break;
 
                 case "mtc":
-                    if (A_Number != null) {
-                        otherMSISDN = A_Number;
+                    if (aNums != null) {
+                        otherMSISDN = aNums;
                     }
                     break;
 
                 case "fwd":
-                    if (C_Number != null) {
-                        otherMSISDN = C_Number;
+                    if (cNums != null) {
+                        otherMSISDN = cNums;
                     }
                     eventTypeKey = "5";
                     break;
@@ -317,20 +329,23 @@ public class mobilyMscEnrichmentUtil {
     }
 
     String normalizeMSISDN(String number) {
-        if (number.startsWith("0")) {
-            number = ltrim(number, '0');
-            if (number.length() < 10) {
-                number = "966" + number;
+        if (number != null){
+            if (number.startsWith("0")) {
+                number = ltrim(number, '0');
+                if (number.length() < 10) {
+                    number = "966" + number;
+                }
             }
+            return number;
         }
-        return number;
+        return "";
     }
 
     String normalizeMSRN(String number) {
         if (number.startsWith("966"))
             return number;
         else {
-            String remove = number.substring(2);
+            String remove = number.substring(1);
             number = remove;
         }
         return number;
