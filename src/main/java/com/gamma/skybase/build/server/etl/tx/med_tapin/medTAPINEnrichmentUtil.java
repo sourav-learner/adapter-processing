@@ -4,7 +4,6 @@ import com.gamma.telco.OpcoBusinessTransformation;
 import com.gamma.telco.opco.ReferenceDimCRMSubscriber;
 import com.gamma.telco.opco.ReferenceDimDialDigit;
 import com.gamma.telco.utility.reference.ReferenceDimTadigLookup;
-import io.swagger.models.auth.In;
 
 import java.text.ParseException;
 import java.time.LocalDateTime;
@@ -55,20 +54,25 @@ public class medTAPINEnrichmentUtil {
 
     public Optional<String> getEndTime() throws ParseException {
         String dur =getValue("DURATION");
-        System.out.println("\n\nDURATION   " + dur);
+        try {
+            if (dur != null){
+                Long i = Long.parseLong(dur);
 
-        if (dur != null){
-            Double i = Double.parseDouble(dur);
-
-            String dateTimeString = getValue("CALL_TIMESTAMP");
-            if (dateTimeString != null){
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-                LocalDateTime startTime = LocalDateTime.parse(dateTimeString, formatter);
-                startTime.plusSeconds(i.intValue());
-                DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
-                String eventEndTime = formatter1.format(startTime);
-                return Optional.of(eventEndTime);
+                String dateTimeString = getValue("CALL_TIMESTAMP");
+                if (i == 0){
+                    return Optional.of(dateTimeString);
+                }
+                if (dateTimeString != null){
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                    LocalDateTime startTime = LocalDateTime.parse(dateTimeString, formatter);
+                    startTime = startTime.plusSeconds(i.intValue());
+                    DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
+                    String eventEndTime = formatter1.format(startTime);
+                    return Optional.of(eventEndTime);
+                }
             }
+        }catch (Exception e){
+            e.printStackTrace();
         }
         return Optional.empty();
     }
