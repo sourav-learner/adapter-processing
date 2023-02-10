@@ -342,6 +342,16 @@ public class mobilyMscEnrichmentUtil {
         return Optional.empty();
     }
 
+    String serveMSRNTest;
+
+    public Optional<String> getServeMSRNTest() {
+        msrn = getValue("MSRN");
+        if (msrn != null) {
+            serveMSRNTest = normalizeMSRNTest(msrn);
+            return Optional.of(serveMSRNTest);
+        }
+        return Optional.empty();
+    }
     ReferenceDimDialDigit getDialedDigitSettings(String otherMSISDN) {
         return txLib.getDialedDigitSettings(otherMSISDN);
     }
@@ -375,5 +385,20 @@ public class mobilyMscEnrichmentUtil {
             }
         }
         return "";
-    }       
+    }
+
+    String normalizeMSRNTest(String number) {
+        if (number != null) {
+            if (number.startsWith("966")) {
+                return number;
+            } else {
+                number = number.substring(2);
+                if (number.length() < 10) {
+                    number = "966" + number;
+                }
+                return number;
+            }
+        }
+        return "";
+    }
 }

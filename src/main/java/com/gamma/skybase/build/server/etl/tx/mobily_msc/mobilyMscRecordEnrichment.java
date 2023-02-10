@@ -70,6 +70,10 @@ public class mobilyMscRecordEnrichment implements IEnrichment {
             }
         });
 
+//      SERVED_MRSN_TEST
+        Optional<String> serveMSRNTest = tx.getServeMSRNTest();
+        serveMSRNTest.ifPresent(s -> record.put("SERVED_MRSN_TEST", s));
+
 //        SRV_TYPE_KEY
         Optional<String> srvTypeKey = tx.getSrvTypeKey();
         srvTypeKey.ifPresent(s -> record.put("SRV_TYPE_KEY" ,s));
