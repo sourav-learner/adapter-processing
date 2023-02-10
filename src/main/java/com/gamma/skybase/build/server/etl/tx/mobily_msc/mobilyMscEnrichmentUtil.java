@@ -165,35 +165,21 @@ public class mobilyMscEnrichmentUtil {
     }
 
     public Optional<String> getSrvTypeKey() {
-        msrn = getValue("MSRN");
-        boolean msrnFlag;
-        if (msrn != null) {
-            msrnFlag = msrn.startsWith("966");
-            int flag = isPrepaid(servedMSISDN);
+
+        String flag = String.valueOf(isPrepaid(servedMSISDN));
+        if (flag != null){
             switch (flag) {
-                case 0:
-                    if (msrnFlag) {
-                        srvTypeKey = "1";
-                    } else {
-                        srvTypeKey = "5";
-                    }
+                case "0":
+                    srvTypeKey = "1";
                     break;
-                case 1:
-                    if (msrnFlag) {
-                        srvTypeKey = "2";
-                    } else {
-                        srvTypeKey = "6";
-                    }
+                case "1":
+                    srvTypeKey = "2";
                     break;
-                case 3:
-                    if (msrnFlag) {
-                        srvTypeKey = "7";
-                    } else {
-                        srvTypeKey = "8";
-                    }
+                case "3":
+                    srvTypeKey = "7";
                     break;
                 default:
-                    srvTypeKey = "-99";
+                    srvTypeKey = "-97";
                     break;
             }
 
