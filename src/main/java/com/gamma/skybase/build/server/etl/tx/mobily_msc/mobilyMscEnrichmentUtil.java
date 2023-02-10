@@ -45,22 +45,31 @@ public class mobilyMscEnrichmentUtil {
         callIndicator = getValue("CALLINDICATOR");
         String A_Number = getValue("A_NUMBER");
         String B_Number = getValue("B_NUMBER");
+        String C_Number = getValue("C_NUMBER");
         String aNumber = normalizeMSISDN(A_Number);
         String bNumber = normalizeMSISDN(B_Number);
+        String cNumber = normalizeMSISDN(C_Number);
 
         if (callIndicator != null)
             switch (callIndicator.toLowerCase()) {
                 case "moc":
+                case "emg":
                     if (aNumber != null) {
                         servedMSISDN = aNumber;
                     }
                     break;
 
                 case "mtc":
-                case "fwd":
                     if (bNumber != null) {
                         servedMSISDN = bNumber;
                     }
+                    break;
+                case "fwd":
+                    if (cNumber != null){
+                        servedMSRN = cNumber;
+                    }
+                    break;
+                default:
                     break;
             }
 
@@ -73,20 +82,18 @@ public class mobilyMscEnrichmentUtil {
 
     public Optional<String> getThirdPartyMSISDN() {
         callIndicator = getValue("CALLINDICATOR");
-        String A_Number = getValue("A_NUMBER");
-        String aNum = normalizeMSISDN(A_Number);
+        String B_Number = getValue("B_NUMBER");
+        String bNum = normalizeMSISDN(B_Number);
 
         if (callIndicator != null)
             switch (callIndicator.toLowerCase()) {
                 case "moc":
-                    thirdPartyMSISDN = "-99";
-                    break;
                 case "mtc":
                     thirdPartyMSISDN = "-99";
                     break;
                 case "fwd":
-                    if (aNum != null) {
-                        thirdPartyMSISDN = aNum;
+                    if (bNum != null) {
+                        thirdPartyMSISDN = bNum;
                     }
                     break;
                 default:
@@ -104,31 +111,24 @@ public class mobilyMscEnrichmentUtil {
         callIndicator = getValue("CALLINDICATOR");
         String A_Number = getValue("A_NUMBER");
         String B_Number = getValue("B_NUMBER");
-        String C_Number = getValue("C_NUMBER");
 
         String aNums = normalizeMSISDN(A_Number);
         String bNums = normalizeMSISDN(B_Number);
-        String cNums = normalizeMSISDN(C_Number);
 
         if (callIndicator != null)
             switch (callIndicator.toLowerCase()) {
                 case "moc":
+                case "emg":
                     if (bNums != null) {
                         otherMSISDN = bNums;
                     }
                     break;
 
                 case "mtc":
+                case "fwd":
                     if (aNums != null) {
                         otherMSISDN = aNums;
                     }
-                    break;
-
-                case "fwd":
-                    if (cNums != null) {
-                        otherMSISDN = cNums;
-                    }
-                    eventTypeKey = "5";
                     break;
             }
 
@@ -210,11 +210,14 @@ public class mobilyMscEnrichmentUtil {
         if (serviceID != null)
             switch (serviceID) {
                 case "11":    //voice
+                case "12":
                     chrgUnitIdKey = "3";
                     break;
-                case "22":    //sms
-                case "21":
+                case "21":    //sms
+                case "22":
                     chrgUnitIdKey = "10";
+                    break;
+                default:
                     break;
             }
         if (chrgUnitIdKey != null) {
@@ -231,6 +234,7 @@ public class mobilyMscEnrichmentUtil {
             switch (callIndicator.toLowerCase()) {
                 case "moc":
                 case "fwd":
+                case "emg":
                     eventDirectionKey = "1";
                     break;
 
@@ -248,6 +252,7 @@ public class mobilyMscEnrichmentUtil {
 
     public Optional<String> getEventTypeKey() {
         serviceID = getValue("SERVICEID");
+        callIndicator = getValue("CALLINDICATOR");
         if (serviceID != null)
             switch (serviceID) {
                 case "11"://voice
@@ -261,7 +266,19 @@ public class mobilyMscEnrichmentUtil {
                 case "1F":    //video telephony
                     eventTypeKey = "13";
                     break;
+                default:
+                    break;
             }
+
+        if (callIndicator != null){
+            switch (callIndicator){
+                case "FWD":
+                    eventTypeKey = "5";
+                    break;
+                default:
+                    break;
+            }
+        }
         if (eventTypeKey != null)
             return Optional.of(eventTypeKey);
         return Optional.empty();
@@ -329,31 +346,34 @@ public class mobilyMscEnrichmentUtil {
         return txLib.getDialedDigitSettings(otherMSISDN);
     }
 
-    String num , num1;
-
     String normalizeMSISDN(String number) {
         if (number != null){
             if (number.startsWith("0")) {
-                num = ltrim(number, '0');
-                if (num.length() < 10) {
-                    num1 = "966" + number;
-                }
-                else {
-                    num1 = number;
+                number = ltrim(number, '0');
+                if (number.length() < 10) {
+                    number = "966" + number;
                 }
             }
-            return num1;
+            if (number.length() < 10) {
+                number = "966" + number;
+            }
+            return number;
         }
         return "";
     }
 
     String normalizeMSRN(String number) {
-        if (number.startsWith("966"))
-            return number;
-        else {
-            String remove = number.substring(2);
-            number = remove;
+        if (number != null) {
+            if (number.startsWith("966")) {
+                return number;
+            } else {
+                number = number.substring(4);
+                if (number.length() < 10) {
+                    number = "966" + number;
+                }
+                return number;
+            }
         }
-        return number;
-    }
+        return "";
+    }       
 }
