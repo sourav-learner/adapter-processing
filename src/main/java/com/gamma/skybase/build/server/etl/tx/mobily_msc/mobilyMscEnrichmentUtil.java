@@ -204,6 +204,7 @@ public class mobilyMscEnrichmentUtil {
                     chrgUnitIdKey = "10";
                     break;
                 default:
+                    chrgUnitIdKey = "-99";
                     break;
             }
         if (chrgUnitIdKey != null) {
@@ -226,6 +227,9 @@ public class mobilyMscEnrichmentUtil {
 
                 case "mtc":
                     eventDirectionKey = "2";
+                    break;
+                default:
+                    eventDirectionKey = "-99";
                     break;
             }
 
@@ -258,6 +262,9 @@ public class mobilyMscEnrichmentUtil {
 
         if (callIndicator != null){
             switch (callIndicator){
+                case "SPL":
+                    eventTypeKey = "-99";
+                    break;
                 case "FWD":
                     eventTypeKey = "5";
                     break;
