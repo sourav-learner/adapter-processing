@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static com.gamma.telco.utility.TelcoBusinessTransformation.cache;
 
@@ -67,7 +68,7 @@ public class MedTAPINEnrichmentUtil {
                     LocalDateTime startTime = LocalDateTime.parse(dateTimeString, formatter);
                     LocalDateTime endTime = startTime.plusSeconds(i);
 
-                    System.out.println("\nStart-End time"+ startTime + " - " + endTime);
+                    System.out.println("\nStart-End time" + startTime + " - " + endTime);
 
                     DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
                     String eventEndTime = formatter1.format(endTime);
@@ -80,12 +81,13 @@ public class MedTAPINEnrichmentUtil {
         return Optional.empty();
     }
 
-    String servedMSISDN, aPartyNumber, callTerminatingFlag, bPartyNumber;
 
     public Optional<String> getServedMSISDN() {
+        String aPartyNumber, callTerminatingFlag, bPartyNumber;
         callTerminatingFlag = getValue("CALL_TERMINATING_FLAG");
         aPartyNumber = getValue("A_PARTY_NUMBER");
         bPartyNumber = getValue("B_PARTY_NUMBER");
+        String servedMSISDN = null;
         if (callTerminatingFlag != null)
             switch (callTerminatingFlag) {
                 case "0":
@@ -105,6 +107,9 @@ public class MedTAPINEnrichmentUtil {
     String otherMSISDN;
 
     public Optional<String> getOtherMSISDN() {
+        String callTerminatingFlag = getValue("CALL_TERMINATING_FLAG");
+        String aPartyNumber = getValue("A_PARTY_NUMBER");
+        String bPartyNumber = getValue("B_PARTY_NUMBER");
         if (callTerminatingFlag != null)
             switch (callTerminatingFlag) {
                 case "0":
@@ -131,6 +136,7 @@ public class MedTAPINEnrichmentUtil {
                 return Optional.of(dtf.format(tapRatedDate));
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return Optional.empty();
     }
@@ -189,9 +195,8 @@ public class MedTAPINEnrichmentUtil {
         return Optional.empty();
     }
 
-    String srvTypeKey;
 
-    public int isPrepaid(String servedMSISDN) {
+    public static int isPrepaid(String servedMSISDN) {
         String value;
         ReferenceDimCRMSubscriber subInfo = (ReferenceDimCRMSubscriber) cache.getRecord("DIM_CRM_INF_SUBSCRIBER_ALL", servedMSISDN);
         //todo fix it
@@ -206,33 +211,35 @@ public class MedTAPINEnrichmentUtil {
     }
 
     public Optional<String> getSrvTypeKey() {
-            String flag = String.valueOf(isPrepaid(servedMSISDN));
-            if (flag != null){
-                switch (flag) {
-                    case "0":
-                            srvTypeKey = "5";
-                        break;
-                    case "1":
-                            srvTypeKey = "6";
-                        break;
-                    case "3":
-                        srvTypeKey = "8";
-                        break;
-                    default:
-                        srvTypeKey = "-99";
-                        break;
-                }
+
+        AtomicReference<String> srvTypeKey = new AtomicReference<>("");
+
+        getServedMSISDN().ifPresent(servedMSISDN -> {
+            int flag = isPrepaid(servedMSISDN);
+            switch (flag) {
+                case 0:
+                    srvTypeKey.set("5");
+                    break;
+                case 1:
+                    srvTypeKey.set("6");
+                    break;
+                case 3:
+                    srvTypeKey.set("8");
+                    break;
+                default:
+                    srvTypeKey.set("-99");
+                    break;
             }
+        });
 
-            if (srvTypeKey != null)
-                return Optional.of(srvTypeKey);
+        return Optional.of(srvTypeKey.get());
 
-        return Optional.empty();
     }
 
     String eventDirectionKey;
 
     public Optional<String> getEventDirectionKey() {
+        String callTerminatingFlag = getValue("CALL_TERMINATING_FLAG");
         if (callTerminatingFlag != null)
             switch (callTerminatingFlag) {
                 case "0":
@@ -279,19 +286,19 @@ public class MedTAPINEnrichmentUtil {
     public Optional<String> getEventTypeKey() {
         String typeOfService = getValue("TYPE_OF_SERVICE");
         if (typeOfService != null)
-        switch (typeOfService) {
-            case "C":
-                eventTypeKey = "1";
-                break;
-            case "S":
-                eventTypeKey = "2";
-                break;
-            case "G":
-                eventTypeKey = "4";
-                break;
-            default:
-                break;
-        }
+            switch (typeOfService) {
+                case "C":
+                    eventTypeKey = "1";
+                    break;
+                case "S":
+                    eventTypeKey = "2";
+                    break;
+                case "G":
+                    eventTypeKey = "4";
+                    break;
+                default:
+                    break;
+            }
         if (eventTypeKey != null)
             return Optional.of(eventTypeKey);
         return Optional.empty();
@@ -301,7 +308,7 @@ public class MedTAPINEnrichmentUtil {
     public Optional<Long> getBillablePulse() {
         String typeOfService = getValue("TYPE_OF_SERVICE");
         if (typeOfService.equals("G"))
-            Optional.of(-97);
+            return Optional.of(-97L);
 
         String duration = getValue("DURATION");
         if (duration != null) {
@@ -324,9 +331,8 @@ public class MedTAPINEnrichmentUtil {
             switch (typeOfService) {
                 case "G":
                     try {
-                        Long v = Long.parseLong(volumeOut);
-                        double d = v / 1024;
-                        uplinkVolume = String.valueOf(d);
+                        long v = Long.parseLong(volumeOut);
+                        uplinkVolume = String.valueOf(v / 1024);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
