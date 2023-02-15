@@ -32,27 +32,27 @@ public abstract class CUDBFileProcessor extends AFileSourceDecoder {
         }
     }
 
-    public void handleEvents(String eventName, LinkedHashMap<String, Object> event) throws Exception {
-        try {
-            Map<String, IDatum> data;
-            MRecordProcessorReq req = new MRecordProcessorReq();
-            req.setEventName(eventName);
-            req.setEvent(event);
-            data = processor.handleEvents(req);
-//            System.out.println("\n....................................\n");
-            if(data != null) {
-//                System.out.println("\n-------------------------------------\n");
-                System.out.println(data.keySet().stream().collect(Collectors.joining(", ")));
-                System.out.println(data.values().stream()
-                        .map(Object::toString)
-                        .collect(Collectors.joining(", ")));
-                doCustomization(eventName, data);
-//                System.out.println("\n\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\n");
-            }
-        }catch (Exception e){
-//            e.printStackTrace();
-        }
-    }
+//    public void handleEvents(String eventName, LinkedHashMap<String, Object> event) throws Exception {
+//        try {
+//            Map<String, IDatum> data;
+//            MRecordProcessorReq req = new MRecordProcessorReq();
+//            req.setEventName(eventName);
+//            req.setEvent(event);
+//            data = processor.handleEvents(req);
+////            System.out.println("\n....................................\n");
+//            if(data != null) {
+////                System.out.println("\n-------------------------------------\n");
+//                System.out.println(data.keySet().stream().collect(Collectors.joining(", ")));
+//                System.out.println(data.values().stream()
+//                        .map(Object::toString)
+//                        .collect(Collectors.joining(", ")));
+//                doCustomization(eventName, data);
+////                System.out.println("\n\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\n");
+//            }
+//        }catch (Exception e){
+////            e.printStackTrace();
+//        }
+//    }
 
     public void flush() throws SkybaseDeserializerException {
         super.flush();

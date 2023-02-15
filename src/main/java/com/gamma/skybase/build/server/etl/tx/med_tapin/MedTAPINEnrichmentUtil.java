@@ -4,28 +4,30 @@ import com.gamma.telco.OpcoBusinessTransformation;
 import com.gamma.telco.opco.ReferenceDimCRMSubscriber;
 import com.gamma.telco.opco.ReferenceDimDialDigit;
 import com.gamma.telco.utility.reference.ReferenceDimTadigLookup;
-import io.swagger.models.auth.In;
 
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Optional;
 
 import static com.gamma.telco.utility.TelcoBusinessTransformation.cache;
 
-public class medTAPINEnrichmentUtil {
+public class MedTAPINEnrichmentUtil {
     private final OpcoBusinessTransformation txLib = new OpcoBusinessTransformation();
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
     DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("yyyyMMdd");
     DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
     LinkedHashMap<String, Object> rec;
 
-    private medTAPINEnrichmentUtil(LinkedHashMap<String, Object> record) {
+    private MedTAPINEnrichmentUtil(LinkedHashMap<String, Object> record) {
         rec = record;
     }
 
-    public static medTAPINEnrichmentUtil of(LinkedHashMap<String, Object> record) {
-        return new medTAPINEnrichmentUtil(record);
+    public static MedTAPINEnrichmentUtil of(LinkedHashMap<String, Object> record) {
+        return new MedTAPINEnrichmentUtil(record);
     }
 
     public String getValue(String field) {
@@ -48,26 +50,31 @@ public class medTAPINEnrichmentUtil {
                 genFullDate = eventStartTime.toLocalDate().format(dtf1);
                 return Optional.of(dtf.format(eventStartTime));
             }
-        } catch (Exception e) {
+        } catch (Exception ignore) {
         }
         return Optional.empty();
     }
 
     public Optional<String> getEndTime() throws ParseException {
-        String dur =getValue("DURATION");
-        System.out.println("\n\nDURATION   " + dur);
+        String dur = getValue("DURATION");
 
-        if (dur != null){
-            Double i = Double.parseDouble(dur);
+        if (dur != null) {
+            try {
+                long i = Long.parseLong(dur);
+                String dateTimeString = getValue("CALL_TIMESTAMP");
+                if (dateTimeString != null) {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                    LocalDateTime startTime = LocalDateTime.parse(dateTimeString, formatter);
+                    LocalDateTime endTime = startTime.plusSeconds(i);
 
-            String dateTimeString = getValue("CALL_TIMESTAMP");
-            if (dateTimeString != null){
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-                LocalDateTime startTime = LocalDateTime.parse(dateTimeString, formatter);
-                startTime.plusSeconds(i.intValue());
-                DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
-                String eventEndTime = formatter1.format(startTime);
-                return Optional.of(eventEndTime);
+                    System.out.println("\nStart-End time"+ startTime + " - " + endTime);
+
+                    DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
+                    String eventEndTime = formatter1.format(endTime);
+                    return Optional.of(eventEndTime);
+                }
+            } catch (Exception ignore) {
+                ignore.printStackTrace();
             }
         }
         return Optional.empty();
@@ -199,26 +206,26 @@ public class medTAPINEnrichmentUtil {
     }
 
     public Optional<String> getSrvTypeKey() {
-            String flag = String.valueOf(isPrepaid(servedMSISDN));
-            if (flag != null){
-                switch (flag) {
-                    case "0":
-                            srvTypeKey = "5";
-                        break;
-                    case "1":
-                            srvTypeKey = "6";
-                        break;
-                    case "3":
-                        srvTypeKey = "8";
-                        break;
-                    default:
-                        srvTypeKey = "-99";
-                        break;
-                }
+        String flag = String.valueOf(isPrepaid(servedMSISDN));
+        if (flag != null) {
+            switch (flag) {
+                case "0":
+                    srvTypeKey = "5";
+                    break;
+                case "1":
+                    srvTypeKey = "6";
+                    break;
+                case "3":
+                    srvTypeKey = "8";
+                    break;
+                default:
+                    srvTypeKey = "-99";
+                    break;
             }
+        }
 
-            if (srvTypeKey != null)
-                return Optional.of(srvTypeKey);
+        if (srvTypeKey != null)
+            return Optional.of(srvTypeKey);
 
         return Optional.empty();
     }
@@ -272,42 +279,39 @@ public class medTAPINEnrichmentUtil {
     public Optional<String> getEventTypeKey() {
         String typeOfService = getValue("TYPE_OF_SERVICE");
         if (typeOfService != null)
-        switch (typeOfService) {
-            case "C":
-                eventTypeKey = "1";
-                break;
-            case "S":
-                eventTypeKey = "2";
-                break;
-            case "G":
-                eventTypeKey = "4";
-                break;
-            default:
-                break;
-        }
+            switch (typeOfService) {
+                case "C":
+                    eventTypeKey = "1";
+                    break;
+                case "S":
+                    eventTypeKey = "2";
+                    break;
+                case "G":
+                    eventTypeKey = "4";
+                    break;
+                default:
+                    break;
+            }
         if (eventTypeKey != null)
             return Optional.of(eventTypeKey);
         return Optional.empty();
     }
 
-    String duration = null;
-    long billablePulse = 0L;
 
     public Optional<Long> getBillablePulse() {
-        duration = getValue("DURATION");
+        String typeOfService = getValue("TYPE_OF_SERVICE");
+        if (typeOfService.equals("G"))
+            Optional.of(-97);
+
+        String duration = getValue("DURATION");
         if (duration != null) {
             try {
                 long v = Long.parseLong(duration);
-                billablePulse = (long) Math.ceil((double) v / 60);
+                long billablePulse = (long) Math.ceil((double) v / 60);
                 return Optional.of(billablePulse);
             } catch (Exception ignore) {
             }
         }
-        String typeOfService = getValue("TYPE_OF_SERVICE");
-        if (typeOfService.equals("G")) {
-            billablePulse = -97;
-        }
-
         return Optional.empty();
     }
 

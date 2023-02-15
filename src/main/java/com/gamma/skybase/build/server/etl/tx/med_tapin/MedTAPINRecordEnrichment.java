@@ -12,7 +12,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class medTAPINRecordEnrichment implements IEnrichment {
+public class MedTAPINRecordEnrichment implements IEnrichment {
 
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
 
@@ -20,12 +20,12 @@ public class medTAPINRecordEnrichment implements IEnrichment {
         MEnrichmentResponse response = new MEnrichmentResponse();
         LinkedHashMap<String, Object> record = request.getRequest();
 
-        medTAPINEnrichmentUtil tx = medTAPINEnrichmentUtil.of(record);
+        MedTAPINEnrichmentUtil tx = MedTAPINEnrichmentUtil.of(record);
 
 //        SERVED_MSISDN , SERVED_MSISDN_DIAL_DIGIT_KEY
         Optional<String> servedMSISDN = tx.getServedMSISDN();
         servedMSISDN.ifPresent(s -> {
-            record.put("SERVED_MSISDN",s);
+            record.put("SERVED_MSISDN", s);
             try {
                 ReferenceDimDialDigit ddk = tx.getDialedDigitSettings(s);
                 if (ddk != null) {
@@ -39,7 +39,7 @@ public class medTAPINRecordEnrichment implements IEnrichment {
 //        OTHER_MSISDN
         Optional<String> otherMSISDN = tx.getOtherMSISDN();
         otherMSISDN.ifPresent(s -> {
-            record.put("OTHER_MSISDN",s);
+            record.put("OTHER_MSISDN", s);
             try {
                 ReferenceDimDialDigit ddk = tx.getDialedDigitSettings(s);
                 if (ddk != null) {
@@ -77,7 +77,7 @@ public class medTAPINRecordEnrichment implements IEnrichment {
 
 //        SRV_TYPE_KEY
         Optional<String> srvTypeKey = tx.getSrvTypeKey();
-        srvTypeKey.ifPresent(s -> record.put("SRV_TYPE_KEY" ,s));
+        srvTypeKey.ifPresent(s -> record.put("SRV_TYPE_KEY", s));
 
 //       EVENT_DIRECTION_KEY
         Optional<String> eventDirectionKey = tx.getEventDirectionKey();
@@ -93,9 +93,9 @@ public class medTAPINRecordEnrichment implements IEnrichment {
 
 //        BILLABLE_PULSE , ZERO_DUR_IND
         Optional<Long> billablePulse = tx.getBillablePulse();
-        billablePulse.ifPresent(s ->{
+        billablePulse.ifPresent(s -> {
             record.put("BILLABLE_PULSE", s);
-            record.put("ZERO_DUR_IND", s.equals("0") ? "0" : "1");
+            record.put("ZERO_DUR_IND", s == 0 ? "0" : "1");
         });
 
 //        GPRS_UPLINK_VOLUME
@@ -129,7 +129,7 @@ public class medTAPINRecordEnrichment implements IEnrichment {
 
 //        POPULATION_DATE
         LocalDateTime ldt = LocalDateTime.now();
-        record.put("POPULATION_DATE",dtf.format(ldt));
+        record.put("POPULATION_DATE", dtf.format(ldt));
 
 //        EVENT_DATE
         record.put("EVENT_DATE", tx.genFullDate);

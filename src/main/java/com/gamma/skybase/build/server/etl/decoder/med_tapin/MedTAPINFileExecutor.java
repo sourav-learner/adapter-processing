@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("Duplicates")
-public class medTAPINFileExecutor extends medTAPINFileProcessor {
-    private static final Logger logger = LoggerFactory.getLogger(medTAPINFileExecutor.class);
+public class MedTAPINFileExecutor extends MedTAPINFileProcessor {
+    private static final Logger logger = LoggerFactory.getLogger(MedTAPINFileExecutor.class);
     private List<LinkedHashMap<String, Object>> jsonRecords;
     String[] headers = new String[]{"TAP_REC_ID" , "CALL_TERMINATING_FLAG" , "A_PARTY_NUMBER" , "B_PARTY_NUMBER" , "S_ID" , "IMSI" , "CALL_TIMESTAMP" , "DURATION" , "TADIG_CODE" , "TAPFILE_SEQ_NO" , "UTC_OFFSET_TIMEZONE" , "SECONDS_PER_BILLING_CYCLE" , "AIRTIME_CHARGE" , "PSTN_CHARGE" , "TOTAL_CHARGE" , "CALL_TYPE" , "SLAB_ID" , "TARIFFPLAN_ID" , "TADIG_GROUP_ID" , "NETWORK_ID" , "ERROR_CODE" , "ERROR_DESCRIPTION" , "PARTNER_CODE" , "VOISE_SUBSCRIBER_YN" , "RECORD_PROCESS_STATUS" , "TAP_RATED_DATE" , "VOLUME_OUTGOING" , "TOTAL_VOLUME" , "TYPE_OF_SERVICE" , "TELESERVICE_CODE" , "TAP_AIRTIME_CHARGE" , "TAP_TOLL_CHARGE" , "TAP_TOTAL_CHARGE" , "IMEI_NO" , "MSC_ID" , "VOLUME_INCOMING" , "FLEXI_COL1"};
 

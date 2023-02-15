@@ -8,9 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("Duplicates")
-public abstract class medTAPINFileProcessor extends AFileSourceDecoder {
+public abstract class MedTAPINFileProcessor extends AFileSourceDecoder {
 
-    private static final Logger logger = LoggerFactory.getLogger(medTAPINFileProcessor.class);
+    private static final Logger logger = LoggerFactory.getLogger(MedTAPINFileProcessor.class);
     protected FileDataSource dataSource;
     protected FileMetadata metadata;
 
