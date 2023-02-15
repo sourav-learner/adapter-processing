@@ -1,7 +1,6 @@
 package com.gamma.skybase.build.server.etl.tx.mobily_msc;
 
 import com.gamma.telco.OpcoBusinessTransformation;
-import com.gamma.telco.opco.ReferenceDimCRMSubscriber;
 import com.gamma.telco.opco.ReferenceDimDialDigit;
 
 import java.text.ParseException;
@@ -54,6 +53,7 @@ public class mobilyMscEnrichmentUtil {
             switch (callIndicator.toLowerCase()) {
                 case "moc":
                 case "emg":
+                case "spl":
                     if (aNumber != null) {
                         servedMSISDN = aNumber;
                     }
@@ -64,12 +64,15 @@ public class mobilyMscEnrichmentUtil {
                         servedMSISDN = bNumber;
                     }
                     break;
+
                 case "fwd":
-                    if (cNumber != null){
-                        servedMSRN = cNumber;
+                    if (cNumber != null) {
+                        servedMSISDN = cNumber;
                     }
                     break;
+
                 default:
+                    servedMSISDN = "-99";
                     break;
             }
 
@@ -97,6 +100,7 @@ public class mobilyMscEnrichmentUtil {
                     }
                     break;
                 default:
+                    thirdPartyMSISDN = "-97";
                     break;
             }
 
@@ -130,6 +134,9 @@ public class mobilyMscEnrichmentUtil {
                         otherMSISDN = aNums;
                     }
                     break;
+                default:
+                    otherMSISDN = "-99";
+                    break;
             }
 
         if (otherMSISDN != null)
@@ -150,12 +157,12 @@ public class mobilyMscEnrichmentUtil {
 
     String srvTypeKey, msrn;
 
-    public int isPrepaid(String servedMSISDN) {
+    public int isPrepaid(String msisdn) {
         String value;
-        ReferenceDimCRMSubscriber subInfo = (ReferenceDimCRMSubscriber) cache.getRecord("DIM_CRM_INF_SUBSCRIBER_ALL", servedMSISDN);
+        ReferenceDimSuscriberCRMInf subInfo = (ReferenceDimSuscriberCRMInf) cache.getRecord("DIM_CRM_INF_SUBSCRIBER_ALL", msisdn);
         //todo fix it
         if (subInfo != null) {
-            value = subInfo.getServedMsisdn();
+            value = subInfo.getPreFlag();
             if (value != null) {
 //                return Integer.parseInt(subInfo.getPrepaidFlag());//TODO
                 return 0;
@@ -165,38 +172,24 @@ public class mobilyMscEnrichmentUtil {
     }
 
     public Optional<String> getSrvTypeKey() {
-        msrn = getValue("MSRN");
-        boolean msrnFlag;
-        if (msrn != null) {
-            msrnFlag = msrn.startsWith("966");
-            int flag = isPrepaid(servedMSISDN);
+
+        String msisdn = "";
+        String flag = String.valueOf(isPrepaid(msisdn));
+        if (flag != null) {
             switch (flag) {
-                case 0:
-                    if (msrnFlag) {
-                        srvTypeKey = "1";
-                    } else {
-                        srvTypeKey = "5";
-                    }
+                case "0":
+                    srvTypeKey = "1";
                     break;
-                case 1:
-                    if (msrnFlag) {
-                        srvTypeKey = "2";
-                    } else {
-                        srvTypeKey = "6";
-                    }
+                case "1":
+                    srvTypeKey = "2";
                     break;
-                case 3:
-                    if (msrnFlag) {
-                        srvTypeKey = "7";
-                    } else {
-                        srvTypeKey = "8";
-                    }
+                case "3":
+                    srvTypeKey = "7";
                     break;
                 default:
-                    srvTypeKey = "-99";
+                    srvTypeKey = "-97";
                     break;
             }
-
             if (srvTypeKey != null)
                 return Optional.of(srvTypeKey);
         }
@@ -218,6 +211,7 @@ public class mobilyMscEnrichmentUtil {
                     chrgUnitIdKey = "10";
                     break;
                 default:
+                    chrgUnitIdKey = "-99";
                     break;
             }
         if (chrgUnitIdKey != null) {
@@ -240,6 +234,9 @@ public class mobilyMscEnrichmentUtil {
 
                 case "mtc":
                     eventDirectionKey = "2";
+                    break;
+                default:
+                    eventDirectionKey = "-99";
                     break;
             }
 
@@ -270,8 +267,11 @@ public class mobilyMscEnrichmentUtil {
                     break;
             }
 
-        if (callIndicator != null){
-            switch (callIndicator){
+        if (callIndicator != null) {
+            switch (callIndicator) {
+                case "SPL":
+                    eventTypeKey = "-99";
+                    break;
                 case "FWD":
                     eventTypeKey = "5";
                     break;
@@ -316,21 +316,31 @@ public class mobilyMscEnrichmentUtil {
         return Optional.empty();
     }
 
-    LocalDateTime callEndTime;
-    int eventEndTime1, startTime1, duration1;
-
-    String eventEndTime;
 
     public Optional<String> getEndTime() throws ParseException {
-        startTime1 = Integer.parseInt(getValue("STARTTIME"));
-        duration1 = Integer.parseInt(getValue("DURATION"));
-        eventEndTime1 = startTime1 + duration1;
+        String dur =getValue("DURATION");
+        try {
+            if (dur != null){
+                Long i = Long.parseLong(dur);
 
-        eventEndTime = startDate + eventEndTime1;
-        callEndTime = LocalDateTime.parse(eventEndTime, dtf2);
-        return Optional.of(dtf.format(callEndTime));
+                String dateTimeString = eventStartTime;
+                if (i == 0){
+                    return Optional.of(dtf.format(callStartTime));
+                }
+                if (dateTimeString != null){
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+                    LocalDateTime startTime = LocalDateTime.parse(dateTimeString, formatter);
+                    startTime = startTime.plusSeconds(i.intValue());
+                    DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
+                    String eventEndTime = formatter1.format(startTime);
+                    return Optional.of(eventEndTime);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return Optional.empty();
     }
-
     String servedMSRN;
 
     public Optional<String> getServeMSRN() {
@@ -342,12 +352,23 @@ public class mobilyMscEnrichmentUtil {
         return Optional.empty();
     }
 
+    String serveMSRNTest;
+
+    public Optional<String> getServeMSRNTest() {
+        msrn = getValue("MSRN");
+        if (msrn != null) {
+            serveMSRNTest = normalizeMSRNTest(msrn);
+            return Optional.of(serveMSRNTest);
+        }
+        return Optional.empty();
+    }
+
     ReferenceDimDialDigit getDialedDigitSettings(String otherMSISDN) {
         return txLib.getDialedDigitSettings(otherMSISDN);
     }
 
     String normalizeMSISDN(String number) {
-        if (number != null){
+        if (number != null) {
             if (number.startsWith("0")) {
                 number = ltrim(number, '0');
                 if (number.length() < 10) {
@@ -375,5 +396,20 @@ public class mobilyMscEnrichmentUtil {
             }
         }
         return "";
-    }       
+    }
+
+    String normalizeMSRNTest(String number) {
+        if (number != null) {
+            if (number.startsWith("966")) {
+                return number;
+            } else {
+                number = number.substring(2);
+                if (number.length() < 10) {
+                    number = "966" + number;
+                }
+                return number;
+            }
+        }
+        return "";
+    }
 }

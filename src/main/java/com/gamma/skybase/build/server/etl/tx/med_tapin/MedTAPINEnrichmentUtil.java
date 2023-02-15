@@ -206,26 +206,26 @@ public class MedTAPINEnrichmentUtil {
     }
 
     public Optional<String> getSrvTypeKey() {
-        String flag = String.valueOf(isPrepaid(servedMSISDN));
-        if (flag != null) {
-            switch (flag) {
-                case "0":
-                    srvTypeKey = "5";
-                    break;
-                case "1":
-                    srvTypeKey = "6";
-                    break;
-                case "3":
-                    srvTypeKey = "8";
-                    break;
-                default:
-                    srvTypeKey = "-99";
-                    break;
+            String flag = String.valueOf(isPrepaid(servedMSISDN));
+            if (flag != null){
+                switch (flag) {
+                    case "0":
+                            srvTypeKey = "5";
+                        break;
+                    case "1":
+                            srvTypeKey = "6";
+                        break;
+                    case "3":
+                        srvTypeKey = "8";
+                        break;
+                    default:
+                        srvTypeKey = "-99";
+                        break;
+                }
             }
-        }
 
-        if (srvTypeKey != null)
-            return Optional.of(srvTypeKey);
+            if (srvTypeKey != null)
+                return Optional.of(srvTypeKey);
 
         return Optional.empty();
     }
@@ -279,19 +279,19 @@ public class MedTAPINEnrichmentUtil {
     public Optional<String> getEventTypeKey() {
         String typeOfService = getValue("TYPE_OF_SERVICE");
         if (typeOfService != null)
-            switch (typeOfService) {
-                case "C":
-                    eventTypeKey = "1";
-                    break;
-                case "S":
-                    eventTypeKey = "2";
-                    break;
-                case "G":
-                    eventTypeKey = "4";
-                    break;
-                default:
-                    break;
-            }
+        switch (typeOfService) {
+            case "C":
+                eventTypeKey = "1";
+                break;
+            case "S":
+                eventTypeKey = "2";
+                break;
+            case "G":
+                eventTypeKey = "4";
+                break;
+            default:
+                break;
+        }
         if (eventTypeKey != null)
             return Optional.of(eventTypeKey);
         return Optional.empty();
@@ -401,7 +401,7 @@ public class MedTAPINEnrichmentUtil {
 
     public Map<String, Object> getTAPINBasicInfo() {
         Map<String, Object> values = new HashMap<>();
-        ReferenceDimTadigLookup partnerPlmnDetails = null;
+        ReferenceDimTadigLookup partnerPlmnDetails = null; //ToDo
         if (partnerPlmnDetails != null) {
             values.put("PARTNER_COUNTRY", partnerPlmnDetails.getCountry());
             values.put("PARTNER_OPER", partnerPlmnDetails.getOperator());
