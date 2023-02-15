@@ -95,7 +95,7 @@ public class MedTAPINRecordEnrichment implements IEnrichment {
         Optional<Long> billablePulse = tx.getBillablePulse();
         billablePulse.ifPresent(s -> {
             record.put("BILLABLE_PULSE", s);
-            record.put("ZERO_DUR_IND", s == 0 ? "0" : "1");
+            record.put("ZERO_DUR_IND", s == 0 ? "1" : "0");
         });
 
 //        GPRS_UPLINK_VOLUME
