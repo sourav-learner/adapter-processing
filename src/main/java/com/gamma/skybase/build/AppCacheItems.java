@@ -51,4 +51,5 @@ public class AppCacheItems {
     public static final String DIM_SYSTEM_CACHE  = "DIM_SYSTEM_CACHE";
 
     public static final String DIM_CRM_LOOKUP_CACHE  = "DIM_CRM_LOOKUP_CACHE";
+    public static final String DIM_CRM_INF_SUBSCRIBER_ALL_LOOKUP_CACHE  = "DIM_CRM_INF_SUBSCRIBER_ALL_LOOKUP_CACHE";
 }

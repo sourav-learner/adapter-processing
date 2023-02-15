@@ -86,7 +86,6 @@
         </cache-load-policy>
     </cache-config>
 
-
     <cache-config id="5" name="DIM_DIAL_DIGIT_CACHE" dbHandler="mongo" claz="com.gamma.components.cache.service.CachingServiceHandler" storeName="DIM_DIAL_DIGIT">
         <keys>
             <key type="java.lang.String">dialDigitKey</key>
@@ -428,4 +427,23 @@
             </connectors>
         </cache-load-policy>
     </cache-config>
+
+    <cache-config id="18" name="DIM_CRM_INF_SUBSCRIBER_ALL_LOOKUP_CACHE" dbHandler="mongo"
+                  claz="com.gamma.components.cache.service.CachingServiceHandler" storeName="DIM_CRM_INF_SUBSCRIBER_ALL">
+        <keys>
+            <key type="java.lang.String">MSISDN</key>
+        </keys>
+        <values multiple="false" type="com.gamma.skybase.build.server.etl.tx.mobily_msc.ReferenceDimSuscriberCRMInf"/>
+        <cache-load-policy type="advanced">
+            <components>
+                <component id="1" storeName="DIM_CRM_INF_SUBSCRIBER_ALL">
+                    <column>PREPAID_FLAG</column>
+                </component>
+            </components>
+            <connectors>
+            </connectors>
+        </cache-load-policy>
+    </cache-config>
+
+    <!--    -->
 </cache-shema>

@@ -74,6 +74,7 @@ public class AppSetup {
             loader.clearContent("DIM_AIR_SERVICE");
             loader.clearContent("DIM_TADIG_LOOKUP");
             loader.clearContent("DIM_SERVICE_RANGE_LOOKUP_CACHE");
+            loader.clearContent("DIM_CRM_INF_SUBSCRIBER_ALL_LOOKUP_CACHE");
 
             loader.loadDimTableContent("DIM_SYSTEM", genericObjectLoad(baseDir + "DIM_SYSTEM.CSV", ReferenceDimSystem.class));
             loader.loadDimTableContent("DIM_SERVICE_TYPE", genericObjectLoad(baseDir + "DIM_SERVICE_TYPE.CSV", ReferenceDimServiceType.class));
@@ -92,6 +93,7 @@ public class AppSetup {
             loader.loadDimTableContent("DIM_AIR_SERVICE", genericObjectLoad(baseDir + "DIM_AIR_SERVICE.csv", ReferenceDimAirService.class));
             loader.loadDimTableContent("DIM_TADIG_LOOKUP", genericObjectLoad(baseDir + "DIM_TADIG_MAPPING.csv", ReferenceDimTadigLookup.class));
             loader.loadDimTableContent("DIM_SERVICE_RANGE_LOOKUP", genericObjectLoad(baseDir + "DIM_SERVICE_RANGE_LOOKUP.csv", ReferenceDimServiceRangeLookup.class));
+            loader.loadDimTableContent("DIM_CRM_INF_SUBSCRIBER_ALL", genericObjectLoad(baseDir + "DIM_SERVICE_RANGE_LOOKUP.csv", ReferenceDimServiceRangeLookup.class));
 
             settings.markSetupDone();
         }
