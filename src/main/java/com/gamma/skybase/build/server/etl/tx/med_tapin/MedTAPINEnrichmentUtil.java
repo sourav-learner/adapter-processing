@@ -67,15 +67,12 @@ public class MedTAPINEnrichmentUtil {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                     LocalDateTime startTime = LocalDateTime.parse(dateTimeString, formatter);
                     LocalDateTime endTime = startTime.plusSeconds(i);
-
-                    System.out.println("\nStart-End time" + startTime + " - " + endTime);
-
                     DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
                     String eventEndTime = formatter1.format(endTime);
                     return Optional.of(eventEndTime);
                 }
             } catch (Exception ignore) {
-                ignore.printStackTrace();
+//                ignore.printStackTrace();
             }
         }
         return Optional.empty();
@@ -136,7 +133,7 @@ public class MedTAPINEnrichmentUtil {
                 return Optional.of(dtf.format(tapRatedDate));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         return Optional.empty();
     }
