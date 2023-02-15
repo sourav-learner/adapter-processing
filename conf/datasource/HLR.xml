@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Adapter Name="HLR" Type="ASN.1" Version="1.0" Active="true" StatusDBHandler="mongo" rawJson="true"
          decoderExecClass="com.gamma.skybase.build.server.etl.decoder.hlr.HLRFileExecutor" ExecMode="server"
-         txExecClass="com.gamma.skybase.build.server.etl.tx.hlr.hlrRecordEnrichment" ignoreLogging="false"
+         txExecClass="com.gamma.skybase.build.server.etl.tx.hlr.HlrRecordEnrichment" ignoreLogging="false"
          ignoreDuplicates="false" parallel="1" instance-size="1" load-factor="1" customized="enable">
 
     <!--Extraction tag-->
@@ -29,30 +29,30 @@
             <Field sourceFieldName="GPRS_SUBSCRIBED"/>
             <Field sourceFieldName="APN"/>
             <Field sourceFieldName="PDP_ADD"/>
-            <Field sourceFieldName="NAM" targetFieldName="NETWORK_ACCESS_MODE"/>
-            <Field sourceFieldName="ODBIC" targetFieldName="ODB_INCOMING_CALL"/>
-            <Field sourceFieldName="ODBOC" targetFieldName="ODB_OUTGOING_CALL"/>
+            <Field sourceFieldName="NETWORK_ACCESS_MODE"/>
+            <Field sourceFieldName="ODB_INCOMING_CALL"/>
+            <Field sourceFieldName="ODB_OUTGOING_CALL"/>
             <Field sourceFieldName="ODBPLMN1"/>
             <Field sourceFieldName="ODBPLMN2"/>
             <Field sourceFieldName="ODBPLMN3"/>
             <Field sourceFieldName="ODBPLMN4"/>
             <Field sourceFieldName="ODB_ROAM"/>
-            <Field sourceFieldName="ODBDECT" targetFieldName="ODBDECT_CALLTRANSFER"/>
+            <Field sourceFieldName="ODBDECT_CALLTRANSFER"/>
             <Field sourceFieldName="ODBMECT" targetFieldName="ODBMECT_CALLTRANSFER"/>
             <Field sourceFieldName="ODBINFO" targetFieldName="ODB_INFO_SERVICE"/>
             <Field sourceFieldName="ODBECT" targetFieldName="ODB_ECT"/>
-            <Field sourceFieldName="ODBPOS" targetFieldName="ODB_PACKET_ORIENTED_SERVICE"/>
-            <Field sourceFieldName="ODBPOSTYPE" targetFieldName="ODB_PACKET_ORIENTED_SERVICE_TYPE"/>
-            <Field sourceFieldName="ODBRCF" targetFieldName="ODB_REG_CALL_FWD"/>
-            <Field sourceFieldName="ODBENTER" targetFieldName="ODB_PREMIUM"/>
-            <Field sourceFieldName="ODBSS" targetFieldName="ODB_SUPP_SERV"/>
+            <Field sourceFieldName="ODB_PACKET_ORIENTED_SERVICE"/>
+            <Field sourceFieldName="ODB_PACKET_ORIENTED_SERVICE_TYPE"/>
+            <Field sourceFieldName="ODB_REG_CALL_FWD"/>
+            <Field sourceFieldName="ODB_PREMIUM"/>
+            <Field sourceFieldName="ODB_SUPP_SERV"/>
             <Field sourceFieldName="LOCK_SABLCKIN"/>
             <Field sourceFieldName="LOCK_SABLCKOUT"/>
             <Field sourceFieldName="LOCK_MSCLCKIN"/>
             <Field sourceFieldName="LOCK_MSCLCKOUT"/>
             <Field sourceFieldName="LOCK_SGSNLCK"/>
-            <Field sourceFieldName="UTRANNOTALLOWED" targetFieldName="UTRANNOTALLOWED_3G"/>
-            <Field sourceFieldName="GERANNOTALLOWED" targetFieldName="GERANNOTALLOWED_2G"/>
+            <Field sourceFieldName="UTRANNOTALLOWED_3G"/>
+            <Field sourceFieldName="GERANNOTALLOWED_2G"/>
             <Field sourceFieldName="CARD_TYPE"/>
             <Field sourceFieldName="CATEGORY"/>
             <Field sourceFieldName="TS10" targetFieldName="TS10_ALL_SPEECH"/>
@@ -118,13 +118,13 @@
             <Field sourceFieldName="ECT"/>
             <Field sourceFieldName="HOLD"/>
             <Field sourceFieldName="MPTY"/>
-            <Field sourceFieldName="OCSITPL" targetFieldName="OCS"/>
-            <Field sourceFieldName="TCSITPL" targetFieldName="TCS"/>
-            <Field sourceFieldName="UCSITPL" targetFieldName="UCS"/>
-            <Field sourceFieldName="SMSCSITPL" targetFieldName="SMSC_CAMEL"/>
-            <Field sourceFieldName="MTSMSCSITPL" targetFieldName="SMSMT_CAMEL"/>
-            <Field sourceFieldName="GPRSCSITPL" targetFieldName="GPRS_CAMEL"/>
-            <Field sourceFieldName="SSCSITPL" targetFieldName="SUPL_SERVICE_CAMEL"/>
+            <Field sourceFieldName="OCS"/>
+            <Field sourceFieldName="TCS"/>
+            <Field sourceFieldName="UCS"/>
+            <Field sourceFieldName="SMSC_CAMEL"/>
+            <Field sourceFieldName="SMSMT_CAMEL"/>
+            <Field sourceFieldName="GPRS_CAMEL"/>
+            <Field sourceFieldName="SUPL_SERVICE_CAMEL"/>
             <Field sourceFieldName="VBS"/>
             <Field sourceFieldName="VGCS"/>
             <Field sourceFieldName="VLR_NUMBER"/>
@@ -188,20 +188,20 @@
             <Field sourceFieldName="DCSI"/>
             <Field sourceFieldName="TIFCSI"/>
             <Field sourceFieldName="MCSI"/>
-            <Field sourceFieldName="CHARGE_GLOBA" targetFieldName="GLOB_CAHRGING_CHARACTER"/>
+            <Field sourceFieldName="GLOB_CAHRGING_CHARACTER"/>
             <Field sourceFieldName="OPT_GPRSTPL_ID"/>
             <Field sourceFieldName="OKSC"/>
-            <Field sourceFieldName="GANNOTALLOWED" targetFieldName="GERAN"/>
-            <Field sourceFieldName="IHSPAENOTALLOWED" targetFieldName="I_HSPA_E"/>
-            <Field sourceFieldName="EUTRANNOTALLOWED" targetFieldName="EUTRAN"/>
-            <Field sourceFieldName="N3GPPNOTALLOWED" targetFieldName="THREE_GPP"/>
+            <Field sourceFieldName="GERAN"/>
+            <Field sourceFieldName="I_HSPA_E"/>
+            <Field sourceFieldName="EUTRAN"/>
+            <Field sourceFieldName="THREE_GPP"/>
             <Field sourceFieldName="EPSLOCK"/>
             <Field sourceFieldName="NON3GPPLOCK"/>
             <Field sourceFieldName="STANDBY_IMSI"/>
             <Field sourceFieldName="EXPIRY_DATE"/>
             <Field sourceFieldName="STD_CHARGE_GLOBAL"/>
-            <Field sourceFieldName="USERCATEGORY" targetFieldName="USER_CATEGORY_M2M"/>
-            <Field sourceFieldName="SMSCF" targetFieldName="SMS_CALL_FRWD"/>
+            <Field sourceFieldName="USER_CATEGORY_M2M"/>
+            <Field sourceFieldName="SMS_CALL_FRWD"/>
             <Field sourceFieldName="SMS_OFATPL_ID"/>
             <Field sourceFieldName="SMS_FTN"/>
             <Field sourceFieldName="SMSCF_ssStaus" targetFieldName="SMSCF_STATUS"/>
