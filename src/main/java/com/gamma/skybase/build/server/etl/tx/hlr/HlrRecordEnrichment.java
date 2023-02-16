@@ -54,6 +54,14 @@ public class HlrRecordEnrichment implements IEnrichment {
         Optional<String> odbdectCalltransfer = tx.getOdbdectCalltransfer();
         odbdectCalltransfer.ifPresent(s -> record.put("ODBDECT_CALLTRANSFER",s));
 
+//        ODBMECT_CALLTRANSFER
+        Optional<String> odbmectCallTransfer = tx.getOdbmectCallTransfer();
+        odbmectCallTransfer.ifPresent(s -> record.put("ODBMECT_CALLTRANSFER",s));
+
+//        ODB_INFO_SERVICE
+        Optional<String> odbInfoService = tx.getOdbInfoService();
+        odbInfoService.ifPresent(s -> record.put("ODB_INFO_SERVICE",s));
+
 //        ODB_PACKET_ORIENTED_SERVICE
         Optional<String> odbPacketOrientedService = tx.getOdbPacketOrientedService();
         odbPacketOrientedService.ifPresent(s -> record.put("ODB_PACKET_ORIENTED_SERVICE",s));

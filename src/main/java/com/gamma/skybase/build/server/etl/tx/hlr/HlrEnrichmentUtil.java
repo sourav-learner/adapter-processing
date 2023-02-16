@@ -58,7 +58,7 @@ public class HlrEnrichmentUtil {
                     odbIncomingCall = "NO_BAR";
                     break;
                 case "1":
-                    odbIncomingCall = "IBARRED";
+                    odbIncomingCall = "BARRED";
                     break;
                 case "2":
                     odbIncomingCall = "BARRED_WHILE_ROAMING";
@@ -197,7 +197,7 @@ public class HlrEnrichmentUtil {
                     odbRoam1 = "NOBAR";
                     break;
                 case "1":
-                    odbRoam1 = "BARRED_OUTIODE_PLMN";
+                    odbRoam1 = "BARRED_OUTSIDE_PLMN";
                     break;
                 case "2":
                     odbRoam1 = "BARRED_OUTSIDE_PLMN_COUNTRY";
@@ -237,6 +237,49 @@ public class HlrEnrichmentUtil {
         return Optional.empty();
     }
 
+    public Optional<String> getOdbmectCallTransfer() {
+        String odbmect;
+        String odbmectCalltransfer = null;
+        odbmect = getValue("ODBMECT");
+        if (odbmect != null) {
+            switch (odbmect) {
+                case "0":
+                    odbmectCalltransfer = "NOT PROVIDE DBINFO";
+                    break;
+                case "1":
+                    odbmectCalltransfer = "NOT PROVIDE DBINFO";
+                    break;
+                default:
+                    odbmectCalltransfer = "-99";
+                    break;
+            }
+        }
+        if (odbmectCalltransfer != null)
+            return Optional.of(odbmectCalltransfer);
+        return Optional.empty();
+    }
+
+    public Optional<String> getOdbInfoService() {
+        String odbinfo;
+        String odbInfoService = null;
+        odbinfo = getValue("ODBINFO");
+        if (odbinfo != null) {
+            switch (odbinfo) {
+                case "0":
+                    odbInfoService = "BAR EXPLICIT CALL TRANSFER";
+                    break;
+                case "1":
+                    odbInfoService = "NOBAR Explicit CALL TRANSFER";
+                    break;
+                default:
+                    odbInfoService = "-99";
+                    break;
+            }
+        }
+        if (odbInfoService != null)
+            return Optional.of(odbInfoService);
+        return Optional.empty();
+    }
     public Optional<String> getOdbPacketOrientedService() {
         String odbpos;
         String odbPacketOrientedService = null;
