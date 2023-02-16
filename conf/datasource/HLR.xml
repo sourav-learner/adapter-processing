@@ -38,8 +38,8 @@
             <Field sourceFieldName="ODBPLMN4"/>
             <Field sourceFieldName="ODB_ROAM"/>
             <Field sourceFieldName="ODBDECT_CALLTRANSFER"/>
-            <Field sourceFieldName="ODBMECT" targetFieldName="ODBMECT_CALLTRANSFER"/>
-            <Field sourceFieldName="ODBINFO" targetFieldName="ODB_INFO_SERVICE"/>
+            <Field sourceFieldName="ODBMECT_CALLTRANSFER"/>
+            <Field sourceFieldName="ODB_INFO_SERVICE"/>
             <Field sourceFieldName="ODBECT" targetFieldName="ODB_ECT"/>
             <Field sourceFieldName="ODB_PACKET_ORIENTED_SERVICE"/>
             <Field sourceFieldName="ODB_PACKET_ORIENTED_SERVICE_TYPE"/>
@@ -201,7 +201,7 @@
             <Field sourceFieldName="EXPIRY_DATE"/>
             <Field sourceFieldName="STD_CHARGE_GLOBAL"/>
             <Field sourceFieldName="USER_CATEGORY_M2M"/>
-            <Field sourceFieldName="SMS_CALL_FRWD"/>
+            <Field sourceFieldName="SMSCF" targetFieldName="SMS_CALL_FRWD"/>
             <Field sourceFieldName="SMS_OFATPL_ID"/>
             <Field sourceFieldName="SMS_FTN"/>
             <Field sourceFieldName="SMSCF_ssStaus" targetFieldName="SMSCF_STATUS"/>
