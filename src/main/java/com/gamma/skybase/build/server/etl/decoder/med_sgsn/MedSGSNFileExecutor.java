@@ -16,8 +16,8 @@ import java.io.FileWriter;
 import java.util.*;
 
 @SuppressWarnings("Duplicates")
-public class medSGSNFileExecutor extends medSGSNFileProcessor {
-    private static final Logger logger = LoggerFactory.getLogger(medSGSNFileExecutor.class);
+public class MedSGSNFileExecutor extends MedSGSNFileProcessor {
+    private static final Logger logger = LoggerFactory.getLogger(MedSGSNFileExecutor.class);
     private List<LinkedHashMap<String, Object>> jsonRecords;
     String[] headers = new String[]{"SEQUENCENUMBER" , "BATCHNUMBER" , "SERVICETYPE" , "TOTALTYPE" , "CALLINDICATOR" , "MSISDN" , "ACCESSPOINTNAME" , "CALL_EVENT_START_TIMESTAMP" , "TOTAL_CALL_EVENT_DURATION" , "PARTIALCALLINDICATOR" , "CNUMBER" , "IMSI" , "NODEID" , "SERVICEID" , "EQUIPMENTIDA" , "EQUIPMENTIDAB" , "CELLNAME" , "LOCATIONAREAID" , "MSCLASSWORK" , "MSRN" , "MSCID" , "CALL_REFERENCE_NUMBER" , "RECORDINGENTITYIDENTIFICATION" , "PDP_TYPE" , "PDPADDRESS" , "CAUSE_FOR_TERMINATION" , "PDPCONTEXTSTARTTIMESTAMP" , "CHARGING_ID" , "RESERVED" , "DATAVOLUMEINCOMING" , "DATAVOLUMEOUTGOING" , "SGSN_Address" , "GGSN_Address" , "PORTINFLAG" };
 
