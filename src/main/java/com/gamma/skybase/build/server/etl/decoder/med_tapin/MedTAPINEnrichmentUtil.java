@@ -1,9 +1,9 @@
-package com.gamma.skybase.build.server.etl.tx.med_tapin;
+package com.gamma.skybase.build.server.etl.decoder.med_tapin;
 
+import com.gamma.skybase.build.server.etl.decoder.LebaraUtil;
+import com.gamma.skybase.build.server.etl.decoder.ReferenceDimRoamingPartnerInfo;
 import com.gamma.telco.OpcoBusinessTransformation;
-import com.gamma.telco.opco.ReferenceDimCRMSubscriber;
 import com.gamma.telco.opco.ReferenceDimDialDigit;
-import com.gamma.telco.utility.reference.ReferenceDimTadigLookup;
 
 import java.text.ParseException;
 import java.time.LocalDateTime;
@@ -12,32 +12,19 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 
-import static com.gamma.telco.utility.TelcoBusinessTransformation.cache;
-
-public class MedTAPINEnrichmentUtil {
+public class MedTAPINEnrichmentUtil extends LebaraUtil {
     private final OpcoBusinessTransformation txLib = new OpcoBusinessTransformation();
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
     DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("yyyyMMdd");
     DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-    LinkedHashMap<String, Object> rec;
 
-    private MedTAPINEnrichmentUtil(LinkedHashMap<String, Object> record) {
-        rec = record;
+    public MedTAPINEnrichmentUtil(LinkedHashMap<String, Object> record) {
+        super(record);
     }
 
     public static MedTAPINEnrichmentUtil of(LinkedHashMap<String, Object> record) {
         return new MedTAPINEnrichmentUtil(record);
-    }
-
-    public String getValue(String field) {
-        Object s = rec.get(field);
-        if (s != null) {
-            String s1 = s.toString().trim();
-            if (!s1.equals("")) return s1;
-        }
-        return null;
     }
 
     LocalDateTime eventStartTime;
@@ -192,45 +179,25 @@ public class MedTAPINEnrichmentUtil {
         return Optional.empty();
     }
 
+    String srvTypeKey;
 
-    public static int isPrepaid(String servedMSISDN) {
-        String value;
-        ReferenceDimCRMSubscriber subInfo = (ReferenceDimCRMSubscriber) cache.getRecord("DIM_CRM_INF_SUBSCRIBER_ALL", servedMSISDN);
-        //todo fix it
-        if (subInfo != null) {
-            value = subInfo.getServedMsisdn();
-            if (value != null) {
-//                return Integer.parseInt(subInfo.getPrepaidFlag());//TODO
-                return 0;
-            }
+    public Optional<String> getSrvTypeKey(String msisdn) {
+        int flag = isPrepaid(msisdn);
+        switch (flag) {
+            case 0:
+                srvTypeKey = "5";
+                break;
+            case 1:
+                srvTypeKey = "6";
+                break;
+            case 3:
+                srvTypeKey = "8";
+                break;
+            default:
+                srvTypeKey = "-97";
+                break;
         }
-        return 1;
-    }
-
-    public Optional<String> getSrvTypeKey() {
-
-        AtomicReference<String> srvTypeKey = new AtomicReference<>("");
-
-        getServedMSISDN().ifPresent(servedMSISDN -> {
-            int flag = isPrepaid(servedMSISDN);
-            switch (flag) {
-                case 0:
-                    srvTypeKey.set("5");
-                    break;
-                case 1:
-                    srvTypeKey.set("6");
-                    break;
-                case 3:
-                    srvTypeKey.set("8");
-                    break;
-                default:
-                    srvTypeKey.set("-99");
-                    break;
-            }
-        });
-
-        return Optional.of(srvTypeKey.get());
-
+        return Optional.of(srvTypeKey);
     }
 
     String eventDirectionKey;
@@ -403,11 +370,13 @@ public class MedTAPINEnrichmentUtil {
     }
 
     public Map<String, Object> getTAPINBasicInfo() {
+
+        String tadigCode = getValue("TADIG_CODE");
+        ReferenceDimRoamingPartnerInfo roamingPartnerInfo = LebaraUtil.getDimRoamingPartnerInfo(tadigCode);
         Map<String, Object> values = new HashMap<>();
-        ReferenceDimTadigLookup partnerPlmnDetails = null; //ToDo
-        if (partnerPlmnDetails != null) {
-            values.put("PARTNER_COUNTRY", partnerPlmnDetails.getCountry());
-            values.put("PARTNER_OPER", partnerPlmnDetails.getOperator());
+        if (roamingPartnerInfo != null) {
+            values.put("PARTNER_COUNTRY", roamingPartnerInfo.getOperatorCountry());
+            values.put("PARTNER_OPER", roamingPartnerInfo.getOperatorName());
         }
         return values;
     }
