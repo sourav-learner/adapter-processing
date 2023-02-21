@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Adapter Name="MOBILY_MSC" Type="ASN.1" Version="1.0" Active="true" StatusDBHandler="mongo" rawJson="true"
-         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.mobily_msc.mobilyMscFileExecutor" ExecMode="server"
-         txExecClass="com.gamma.skybase.build.server.etl.tx.mobily_msc.mobilyMscRecordEnrichment" ignoreLogging="false"
+         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.mobily_msc.MobilyMscFileExecutor" ExecMode="server"
+         txExecClass="com.gamma.skybase.build.server.etl.decoder.mobily_msc.MobilyMscRecordEnrichment" ignoreLogging="false"
          ignoreDuplicates="false" parallel="1" instance-size="1" load-factor="1" customized="enable">
 
     <!--Extraction tag-->
@@ -71,15 +71,16 @@
             <Field sourceFieldName="SERVED_MSISDN_NOP_ID_KEY" default="-99"/>
             <Field sourceFieldName="OTHER_MSISDN"/>
             <Field sourceFieldName="OTHER_MSISDN_DIAL_DIGIT_KEY" default="-99"/>
+            <Field sourceFieldName="OTHER_PARTY_OPERATOR" default="-99"/>
+            <Field sourceFieldName="OTHER_PARTY_NW_IND_KEY" default="-99"/>
             <Field sourceFieldName="OTHER_MSISDN_NOP_ID_KEY" default="-99"/>
             <Field sourceFieldName="SERVED_MSRN_DIAL_DIGIT_KEY" default="-99"/>
             <Field sourceFieldName="OTHER_MSISDN_NW_IND_KEY" default="-99"/>
             <Field sourceFieldName="NETWORK_CALL_REF" default="-97"/>
             <Field sourceFieldName="ZERO_DURATION_IND"/>
-            <Field sourceFieldName="SRV_TYPE_KEY" default="-99"/>
+            <Field sourceFieldName="SRV_TYPE_KEY"/>
             <Field sourceFieldName="CHRG_UNIT_ID_KEY"/>
             <Field sourceFieldName="EVENT_DIRECTION_KEY"/>
-            <Field sourceFieldName="SERVED_MSRN_DIAL_DIGIT_KEY" default="-99"/>
             <Field sourceFieldName="TERMINATION_REASON_KEY" default="-97"/>
             <Field sourceFieldName="EVENT_TYPE_KEY"/>
             <Field sourceFieldName="BILLABLE_PULSE"/>
