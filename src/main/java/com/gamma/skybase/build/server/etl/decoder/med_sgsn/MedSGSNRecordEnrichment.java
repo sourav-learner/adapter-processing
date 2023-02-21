@@ -1,4 +1,4 @@
-package com.gamma.skybase.build.server.etl.tx.med_sgsn;
+package com.gamma.skybase.build.server.etl.decoder.med_sgsn;
 
 import com.gamma.skybase.contract.decoders.IEnrichment;
 import com.gamma.skybase.contract.decoders.MEnrichmentReq;
@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Optional;
 
-public class medSGSNRecordEnrichment implements IEnrichment {
+public class MedSGSNRecordEnrichment implements IEnrichment {
 
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
 
@@ -18,7 +18,7 @@ public class medSGSNRecordEnrichment implements IEnrichment {
         MEnrichmentResponse response = new MEnrichmentResponse();
         LinkedHashMap<String, Object> record = request.getRequest();
 
-        medSGSNEnrichmentUtil tx = medSGSNEnrichmentUtil.of(record);
+        MedSGSNEnrichmentUtil tx = MedSGSNEnrichmentUtil.of(record);
 
 
 //        EVENT_START_TIME
@@ -28,10 +28,6 @@ public class medSGSNRecordEnrichment implements IEnrichment {
             record.put("XDR_DATE", s);
         });
 
-//        SRV_TYPE_KEY
-        Optional<String> srvTypeKey = tx.getSrvTypeKey();
-        srvTypeKey.ifPresent(s -> record.put("SRV_TYPE_KEY" ,s));
-
 //        BILLABLE_VOLUME, ZERO_BYTE_IND
         Optional<Long> billableBytes = tx.getBillableBytes();
         billableBytes.ifPresent(s -> {
@@ -39,7 +35,7 @@ public class medSGSNRecordEnrichment implements IEnrichment {
             record.put("ZERO_BYTE_IND", s == 0 ? 1 : 0);
         });
 
-        //        SERVED_MSISDN , SERVED_MSISDN_DIAL_DIGIT_KEY
+//        SERVED_MSISDN , SERVED_MSISDN_DIAL_DIGIT_KEY
         Optional<String> servedMSISDN = tx.getServedMSISDN();
         servedMSISDN.ifPresent(s -> {
             record.put("SERVED_MSISDN",s);
@@ -52,6 +48,10 @@ public class medSGSNRecordEnrichment implements IEnrichment {
                 e.printStackTrace();
             }
         });
+
+//        SRV_TYPE_KEY
+        Optional<String> srvTypeKey = tx.getSrvTypeKey(record.get("SERVED_MSISDN").toString());
+        srvTypeKey.ifPresent(s -> record.put("SRV_TYPE_KEY" ,s));
 
 //        FILE_NAME
         record.put("FILE_NAME", record.get("fileName"));
