@@ -1,4 +1,4 @@
-package com.gamma.skybase.build.server.etl.tx.med_tapin;
+package com.gamma.skybase.build.server.etl.decoder.med_tapin;
 
 import com.gamma.skybase.contract.decoders.IEnrichment;
 import com.gamma.skybase.contract.decoders.MEnrichmentReq;
@@ -46,6 +46,24 @@ public class MedTAPINRecordEnrichment implements IEnrichment {
                     record.put("OTHER_MSISDN_DIAL_DIGIT_KEY", ddk.getDialDigitKey());
                     record.put("OTHER_MSISDN_NOP_ID_KEY", ddk.getNopIdKey());
                     record.put("OTHER_MSISDN_OPER", ddk.getProviderDesc());
+                    String providerDesc = ddk.getProviderDesc();
+                    record.put("OTHER_PARTY_OPERATOR" , providerDesc);
+                    String targetCountryCode = ddk.getTargetCountryCode();
+                    String otherPartyNwIndKey = "";
+                    if (targetCountryCode.equals("966") && providerDesc.equals("GSM-Lebara Mobile"))
+                    {
+                        otherPartyNwIndKey = "1";
+                    }
+                    else if (targetCountryCode.equals("966") && !providerDesc.equals("GSM-Lebara Mobile")){
+                        otherPartyNwIndKey = "2";
+                    }
+                    else if (!targetCountryCode.equals("966")){
+                        otherPartyNwIndKey = "3";
+                    }
+                    else {
+                        otherPartyNwIndKey = "-99";
+                    }
+                    record.put("OTHER_PARTY_NW_IND_KEY" , otherPartyNwIndKey);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -76,7 +94,7 @@ public class MedTAPINRecordEnrichment implements IEnrichment {
         volumeIncoming.ifPresent(s -> record.put("VOLUME_INCOMING", s));
 
 //        SRV_TYPE_KEY
-        Optional<String> srvTypeKey = tx.getSrvTypeKey();
+        Optional<String> srvTypeKey = tx.getSrvTypeKey(record.get("SERVED_MSISDN").toString());
         srvTypeKey.ifPresent(s -> record.put("SRV_TYPE_KEY", s));
 
 //       EVENT_DIRECTION_KEY
