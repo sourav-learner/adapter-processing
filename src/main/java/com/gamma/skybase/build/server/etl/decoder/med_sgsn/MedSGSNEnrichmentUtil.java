@@ -1,7 +1,7 @@
-package com.gamma.skybase.build.server.etl.tx.med_sgsn;
+package com.gamma.skybase.build.server.etl.decoder.med_sgsn;
 
+import com.gamma.skybase.build.server.etl.decoder.LebaraUtil;
 import com.gamma.telco.OpcoBusinessTransformation;
-import com.gamma.telco.opco.ReferenceDimCRMSubscriber;
 import com.gamma.telco.opco.ReferenceDimDialDigit;
 
 import java.time.LocalDateTime;
@@ -9,34 +9,23 @@ import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Optional;
 
-import static com.gamma.telco.utility.TelcoBusinessTransformation.cache;
 import static com.gamma.telco.utility.TelcoEnrichmentUtility.ltrim;
 
-public class medSGSNEnrichmentUtil {
+public class MedSGSNEnrichmentUtil extends LebaraUtil {
 
     private final OpcoBusinessTransformation txLib = new OpcoBusinessTransformation();
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
     DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("yyyyMMdd");
     DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-    LinkedHashMap<String, Object> rec;
 
-    private medSGSNEnrichmentUtil(LinkedHashMap<String, Object> record) {
-        rec = record;
+    private MedSGSNEnrichmentUtil(LinkedHashMap<String, Object> record) {
+        super(record);
     }
 
-    public static medSGSNEnrichmentUtil of(LinkedHashMap<String, Object> record) {
-        return new medSGSNEnrichmentUtil(record);
+    public static MedSGSNEnrichmentUtil of(LinkedHashMap<String, Object> record) {
+        return new MedSGSNEnrichmentUtil(record);
     }
-
-    public String getValue(String field) {
-        Object s = rec.get(field);
-        if (s != null) {
-            String s1 = s.toString().trim();
-            if (!s1.equals("")) return s1;
-        }
-        return null;
-    }
-
+    
     LocalDateTime callStartTime;
     String genFullDate, callEventStartTimestamp;
 
@@ -49,26 +38,11 @@ public class medSGSNEnrichmentUtil {
         }
         return Optional.empty();
     }
-
-    String srvTypeKey;
-
-    public int isPrepaid(String servedMSISDN) {
-        String value;
-        ReferenceDimCRMSubscriber subInfo = (ReferenceDimCRMSubscriber) cache.getRecord("DIM_CRM_INF_SUBSCRIBER_ALL", servedMSISDN);
-        //todo fix it
-        if (subInfo != null) {
-            value = subInfo.getServedMsisdn();
-            if (value != null) {
-//                return Integer.parseInt(subInfo.getPrepaidFlag());//TODO
-                return 0;
-            }
-        }
-        return 1;
-    }
-
-    String servedMSISDN,msisdn;
-
+    
+    String servedMSISDN;
+    
     public Optional<String> getServedMSISDN() {
+        String msisdn;
         msisdn = getValue("MSISDN");
         String msisdn1 = normalizeMSISDN(msisdn);
         if (msisdn1 != null)
@@ -78,21 +52,20 @@ public class medSGSNEnrichmentUtil {
         return Optional.empty();
     }
 
-    public Optional<String> getSrvTypeKey() {
-        String flag = String.valueOf(isPrepaid(servedMSISDN));
-        if (flag != null){
+    public Optional<String> getSrvTypeKey(String msisdn) {
+        int flag = isPrepaid(msisdn);
+        String srvTypeKey = null;
             switch (flag) {
-                case "0":
+                case 0:
                     srvTypeKey = "1";
                     break;
-                case "1":
+                case 1:
                     srvTypeKey = "2";
                     break;
                 default:
                     srvTypeKey = "-99";
                     break;
             }
-        }
 
         if (srvTypeKey != null)
             return Optional.of(srvTypeKey);
