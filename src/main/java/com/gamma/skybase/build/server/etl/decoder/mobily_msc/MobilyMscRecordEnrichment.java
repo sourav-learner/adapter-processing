@@ -1,4 +1,4 @@
-package com.gamma.skybase.build.server.etl.tx.mobily_msc;
+package com.gamma.skybase.build.server.etl.decoder.mobily_msc;
 
 import com.gamma.skybase.contract.decoders.IEnrichment;
 import com.gamma.skybase.contract.decoders.MEnrichmentReq;
@@ -12,7 +12,7 @@ import java.util.LinkedHashMap;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class mobilyMscRecordEnrichment implements IEnrichment {
+public class MobilyMscRecordEnrichment implements IEnrichment {
 
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
 
@@ -20,7 +20,7 @@ public class mobilyMscRecordEnrichment implements IEnrichment {
         MEnrichmentResponse response = new MEnrichmentResponse();
         LinkedHashMap<String, Object> record = request.getRequest();
 
-        mobilyMscEnrichmentUtil tx = mobilyMscEnrichmentUtil.of(record);
+        MobilyMscEnrichmentUtil tx = MobilyMscEnrichmentUtil.of(record);
 
 //        SERVED_MSISDN
         Optional<String> servedMSISDN = tx.getServedMSISDN();
@@ -50,6 +50,24 @@ public class mobilyMscRecordEnrichment implements IEnrichment {
                 if (ddk != null) {
                     record.put("OTHER_MSISDN_DIAL_DIGIT_KEY", ddk.getDialDigitKey());
                     record.put("OTHER_MSISDN_NOP_ID_KEY", ddk.getNopIdKey());
+                    String providerDesc = ddk.getProviderDesc();
+                    record.put("OTHER_PARTY_OPERATOR" , providerDesc);
+                    String targetCountryCode = ddk.getTargetCountryCode();
+                    String otherPartyNwIndKey = "";
+                    if (targetCountryCode.equals("966") && providerDesc.equals("GSM-Lebara Mobile"))
+                    {
+                        otherPartyNwIndKey = "1";
+                    }
+                    else if (targetCountryCode.equals("966") && !providerDesc.equals("GSM-Lebara Mobile")){
+                        otherPartyNwIndKey = "2";
+                    }
+                    else if (!targetCountryCode.equals("966")){
+                        otherPartyNwIndKey = "3";
+                    }
+                    else {
+                        otherPartyNwIndKey = "-99";
+                    }
+                    record.put("OTHER_PARTY_NW_IND_KEY" , otherPartyNwIndKey);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -75,7 +93,7 @@ public class mobilyMscRecordEnrichment implements IEnrichment {
         serveMSRNTest.ifPresent(s -> record.put("SERVED_MRSN_TEST", s));
 
 //        SRV_TYPE_KEY
-        Optional<String> srvTypeKey = tx.getSrvTypeKey();
+        Optional<String> srvTypeKey = tx.getSrvTypeKey(record.get("SERVED_MSISDN").toString());
         srvTypeKey.ifPresent(s -> record.put("SRV_TYPE_KEY" ,s));
 
 //      CHRG_UNIT_ID_KEY
