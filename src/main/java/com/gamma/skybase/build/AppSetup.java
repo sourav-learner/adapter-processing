@@ -2,8 +2,8 @@ package com.gamma.skybase.build;
 
 import com.gamma.components.commons.app.AppConfig;
 import com.gamma.decoder.ascii.DelimitedFileDecoder;
-import com.gamma.skybase.build.server.etl.decoder.mobily_msc.ReferenceDimRoamingPartnerInfo;
-import com.gamma.skybase.build.server.etl.decoder.mobily_msc.ReferenceDimSuscriberCRMInf;
+import com.gamma.skybase.build.server.etl.decoder.ReferenceDimRoamingPartnerInfo;
+import com.gamma.skybase.build.server.etl.decoder.ReferenceDimSuscriberCRMInf;
 import com.gamma.telco.utility.reference.*;
 import com.gamma.telco.utility.reference.loader.IReferenceLoader;
 import com.gamma.telco.utility.reference.loader.MongoReferenceLoader;

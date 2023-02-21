@@ -1,9 +1,0 @@
-ID,DESCRIPTION,POPULATION_DATE_TIME,UPDATE_DATE_TIME
--1, Default error type.,,
-0,The operation is successful.,,
-1,The operation cannot be performed repeatedly.,,
-2,No record is found.,,
-4,No available resource is found.,,
-5, Invalid data.,,
-6,The specified operation is not allowed.,,
-7, Authentication failed.,,
