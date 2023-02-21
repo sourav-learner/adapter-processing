@@ -8,9 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("Duplicates")
-public abstract class mobilyMscFileProcessor extends AFileSourceDecoder {
+public abstract class MobilyMscFileProcessor extends AFileSourceDecoder {
 
-    private static final Logger logger = LoggerFactory.getLogger(mobilyMscFileProcessor.class);
+    private static final Logger logger = LoggerFactory.getLogger(MobilyMscFileProcessor.class);
     protected FileDataSource dataSource;
     protected FileMetadata metadata;
 
