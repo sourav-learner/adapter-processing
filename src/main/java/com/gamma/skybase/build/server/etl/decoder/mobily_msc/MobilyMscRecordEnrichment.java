@@ -33,7 +33,7 @@ public class MobilyMscRecordEnrichment implements IEnrichment {
                     record.put("SERVED_MSISDN_NOP_ID_KEY", ddk.getNopIdKey());
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+//                e.printStackTrace();
             }
         });
 
@@ -70,7 +70,7 @@ public class MobilyMscRecordEnrichment implements IEnrichment {
                     record.put("OTHER_PARTY_NW_IND_KEY" , otherPartyNwIndKey);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+//                e.printStackTrace();
             }
         });
 
@@ -84,7 +84,7 @@ public class MobilyMscRecordEnrichment implements IEnrichment {
                     record.put("SERVED_MSRN_DIAL_DIGIT_KEY", ddk.getDialDigitKey());
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+//                e.printStackTrace();
             }
         });
 

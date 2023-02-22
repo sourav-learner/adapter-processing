@@ -77,10 +77,6 @@ public class MobilyMscEnrichmentUtil extends LebaraUtil {
 
         if (callIndicator != null)
             switch (callIndicator.toLowerCase()) {
-                case "moc":
-                case "mtc":
-                    thirdPartyMSISDN = "-99";
-                    break;
                 case "fwd":
                     if (bNum != null) {
                         thirdPartyMSISDN = bNum;
@@ -283,7 +279,6 @@ public class MobilyMscEnrichmentUtil extends LebaraUtil {
         return Optional.empty();
     }
 
-
     public Optional<String> getEndTime() throws ParseException {
         String dur = getValue("DURATION");
         try {
@@ -304,7 +299,7 @@ public class MobilyMscEnrichmentUtil extends LebaraUtil {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         return Optional.empty();
     }
