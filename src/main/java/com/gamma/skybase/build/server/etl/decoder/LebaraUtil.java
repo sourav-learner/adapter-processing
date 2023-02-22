@@ -37,13 +37,16 @@ public class LebaraUtil {
         String value;
 
         ReferenceDimSuscriberCRMInf subInfo = (ReferenceDimSuscriberCRMInf) cache.getRecord("DIM_CRM_INF_SUBSCRIBER_ALL_LOOKUP_CACHE", msisdn);
+        System.out.println("\n\n subinfo "+subInfo);
         if (subInfo != null) {
             value = subInfo.getPrepaidFlag();
+            System.out.println("\n\nvalue "+value);
             if (value != null)
                 try {
                     int val =Integer.parseInt(value);
                     return val;
                 } catch (Exception ignore) {
+                    ignore.printStackTrace();
                 }
         }
         return -1;// 0 for Prepaid, 1 for postpaid, -1 unknown

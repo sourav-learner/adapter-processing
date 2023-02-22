@@ -65,7 +65,6 @@ public class MedTAPINEnrichmentUtil extends LebaraUtil {
         return Optional.empty();
     }
 
-
     public Optional<String> getServedMSISDN() {
         String aPartyNumber, callTerminatingFlag, bPartyNumber;
         callTerminatingFlag = getValue("CALL_TERMINATING_FLAG");
@@ -183,6 +182,7 @@ public class MedTAPINEnrichmentUtil extends LebaraUtil {
 
     public Optional<String> getSrvTypeKey(String msisdn) {
         int flag = isPrepaid(msisdn);
+        System.out.println("\n\n flag "+flag);
         switch (flag) {
             case 0:
                 srvTypeKey = "5";
