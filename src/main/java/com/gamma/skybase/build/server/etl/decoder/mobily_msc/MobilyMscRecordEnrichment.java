@@ -54,11 +54,10 @@ public class MobilyMscRecordEnrichment implements IEnrichment {
                     record.put("OTHER_PARTY_OPERATOR" , providerDesc);
                     String targetCountryCode = ddk.getTargetCountryCode();
                     String otherPartyNwIndKey = "";
-                    if (targetCountryCode.equals("966") && providerDesc.equals("GSM-Lebara Mobile"))
-                    {
+                    if (targetCountryCode.equals("966") && providerDesc.equals("GSM-Lebara Mobile") && providerDesc.equals("LEBARA- Free Number") && providerDesc.equals("LEBARA-Spl Number")) {
                         otherPartyNwIndKey = "1";
                     }
-                    else if (targetCountryCode.equals("966") && !providerDesc.equals("GSM-Lebara Mobile")){
+                    else if (targetCountryCode.equals("966") && !providerDesc.equals("GSM-Lebara Mobile") && !providerDesc.equals("LEBARA- Free Number") && !providerDesc.equals("LEBARA-Spl Number")){
                         otherPartyNwIndKey = "2";
                     }
                     else if (!targetCountryCode.equals("966")){
@@ -89,8 +88,8 @@ public class MobilyMscRecordEnrichment implements IEnrichment {
         });
 
 //      SERVED_MRSN_TEST
-        Optional<String> serveMSRNTest = tx.getServeMSRNTest();
-        serveMSRNTest.ifPresent(s -> record.put("SERVED_MRSN_TEST", s));
+//        Optional<String> serveMSRNTest = tx.getServeMSRNTest();
+//        serveMSRNTest.ifPresent(s -> record.put("SERVED_MRSN_TEST", s));
 
 //        SRV_TYPE_KEY
         Optional<String> srvTypeKey = tx.getSrvTypeKey(record.get("SERVED_MSISDN").toString());
