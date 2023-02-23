@@ -315,16 +315,16 @@ public class MobilyMscEnrichmentUtil extends LebaraUtil {
         return Optional.empty();
     }
 
-    String serveMSRNTest;
-
-    public Optional<String> getServeMSRNTest() {
-        msrn = getValue("MSRN");
-        if (msrn != null) {
-            serveMSRNTest = normalizeMSRNTest(msrn);
-            return Optional.of(serveMSRNTest);
-        }
-        return Optional.empty();
-    }
+//    String serveMSRNTest;
+//
+//    public Optional<String> getServeMSRNTest() {
+//        msrn = getValue("MSRN");
+//        if (msrn != null) {
+//            serveMSRNTest = normalizeMSRNTest(msrn);
+//            return Optional.of(serveMSRNTest);
+//        }
+//        return Optional.empty();
+//    }
 
     ReferenceDimDialDigit getDialedDigitSettings(String servedMSISDN) {
         return txLib.getDialedDigitSettings(servedMSISDN);
