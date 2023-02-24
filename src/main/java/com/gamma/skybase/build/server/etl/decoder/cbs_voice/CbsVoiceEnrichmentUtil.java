@@ -1,11 +1,15 @@
-package com.gamma.skybase.build.server.etl.tx.cbs_voice;
+package com.gamma.skybase.build.server.etl.decoder.cbs_voice;
 
-import com.gamma.components.commons.app.AppConfig;
+import com.gamma.telco.OpcoBusinessTransformation;
+import com.gamma.telco.opco.ReferenceDimDialDigit;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class cbsVoiceEnrichmentUtil {
+import static com.gamma.telco.utility.TelcoEnrichmentUtility.ltrim;
+
+public class CbsVoiceEnrichmentUtil {
     final ThreadLocal<SimpleDateFormat> sdfT = ThreadLocal.withInitial(
             () -> new SimpleDateFormat("yyyyMMdd HH:mm:ss"));
     final ThreadLocal<SimpleDateFormat> fullDate = ThreadLocal.withInitial(
@@ -13,13 +17,14 @@ public class cbsVoiceEnrichmentUtil {
     private final ThreadLocal<SimpleDateFormat> sdfS = ThreadLocal.withInitial(
             () -> new SimpleDateFormat("yyyyMMddHHmmss"));
     LinkedHashMap<String, Object> rec;
+    private final OpcoBusinessTransformation txLib = new OpcoBusinessTransformation();
 
-    private cbsVoiceEnrichmentUtil(LinkedHashMap<String, Object> record) {
+    private CbsVoiceEnrichmentUtil(LinkedHashMap<String, Object> record) {
         rec = record;
     }
 
-    public static cbsVoiceEnrichmentUtil of(LinkedHashMap<String, Object> record) {
-        return new cbsVoiceEnrichmentUtil(record);
+    public static CbsVoiceEnrichmentUtil of(LinkedHashMap<String, Object> record) {
+        return new CbsVoiceEnrichmentUtil(record);
     }
 
     public String getValue(String field) {
@@ -56,8 +61,7 @@ public class cbsVoiceEnrichmentUtil {
                 callEndTime = sdfS.get().parse(s);
                 return Optional.of(sdfT.get().format(callEndTime));
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
         }
         return Optional.empty();
     }
@@ -249,7 +253,7 @@ public class cbsVoiceEnrichmentUtil {
         return Optional.empty();
     }
 
-    String eventDirectionKey , serviceFlow;
+    String eventDirectionKey, serviceFlow;
 
     public Optional<String> getEventDirectionKey() {
         serviceFlow = getValue("ServiceFlow");
@@ -292,5 +296,25 @@ public class cbsVoiceEnrichmentUtil {
             }
         }
         return Optional.empty();
+    }
+
+    ReferenceDimDialDigit getDialedDigitSettings(String otherMSISDN) {
+        return txLib.getDialedDigitSettings(otherMSISDN);
+    }
+
+    String normalizeMSISDN(String number) {
+        if (number != null) {
+            if (number.startsWith("0")) {
+                number = ltrim(number, '0');
+                if (number.length() < 10) {
+                    number = "966" + number;
+                }
+            }
+            if (number.length() < 10) {
+                number = "966" + number;
+            }
+            return number;
+        }
+        return "";
     }
 }

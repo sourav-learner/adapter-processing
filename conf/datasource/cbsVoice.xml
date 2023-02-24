@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Adapter Name="CBS_VOICE" Type="ASN.1" Version="1.0" Active="true" StatusDBHandler="mongo" rawJson="false"
-         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.cbs_voice.cbsVoiceFileExecutor" ExecMode="server"
-         txExecClass="com.gamma.skybase.build.server.etl.tx.cbs_voice.cbsVoiceRecordEnrichment" ignoreLogging="false"
+         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.cbs_voice.CbsVoiceFileExecutor" ExecMode="server"
+         txExecClass="com.gamma.skybase.build.server.etl.decoder.cbs_voice.CbsVoiceRecordEnrichment" ignoreLogging="false"
          ignoreDuplicates="false" parallel="1" instance-size="1" load-factor="1" customized="enable">
 
     <!--Extraction tag-->
@@ -456,16 +456,18 @@
             <Field sourceFieldName="Recipient_cp_id" targetFieldName="RECIPIENT_CP_ID"/>
             <Field sourceFieldName="Advance_prepaid_balance" targetFieldName="ADVANCE_PREPAID_BALANCE"/>
             <Field sourceFieldName="Credit_postpid_Balance" targetFieldName="CREDIT_POSTPID_BALANCE"/>
-            <Field sourceFieldName="PAY_TYPE"/>
-            <Field sourceFieldName="SERVICE_FLOW"/>
-            <Field sourceFieldName="SERVICE_CATEGORY1"/>
             <Field sourceFieldName="SERVED_MSISDN_DIALED_KEY" default="-99"/>
             <Field sourceFieldName="OTHER_MSISDN_DIALED_KEY" default="-99"/>
+            <Field sourceFieldName="OTHER_PARTY_OPERATOR" default="-99"/>
+            <Field sourceFieldName="OTHER_PARTY_NW_IND_KEY" default="-99"/>
             <Field sourceFieldName="SERVED_ROAM_DIALED_KEY" default="-99"/>
             <Field sourceFieldName="ZERO_CHARGE_IND" default="0"/>
             <Field sourceFieldName="ZERO_DURATION_IND" default="1"/>
             <Field sourceFieldName="BLACK_LIST_IND" default="-97"/>
             <Field sourceFieldName="CHARGE"/>
+            <Field sourceFieldName="PAY_TYPE"/>
+            <Field sourceFieldName="SERVICE_FLOW"/>
+            <Field sourceFieldName="SERVICE_CATEGORY1"/>
             <Field sourceFieldName="filename" targetFieldName="FILE_NAME"/>
             <Field sourceFieldName="EVENT_DATE" targetFieldName="EVENT_DATE"/>
             <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>

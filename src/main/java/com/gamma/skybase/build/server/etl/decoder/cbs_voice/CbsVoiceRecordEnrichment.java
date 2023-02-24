@@ -1,14 +1,15 @@
-package com.gamma.skybase.build.server.etl.tx.cbs_voice;
+package com.gamma.skybase.build.server.etl.decoder.cbs_voice;
 
 import com.gamma.skybase.contract.decoders.IEnrichment;
 import com.gamma.skybase.contract.decoders.MEnrichmentReq;
 import com.gamma.skybase.contract.decoders.MEnrichmentResponse;
+import com.gamma.telco.opco.ReferenceDimDialDigit;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class cbsVoiceRecordEnrichment implements IEnrichment {
+public class CbsVoiceRecordEnrichment implements IEnrichment {
 
     private final ThreadLocal<SimpleDateFormat> sdfT = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMdd HH:mm:ss"));
 
@@ -16,7 +17,7 @@ public class cbsVoiceRecordEnrichment implements IEnrichment {
         MEnrichmentResponse response = new MEnrichmentResponse();
         LinkedHashMap<String, Object> record = request.getRequest();
 
-        cbsVoiceEnrichmentUtil tx = cbsVoiceEnrichmentUtil.of(record);
+        CbsVoiceEnrichmentUtil tx = CbsVoiceEnrichmentUtil.of(record);
 
         //  STATUS
         Optional<String> status = tx.getStatus();
@@ -89,8 +90,46 @@ public class cbsVoiceRecordEnrichment implements IEnrichment {
         if(serviceFlow != null) {
             record.put("SERVICE_FLOW", serviceFlow);
             if ("1".equals(serviceFlow.trim())){
-                 record.put("SERVED_MSISDN",tx.getValue("CallingPartyNumber"));
-                 record.put("OTHER_MSISDN",tx.getValue("CalledPartyNumber"));
+                String callingPartyNumber = tx.getValue("CallingPartyNumber");
+                String servedMSISDN = tx.normalizeMSISDN(callingPartyNumber);
+                record.put("SERVED_MSISDN",servedMSISDN);
+                try {
+                    ReferenceDimDialDigit ddk = tx.getDialedDigitSettings(servedMSISDN);
+                    if (ddk != null) {
+                        record.put("SERVED_MSISDN_DIALED_KEY", ddk.getDialDigitKey());
+                    }
+                } catch (Exception e) {
+                e.printStackTrace();
+                }
+
+                String calledPartyNumber = tx.getValue("CalledPartyNumber");
+                String otherMSISDN = tx.normalizeMSISDN(calledPartyNumber);
+                record.put("OTHER_MSISDN",otherMSISDN);
+                try {
+                    ReferenceDimDialDigit ddk = tx.getDialedDigitSettings(otherMSISDN);
+                    if (ddk != null) {
+                        record.put("OTHER_MSISDN_DIALED_KEY", ddk.getDialDigitKey());
+                        String providerDesc = ddk.getProviderDesc();
+                        record.put("OTHER_PARTY_OPERATOR" , providerDesc);
+                        String targetCountryCode = ddk.getTargetCountryCode();
+                        String otherPartyNwIndKey = "";
+                        if (targetCountryCode.equals("966") && providerDesc.equals("GSM-Lebara Mobile") && providerDesc.equals("LEBARA- Free Number") && providerDesc.equals("LEBARA-Spl Number")) {
+                            otherPartyNwIndKey = "1";
+                        }
+                        else if (targetCountryCode.equals("966") && !providerDesc.equals("GSM-Lebara Mobile") && !providerDesc.equals("LEBARA- Free Number") && !providerDesc.equals("LEBARA-Spl Number")){
+                            otherPartyNwIndKey = "2";
+                        }
+                        else if (!targetCountryCode.equals("966")){
+                            otherPartyNwIndKey = "3";
+                        }
+                        else {
+                            otherPartyNwIndKey = "-99";
+                        }
+                        record.put("OTHER_PARTY_NW_IND_KEY" , otherPartyNwIndKey);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                  record.put("SERVED_IMSI",tx.getValue("CallingPartyIMSI"));
                  record.put("OTHER_IMSI",tx.getValue("CalledPartyIMSI"));
                  record.put("SERVED_CUG",tx.getValue("CallingCUGNo"));
@@ -120,9 +159,49 @@ public class cbsVoiceRecordEnrichment implements IEnrichment {
                  record.put("OTHER_VPN_GROUP_NUMBER",tx.getValue("CalledVPNGroupNumber"));
                  record.put("OTHER_VPN_SHORT_NUMBER",tx.getValue("CalledVPNShortNumber"));
             }
+
             else if ("2".equals(serviceFlow.trim())){
-                record.put("SERVED_MSISDN",tx.getValue("CalledPartyNumber"));
-                record.put("OTHER_MSISDN",tx.getValue("CallingPartyNumber"));
+                String callingPartyNumber = tx.getValue("CallingPartyNumber");
+                String servedMSISDN = tx.normalizeMSISDN(callingPartyNumber);
+                record.put("SERVED_MSISDN",servedMSISDN);
+                try {
+                    ReferenceDimDialDigit ddk = tx.getDialedDigitSettings(servedMSISDN);
+                    if (ddk != null) {
+                        record.put("SERVED_MSISDN_DIALED_KEY", ddk.getDialDigitKey());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                String calledPartyNumber1 = tx.getValue("CalledPartyNumber");
+                String otherMSISDN1 = tx.normalizeMSISDN(calledPartyNumber1);
+                record.put("OTHER_MSISDN",otherMSISDN1);
+                try {
+                    ReferenceDimDialDigit ddk = tx.getDialedDigitSettings(otherMSISDN1);
+                    if (ddk != null) {
+                        record.put("OTHER_MSISDN_DIALED_KEY", ddk.getDialDigitKey());
+                        String providerDesc = ddk.getProviderDesc();
+                        record.put("OTHER_PARTY_OPERATOR" , providerDesc);
+                        String targetCountryCode = ddk.getTargetCountryCode();
+                        String otherPartyNwIndKey = "";
+                        if (targetCountryCode.equals("966") && providerDesc.equals("GSM-Lebara Mobile"))
+                        {
+                            otherPartyNwIndKey = "1";
+                        }
+                        else if (targetCountryCode.equals("966") && !providerDesc.equals("GSM-Lebara Mobile")){
+                            otherPartyNwIndKey = "2";
+                        }
+                        else if (!targetCountryCode.equals("966")){
+                            otherPartyNwIndKey = "3";
+                        }
+                        else {
+                            otherPartyNwIndKey = "-99";
+                        }
+                        record.put("OTHER_PARTY_NW_IND_KEY" , otherPartyNwIndKey);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 record.put("SERVED_IMSI",tx.getValue("CalledPartyIMSI"));
                 record.put("OTHER_IMSI",tx.getValue("CallingPartyIMSI"));
                 record.put("SERVED_CUG",tx.getValue("CalledCUGNo"));
