@@ -1,4 +1,4 @@
-package com.gamma.skybase.build.server.etl.tx.hlr;
+package com.gamma.skybase.build.server.etl.decoder.hlr;
 
 import com.gamma.skybase.contract.decoders.IEnrichment;
 import com.gamma.skybase.contract.decoders.MEnrichmentReq;
@@ -178,10 +178,19 @@ public class HlrRecordEnrichment implements IEnrichment {
         Optional<String> smsFtn = tx.getSmsFtn();
         smsFtn.ifPresent(s -> record.put("SMS_FTN",s));
 
-//        FILE_NAME , POPULATION_DATE , EVENT_DATE
+//        FILE_NAME
         record.put("FILE_NAME", record.get("fileName"));
+
+//        XDR_DATE
+        Optional<String> eventDate = tx.getXdrDate();
+        eventDate.ifPresent(s -> record.put("XDR_DATE", s));
+
+//        POPULATION_DATE
         record.put("POPULATION_DATE", sdfT.get().format(new Date()));
-//        record.put("EVENT_DATE", tx.genFullDate);
+
+//        EVENT_DATE
+        Optional<String> genFullDate = tx.getEventDate();
+       genFullDate.ifPresent(s -> record.put("EVENT_DATE", s));
 
         response.setResponseCode(true);
         response.setResponse(record);
