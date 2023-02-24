@@ -182,7 +182,6 @@ public class MedTAPINEnrichmentUtil extends LebaraUtil {
 
     public Optional<String> getSrvTypeKey(String msisdn) {
         int flag = isPrepaid(msisdn);
-        System.out.println("\n\n flag "+flag);
         switch (flag) {
             case 0:
                 srvTypeKey = "5";
@@ -197,7 +196,11 @@ public class MedTAPINEnrichmentUtil extends LebaraUtil {
                 srvTypeKey = "-97";
                 break;
         }
-        return Optional.of(srvTypeKey);
+
+        if (srvTypeKey != null){
+            return Optional.of(srvTypeKey);
+        }
+        return Optional.empty();
     }
 
     String eventDirectionKey;
@@ -298,7 +301,7 @@ public class MedTAPINEnrichmentUtil extends LebaraUtil {
                         long v = Long.parseLong(volumeOut);
                         uplinkVolume = String.valueOf(v / 1024);
                     } catch (Exception e) {
-                        e.printStackTrace();
+//                        e.printStackTrace();
                     }
                     break;
                 case "C":

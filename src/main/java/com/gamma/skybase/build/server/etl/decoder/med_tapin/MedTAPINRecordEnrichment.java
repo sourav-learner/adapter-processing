@@ -50,11 +50,10 @@ public class MedTAPINRecordEnrichment implements IEnrichment {
                     record.put("OTHER_PARTY_OPERATOR" , providerDesc);
                     String targetCountryCode = ddk.getTargetCountryCode();
                     String otherPartyNwIndKey = "";
-                    if (targetCountryCode.equals("966") && providerDesc.equals("GSM-Lebara Mobile"))
-                    {
+                    if (targetCountryCode.equals("966") && providerDesc.equals("GSM-Lebara Mobile") && providerDesc.equals("LEBARA- Free Number") && providerDesc.equals("LEBARA-Spl Number")) {
                         otherPartyNwIndKey = "1";
                     }
-                    else if (targetCountryCode.equals("966") && !providerDesc.equals("GSM-Lebara Mobile")){
+                    else if (targetCountryCode.equals("966") && !providerDesc.equals("GSM-Lebara Mobile") && !providerDesc.equals("LEBARA- Free Number") && !providerDesc.equals("LEBARA-Spl Number")){
                         otherPartyNwIndKey = "2";
                     }
                     else if (!targetCountryCode.equals("966")){
