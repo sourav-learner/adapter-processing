@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Adapter Name="CBS_SMS" Type="ASN.1" Version="1.0" Active="true" StatusDBHandler="mongo" rawJson="true"
-         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.cbs_sms.cbsSmsFileExecutor" ExecMode="server"
-         txExecClass="com.gamma.skybase.build.server.etl.tx.cbs_sms.cbsSmsRecordEnrichment" ignoreLogging="false"
+         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.cbs_sms.CbsSmsFileExecutor" ExecMode="server"
+         txExecClass="com.gamma.skybase.build.server.etl.decoder.cbs_sms.CbsSmsRecordEnrichment" ignoreLogging="false"
          ignoreDuplicates="false" parallel="1" instance-size="1" load-factor="1" customized="enable">
 
     <!--Extraction tag-->
@@ -374,21 +374,21 @@
             <Field sourceFieldName="FR10_CURRENT_AMOUNT"/>
             <Field sourceFieldName="FR10_FU_MEASURE_ID"/>
             <Field sourceFieldName="FR10_OPER_TYPE"/>
-            <Field sourceFieldName="CallingPartyNumber " targetFieldName="SERVED_MSISDN"/>
-            <Field sourceFieldName="CalledPartyNumber " targetFieldName="OTHER_MSISDN"/>
-            <Field sourceFieldName="CallingPartyIMSI " targetFieldName="SERVED_IMSI"/>
-            <Field sourceFieldName="CallingPartyIMSI " targetFieldName="OTHER_IMSI"/>
-            <Field sourceFieldName="DialedNumber " targetFieldName="DIALED_NUMBER"/>
-            <Field sourceFieldName="OriginalCalledParty " targetFieldName="THIRD_PARTY_MSISDN"/>
+            <Field sourceFieldName="CallingPartyNumber" targetFieldName="SERVED_MSISDN"/>
+            <Field sourceFieldName="CalledPartyNumber" targetFieldName="OTHER_MSISDN"/>
+            <Field sourceFieldName="CallingPartyIMSI" targetFieldName="SERVED_IMSI"/>
+            <Field sourceFieldName="CallingPartyIMSI" targetFieldName="OTHER_IMSI"/>
+            <Field sourceFieldName="DialedNumber" targetFieldName="DIALED_NUMBER"/>
+            <Field sourceFieldName="OriginalCalledParty" targetFieldName="THIRD_PARTY_MSISDN"/>
             <Field sourceFieldName="EVENT_DIRECTION_KEY"/>
             <Field sourceFieldName="CallForwardIndicator " targetFieldName="CF_IND"/>
-            <Field sourceFieldName="CallingRoamInfo " targetFieldName="SERVED_PLMN"/>
-            <Field sourceFieldName="CallingCellID " targetFieldName="SERVED_CELL"/>
-            <Field sourceFieldName="CalledRoamInfo " targetFieldName="OTHER_PLMN"/>
-            <Field sourceFieldName="CalledCellID " targetFieldName="OTHER_CEll"/>
-            <Field sourceFieldName="TimeStampOfSSP " targetFieldName="TIME_STAMP_OF_SSP"/>
-            <Field sourceFieldName="TimeZoneOfSSP " targetFieldName="TIME_ZONE_OF_SSP"/>
-            <Field sourceFieldName="BearerCapability " targetFieldName="BEARER_CAPABILITY"/>
+            <Field sourceFieldName="CallingRoamInfo" targetFieldName="SERVED_PLMN"/>
+            <Field sourceFieldName="CallingCellID" targetFieldName="SERVED_CELL"/>
+            <Field sourceFieldName="CalledRoamInfo" targetFieldName="OTHER_PLMN"/>
+            <Field sourceFieldName="CalledCellID" targetFieldName="OTHER_CEll"/>
+            <Field sourceFieldName="TimeStampOfSSP" targetFieldName="TIME_STAMP_OF_SSP"/>
+            <Field sourceFieldName="TimeZoneOfSSP" targetFieldName="TIME_ZONE_OF_SSP"/>
+            <Field sourceFieldName="BearerCapability" targetFieldName="BEARER_CAPABILITY"/>
             <Field sourceFieldName="CHARGING_TIME"/>
             <Field sourceFieldName="SEND_RESULT"/>
             <Field sourceFieldName="SMSID " targetFieldName="SMSID"/>
@@ -452,16 +452,18 @@
             <Field sourceFieldName="Recipient_cp_id " targetFieldName="RECIPIENT_CP_ID"/>
             <Field sourceFieldName="Advance_prepaid_balance" targetFieldName="ADVANCE_PREPAID_BALANCE"/>
             <Field sourceFieldName="Credit_postpid_Balance" targetFieldName="CREDIT_POSTPID_BALANCE"/>
-            <Field sourceFieldName="" targetFieldName="OTHER_MSISDN_DIALED_KEY"/>
-            <Field sourceFieldName="" targetFieldName="SERVED_ROAM_DIALED_KEY"/>
-            <Field sourceFieldName="" targetFieldName="ZERO_CHARGE_IND"/>
+            <Field sourceFieldName="OTHER_MSISDN_DIALED_KEY" default="-99"/>
+            <Field sourceFieldName="OTHER_PARTY_OPERATOR" default="-99"/>
+            <Field sourceFieldName="OTHER_PARTY_NW_IND_KEY" default="-99"/>
+            <Field sourceFieldName="SERVED_ROAM_DIALED_KEY" default="-99"/>
+            <Field sourceFieldName="ZERO_CHARGE_IND"/>
             <Field sourceFieldName="ZERO_DURATION_IND" targetFieldName="ZERO_DURATION_IND"/>
             <Field sourceFieldName="BLACK_LIST_IND" targetFieldName="BLACK_LIST_IND" default="-97"/>
             <Field sourceFieldName="CHARGE" targetFieldName="CHARGE"/>
             <Field sourceFieldName="PAY_TYPE"/>
             <Field sourceFieldName="SERVICE_FLOW"/>
             <Field sourceFieldName="SERVICE_CATEGORY1"/>
-            <Field sourceFieldName="EVENT_DATE" targetFieldName="EVENT_DATE"/>
+            <Field sourceFieldName="EVENT_DATE"/>
             <Field sourceFieldName="filename" targetFieldName="File_Name"/>
             <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
             <Field sourceFieldName="POPULATION_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>

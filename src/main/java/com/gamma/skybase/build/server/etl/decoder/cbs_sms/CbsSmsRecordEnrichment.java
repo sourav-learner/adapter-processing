@@ -1,15 +1,15 @@
-package com.gamma.skybase.build.server.etl.tx.cbs_sms;
+package com.gamma.skybase.build.server.etl.decoder.cbs_sms;
 
 import com.gamma.skybase.contract.decoders.IEnrichment;
 import com.gamma.skybase.contract.decoders.MEnrichmentReq;
 import com.gamma.skybase.contract.decoders.MEnrichmentResponse;
+import com.gamma.telco.opco.ReferenceDimDialDigit;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
-public class cbsSmsRecordEnrichment implements IEnrichment {
+public class CbsSmsRecordEnrichment implements IEnrichment {
 
     private final ThreadLocal<SimpleDateFormat> sdfT = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMdd HH:mm:ss"));
 
@@ -17,36 +17,36 @@ public class cbsSmsRecordEnrichment implements IEnrichment {
         MEnrichmentResponse response = new MEnrichmentResponse();
         LinkedHashMap<String, Object> record = request.getRequest();
 
-        cbsSmsEnrichmentUtil tx = cbsSmsEnrichmentUtil.of(record);
+        CbsSmsEnrichmentUtil tx = CbsSmsEnrichmentUtil.of(record);
 
-        //  STATUS
+//        STATUS
         Optional<String> status = tx.getStatus();
         status.ifPresent(s -> record.put("CDR_STATUS", s));
 
-        // EVENT_START_TIME
+//        EVENT_START_TIME
         Optional<String> starTime = tx.getStartTime("CUST_LOCAL_START_DATE");
         starTime.ifPresent(s -> {
             record.put("EVENT_START_TIME", s);
             record.put("XDR_DATE", s);
         });
 
-        // EVENT_END_TIME
+//        EVENT_END_TIME
         Optional<String> endTime = tx.getEndTime("CUST_LOCAL_END_DATE");
         endTime.ifPresent(s -> record.put("EVENT_END_TIME", s));
 
-        // OBJTYPE
+//        OBJTYPE
         Optional<String> objType = tx.getObjType();
         objType.ifPresent(s -> record.put("OBJTYPE", s));
 
-        // RESULTCODE
+//        RESULTCODE
         Optional<String> resultCode = tx.getResultCode();
         resultCode.ifPresent(s -> record.put("RESULTCODE", s));
 
-        //  EVENT_DIRECTION_KEY
+//        EVENT_DIRECTION_KEY
         Optional<String> eventDirectionKey = tx.getEventDirectionKey();
         eventDirectionKey.ifPresent(s -> record.put("EVENT_DIRECTION_KEY", s));
 
-        // CHARGING_TIME
+//        CHARGING_TIME
         Optional<String> chargingTime = tx.getChargingTime("ChargingTime");
         chargingTime.ifPresent(s -> record.put("CHARGING_TIME", s));
 
@@ -66,19 +66,60 @@ public class cbsSmsRecordEnrichment implements IEnrichment {
         Optional<String> OnNetIndicator = tx.getOnNetIndicator();
         OnNetIndicator.ifPresent(s -> record.put("ON_NET_INDICATOR", s));
 
-        //  ONLINE_CHARGING_FLAG
+//        ONLINE_CHARGING_FLAG
         Optional<String> onlineChargingFlag = tx.getOnlineChargingFlag();
         onlineChargingFlag.ifPresent(s -> record.put("ONLINE_CHARGING_FLAG", s));
 
-        //  START_TIME_OF_BILL_CYCLE
+//        START_TIME_OF_BILL_CYCLE
         Optional<String> startTimeOfBill = tx.getStartTimeOfBillCycle("StartTimeOfBillCycle");
         startTimeOfBill.ifPresent(s -> record.put("START_TIME_OF_BILL_CYCLE", s));
 
-        //  GROUP_PAY_FLAG
+//        GROUP_PAY_FLAG
         Optional<String> groupPayFlag = tx.getGroupPayFlag();
         groupPayFlag.ifPresent(s -> record.put("GROUP_PAY_FLAG", s));
 
-        // CHARGE, ZERO_CHRG_IND
+//        SERVED_MSISDN
+        String served = tx.getValue("CallingPartyNumber");
+        String servedMSISDN = tx.normalizeMSISDN(served);
+        record.put("SERVED_MSISDN", servedMSISDN);
+
+//        OTHER_MSISDN
+        String other = tx.getValue("CallingPartyNumber");
+        String otherMSISDN = tx.normalizeMSISDN(other);
+        record.put("OTHER_MSISDN", otherMSISDN);
+        try {
+            ReferenceDimDialDigit ddk = tx.getDialedDigitSettings(otherMSISDN);
+            if (ddk != null) {
+                record.put("OTHER_MSISDN_DIALED_KEY", ddk.getDialDigitKey());
+                String providerDesc = ddk.getProviderDesc();
+                record.put("OTHER_PARTY_OPERATOR", providerDesc);
+                String targetCountryCode = ddk.getTargetCountryCode();
+                String otherPartyNwIndKey = "";
+                if (targetCountryCode.equals("966")){
+                    switch (providerDesc){
+                        case "GSM-Lebara Mobile":
+                        case "LEBARA- Free Number":
+                        case "LEBARA-Spl Number":
+                            otherPartyNwIndKey = "1";
+                            break;
+                        default:
+                            otherPartyNwIndKey = "2";
+                            break;
+                    }
+                }
+                else if (!targetCountryCode.equals("966")){
+                    otherPartyNwIndKey = "3";
+                }
+                else {
+                    otherPartyNwIndKey = "-99";
+                }
+                record.put("OTHER_PARTY_NW_IND_KEY", otherPartyNwIndKey);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+//        CHARGE, ZERO_CHRG_IND
         Optional<String> charge = tx.getCharge("DEBIT_AMOUNT");
         charge.ifPresent(s -> {
             record.put("CHARGE", s);
@@ -93,17 +134,17 @@ public class cbsSmsRecordEnrichment implements IEnrichment {
         });
         record.put("ZERO_DURATION_IND", zeroDurationIndDefault.get());
 
-        // PAY_TYPE
+//        PAY_TYPE
         String payType = tx.getValue("PayType");
         record.put("PAY_TYPE", payType);
 
-        //SERVICE_FLOW
+//        SERVICE_FLOW
         String serviceFlow = tx.getValue("ServiceFlow");
         record.put("SERVICE_FLOW", serviceFlow);
 
 //      SERVICE_CATEGORY
         String serviceCategory = tx.getValue("SERVICE_CATEGORY");
-        record.put("SERVICE_CATEGORY1",serviceCategory);
+        record.put("SERVICE_CATEGORY1", serviceCategory);
 
 //        FILE_NAME , POPULATION_DATE , EVENT_DATE
         record.put("FILE_NAME", record.get("fileName"));

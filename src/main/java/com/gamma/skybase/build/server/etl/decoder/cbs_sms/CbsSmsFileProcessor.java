@@ -8,9 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("Duplicates")
-public abstract class cbsSmsFileProcessor extends AFileSourceDecoder {
+public abstract class CbsSmsFileProcessor extends AFileSourceDecoder {
 
-    private static final Logger logger = LoggerFactory.getLogger(cbsSmsFileProcessor.class);
+    private static final Logger logger = LoggerFactory.getLogger(CbsSmsFileProcessor.class);
     protected FileDataSource dataSource;
     protected FileMetadata metadata;
 

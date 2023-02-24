@@ -1,4 +1,7 @@
-package com.gamma.skybase.build.server.etl.tx.cbs_sms;
+package com.gamma.skybase.build.server.etl.decoder.cbs_sms;
+
+import com.gamma.telco.OpcoBusinessTransformation;
+import com.gamma.telco.opco.ReferenceDimDialDigit;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -6,7 +9,9 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Optional;
 
-public class cbsSmsEnrichmentUtil {
+import static com.gamma.telco.utility.TelcoEnrichmentUtility.ltrim;
+
+public class CbsSmsEnrichmentUtil {
     final ThreadLocal<SimpleDateFormat> sdfT = ThreadLocal.withInitial(
             () -> new SimpleDateFormat("yyyyMMdd HH:mm:ss"));
     final ThreadLocal<SimpleDateFormat> fullDate = ThreadLocal.withInitial(
@@ -14,13 +19,14 @@ public class cbsSmsEnrichmentUtil {
     private final ThreadLocal<SimpleDateFormat> sdfS = ThreadLocal.withInitial(
             () -> new SimpleDateFormat("yyyyMMddHHmmss"));
     LinkedHashMap<String, Object> rec;
+    private final OpcoBusinessTransformation txLib = new OpcoBusinessTransformation();
 
-    private cbsSmsEnrichmentUtil(LinkedHashMap<String, Object> record) {
+    private CbsSmsEnrichmentUtil(LinkedHashMap<String, Object> record) {
         rec = record;
     }
 
-    public static cbsSmsEnrichmentUtil of(LinkedHashMap<String, Object> record) {
-        return new cbsSmsEnrichmentUtil(record);
+    public static CbsSmsEnrichmentUtil of(LinkedHashMap<String, Object> record) {
+        return new CbsSmsEnrichmentUtil(record);
     }
 
     public String getValue(String field) {
@@ -356,5 +362,25 @@ public class cbsSmsEnrichmentUtil {
             return Optional.of(zeroDurationInd);
         }
         return Optional.empty();
+    }
+
+    ReferenceDimDialDigit getDialedDigitSettings(String otherMSISDN) {
+        return txLib.getDialedDigitSettings(otherMSISDN);
+    }
+
+    String normalizeMSISDN(String number) {
+        if (number != null) {
+            if (number.startsWith("0")) {
+                number = ltrim(number, '0');
+                if (number.length() < 10) {
+                    number = "966" + number;
+                }
+            }
+            if (number.length() < 10) {
+                number = "966" + number;
+            }
+            return number;
+        }
+        return "";
     }
 }
