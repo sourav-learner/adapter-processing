@@ -113,11 +113,17 @@ public class CbsVoiceRecordEnrichment implements IEnrichment {
                         record.put("OTHER_PARTY_OPERATOR" , providerDesc);
                         String targetCountryCode = ddk.getTargetCountryCode();
                         String otherPartyNwIndKey = "";
-                        if (targetCountryCode.equals("966") && providerDesc.equals("GSM-Lebara Mobile") && providerDesc.equals("LEBARA- Free Number") && providerDesc.equals("LEBARA-Spl Number")) {
-                            otherPartyNwIndKey = "1";
-                        }
-                        else if (targetCountryCode.equals("966") && !providerDesc.equals("GSM-Lebara Mobile") && !providerDesc.equals("LEBARA- Free Number") && !providerDesc.equals("LEBARA-Spl Number")){
-                            otherPartyNwIndKey = "2";
+                        if (targetCountryCode.equals("966")){
+                            switch (providerDesc){
+                                case "GSM-Lebara Mobile":
+                                case "LEBARA- Free Number":
+                                case "LEBARA-Spl Number":
+                                    otherPartyNwIndKey = "1";
+                                    break;
+                                default:
+                                    otherPartyNwIndKey = "2";
+                                    break;
+                            }
                         }
                         else if (!targetCountryCode.equals("966")){
                             otherPartyNwIndKey = "3";
@@ -184,12 +190,17 @@ public class CbsVoiceRecordEnrichment implements IEnrichment {
                         record.put("OTHER_PARTY_OPERATOR" , providerDesc);
                         String targetCountryCode = ddk.getTargetCountryCode();
                         String otherPartyNwIndKey = "";
-                        if (targetCountryCode.equals("966") && providerDesc.equals("GSM-Lebara Mobile"))
-                        {
-                            otherPartyNwIndKey = "1";
-                        }
-                        else if (targetCountryCode.equals("966") && !providerDesc.equals("GSM-Lebara Mobile")){
-                            otherPartyNwIndKey = "2";
+                        if (targetCountryCode.equals("966")){
+                            switch (providerDesc){
+                                case "GSM-Lebara Mobile":
+                                case "LEBARA- Free Number":
+                                case "LEBARA-Spl Number":
+                                    otherPartyNwIndKey = "1";
+                                    break;
+                                default:
+                                    otherPartyNwIndKey = "2";
+                                    break;
+                            }
                         }
                         else if (!targetCountryCode.equals("966")){
                             otherPartyNwIndKey = "3";
