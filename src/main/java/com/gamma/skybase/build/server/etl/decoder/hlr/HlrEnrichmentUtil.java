@@ -1,9 +1,20 @@
-package com.gamma.skybase.build.server.etl.tx.hlr;
+package com.gamma.skybase.build.server.etl.decoder.hlr;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class HlrEnrichmentUtil {
+    final ThreadLocal<SimpleDateFormat> fullDate = ThreadLocal.withInitial(
+            () -> new SimpleDateFormat("yyyyMMdd"));
+    private final ThreadLocal<SimpleDateFormat> sdfS = ThreadLocal.withInitial(
+            () -> new SimpleDateFormat("yyyyMMddHHmmss"));
+    final ThreadLocal<SimpleDateFormat> sdfT = ThreadLocal.withInitial(
+            () -> new SimpleDateFormat("yyyyMMdd HH:mm:ss"));
     LinkedHashMap<String, Object> rec;
 
     private HlrEnrichmentUtil(LinkedHashMap<String, Object> record) {
@@ -848,4 +859,36 @@ public class HlrEnrichmentUtil {
             return Optional.of(smsFtn);
         return Optional.empty();
     }
+
+    Date eventDate = null;
+
+    public Optional<String> getXdrDate(){
+        String fileName ;
+        fileName = getValue("fileName");
+        Pattern pattern = Pattern.compile("\\d{14}");
+        Matcher matcher = pattern.matcher(fileName);
+        if (matcher.find()) {
+            String dateString = matcher.group();
+            try {
+                if (dateString != null) {
+                    eventDate = sdfS.get().parse(dateString);
+                    return Optional.of(sdfT.get().format(eventDate));
+                }
+            } catch (ParseException e) {// Ignore invalid Date format
+            }
+        }
+        return Optional.empty();
+    }
+
+    public Optional<String> getEventDate(){
+        String genFullDate = null;
+        Date eventDate1;
+        eventDate1 = eventDate;
+        if (eventDate1 != null) {
+            genFullDate = fullDate.get().format(eventDate1);
+            return Optional.of(genFullDate);
+        }
+        return Optional.empty();
+    }
+
 }
