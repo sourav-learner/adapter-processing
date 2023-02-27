@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Adapter Name="PCRF_QUOTA" Type="ASN.1" Version="1.0" Active="true" StatusDBHandler="mongo" rawJson="true"
+         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.pcrf_quota.PcrfQuotaFileExecutor" ExecMode="server"
+         txExecClass="com.gamma.skybase.build.server.etl.decoder.pcrf_quota.PcrfQuotaRecordEnrichment" ignoreLogging="false"
+         ignoreDuplicates="false" parallel="1" instance-size="1" load-factor="1" customized="enable">
+
+    <!--Extraction tag-->
+    <Extraction type="sniff" protocol="local" execClass="com.gamma.skybase.server.core.collector.sniff.DefaultSniffingExtractionAgent">
+        <Settings host="" port="" path="/raetl/processing/pcrf_quota/poll" username="" password="">
+            <Signature required="false" key=""/>
+            <Extract pattern="" metaFields="fileName\" dateFieldPattern="yyyyMMdd"/>
+        </Settings>
+    </Extraction>
+
+    <DirConfig>
+        <Source path="/raetl/processing/pcrf_quota/source" clogging="true"/>
+        <Backup path="/raetl/processing/pcrf_quota/backup" clogging="true" compress="gz"/>
+        <Staging path="/raetl/processing/pcrf_quota/staging" clogging="true"/>
+        <Output path="/raetl/processing/pcrf_quota/output" clogging="true"/>
+        <Error path="/raetl/processing/pcrf_quota/error" clogging="true"/>
+        <Target protocol="" host="" path="/" pwd="" user="" active="true"/>
+    </DirConfig>
+
+    <DataDef>
+        <Event eventName="FCT_PCRF_QUOTA" tableName="FCT_PCRF_QUOTA" synonym="FCT_PCRF_QUOTA" dataBase="">
+            <Field sourceFieldName="QUOTAID" targetFieldName="QUOTAID"/>
+            <Field sourceFieldName="QUOTANAME" targetFieldName="QUOTANAME"/>
+            <Field sourceFieldName="SERVICEID" targetFieldName="SERVICEID"/>
+            <Field sourceFieldName="RGID" targetFieldName="RGID"/>
+            <Field sourceFieldName="INITIALVALUE" targetFieldName="INITIALVALUE"/>
+            <Field sourceFieldName="PERCENT" targetFieldName="PERCENT"/>
+            <Field sourceFieldName="BILLINGCYCLEMODE" targetFieldName="BILLINGCYCLEMODE"/>
+            <Field sourceFieldName="BILLINGCYCLETIME" targetFieldName="BILLINGCYCLETIME"/>
+            <Field sourceFieldName="RESETTYPE" targetFieldName="RESETTYPE"/>
+            <Field sourceFieldName="RESETWEEK" targetFieldName="RESETWEEK"/>
+            <Field sourceFieldName="RESETDAY" targetFieldName="RESETDAY"/>
+            <Field sourceFieldName="RESETTIME" targetFieldName="RESETTIME"/>
+            <Field sourceFieldName="BALANCERESETMETHOD" targetFieldName="BALANCERESETMETHOD"/>
+            <Field sourceFieldName="LEVEL1" targetFieldName="LEVEL1"/>
+            <Field sourceFieldName="LEVEL2" targetFieldName="LEVEL2"/>
+            <Field sourceFieldName="LEVEL3" targetFieldName="LEVEL3"/>
+            <Field sourceFieldName="LEVEL4" targetFieldName="LEVEL4"/>
+            <Field sourceFieldName="TYPE" targetFieldName="TYPE"/>
+            <Field sourceFieldName="CLASS" targetFieldName="CLASS"/>
+            <Field sourceFieldName="ACCUMULATIONTYPE" targetFieldName="ACCUMULATIONTYPE"/>
+            <Field sourceFieldName="DESCRIPTION" targetFieldName="DESCRIPTION"/>
+            <Field sourceFieldName="PERIODLENGTH" targetFieldName="PERIODLENGTH"/>
+            <Field sourceFieldName="RESETTIMETYPE" targetFieldName="RESETTIMETYPE"/>
+            <Field sourceFieldName="DESTINATIONPCEF" targetFieldName="DESTINATIONPCEF"/>
+            <Field sourceFieldName="NOTIFICATIONID" targetFieldName="NOTIFICATIONID"/>
+            <Field sourceFieldName="EDRREPORT" targetFieldName="EDRREPORT"/>
+            <Field sourceFieldName="LEVEL5" targetFieldName="LEVEL5"/>
+            <Field sourceFieldName="LEVEL6" targetFieldName="LEVEL6"/>
+            <Field sourceFieldName="LEVEL7" targetFieldName="LEVEL7"/>
+            <Field sourceFieldName="LEVEL8" targetFieldName="LEVEL8"/>
+            <Field sourceFieldName="LEVEL9" targetFieldName="LEVEL9"/>
+            <Field sourceFieldName="LEVEL10" targetFieldName="LEVEL10"/>
+            <Field sourceFieldName="CUSTOMLEVEL1" targetFieldName="CUSTOMLEVEL1"/>
+            <Field sourceFieldName="CUSTOMLEVEL2" targetFieldName="CUSTOMLEVEL2"/>
+            <Field sourceFieldName="CUSTOMLEVEL3" targetFieldName="CUSTOMLEVEL3"/>
+            <Field sourceFieldName="filename" targetFieldName="FILE_NAME"/>
+            <Field sourceFieldName="EVENT_DATE" targetFieldName="EVENT_DATE"/>
+            <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+            <Field sourceFieldName="POPULATION_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+        </Event>
+    </DataDef>
+</Adapter>
