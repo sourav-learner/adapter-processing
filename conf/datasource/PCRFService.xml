@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Adapter Name="PCRF_SERVICE" Type="ASN.1" Version="1.0" Active="true" StatusDBHandler="mongo" rawJson="true"
+         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.pcrf_service.PcrfServiceFileExecutor" ExecMode="server"
+         txExecClass="com.gamma.skybase.build.server.etl.decoder.pcrf_service.PcrfServiceRecordEnrichment" ignoreLogging="false"
+         ignoreDuplicates="false" parallel="1" instance-size="1" load-factor="1" customized="enable">
+
+    <!--Extraction tag-->
+    <Extraction type="sniff" protocol="local" execClass="com.gamma.skybase.server.core.collector.sniff.DefaultSniffingExtractionAgent">
+        <Settings host="" port="" path="/raetl/processing/pcrf_service/poll" username="" password="">
+            <Signature required="false" key=""/>
+            <Extract pattern="" metaFields="fileName\" dateFieldPattern="yyyyMMdd"/>
+        </Settings>
+    </Extraction>
+
+    <DirConfig>
+        <Source path="/raetl/processing/pcrf_service/source" clogging="true"/>
+        <Backup path="/raetl/processing/pcrf_service/backup" clogging="true" compress="gz"/>
+        <Staging path="/raetl/processing/pcrf_service/staging" clogging="true"/>
+        <Output path="/raetl/processing/pcrf_service/output" clogging="true"/>
+        <Error path="/raetl/processing/pcrf_service/error" clogging="true"/>
+        <Target protocol="" host="" path="/" pwd="" user="" active="true"/>
+    </DirConfig>
+
+    <DataDef>
+        <Event eventName="FCT_PCRF_SERVICE" tableName="FCT_PCRF_SERVICE" synonym="FCT_PCRF_SERVICE" dataBase="">
+            <Field sourceFieldName="SERVICEID" targetFieldName="SERVICEID"/>
+            <Field sourceFieldName="SERVICENAME" targetFieldName="SERVICENAME"/>
+            <Field sourceFieldName="SERVICETYPE" targetFieldName="SERVICETYPE"/>
+            <Field sourceFieldName="APN" targetFieldName="APN"/>
+            <Field sourceFieldName="QOSMODE" targetFieldName="QOSMODE"/>
+            <Field sourceFieldName="ACTIVATEDBY" targetFieldName="ACTIVATEDBY"/>
+            <Field sourceFieldName="PRECEDENCE" targetFieldName="PRECEDENCE"/>
+            <Field sourceFieldName="SPID" targetFieldName="SPID"/>
+            <Field sourceFieldName="ISSUBSCRIPTIONFORCED" targetFieldName="ISSUBSCRIPTIONFORCED"/>
+            <Field sourceFieldName="QUOTAID" targetFieldName="QUOTAID"/>
+            <Field sourceFieldName="ACCOUNTID" targetFieldName="ACCOUNTID"/>
+            <Field sourceFieldName="DPIPARAMETER" targetFieldName="DPIPARAMETER"/>
+            <Field sourceFieldName="ISMETERTOBASIC" targetFieldName="ISMETERTOBASIC"/>
+            <Field sourceFieldName="VPN" targetFieldName="VPN"/>
+            <Field sourceFieldName="VALIDFORMDATETIME" targetFieldName="VALIDFORMDATETIME"/>
+            <Field sourceFieldName="VALIDUNTILDATETIME" targetFieldName="VALIDUNTILDATETIME"/>
+            <Field sourceFieldName="DISPLAYNAME" targetFieldName="DISPLAYNAME"/>
+            <Field sourceFieldName="PATUNABLE" targetFieldName="PATUNABLE"/>
+            <Field sourceFieldName="SERVICEURL" targetFieldName="SERVICEURL"/>
+            <Field sourceFieldName="NEEDAUTH" targetFieldName="NEEDAUTH"/>
+            <Field sourceFieldName="DEFAULTACTIVATED" targetFieldName="DEFAULTACTIVATED"/>
+            <Field sourceFieldName="DESCRIPTION" targetFieldName="DESCRIPTION"/>
+            <Field sourceFieldName="STARTNOTIFICATIONID" targetFieldName="STARTNOTIFICATIONID"/>
+            <Field sourceFieldName="ENDNOTIFICATIONID" targetFieldName="ENDNOTIFICATIONID"/>
+            <Field sourceFieldName="SUBSCRIPTIONNOTIFICATIONID" targetFieldName="SUBSCRIPTIONNOTIFICATIONID"/>
+            <Field sourceFieldName="CHANGENOTIFICATIONID" targetFieldName="CHANGENOTIFICATIONID"/>
+            <Field sourceFieldName="BEFOREEXPIRYNOTIFICATIONID" targetFieldName="BEFOREEXPIRYNOTIFICATIONID"/>
+            <Field sourceFieldName="EXPIRYINTERVAL" targetFieldName="EXPIRYINTERVAL"/>
+            <Field sourceFieldName="CALCULATETIME" targetFieldName="CALCULATETIME"/>
+            <Field sourceFieldName="DURATIONTYPE" targetFieldName="DURATIONTYPE"/>
+            <Field sourceFieldName="DURATIONVALUE" targetFieldName="DURATIONVALUE"/>
+            <Field sourceFieldName="filename" targetFieldName="FILE_NAME"/>
+            <Field sourceFieldName="EVENT_DATE" targetFieldName="EVENT_DATE"/>
+            <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+            <Field sourceFieldName="POPULATION_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+        </Event>
+    </DataDef>
+</Adapter>
