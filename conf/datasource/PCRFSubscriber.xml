@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Adapter Name="PCRF_SUBSCRIBER" Type="ASN.1" Version="1.0" Active="true" StatusDBHandler="mongo" rawJson="true"
+         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.pcrf_subscriber.PcrfSubscriberFileExecutor" ExecMode="server"
+         txExecClass="com.gamma.skybase.build.server.etl.decoder.pcrf_subscriber.PcrfSubscriberRecordEnrichment" ignoreLogging="false"
+         ignoreDuplicates="false" parallel="1" instance-size="1" load-factor="1" customized="enable">
+
+    <!--Extraction tag-->
+    <Extraction type="sniff" protocol="local" execClass="com.gamma.skybase.server.core.collector.sniff.DefaultSniffingExtractionAgent">
+        <Settings host="" port="" path="/raetl/processing/pcrf_subscriber/poll" username="" password="">
+            <Signature required="false" key=""/>
+            <Extract pattern="" metaFields="fileName\" dateFieldPattern="yyyyMMdd"/>
+        </Settings>
+    </Extraction>
+
+    <DirConfig>
+        <Source path="/raetl/processing/pcrf_subscriber/source" clogging="true"/>
+        <Backup path="/raetl/processing/pcrf_subscriber/backup" clogging="true" compress="gz"/>
+        <Staging path="/raetl/processing/pcrf_subscriber/staging" clogging="true"/>
+        <Output path="/raetl/processing/pcrf_subscriber/output" clogging="true"/>
+        <Error path="/raetl/processing/pcrf_subscriber/error" clogging="true"/>
+        <Target protocol="" host="" path="/" pwd="" user="" active="true"/>
+    </DirConfig>
+
+    <DataDef>
+        <Event eventName="FCT_PCRF_SUBSCRIBER" tableName="FCT_PCRF_SUBSCRIBER" synonym="FCT_PCRF_SUBSCRIBER" dataBase="">
+            <Field sourceFieldName="SID" targetFieldName="SID"/>
+            <Field sourceFieldName="SUBSCRIBERSN" targetFieldName="SUBSCRIBERSN"/>
+            <Field sourceFieldName="SUBSCRIBERIDENTIFIER" targetFieldName="SUBSCRIBERIDENTIFIER"/>
+            <Field sourceFieldName="SERVED_MSSIDN" targetFieldName="SERVED_MSSIDN"/>
+            <Field sourceFieldName="STATUS" targetFieldName="STATUS"/>
+            <Field sourceFieldName="HOMESRVZONE" targetFieldName="HOMESRVZONE"/>
+            <Field sourceFieldName="PAIDTYPE" targetFieldName="PAIDTYPE"/>
+            <Field sourceFieldName="CATEGORY" targetFieldName="CATEGORY"/>
+            <Field sourceFieldName="STATION" targetFieldName="STATION"/>
+            <Field sourceFieldName="EMAILADDRESS" targetFieldName="EMAILADDRESS"/>
+            <Field sourceFieldName="CONTACTMETHOD" targetFieldName="CONTACTMETHOD"/>
+            <Field sourceFieldName="BILLCYCLYDAY" targetFieldName="BILLCYCLYDAY"/>
+            <Field sourceFieldName="DOMAINID" targetFieldName="DOMAINID"/>
+            <Field sourceFieldName="filename" targetFieldName="FILE_NAME"/>
+           <Field sourceFieldName="EVENT_DATE"/>
+           <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+           <Field sourceFieldName="POPULATION_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+        </Event>
+    </DataDef>
+</Adapter>
