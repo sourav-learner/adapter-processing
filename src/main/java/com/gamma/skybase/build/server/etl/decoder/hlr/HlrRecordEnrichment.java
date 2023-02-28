@@ -192,10 +192,6 @@ public class HlrRecordEnrichment implements IEnrichment {
         Optional<String> genFullDate = tx.getEventDate();
         genFullDate.ifPresent(s -> record.put("EVENT_DATE", s));
 
-//        CHARGE_GLOBA
-        Optional<String> chargeGloba = tx.getChargeGloba("CHARGE_GLOBA");
-        chargeGloba.ifPresent(s -> record.put("CHARGE_GLOBA",s));
-
         response.setResponseCode(true);
         response.setResponse(record);
         return response;

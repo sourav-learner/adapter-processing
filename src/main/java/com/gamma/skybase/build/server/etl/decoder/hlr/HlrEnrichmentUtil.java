@@ -117,7 +117,7 @@ public class HlrEnrichmentUtil {
 
     public Optional<String> getObdPlmn1() {
         String obdPlamn1;
-        String obdPlamn11 = null;
+        String obdPlamn11;
         obdPlamn1 = getValue("ODBPLMN1");
         if (obdPlamn1 != null) {
             if (obdPlamn1.equals("0")) {
@@ -128,14 +128,12 @@ public class HlrEnrichmentUtil {
         } else {
             obdPlamn11 = "-99";
         }
-        if (obdPlamn11 != null)
-            return Optional.of(obdPlamn11);
-        return Optional.empty();
+        return Optional.of(obdPlamn11);
     }
 
     public Optional<String> getObdPlmn2() {
         String obdPlamn2;
-        String obdPlamn21 = null;
+        String obdPlamn21;
         obdPlamn2 = getValue("ODBPLMN2");
         if (obdPlamn2 != null) {
             if (obdPlamn2.equals("0")) {
@@ -146,14 +144,12 @@ public class HlrEnrichmentUtil {
         } else {
             obdPlamn21 = "-99";
         }
-        if (obdPlamn21 != null)
-            return Optional.of(obdPlamn21);
-        return Optional.empty();
+        return Optional.of(obdPlamn21);
     }
 
     public Optional<String> getObdPlmn3() {
         String obdPlamn3;
-        String obdPlamn31 = null;
+        String obdPlamn31;
         obdPlamn3 = getValue("ODBPLMN3");
         if (obdPlamn3 != null) {
             if (obdPlamn3.equals("0")) {
@@ -164,14 +160,12 @@ public class HlrEnrichmentUtil {
         } else {
             obdPlamn31 = "-99";
         }
-        if (obdPlamn31 != null)
-            return Optional.of(obdPlamn31);
-        return Optional.empty();
+        return Optional.of(obdPlamn31);
     }
 
     public Optional<String> getObdPlmn4() {
         String obdPlamn4;
-        String obdPlamn41 = null;
+        String obdPlamn41 ;
         obdPlamn4 = getValue("ODBPLMN4");
         if (obdPlamn4 != null) {
             if (obdPlamn4.equals("0")) {
@@ -182,9 +176,7 @@ public class HlrEnrichmentUtil {
         } else {
             obdPlamn41 = "-99";
         }
-        if (obdPlamn41 != null)
-            return Optional.of(obdPlamn41);
-        return Optional.empty();
+        return Optional.of(obdPlamn41);
     }
 
     public Optional<String> getOdbRoam() {
@@ -408,7 +400,7 @@ public class HlrEnrichmentUtil {
 
     public Optional<String> getUtrannotallowed_3G() {
         String utrannotallowed;
-        String utrannotallowed_3g = null;
+        String utrannotallowed_3g;
         utrannotallowed = getValue("UTRANNOTALLOWED");
         if (utrannotallowed != null) {
             if (utrannotallowed.equals("0")) {
@@ -420,14 +412,12 @@ public class HlrEnrichmentUtil {
         } else {
             utrannotallowed_3g = "-99";
         }
-        if (utrannotallowed_3g != null)
-            return Optional.of(utrannotallowed_3g);
-        return Optional.empty();
+        return Optional.of(utrannotallowed_3g);
     }
 
     public Optional<String> getGerannotallowed_2G() {
         String gerannotallowed;
-        String gerannotallowed_2g = null;
+        String gerannotallowed_2g;
         gerannotallowed = getValue("UTRANNOTALLOWED");
         if (gerannotallowed != null) {
             if (gerannotallowed.equals("0")) {
@@ -438,9 +428,7 @@ public class HlrEnrichmentUtil {
         } else {
             gerannotallowed_2g = "-99";
         }
-        if (gerannotallowed_2g != null)
-            return Optional.of(gerannotallowed_2g);
-        return Optional.empty();
+        return Optional.of(gerannotallowed_2g);
     }
 
     public Optional<String> getCardType() {
@@ -642,9 +630,8 @@ public class HlrEnrichmentUtil {
     }
 
     public Optional<String> getGlobCahrgingCharacter() {
-        String chargeGloba;
         String globCahrgingCharacter = null;
-        chargeGloba = getValue("CHARGE_GLOBA");
+        String chargeGloba = getValue("CHARGE_GLOBA");
         if (chargeGloba != null) {
             switch (chargeGloba) {
                 case "0":
@@ -873,20 +860,12 @@ public class HlrEnrichmentUtil {
     }
 
     public Optional<String> getEventDate() {
-        String genFullDate = null;
+        String genFullDate;
         Date eventDate1;
         eventDate1 = xdrDate;
         if (eventDate1 != null) {
             genFullDate = fullDate.get().format(eventDate1);
             return Optional.of(genFullDate);
-        }
-        return Optional.empty();
-    }
-
-    public Optional<String> getChargeGloba(String CHARGE_GLOBA) {
-        String chargeGloba = getValue(CHARGE_GLOBA);
-        if (chargeGloba != null) {
-            return Optional.of(chargeGloba);
         }
         return Optional.empty();
     }
