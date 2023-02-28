@@ -75,6 +75,7 @@ public class HlrEnrichmentUtil {
                     odbIncomingCall = "BARRED_WHILE_ROAMING";
                     break;
                 default:
+                    odbIncomingCall = "-99";
                     break;
             }
         }
@@ -84,7 +85,7 @@ public class HlrEnrichmentUtil {
     }
 
     public Optional<String> getOdbOutgoingCall() {
-        String odboc ;
+        String odboc;
         String odbOutgoingCall = null;
         odboc = getValue("ODBOC");
         if (odboc != null) {
@@ -119,16 +120,13 @@ public class HlrEnrichmentUtil {
         String obdPlamn11 = null;
         obdPlamn1 = getValue("ODBPLMN1");
         if (obdPlamn1 != null) {
-            switch (obdPlamn1) {
-                case "0":
-                    obdPlamn11 = "NOBAR";
-                    break;
-                case "1":
-                    obdPlamn11 = "BARRED";
-                    break;
-                default:
-                    break;
+            if (obdPlamn1.equals("0")) {
+                obdPlamn11 = "NOBAR";
+            } else {
+                obdPlamn11 = "BARRED";
             }
+        } else {
+            obdPlamn11 = "-99";
         }
         if (obdPlamn11 != null)
             return Optional.of(obdPlamn11);
@@ -136,20 +134,17 @@ public class HlrEnrichmentUtil {
     }
 
     public Optional<String> getObdPlmn2() {
-        String obdPlamn2 ;
+        String obdPlamn2;
         String obdPlamn21 = null;
         obdPlamn2 = getValue("ODBPLMN2");
         if (obdPlamn2 != null) {
-            switch (obdPlamn2) {
-                case "0":
-                    obdPlamn21 = "NOBAR";
-                    break;
-                case "1":
-                    obdPlamn21 = "BARRED";
-                    break;
-                default:
-                    break;
+            if (obdPlamn2.equals("0")) {
+                obdPlamn21 = "NOBAR";
+            } else {
+                obdPlamn21 = "BARRED";
             }
+        } else {
+            obdPlamn21 = "-99";
         }
         if (obdPlamn21 != null)
             return Optional.of(obdPlamn21);
@@ -161,16 +156,13 @@ public class HlrEnrichmentUtil {
         String obdPlamn31 = null;
         obdPlamn3 = getValue("ODBPLMN3");
         if (obdPlamn3 != null) {
-            switch (obdPlamn3) {
-                case "0":
-                    obdPlamn31 = "NOBAR";
-                    break;
-                case "1":
-                    obdPlamn31 = "BARRED";
-                    break;
-                default:
-                    break;
+            if (obdPlamn3.equals("0")) {
+                obdPlamn31 = "NOBAR";
+            } else {
+                obdPlamn31 = "BARRED";
             }
+        } else {
+            obdPlamn31 = "-99";
         }
         if (obdPlamn31 != null)
             return Optional.of(obdPlamn31);
@@ -182,16 +174,13 @@ public class HlrEnrichmentUtil {
         String obdPlamn41 = null;
         obdPlamn4 = getValue("ODBPLMN4");
         if (obdPlamn4 != null) {
-            switch (obdPlamn4) {
-                case "0":
-                    obdPlamn41 = "NOBAR";
-                    break;
-                case "1":
-                    obdPlamn41 = "BARRED";
-                    break;
-                default:
-                    break;
+            if (obdPlamn4.equals("0")) {
+                obdPlamn41 = "NOBAR";
+            } else {
+                obdPlamn41 = "BARRED";
             }
+        } else {
+            obdPlamn41 = "-99";
         }
         if (obdPlamn41 != null)
             return Optional.of(obdPlamn41);
@@ -255,10 +244,10 @@ public class HlrEnrichmentUtil {
         if (odbmect != null) {
             switch (odbmect) {
                 case "0":
-                    odbmectCalltransfer = "NOT PROVIDE DBINFO";
+                    odbmectCalltransfer = "NOT BAR THE  EXPLICIT CALL TRANSFER";
                     break;
                 case "1":
-                    odbmectCalltransfer = "NOT PROVIDE DBINFO";
+                    odbmectCalltransfer = "BAR THE Explicit CALL TRANSFER";
                     break;
                 default:
                     odbmectCalltransfer = "-99";
@@ -277,10 +266,10 @@ public class HlrEnrichmentUtil {
         if (odbinfo != null) {
             switch (odbinfo) {
                 case "0":
-                    odbInfoService = "BAR EXPLICIT CALL TRANSFER";
+                    odbInfoService = "NOT PROVIDE ODBINFO";
                     break;
                 case "1":
-                    odbInfoService = "NOBAR Explicit CALL TRANSFER";
+                    odbInfoService = "PROVIDE ODBINFO";
                     break;
                 default:
                     odbInfoService = "-99";
@@ -291,6 +280,7 @@ public class HlrEnrichmentUtil {
             return Optional.of(odbInfoService);
         return Optional.empty();
     }
+
     public Optional<String> getOdbPacketOrientedService() {
         String odbpos;
         String odbPacketOrientedService = null;
@@ -302,6 +292,12 @@ public class HlrEnrichmentUtil {
                     break;
                 case "1":
                     odbPacketOrientedService = "PACKET_BARRED";
+                    break;
+                case "2":
+                    odbPacketOrientedService = "PACKET BARRED WHILE THE SUBSCRIBER IS ROAMING IN VPLMN";
+                    break;
+                case "3":
+                    odbPacketOrientedService = "PACKET BARRED WITHIN ROAMED-TO VPLMN";
                     break;
                 default:
                     odbPacketOrientedService = "-99";
@@ -326,7 +322,7 @@ public class HlrEnrichmentUtil {
                     odbPacketOrientedServiceType = "ONLY MO";
                     break;
                 case "2":
-                    odbPacketOrientedServiceType = " ONLY NO";
+                    odbPacketOrientedServiceType = "ONLY NO";
                     break;
                 default:
                     odbPacketOrientedServiceType = "-99";
@@ -415,17 +411,14 @@ public class HlrEnrichmentUtil {
         String utrannotallowed_3g = null;
         utrannotallowed = getValue("UTRANNOTALLOWED");
         if (utrannotallowed != null) {
-            switch (utrannotallowed) {
-                case "0":
-                    utrannotallowed_3g = "Access";
-                    break;
-                case "1":
-                    utrannotallowed_3g = "NO ACCESS";
-                    break;
-                default:
-                    utrannotallowed_3g = "-99";
-                    break;
+            if (utrannotallowed.equals("0")) {
+                utrannotallowed_3g = "Access";
+            } else {
+                utrannotallowed_3g = "NO ACCESS";
+
             }
+        } else {
+            utrannotallowed_3g = "-99";
         }
         if (utrannotallowed_3g != null)
             return Optional.of(utrannotallowed_3g);
@@ -437,17 +430,13 @@ public class HlrEnrichmentUtil {
         String gerannotallowed_2g = null;
         gerannotallowed = getValue("UTRANNOTALLOWED");
         if (gerannotallowed != null) {
-            switch (gerannotallowed) {
-                case "0":
-                    gerannotallowed_2g = "Access";
-                    break;
-                case "1":
-                    gerannotallowed_2g = "NO ACCESS";
-                    break;
-                default:
-                    gerannotallowed_2g = "-99";
-                    break;
+            if (gerannotallowed.equals("0")) {
+                gerannotallowed_2g = "Access";
+            } else {
+                gerannotallowed_2g = "NO ACCESS";
             }
+        } else {
+            gerannotallowed_2g = "-99";
         }
         if (gerannotallowed_2g != null)
             return Optional.of(gerannotallowed_2g);
@@ -659,6 +648,9 @@ public class HlrEnrichmentUtil {
         if (chargeGloba != null) {
             switch (chargeGloba) {
                 case "0":
+                    globCahrgingCharacter = "NONE";
+                    break;
+                case "1":
                     globCahrgingCharacter = "HOT";
                     break;
                 case "2":
@@ -849,7 +841,7 @@ public class HlrEnrichmentUtil {
         String smsFtn = null;
         smsFtn1 = getValue("SMS_FTN");
         if (smsFtn1 != null) {
-            if (smsFtn1.equals("65535")) {
+            if (smsFtn1.equals("-1")) {
                 smsFtn = "SERVICE_NOT_USED";
             } else {
                 smsFtn = smsFtn1;
@@ -860,10 +852,10 @@ public class HlrEnrichmentUtil {
         return Optional.empty();
     }
 
-    Date eventDate = null;
+    Date xdrDate = null;
 
-    public Optional<String> getXdrDate(){
-        String fileName ;
+    public Optional<String> getXdrDate() {
+        String fileName;
         fileName = getValue("fileName");
         Pattern pattern = Pattern.compile("\\d{14}");
         Matcher matcher = pattern.matcher(fileName);
@@ -871,8 +863,8 @@ public class HlrEnrichmentUtil {
             String dateString = matcher.group();
             try {
                 if (dateString != null) {
-                    eventDate = sdfS.get().parse(dateString);
-                    return Optional.of(sdfT.get().format(eventDate));
+                    xdrDate = sdfS.get().parse(dateString);
+                    return Optional.of(sdfT.get().format(xdrDate));
                 }
             } catch (ParseException e) {// Ignore invalid Date format
             }
@@ -880,10 +872,10 @@ public class HlrEnrichmentUtil {
         return Optional.empty();
     }
 
-    public Optional<String> getEventDate(){
+    public Optional<String> getEventDate() {
         String genFullDate = null;
         Date eventDate1;
-        eventDate1 = eventDate;
+        eventDate1 = xdrDate;
         if (eventDate1 != null) {
             genFullDate = fullDate.get().format(eventDate1);
             return Optional.of(genFullDate);
@@ -891,4 +883,11 @@ public class HlrEnrichmentUtil {
         return Optional.empty();
     }
 
+    public Optional<String> getChargeGloba(String CHARGE_GLOBA) {
+        String chargeGloba = getValue(CHARGE_GLOBA);
+        if (chargeGloba != null) {
+            return Optional.of(chargeGloba);
+        }
+        return Optional.empty();
+    }
 }

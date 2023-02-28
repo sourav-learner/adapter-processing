@@ -182,15 +182,19 @@ public class HlrRecordEnrichment implements IEnrichment {
         record.put("FILE_NAME", record.get("fileName"));
 
 //        XDR_DATE
-        Optional<String> eventDate = tx.getXdrDate();
-        eventDate.ifPresent(s -> record.put("XDR_DATE", s));
+        Optional<String> xdrDate = tx.getXdrDate();
+        xdrDate.ifPresent(s -> record.put("XDR_DATE", s));
 
 //        POPULATION_DATE
         record.put("POPULATION_DATE", sdfT.get().format(new Date()));
 
 //        EVENT_DATE
         Optional<String> genFullDate = tx.getEventDate();
-       genFullDate.ifPresent(s -> record.put("EVENT_DATE", s));
+        genFullDate.ifPresent(s -> record.put("EVENT_DATE", s));
+
+//        CHARGE_GLOBA
+        Optional<String> chargeGloba = tx.getChargeGloba("CHARGE_GLOBA");
+        chargeGloba.ifPresent(s -> record.put("CHARGE_GLOBA",s));
 
         response.setResponseCode(true);
         response.setResponse(record);

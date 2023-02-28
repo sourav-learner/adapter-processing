@@ -366,6 +366,7 @@
             <Field sourceFieldName="APNLIST_CONTEXT_ID"/>
             <Field sourceFieldName="APNLIST_APN"/>
             <Field sourceFieldName="EPSLCKOPTGPRSFLAG"/>
+            <Field SourceFiledName="CHARGE_GLOBA"/>
             <Field sourceFieldName="filename" targetFieldName="FILE_NAME"/>
             <Field sourceFieldName="EVENT_DATE"/>
             <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
