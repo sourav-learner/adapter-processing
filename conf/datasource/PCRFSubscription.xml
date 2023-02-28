@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Adapter Name="PCRF_SUBSCRIPTION" Type="ASN.1" Version="1.0" Active="true" StatusDBHandler="mongo" rawJson="true"
+         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.pcrf_subscription.PcrfSubscriptionFileExecutor" ExecMode="server"
+         txExecClass="com.gamma.skybase.build.server.etl.decoder.pcrf_subscription.PcrfSubscriptionRecordEnrichment" ignoreLogging="false"
+         ignoreDuplicates="false" parallel="1" instance-size="1" load-factor="1" customized="enable">
+
+    <!--Extraction tag-->
+    <Extraction type="sniff" protocol="local" execClass="com.gamma.skybase.server.core.collector.sniff.DefaultSniffingExtractionAgent">
+        <Settings host="" port="" path="/raetl/processing/pcrf_subscription/poll" username="" password="">
+            <Signature required="false" key=""/>
+            <Extract pattern="" metaFields="fileName\" dateFieldPattern="yyyyMMdd"/>
+        </Settings>
+    </Extraction>
+
+    <DirConfig>
+        <Source path="/raetl/processing/pcrf_subscription/source" clogging="true"/>
+        <Backup path="/raetl/processing/pcrf_subscription/backup" clogging="true" compress="gz"/>
+        <Staging path="/raetl/processing/pcrf_subscription/staging" clogging="true"/>
+        <Output path="/raetl/processing/pcrf_subscription/output" clogging="true"/>
+        <Error path="/raetl/processing/pcrf_subscription/error" clogging="true"/>
+        <Target protocol="" host="" path="/" pwd="" user="" active="true"/>
+    </DirConfig>
+
+    <DataDef>
+        <Event eventName="FCT_PCRF_SUBSCRIPTION" tableName="FCT_PCRF_SUBSCRIPTION" synonym="FCT_PCRF_SUBSCRIPTION" dataBase="">
+            <Field sourceFieldName="SID" targetFieldName="SID"/>
+            <Field sourceFieldName="SUBSCRIBERSN" targetFieldName="SUBSCRIBERSN"/>
+            <Field sourceFieldName="SERVICENAME" targetFieldName="SERVICENAME"/>
+            <Field sourceFieldName="STATUS" targetFieldName="STATUS"/>
+            <Field sourceFieldName="SUBSCRIBEDATETIME" targetFieldName="SUBSCRIBEDATETIME"/>
+            <Field sourceFieldName="VALIDFROMDATETIME" targetFieldName="VALIDFROMDATETIME"/>
+            <Field sourceFieldName="EXPIREDATETIME" targetFieldName="EXPIREDATETIME"/>
+            <Field sourceFieldName="ACTIVATIONSTATUS" targetFieldName="ACTIVATIONSTATUS"/>
+            <Field sourceFieldName="SHAREFLAG" targetFieldName="SHAREFLAG"/>
+            <Field sourceFieldName="SVCPKGID" targetFieldName="SVCPKGID"/>
+            <Field sourceFieldName="ROAMTYPE" targetFieldName="ROAMTYPE"/>
+            <Field sourceFieldName="filename" targetFieldName="FILE_NAME"/>
+            <Field sourceFieldName="EVENT_DATE"/>
+            <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+            <Field sourceFieldName="POPULATION_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+        </Event>
+    </DataDef>
+</Adapter>
