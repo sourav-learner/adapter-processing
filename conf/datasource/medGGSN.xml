@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Adapter Name="MED_GGSN" Type="ASN.1" Version="1.0" Active="true" StatusDBHandler="mongo" rawJson="true"
-         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.med_ggsn.medGGSNFileExecutor" ExecMode="server"
-         txExecClass="com.gamma.skybase.build.server.etl.tx.med_ggsn.medGGSNRecordEnrichment" ignoreLogging="false"
+         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.med_ggsn.MedGGSNFileExecutor" ExecMode="server"
+         txExecClass="com.gamma.skybase.build.server.etl.decoder.med_ggsn.MedGGSNRecordEnrichment" ignoreLogging="false"
          ignoreDuplicates="false" parallel="1" instance-size="1" load-factor="1" customized="enable">
 
     <!--Extraction tag-->
@@ -28,31 +28,32 @@
             <Field sourceFieldName="EVENT_END_TIME"/>
             <Field sourceFieldName="EVENT_START_TIME"/>
             <Field sourceFieldName="DURATION" targetFieldName="SESSION_DURATION"/>
-            <Field sourceFieldName="RECORD_SEQUENCE_NUMBER" targetFieldName="EDR_SEQ_NUM"/>
-            <Field sourceFieldName="LOCAL_SEQUENCE_NUMBER" targetFieldName="LOCAL_SEQUENCE_NUMBER"/>
-            <Field sourceFieldName="SERVED_MSISDN"/>
+            <Field sourceFieldName="RECORD_SEQUENCE_NUMBER" targetFieldName="REC_SEQ_NUM"/>
+            <Field sourceFieldName="LOCAL_SEQUENCE_NUMBER"/>
+            <Field sourceFieldName="SERVED_MSISDN" targetFieldName="ORIGINAL_A_NUM"/>
             <Field sourceFieldName="DATA_VOLUME_GPRS_UPLINK" targetFieldName="GPRS_UPLINK_VOLUME"/>
             <Field sourceFieldName="DATA_VOLUME_GPRS_DOWNLINK" targetFieldName="GPRS_DOWNLINK_VOLUME"/>
+            <Field sourceFieldName="DATA_VOLUME_GPRS_UPLINK_5G"/>
+            <Field sourceFieldName="DATA_VOLUME_GPRS_DOWNLINK_5G"/>
+            <Field sourceFieldName="RAT_TYPE"/>
             <Field sourceFieldName="SERVED_MSISDN_DIAL_DIGIT_KEY"/>
             <Field sourceFieldName="EVENT_TYPE_KEY" default="4"/>
             <Field sourceFieldName="SRV_TYPE_KEY"/>
             <Field sourceFieldName="EVENT_DIRECTION_KEY" default="1"/>
-            <Field sourceFieldName="SERVED_MSISDN" targetFieldName="ORIGINAL_A_NUM"/>
-            <Field sourceFieldName="CHRG_UNIT_ID_KEY" default="-7"/>
+            <Field sourceFieldName="SERVEDMSISDN"/>
+            <Field sourceFieldName="CHRG_UNIT_ID_KEY" default="7"/>
             <Field sourceFieldName="BILLABLE_VOLUME"/>
             <Field sourceFieldName="ZERO_BYTE_IND"/>
-            <Field sourceFieldName="GGSN_ADDRESS"/>
-            <Field sourceFieldName="APN_NAME"/>
-            <Field sourceFieldName="PLMN_INFO"/>
-            <Field sourceFieldName="SGSN_ADDRESS"/>
-            <Field sourceFieldName="CGI_ID_KEY"/>
-            <Field sourceFieldName="LOCATION_AREA_CODE"/>
-            <Field sourceFieldName="REC_TYPE_ID_KEY"/>
-            <Field sourceFieldName="RATING_GROUP"/>
-            <Field sourceFieldName="PDP_ADDRESS"/>
-            <Field sourceFieldName="FLEXI_COL_1"/>
-            <Field sourceFieldName="FLEXI_COL_2"/>
-            <Field sourceFieldName="FLEXI_COL_3"/>
+            <Field sourceFieldName="GGSN_ADDRESS" default="-97"/>
+            <Field sourceFieldName="APN_NAME" default="-97"/>
+            <Field sourceFieldName="PLMN_INFO" default="-97"/>
+            <Field sourceFieldName="SGSN_ADDRESS" default="-97"/>
+            <Field sourceFieldName="CGI_ID_KEY" default="-97"/>
+            <Field sourceFieldName="LOCATION_AREA_CODE" default="-97"/>
+            <Field sourceFieldName="REC_TYPE_ID_KEY" default="-97"/>
+            <Field sourceFieldName="RATING_GROUP" default="-97"/>
+            <Field sourceFieldName="PDP_ADDRESS" default="-97"/>
+            <Field sourceFieldName="SESSION_ID" default="-97"/>
             <Field sourceFieldName="filename" targetFieldName="FILE_NAME"/>
             <Field sourceFieldName="EVENT_DATE"/>
             <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
