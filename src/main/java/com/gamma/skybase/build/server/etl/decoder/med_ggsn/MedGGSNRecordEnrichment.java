@@ -1,15 +1,16 @@
-package com.gamma.skybase.build.server.etl.tx.med_ggsn;
+package com.gamma.skybase.build.server.etl.decoder.med_ggsn;
 
 import com.gamma.skybase.contract.decoders.IEnrichment;
 import com.gamma.skybase.contract.decoders.MEnrichmentReq;
 import com.gamma.skybase.contract.decoders.MEnrichmentResponse;
+import com.gamma.telco.opco.ReferenceDimDialDigit;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Optional;
 
-public class medGGSNRecordEnrichment implements IEnrichment {
+public class MedGGSNRecordEnrichment implements IEnrichment {
 
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
 
@@ -17,7 +18,7 @@ public class medGGSNRecordEnrichment implements IEnrichment {
         MEnrichmentResponse response = new MEnrichmentResponse();
         LinkedHashMap<String, Object> record = request.getRequest();
 
-        medGGSNEnrichmentUtil tx = medGGSNEnrichmentUtil.of(record);
+        MedGGSNEnrichmentUtil tx = MedGGSNEnrichmentUtil.of(record);
 
 //        EVENT_END_TIME
         Optional<String> callEndTime = tx.getEndTime();
@@ -30,13 +31,23 @@ public class medGGSNRecordEnrichment implements IEnrichment {
             record.put("XDR_DATE", s);
         });
 
-//        DATA_VOLUME_GPRS_DOWNLINK
-        Optional<String> dataVolumeIncoming = tx.getDownloadVolume();
-        dataVolumeIncoming.ifPresent(s -> record.put("DATA_VOLUME_GPRS_DOWNLINK", s));
+//        SERVED_MSISDN
+        Optional<String> servedMSISDN = tx.getServedMSISDN();
+        servedMSISDN.ifPresent(s -> {
+            record.put("SERVEDMSISDN", s);
+            try {
+                ReferenceDimDialDigit ddk = tx.getDialedDigitSettings(s);
+                if (ddk != null) {
+                    record.put("SERVED_MSISDN_DIAL_DIGIT_KEY", ddk.getDialDigitKey());
+                }
+            } catch (Exception e) {
+//                e.printStackTrace();
+            }
+        });
 
-//        DATA_VOLUME_GPRS_UPLINK
-        Optional<String> downloadVolume = tx.getUploadVolume();
-        downloadVolume.ifPresent(s -> record.put("DATA_VOLUME_GPRS_UPLINK", s));
+//        SRV_TYPE_KEY
+        Optional<String> srvTypeKey = tx.getSrvTypeKey(record.get("SERVED_MSISDN").toString());
+        srvTypeKey.ifPresent(s -> record.put("SRV_TYPE_KEY" ,s));
 
 //        BILLABLE_VOLUME, ZERO_BYTE_IND
         Optional<Long> billableBytes = tx.getBillableBytes();
@@ -44,7 +55,6 @@ public class medGGSNRecordEnrichment implements IEnrichment {
             record.put("BILLABLE_VOLUME", s);
             record.put("ZERO_BYTE_IND", s == 0 ? 1 : 0);
         });
-
 
 //        FILE_NAME
         record.put("FILE_NAME", record.get("fileName"));
