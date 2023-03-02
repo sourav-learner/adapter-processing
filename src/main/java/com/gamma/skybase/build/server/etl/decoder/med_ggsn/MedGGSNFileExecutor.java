@@ -19,10 +19,10 @@ import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("Duplicates")
-public class medGGSNFileExecutor extends medGGSNFileProcessor {
-    private static final Logger logger = LoggerFactory.getLogger(medGGSNFileExecutor.class);
+public class MedGGSNFileExecutor extends MedGGSNFileProcessor {
+    private static final Logger logger = LoggerFactory.getLogger(MedGGSNFileExecutor.class);
     private List<LinkedHashMap<String, Object>> jsonRecords;
-    String[] headers = new String[]{"SERVED_IMSI" , "CHARGING_ID" , "CHANGE_TIME" , "RECORD_OPENING_TIME" , "DURATION" , "RECORD_SEQUENCE_NUMBER" , "LOCAL_SEQUENCE_NUMBER" , "SERVED_MSISDN" , "DATA_VOLUME_GPRS_UPLINK" , "DATA_VOLUME_GPRS_DOWNLINK" , "SERVED_MSISDN", "FLEXI_COL_1" , "FLEXI_COL_2" , "FLEXI_COL_3"};
+    String[] headers = new String[]{"SERVED_IMSI" , "CHARGING_ID" , "CHANGE_TIME" , "RECORD_OPENING_TIME" , "DURATION" , "RECORD_SEQUENCE_NUMBER" , "LOCAL_SEQUENCE_NUMBER" , "SERVED_MSISDN" , "DATA_VOLUME_GPRS_UPLINK" ,"DATA_VOLUME_GPRS_DOWNLINK" , "DATA_VOLUME_GPRS_UPLINK_5G" , "DATA_VOLUME_GPRS_DOWNLINK_5G" , "RAT_TYPE" , "UNKNOWN"};
 
     @Override
     public void parseFile(String fileName) throws Exception {
