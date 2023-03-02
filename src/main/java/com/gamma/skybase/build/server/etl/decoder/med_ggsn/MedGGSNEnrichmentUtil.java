@@ -106,12 +106,18 @@ public class MedGGSNEnrichmentUtil extends LebaraUtil{
 
     public Optional<Long> getBillableBytes() {
         long totalVolume = 0L;
-        String downlinkVolume = getValue("DATA_VOLUME_GPRS_DOWNLINK");
-        String uplinkVolume = getValue("DATA_VOLUME_GPRS_UPLINK");
+        Long downlinkVolume, uplinkVolume;
+
+        downlinkVolume = Long.valueOf(getValue("DATA_VOLUME_GPRS_DOWNLINK"));
+        uplinkVolume = Long.valueOf(getValue("DATA_VOLUME_GPRS_UPLINK"));
+
+        downlinkVolume = Long.parseLong(String.valueOf(downlinkVolume));
+        uplinkVolume = Long.parseLong(String.valueOf(uplinkVolume));
 
         if (downlinkVolume != null && uplinkVolume != null) {
-            totalVolume = Long.parseLong(downlinkVolume + uplinkVolume);
+            totalVolume = downlinkVolume + uplinkVolume;
         }
+
         Double bytes = Math.ceil((double) totalVolume / 1024);
         return Optional.of(bytes.longValue());
     }
