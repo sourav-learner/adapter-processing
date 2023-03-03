@@ -1,4 +1,4 @@
-package com.gamma.skybase.build.server.etl.tx.cbs_transfer;
+package com.gamma.skybase.build.server.etl.decoder.cbs_transfer;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Optional;
 
-public class cbsTransferEnrichmentUtil {
+public class CbsTransferEnrichmentUtil {
     final ThreadLocal<SimpleDateFormat> sdfT = ThreadLocal.withInitial(
             () -> new SimpleDateFormat("yyyyMMdd HH:mm:ss"));
     final ThreadLocal<SimpleDateFormat> fullDate = ThreadLocal.withInitial(
@@ -15,12 +15,12 @@ public class cbsTransferEnrichmentUtil {
             () -> new SimpleDateFormat("yyyyMMddHHmmss"));
     LinkedHashMap<String, Object> rec;
 
-    private cbsTransferEnrichmentUtil(LinkedHashMap<String, Object> record) {
+    private CbsTransferEnrichmentUtil(LinkedHashMap<String, Object> record) {
         rec = record;
     }
 
-    public static cbsTransferEnrichmentUtil of(LinkedHashMap<String, Object> record) {
-        return new cbsTransferEnrichmentUtil(record);
+    public static CbsTransferEnrichmentUtil of(LinkedHashMap<String, Object> record) {
+        return new CbsTransferEnrichmentUtil(record);
     }
 
     public String getValue(String field) {
