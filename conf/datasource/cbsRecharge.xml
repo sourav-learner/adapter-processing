@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Adapter Name="CBS_RECHARGE" Type="ASN.1" Version="1.0" Active="true" StatusDBHandler="mongo" rawJson="true"
-         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.cbs_recharge.cbsRechargeFileExecutor" ExecMode="server"
-         txExecClass="com.gamma.skybase.build.server.etl.tx.cbs_recharge.cbsRechargeRecordEnrichment" ignoreLogging="false"
+         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.cbs_recharge.CbsRechargeFileExecutor" ExecMode="server"
+         txExecClass="com.gamma.skybase.build.server.etl.decoder.cbs_recharge.CbsRechargeRecordEnrichment" ignoreLogging="false"
          ignoreDuplicates="false" parallel="1" instance-size="1" load-factor="1" customized="enable">
 
     <!--Extraction tag-->

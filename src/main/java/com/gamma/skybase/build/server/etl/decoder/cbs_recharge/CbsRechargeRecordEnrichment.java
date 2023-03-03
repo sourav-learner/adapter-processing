@@ -1,4 +1,4 @@
-package com.gamma.skybase.build.server.etl.tx.cbs_recharge;
+package com.gamma.skybase.build.server.etl.decoder.cbs_recharge;
 
 import com.gamma.skybase.contract.decoders.IEnrichment;
 import com.gamma.skybase.contract.decoders.MEnrichmentReq;
@@ -7,7 +7,7 @@ import com.gamma.skybase.contract.decoders.MEnrichmentResponse;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class cbsRechargeRecordEnrichment implements IEnrichment {
+public class CbsRechargeRecordEnrichment implements IEnrichment {
 
     private final ThreadLocal<SimpleDateFormat> sdfT = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMdd HH:mm:ss"));
 
@@ -15,7 +15,7 @@ public class cbsRechargeRecordEnrichment implements IEnrichment {
         MEnrichmentResponse response = new MEnrichmentResponse();
         LinkedHashMap<String, Object> record = request.getRequest();
 
-        cbsRechargeEnrichmentUtil tx = cbsRechargeEnrichmentUtil.of(record);
+        CbsRechargeEnrichmentUtil tx = CbsRechargeEnrichmentUtil.of(record);
 
         // ENTRY_DATE
         Optional<String> starTime = tx.getStartTime("ENTRY_DATE");
