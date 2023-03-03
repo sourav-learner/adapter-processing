@@ -1,4 +1,4 @@
-package com.gamma.skybase.build.server.etl.tx.cbs_gprs;
+package com.gamma.skybase.build.server.etl.decoder.cbs_gprs;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Optional;
 
-public class cbsGprsEnrichmentUtil {
+public class CbsGprsEnrichmentUtil {
     final ThreadLocal<SimpleDateFormat> sdfT = ThreadLocal.withInitial(
             () -> new SimpleDateFormat("yyyyMMdd HH:mm:ss"));
     final ThreadLocal<SimpleDateFormat> fullDate = ThreadLocal.withInitial(
@@ -15,12 +15,12 @@ public class cbsGprsEnrichmentUtil {
             () -> new SimpleDateFormat("yyyyMMddHHmmss"));
     LinkedHashMap<String, Object> rec;
 
-    private cbsGprsEnrichmentUtil(LinkedHashMap<String, Object> record) {
+    private CbsGprsEnrichmentUtil(LinkedHashMap<String, Object> record) {
         rec = record;
     }
 
-    public static cbsGprsEnrichmentUtil of(LinkedHashMap<String, Object> record) {
-        return new cbsGprsEnrichmentUtil(record);
+    public static CbsGprsEnrichmentUtil of(LinkedHashMap<String, Object> record) {
+        return new CbsGprsEnrichmentUtil(record);
     }
 
     public String getValue(String field) {

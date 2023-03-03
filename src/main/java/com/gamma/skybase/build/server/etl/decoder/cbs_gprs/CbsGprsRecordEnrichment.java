@@ -1,4 +1,4 @@
-package com.gamma.skybase.build.server.etl.tx.cbs_gprs;
+package com.gamma.skybase.build.server.etl.decoder.cbs_gprs;
 
 import com.gamma.skybase.contract.decoders.IEnrichment;
 import com.gamma.skybase.contract.decoders.MEnrichmentReq;
@@ -7,7 +7,7 @@ import com.gamma.skybase.contract.decoders.MEnrichmentResponse;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class cbsGprsRecordEnrichment implements IEnrichment {
+public class CbsGprsRecordEnrichment implements IEnrichment {
 
     private final ThreadLocal<SimpleDateFormat> sdfT = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMdd HH:mm:ss"));
 
@@ -15,7 +15,7 @@ public class cbsGprsRecordEnrichment implements IEnrichment {
         MEnrichmentResponse response = new MEnrichmentResponse();
         LinkedHashMap<String, Object> record = request.getRequest();
 
-        cbsGprsEnrichmentUtil tx = cbsGprsEnrichmentUtil.of(record);
+        CbsGprsEnrichmentUtil tx = CbsGprsEnrichmentUtil.of(record);
 
         //  STATUS
         Optional<String> status = tx.getStatus();
