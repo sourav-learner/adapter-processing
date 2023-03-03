@@ -1,4 +1,4 @@
-package com.gamma.skybase.build.server.etl.tx.cbs_recurring;
+package com.gamma.skybase.build.server.etl.decoder.cbs_recurring;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Optional;
 
-public class cbsRecurringEnrichmentUtil {
+public class CbsRecurringEnrichmentUtil {
     final ThreadLocal<SimpleDateFormat> sdfT = ThreadLocal.withInitial(
             () -> new SimpleDateFormat("yyyyMMdd HH:mm:ss"));
     final ThreadLocal<SimpleDateFormat> fullDate = ThreadLocal.withInitial(
@@ -14,12 +14,12 @@ public class cbsRecurringEnrichmentUtil {
     private final ThreadLocal<SimpleDateFormat> sdfS = ThreadLocal.withInitial(
             () -> new SimpleDateFormat("yyyyMMddHHmmss"));
     LinkedHashMap<String, Object> rec;
-    private cbsRecurringEnrichmentUtil(LinkedHashMap<String, Object> record) {
+    private CbsRecurringEnrichmentUtil(LinkedHashMap<String, Object> record) {
         rec = record;
     }
 
-    public static cbsRecurringEnrichmentUtil of(LinkedHashMap<String, Object> record) {
-        return new cbsRecurringEnrichmentUtil(record);
+    public static CbsRecurringEnrichmentUtil of(LinkedHashMap<String, Object> record) {
+        return new CbsRecurringEnrichmentUtil(record);
     }
 
     public String getValue(String field) {

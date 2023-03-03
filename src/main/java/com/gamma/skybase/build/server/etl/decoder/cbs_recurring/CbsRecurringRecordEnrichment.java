@@ -1,4 +1,4 @@
-package com.gamma.skybase.build.server.etl.tx.cbs_recurring;
+package com.gamma.skybase.build.server.etl.decoder.cbs_recurring;
 
 import com.gamma.skybase.contract.decoders.IEnrichment;
 import com.gamma.skybase.contract.decoders.MEnrichmentReq;
@@ -9,14 +9,14 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Optional;
 
-public class cbsRecurringRecordEnrichment implements IEnrichment {
+public class CbsRecurringRecordEnrichment implements IEnrichment {
     private final ThreadLocal<SimpleDateFormat> sdfT = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMdd HH:mm:ss"));
 
     public MEnrichmentResponse transform(MEnrichmentReq request) {
         MEnrichmentResponse response = new MEnrichmentResponse();
         LinkedHashMap<String, Object> record = request.getRequest();
 
-        cbsRecurringEnrichmentUtil tx = cbsRecurringEnrichmentUtil.of(record);
+        CbsRecurringEnrichmentUtil tx = CbsRecurringEnrichmentUtil.of(record);
 
         // RESULTCODE
         Optional<String> resultCode = tx.getResultCode();

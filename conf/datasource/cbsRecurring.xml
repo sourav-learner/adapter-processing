@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Adapter Name="CBS_RECURRING" Type="ASN.1" Version="1.0" Active="true" StatusDBHandler="mongo" rawJson="true"
-         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.cbs_recurring.cbsRecurringFileExecutor" ExecMode="server"
-         txExecClass="com.gamma.skybase.build.server.etl.tx.cbs_recurring.cbsRecurringRecordEnrichment" ignoreLogging="false"
+         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.cbs_recurring.CbsRecurringFileExecutor" ExecMode="server"
+         txExecClass="com.gamma.skybase.build.server.etl.decoder.cbs_recurring.CbsRecurringRecordEnrichment" ignoreLogging="false"
          ignoreDuplicates="false" parallel="1" instance-size="1" load-factor="1" customized="enable">
 
     <!--Extraction tag-->
