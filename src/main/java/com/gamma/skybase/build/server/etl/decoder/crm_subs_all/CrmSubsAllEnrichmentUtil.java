@@ -2,22 +2,18 @@ package com.gamma.skybase.build.server.etl.decoder.crm_subs_all;
 
 import com.gamma.skybase.build.server.etl.decoder.LebaraUtil;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class CrmSubsAllEnrichmentUtil extends LebaraUtil{
-    final ThreadLocal<SimpleDateFormat> fullDate = ThreadLocal.withInitial(
-            () -> new SimpleDateFormat("yyyyMMdd"));
+
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
     DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-    private final ThreadLocal<SimpleDateFormat> sdfS = ThreadLocal.withInitial(
-            () -> new SimpleDateFormat("yyyyMMddHHmmss"));
-    final ThreadLocal<SimpleDateFormat> sdfT = ThreadLocal.withInitial(
-            () -> new SimpleDateFormat("yyyyMMdd HH:mm:ss"));
 
     private CrmSubsAllEnrichmentUtil(LinkedHashMap<String, Object> record) {
         super(record);
@@ -242,5 +238,17 @@ public class CrmSubsAllEnrichmentUtil extends LebaraUtil{
             return Optional.of(dtf.format(latestActiveDate));
         }
         return Optional.empty();
+    }
+
+    public Optional<String> getEventDate(){
+        String fileName;
+        fileName = getValue("fileName");
+        String eventDate = null;
+        Pattern pattern = Pattern.compile("^[A-Za-z0-9_]+_[A-Za-z0-9_]+_([0-9]{8})\\.[A-Za-z]+$");
+        Matcher matcher = pattern.matcher(fileName);
+        if (matcher.find()) {
+            eventDate = matcher.group(1);
+        }
+        return Optional.of(eventDate);
     }
 }

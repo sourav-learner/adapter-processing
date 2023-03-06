@@ -71,6 +71,10 @@ public class CrmSubsAllRecordEnrichment implements IEnrichment {
         Optional<String> latestActiveDate = tx.getLatestActiveDate();
         latestActiveDate.ifPresent(s -> record.put("LATEST_ACTIVE_DATE", s));
 
+//        EVENT_DATE
+        Optional<String> eventDate = tx.getEventDate();
+        eventDate.ifPresent(s -> record.put("EVENT_DATE", s));
+
 //        FILE_NAME
         record.put("FILE_NAME", record.get("fileName"));
 
