@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Adapter Name="CRM_SUBS_ALL" Type="ASN.1" Version="1.0" Active="true" StatusDBHandler="mongo" rawJson="true"
+         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.crm_subs_all.CrmSubsAllFileExecutor" ExecMode="server"
+         txExecClass="com.gamma.skybase.build.server.etl.decoder.crm_subs_all.CrmSubsAllRecordEnrichment" ignoreLogging="false"
+         ignoreDuplicates="false" parallel="1" instance-size="1" load-factor="1" customized="enable">
+
+    <!--Extraction tag-->
+    <Extraction type="sniff" protocol="local" execClass="com.gamma.skybase.server.core.collector.sniff.DefaultSniffingExtractionAgent">
+        <Settings host="" port="" path="/raetl/processing/crm_subs_all/poll" username="" password="">
+            <Signature required="false" key=""/>
+            <Extract pattern="" metaFields="fileName\" dateFieldPattern="yyyyMMdd"/>
+        </Settings>
+    </Extraction>
+
+    <DirConfig>
+        <Source path="/raetl/processing/crm_subs_all/source" clogging="true"/>
+        <Backup path="/raetl/processing/crm_subs_all/backup" clogging="true" compress="gz"/>
+        <Staging path="/raetl/processing/crm_subs_all/staging" clogging="true"/>
+        <Output path="/raetl/processing/crm_subs_all/output" clogging="true"/>
+        <Error path="/raetl/processing/crm_subs_all/error" clogging="true"/>
+        <Target protocol="" host="" path="/" pwd="" user="" active="true"/>
+    </DirConfig>
+
+    <DataDef>
+        <Event eventName="FCT_HUW_CRM_SUBS_ALL" tableName="FCT_HUW_CRM_SUBS_ALL" synonym="FCT_HUW_CRM_SUBS_ALL" dataBase="">
+            <Field SourceFieldName="SUB_ID"/>
+            <Field SourceFieldName="CUST_ID"/>
+            <Field SourceFieldName="ACTUAL_CUST_ID"/>
+            <Field SourceFieldName="SUBS_TYPE"/>
+            <Field SourceFieldName="SUBGROUP_TYPE"/>
+            <Field SourceFieldName="SUBGROUP_NAME"/>
+            <Field SourceFieldName="NETWORK_TYPE"/>
+            <Field SourceFieldName="SRV_TYPE_KEY"/>
+            <Field SourceFieldName="SERVED_MSISDN"/>
+            <Field SourceFieldName="IMSI" targetFieldName="SERVED_IMSI"/>
+            <Field SourceFieldName="ICCID"/>
+            <Field SourceFieldName="SUB_PASSWORD"/>
+            <Field SourceFieldName="SUB_LANG"/>
+            <Field SourceFieldName="SUB_LEVEL"/>
+            <Field SourceFieldName="SUB_GROUP"/>
+            <Field SourceFieldName="SUB_SEGMENT"/>
+            <Field SourceFieldName="DUN_FLAG"/>
+            <Field SourceFieldName="DUN_START_DATE"/>
+            <Field SourceFieldName="DUN_EXPIRY_DATE"/>
+            <Field SourceFieldName="SUB_INIT_CREDIT"/>
+            <Field SourceFieldName="SUB_CREDIT"/>
+            <Field SourceFieldName="SUB_STATE" targetFieldName="SUBS_STATUS"/>
+            <Field SourceFieldName="SUBS_STATUS_REASON"/>
+            <Field SourceFieldName="AGREEMENT_NO"/>
+            <Field SourceFieldName="CREATE_DATE"/>
+            <Field SourceFieldName="AGREEMENT_DATE"/>
+            <Field SourceFieldName="FIRST_ACTIVATION_DATE"/>
+            <Field SourceFieldName="EFF_DATE"/>
+            <Field SourceFieldName="EXP_DATE"/>
+            <Field SourceFieldName="MOD_DATE"/>
+            <Field SourceFieldName="ACTIVE_DATE"/>
+            <Field SourceFieldName="LATEST_ACTIVE_DATE"/>
+            <Field SourceFieldName="CREATE_OPER_ID"/>
+            <Field SourceFieldName="CREATE_LOCAL_ID"/>
+            <Field SourceFieldName="BUSI_SEQ"/>
+            <Field SourceFieldName="REMARK"/>
+            <Field SourceFieldName="PARTITION_ID"/>
+            <Field SourceFieldName="SUB_INITIAL_CREDIT_ID"/>
+            <Field SourceFieldName="VIRTUAL_SUB_ID"/>
+            <Field SourceFieldName="CPE_MAC"/>
+            <Field SourceFieldName="RESERVE_RECONN_TIME"/>
+            <Field SourceFieldName="DEALER_ID"/>
+            <Field SourceFieldName="INFO1"/>
+            <Field SourceFieldName="INFO2"/>
+            <Field SourceFieldName="INFO3"/>
+            <Field SourceFieldName="INFO4"/>
+            <Field SourceFieldName="INFO5"/>
+            <Field SourceFieldName="INFO6"/>
+            <Field SourceFieldName="INFO7"/>
+            <Field SourceFieldName="INFO8"/>
+            <Field SourceFieldName="INFO9"/>
+            <Field SourceFieldName="INFO10"/>
+            <Field SourceFieldName="INFO11"/>
+            <Field SourceFieldName="INFO12"/>
+            <Field SourceFieldName="RELA_MSISDN"/>
+            <Field SourceFieldName="USERNAME"/>
+            <Field SourceFieldName="BRAND_ID"/>
+            <Field SourceFieldName="DISPLAY_TYPE"/>
+            <Field SourceFieldName="BE_ID"/>
+            <Field SourceFieldName="SALES_OPER_ID"/>
+            <Field SourceFieldName="SALES_DEPT_ID"/>
+            <Field SourceFieldName="SALES_DEALER_ID"/>
+            <Field SourceFieldName="SALES_CHANNEL"/>
+            <Field SourceFieldName="CREATE_DEPT_ID"/>
+            <Field SourceFieldName="PARENT_SUB_ID"/>
+            <Field SourceFieldName="EXTERNAL_SUB_ID"/>
+            <Field SourceFieldName="SUB_CODE"/>
+            <Field SourceFieldName="WRITTEN_LAN"/>
+            <Field SourceFieldName="OWNER_ORG_ID"/>
+            <Field SourceFieldName="SN_TYPE"/>
+            <Field sourceFieldName="filename" targetFieldName="FILE_NAME"/>
+            <Field sourceFieldName="EVENT_DATE"/>
+            <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+            <Field sourceFieldName="POPULATION_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+        </Event>
+    </DataDef>
+</Adapter>
