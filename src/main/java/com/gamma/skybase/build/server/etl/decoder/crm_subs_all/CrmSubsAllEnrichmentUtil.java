@@ -170,7 +170,7 @@ public class CrmSubsAllEnrichmentUtil extends LebaraUtil{
         LocalDateTime firstActivationDate;
         String firstActivationDate1;
 
-        firstActivationDate1 = getValue("FIRST_ACTIVATION_DATE");
+        firstActivationDate1 = getValue("FIRST_EFF_DATE");
         if (firstActivationDate1 != null) {
             firstActivationDate = LocalDateTime.parse(firstActivationDate1, dtf2);
             return Optional.of(dtf.format(firstActivationDate));

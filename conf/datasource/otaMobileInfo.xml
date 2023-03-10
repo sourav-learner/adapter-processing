@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Adapter Name="OTA_MOBILE_INFO" Type="ASN.1" Version="1.0" Active="true" StatusDBHandler="mongo" rawJson="true"
+         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.ota_mobile_info.OtaMobileInfoFileExecutor" ExecMode="server"
+         txExecClass="com.gamma.skybase.build.server.etl.decoder.ota_mobile_info.OtaMobileInfoRecordEnrichment" ignoreLogging="false"
+         ignoreDuplicates="false" parallel="1" instance-size="1" load-factor="1" customized="enable">
+
+    <!--Extraction tag-->
+    <Extraction type="sniff" protocol="local" execClass="com.gamma.skybase.server.core.collector.sniff.DefaultSniffingExtractionAgent">
+        <Settings host="" port="" path="/raetl/processing/ota_mobile_info/poll" username="" password="">
+            <Signature required="false" key=""/>
+            <Extract pattern="" metaFields="fileName\" dateFieldPattern="yyyyMMdd"/>
+        </Settings>
+    </Extraction>
+
+    <DirConfig>
+        <Source path="/raetl/processing/ota_mobile_info/source" clogging="true"/>
+        <Backup path="/raetl/processing/ota_mobile_info/backup" clogging="true" compress="gz"/>
+        <Staging path="/raetl/processing/ota_mobile_info/staging" clogging="true"/>
+        <Output path="/raetl/processing/ota_mobile_info/output" clogging="true"/>
+        <Error path="/raetl/processing/ota_mobile_info/error" clogging="true"/>
+        <Target protocol="" host="" path="/" pwd="" user="" active="true"/>
+    </DirConfig>
+
+    <DataDef>
+        <Event eventName="FCT_OTA_MOBILE_INFO" tableName="FCT_OTA_MOBILE_INFO" synonym="FCT_OTA_MOBILE_INFO" dataBase="">
+            <Field sourceFieldName="DATA_DAY" targetFieldName="DATA_DAY"/>
+            <Field sourceFieldName="TIMESTAMP" targetFieldName="OPERATION_TIMESTAMP"/>
+            <Field sourceFieldName="AUTHOR" targetFieldName="AUTHOR"/>
+            <Field sourceFieldName="CHANNEL" targetFieldName="CHANNEL"/>
+            <Field sourceFieldName="PROVIDERID" targetFieldName="PROVIDER_ID"/>
+            <Field sourceFieldName="ENTITYNAME" targetFieldName="ENTITY_NAME"/>
+            <Field sourceFieldName="OPERATIONTYPE" targetFieldName="OPERATION_TYPE"/>
+            <Field sourceFieldName="PROVIDERNAME" targetFieldName="PROVIDER_NAME"/>
+            <Field sourceFieldName="IMSI" targetFieldName="SERVED_IMSI"/>
+            <Field sourceFieldName="IMEI" targetFieldName="SERVED_IMEI"/>
+            <Field sourceFieldName="MSISDN" targetFieldName="SERVED_MSISDN"/>
+            <Field sourceFieldName="PREVIOUSVALUE" targetFieldName="PREVIOUS_VALUE"/>
+            <Field sourceFieldName="REGION" targetFieldName="REGION"/>
+            <Field sourceFieldName="PROCS_FILE" targetFieldName="FILE_PROCESSED"/>
+            <Field sourceFieldName="PROCS_TIME" targetFieldName="PROCESSED_TIME"/>
+            <Field sourceFieldName="filename" targetFieldName="FILE_NAME"/>
+            <Field sourceFieldName="EVENT_DATE"/>
+            <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+            <Field sourceFieldName="POPULATION_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+        </Event>
+    </DataDef>
+</Adapter>

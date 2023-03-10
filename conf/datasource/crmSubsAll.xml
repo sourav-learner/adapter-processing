@@ -36,10 +36,10 @@
             <Field SourceFieldName="ICCID"/>
             <Field SourceFieldName="SUB_PASSWORD"/>
             <Field SourceFieldName="SUB_LANG"/>
-            <Field SourceFieldName="SUB_LEVEL"/>
+            <Field SourceFieldName="SUBLEVEL"/>
             <Field SourceFieldName="SUB_GROUP"/>
             <Field SourceFieldName="SUB_SEGMENT"/>
-            <Field SourceFieldName="DUN_FLAG"/>
+            <Field SourceFieldName="DUNFLAG"/>
             <Field SourceFieldName="DUN_START_DATE"/>
             <Field SourceFieldName="DUN_EXPIRY_DATE"/>
             <Field SourceFieldName="SUB_INIT_CREDIT"/>
@@ -47,14 +47,14 @@
             <Field SourceFieldName="SUB_STATE" targetFieldName="SUBS_STATUS"/>
             <Field SourceFieldName="SUBS_STATUS_REASON"/>
             <Field SourceFieldName="AGREEMENT_NO"/>
-            <Field SourceFieldName="CREATE_DATE"/>
-            <Field SourceFieldName="AGREEMENT_DATE"/>
-            <Field SourceFieldName="FIRST_ACTIVATION_DATE"/>
-            <Field SourceFieldName="EFF_DATE"/>
-            <Field SourceFieldName="EXP_DATE"/>
-            <Field SourceFieldName="MOD_DATE"/>
-            <Field SourceFieldName="ACTIVE_DATE"/>
-            <Field SourceFieldName="LATEST_ACTIVE_DATE"/>
+            <Field SourceFieldName="CREATEDATE"/>
+            <Field SourceFieldName="AGREEMENTDATE"/>
+            <Field SourceFieldName="FIRSTACTIVATION_DATE"/>
+            <Field SourceFieldName="EFFDATE"/>
+            <Field SourceFieldName="EXPY_DATE"/>
+            <Field SourceFieldName="MODDATE"/>
+            <Field SourceFieldName="ACTIVEDATE"/>
+            <Field SourceFieldName="LATESTACTIVE_DATE"/>
             <Field SourceFieldName="CREATE_OPER_ID"/>
             <Field SourceFieldName="CREATE_LOCAL_ID"/>
             <Field SourceFieldName="BUSI_SEQ"/>
