@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Adapter Name="CRM_CUST_ALL" Type="ASN.1" Version="1.0" Active="true" StatusDBHandler="mongo" rawJson="true"
+         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.crm_cust_all.CrmCustAllFileExecutor" ExecMode="server"
+         txExecClass="com.gamma.skybase.build.server.etl.decoder.crm_cust_all.CrmCustAllRecordEnrichment" ignoreLogging="false"
+         ignoreDuplicates="false" parallel="1" instance-size="1" load-factor="1" customized="enable">
+
+    <!--Extraction tag-->
+    <Extraction type="sniff" protocol="local" execClass="com.gamma.skybase.server.core.collector.sniff.DefaultSniffingExtractionAgent">
+        <Settings host="" port="" path="/raetl/processing/crm_cust_all/poll" username="" password="">
+            <Signature required="false" key=""/>
+            <Extract pattern="" metaFields="fileName\" dateFieldPattern="yyyyMMdd"/>
+        </Settings>
+    </Extraction>
+
+    <DirConfig>
+        <Source path="/raetl/processing/crm_cust_all/source" clogging="true"/>
+        <Backup path="/raetl/processing/crm_cust_all/backup" clogging="true" compress="gz"/>
+        <Staging path="/raetl/processing/crm_cust_all/staging" clogging="true"/>
+        <Output path="/raetl/processing/crm_cust_all/output" clogging="true"/>
+        <Error path="/raetl/processing/crm_cust_all/error" clogging="true"/>
+        <Target protocol="" host="" path="/" pwd="" user="" active="true"/>
+    </DirConfig>
+
+    <DataDef>
+        <Event eventName="FCT_HUW_CRM_CUST_ALL" tableName="FCT_HUW_CRM_CUST_ALL" synonym="FCT_HUW_CRM_CUST_ALL" dataBase="">
+            <Field sourceFieldName="CUST_ID"/>
+            <Field sourceFieldName="PARENT_CUST_ID"/>
+            <Field sourceFieldName="CUST_TYPE"/>
+            <Field sourceFieldName="CUST_CLASS"/>
+            <Field sourceFieldName="CUST_CODE"/>
+            <Field sourceFieldName="ID_TYPE"/>
+            <Field sourceFieldName="ID_NUMBER"/>
+            <Field sourceFieldName="CUSTTITLE"/>
+            <Field sourceFieldName="NAME1"/>
+            <Field sourceFieldName="NAME2"/>
+            <Field sourceFieldName="NAME3"/>
+            <Field sourceFieldName="CUST_PWD"/>
+            <Field sourceFieldName="NATION"/>
+            <Field sourceFieldName="CUST_LANG"/>
+            <Field sourceFieldName="CUST_LEVEL"/>
+            <Field sourceFieldName="CUST_SEGMENT"/>
+            <Field sourceFieldName="CUST_STATUS"/>
+            <Field sourceFieldName="CUST_DEFAULT_ACCT"/>
+            <Field sourceFieldName="CREATEDATE"/>
+            <Field sourceFieldName="EFFDATE"/>
+            <Field sourceFieldName="EXPY_DATE"/>
+            <Field sourceFieldName="MODDATE"/>
+            <Field sourceFieldName="CREATE_OPER_ID"/>
+            <Field sourceFieldName="CREATE_LOCAL_ID"/>
+            <Field sourceFieldName="BUSI_SEQ"/>
+            <Field sourceFieldName="REMARK"/>
+            <Field sourceFieldName="SYNC_OCS"/>
+            <Field sourceFieldName="PARTITION_ID"/>
+            <Field sourceFieldName="DEALER"/>
+            <Field sourceFieldName="MEMO_DATE_TYPE"/>
+            <Field sourceFieldName="MEMO_DATE"/>
+            <Field sourceFieldName="AUDIT_STATUS"/>
+            <Field sourceFieldName="AUDIT_DATE"/>
+            <Field sourceFieldName="SERVICECATEGORY"/>
+            <Field sourceFieldName="SERVICELIMIT_FLAG"/>
+            <Field sourceFieldName="DOCUMENTSTATUS"/>
+            <Field sourceFieldName="DOCUMENTSTATUS_TIME"/>
+            <Field sourceFieldName="CUST_DEPT"/>
+            <Field sourceFieldName="DISTRICT"/>
+            <Field sourceFieldName="DESIGNATION"/>
+            <Field sourceFieldName="BE_ID"/>
+            <Field sourceFieldName="FROM_CHANNEL"/>
+            <Field sourceFieldName="EXTERNAL_CUST_ID"/>
+            <Field sourceFieldName="SUPPLEMENT_FLAG"/>
+            <Field sourceFieldName="CUST_CODE_WORD"/>
+            <Field sourceFieldName="WRITTEN_LAN"/>
+            <Field sourceFieldName="ISREG_CUST"/>
+            <Field sourceFieldName="LOGO_PICTURE"/>
+            <Field sourceFieldName="FROZEN_FLAG"/>
+            <Field sourceFieldName="filename" targetFieldName="FILE_NAME"/>
+            <Field sourceFieldName="EVENT_DATE"/>
+            <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+            <Field sourceFieldName="POPULATION_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+        </Event>
+    </DataDef>
+</Adapter>
