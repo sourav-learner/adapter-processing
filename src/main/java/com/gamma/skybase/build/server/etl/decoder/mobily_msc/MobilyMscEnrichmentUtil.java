@@ -304,16 +304,16 @@ public class MobilyMscEnrichmentUtil extends LebaraUtil {
         return Optional.empty();
     }
 
-    String servedMSRN;
-
-    public Optional<String> getServeMSRN() {
-        msrn = getValue("MSRN");
-        if (msrn != null) {
-            servedMSRN = normalizeMSRN(msrn);
-            return Optional.of(servedMSRN);
-        }
-        return Optional.empty();
-    }
+//    String servedMSRN;
+//
+//    public Optional<String> getServeMSRN() {
+//        msrn = getValue("MSRN");
+//        if (msrn != null) {
+//            servedMSRN = normalizeMSRN(msrn);
+//            return Optional.of(servedMSRN);
+//        }
+//        return Optional.empty();
+//    }
 
 //    String serveMSRNTest;
 //

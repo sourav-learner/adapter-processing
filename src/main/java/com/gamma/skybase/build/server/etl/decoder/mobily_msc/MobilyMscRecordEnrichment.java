@@ -29,8 +29,8 @@ public class MobilyMscRecordEnrichment implements IEnrichment {
             try {
                 ReferenceDimDialDigit ddk = tx.getDialedDigitSettings(s);
                 if (ddk != null) {
-                    record.put("SERVED_MSISDN_DIAL_DIGIT_KEY", ddk.getDialDigitKey());
-                    record.put("SERVED_MSISDN_NOP_ID_KEY", ddk.getNopIdKey());
+//                    record.put("SERVED_MSISDN_DIAL_DIGIT_KEY", ddk.getDialDigitKey());
+//                    record.put("SERVED_MSISDN_NOP_ID_KEY", ddk.getNopIdKey());
                 }
             } catch (Exception e) {
 //                e.printStackTrace();
@@ -39,7 +39,17 @@ public class MobilyMscRecordEnrichment implements IEnrichment {
 
 //        THIRD_PARTY_MSISDN
         Optional<String> thirdPartyMSISDN = tx.getThirdPartyMSISDN();
-        thirdPartyMSISDN.ifPresent(s -> record.put("THIRD_PARTY_MSISDN", s));
+        thirdPartyMSISDN.ifPresent(s -> {
+            record.put("THIRD_PARTY_MSISDN", s);
+            try {
+                ReferenceDimDialDigit ddk = tx.getDialedDigitSettings(s);
+                if (ddk != null) {
+                    record.put("THIRD_PARTY_MSISDN_DIAL_DIGIT_KEY", ddk.getDialDigitKey());
+                }
+            } catch (Exception e) {
+//                e.printStackTrace();
+            }
+        });
 
 //        OTHER_MSISDN
         Optional<String> otherMSISDN = tx.getOtherMSISDN();
@@ -80,18 +90,18 @@ public class MobilyMscRecordEnrichment implements IEnrichment {
         });
 
 //      SERVED_MRSN
-        Optional<String> serveMSRN = tx.getServeMSRN();
-        serveMSRN.ifPresent(s -> {
-            record.put("SERVED_MRSN", s);
-            try {
-                ReferenceDimDialDigit ddk = tx.getDialedDigitSettings(s);
-                if (ddk != null) {
-                    record.put("SERVED_MSRN_DIAL_DIGIT_KEY", ddk.getDialDigitKey());
-                }
-            } catch (Exception e) {
-//                e.printStackTrace();
-            }
-        });
+//        Optional<String> serveMSRN = tx.getServeMSRN();
+//        serveMSRN.ifPresent(s -> {
+//            record.put("SERVED_MRSN", s);
+//            try {
+//                ReferenceDimDialDigit ddk = tx.getDialedDigitSettings(s);
+//                if (ddk != null) {
+//                    record.put("SERVED_MSRN_DIAL_DIGIT_KEY", ddk.getDialDigitKey());
+//                }
+//            } catch (Exception e) {
+////                e.printStackTrace();
+//            }
+//        });
 
 //      SERVED_MRSN_TEST
 //        Optional<String> serveMSRNTest = tx.getServeMSRNTest();
