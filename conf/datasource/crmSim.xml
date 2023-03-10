@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Adapter Name="CRM_SIM" Type="ASN.1" Version="1.0" Active="true" StatusDBHandler="mongo" rawJson="true"
+         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.crm_sim.CrmSimFileExecutor" ExecMode="server"
+         txExecClass="com.gamma.skybase.build.server.etl.decoder.crm_sim.CrmSimRecordEnrichment" ignoreLogging="false"
+         ignoreDuplicates="false" parallel="1" instance-size="1" load-factor="1" customized="enable">
+
+    <!--Extraction tag-->
+    <Extraction type="sniff" protocol="local"
+                execClass="com.gamma.skybase.server.core.collector.sniff.DefaultSniffingExtractionAgent">
+        <Settings host="" port="" path="/raetl/processing/crm_sim/poll" username="" password="">
+            <Signature required="false" key=""/>
+            <Extract pattern="" metaFields="fileName\" dateFieldPattern="yyyyMMdd"/>
+        </Settings>
+    </Extraction>
+
+    <DirConfig>
+        <Source path="/raetl/processing/crm_sim/source" clogging="true"/>
+        <Backup path="/raetl/processing/crm_sim/backup" clogging="true" compress="gz"/>
+        <Staging path="/raetl/processing/crm_sim/staging" clogging="true"/>
+        <Output path="/raetl/processing/crm_sim/output" clogging="true"/>
+        <Error path="/raetl/processing/crm_sim/error" clogging="true"/>
+        <Target protocol="" host="" path="/" pwd="" user="" active="true"/>
+    </DirConfig>
+
+    <DataDef>
+        <Event eventName="FCT_CRM_SIM" tableName="FCT_CRM_SIM" synonym="FCT_CRM_SIM" dataBase="">
+            <Field sourceFieldName="RES_ID"/>
+            <Field sourceFieldName="RES_CODE"/>
+            <Field sourceFieldName="VENDER_ID"/>
+            <Field sourceFieldName="MODEL_ID"/>
+            <Field sourceFieldName="CATEGORY_ID"/>
+            <Field sourceFieldName="DNSEQ"/>
+            <Field sourceFieldName="CREATEDATE"/>
+            <Field sourceFieldName="VALIDDATE"/>
+            <Field sourceFieldName="INVALIDDATE"/>
+            <Field sourceFieldName="DEPT_ID"/>
+            <Field sourceFieldName="PERSON"/>
+            <Field sourceFieldName="LEVEL_ID"/>
+            <Field sourceFieldName="ISBIND"/>
+            <Field sourceFieldName="PACKAGE_MODE"/>
+            <Field sourceFieldName="PACKAGE_ID"/>
+            <Field sourceFieldName="RES_STATUS_ID"/>
+            <Field sourceFieldName="ISLOCKED"/>
+            <Field sourceFieldName="ISRECYCLED"/>
+            <Field sourceFieldName="OPERDATE"/>
+            <Field sourceFieldName="OPER_ID"/>
+            <Field sourceFieldName="ORDERSTATUS"/>
+            <Field sourceFieldName="ICCID"/>
+            <Field sourceFieldName="IMSI"/>
+            <Field sourceFieldName="K"/>
+            <Field sourceFieldName="PIN1"/>
+            <Field sourceFieldName="PUK1"/>
+            <Field sourceFieldName="PIN2"/>
+            <Field sourceFieldName="PUK2"/>
+            <Field sourceFieldName="KLA1"/>
+            <Field sourceFieldName="KLA2"/>
+            <Field sourceFieldName="KLA3"/>
+            <Field sourceFieldName="KIC3"/>
+            <Field sourceFieldName="KID3"/>
+            <Field sourceFieldName="KIC8"/>
+            <Field sourceFieldName="KID8"/>
+            <Field sourceFieldName="KIC9"/>
+            <Field sourceFieldName="KID9"/>
+            <Field sourceFieldName="HLR_CODE"/>
+            <Field sourceFieldName="LOCAL_LAN"/>
+            <Field sourceFieldName="LAN_HLR"/>
+            <Field sourceFieldName="PAYMENT_MODE"/>
+            <Field sourceFieldName="BATCH_ID"/>
+            <Field sourceFieldName="LOTID"/>
+            <Field sourceFieldName="WARRANTYPERIOD"/>
+            <Field sourceFieldName="TELE_TYPE"/>
+            <Field sourceFieldName="ESN"/>
+            <Field sourceFieldName="AKEY"/>
+            <Field sourceFieldName="MDN_TYPE"/>
+            <Field sourceFieldName="IMSI2"/>
+            <Field sourceFieldName="PREFIX"/>
+            <Field sourceFieldName="PRICE"/>
+            <Field sourceFieldName="CITY"/>
+            <Field sourceFieldName="HLR_NEW"/>
+            <Field sourceFieldName="KI"/>
+            <Field sourceFieldName="ADM1"/>
+            <Field sourceFieldName="KOTA"/>
+            <Field sourceFieldName="BE_ID"/>
+            <Field sourceFieldName="BRAND_ID"/>
+            <Field sourceFieldName="filename" targetFieldName="FILE_NAME"/>
+            <Field sourceFieldName="EVENT_DATE"/>
+            <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss"
+                   default="19700101 00:00:01"/>
+            <Field sourceFieldName="POPULATION_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss"
+                   default="19700101 00:00:01"/>
+        </Event>
+    </DataDef>
+</Adapter>
