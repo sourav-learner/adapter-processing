@@ -19,7 +19,7 @@ public class CrmSubsAllRecordEnrichment implements IEnrichment {
 
         CrmSubsAllEnrichmentUtil tx = CrmSubsAllEnrichmentUtil.of(record);
 
-//        SUB_TYPE
+//        SUBS_TYPE
         Optional<String> subType = tx.getSubType();
         subType.ifPresent(s -> record.put("SUBS_TYPE", s));
 
@@ -31,45 +31,45 @@ public class CrmSubsAllRecordEnrichment implements IEnrichment {
         Optional<String> srvTypeKey = tx.getSrvTypeKey(record.get("SERVED_MSISDN").toString());
         srvTypeKey.ifPresent(s -> record.put("SRV_TYPE_KEY" ,s));
 
-//        SUB_LEVEL
+//        SUBLEVEL
         Optional<String> subLevel = tx.getSubLevel();
-        subLevel.ifPresent(s -> record.put("SUB_LEVEL",s));
+        subLevel.ifPresent(s -> record.put("SUBLEVEL",s));
 
-//        DUN_FLAG
+//        DUNFLAG
         Optional<String> dunFlag = tx.getDunFlag();
-        dunFlag.ifPresent(s -> record.put("DUN_FLAG",s));
+        dunFlag.ifPresent(s -> record.put("DUNFLAG",s));
 
-//        CREATE_DATE
+//        CREATEDATE
         Optional<String> createDate = tx.getCreateDate();
-        createDate.ifPresent(s -> record.put("CREATE_DATE", s));
+        createDate.ifPresent(s -> record.put("CREATEDATE", s));
 
-//        AGREEMENT_DATE
+//        AGREEMENTDATE
         Optional<String> agreementDate = tx.getAgreementDate();
-        agreementDate.ifPresent(s -> record.put("AGREEMENT_DATE", s));
+        agreementDate.ifPresent(s -> record.put("AGREEMENTDATE", s));
 
-//        FIRST_ACTIVATION_DATE
+//        FIRSTACTIVATION_DATE
         Optional<String> firstActivationDate = tx.getFirstActivationDate();
-        firstActivationDate.ifPresent(s -> record.put("FIRST_ACTIVATION_DATE", s));
+        firstActivationDate.ifPresent(s -> record.put("FIRSTACTIVATION_DATE", s));
 
-//        EFF_DATE
+//        EFFDATE
         Optional<String> effDate = tx.getEffDate();
-        effDate.ifPresent(s -> record.put("EFF_DATE", s));
+        effDate.ifPresent(s -> record.put("EFFDATE", s));
 
-//        EXP_DATE
+//        EXPY_DATE
         Optional<String> expDate = tx.getExpDate();
-        expDate.ifPresent(s -> record.put("EXP_DATE", s));
+        expDate.ifPresent(s -> record.put("EXPY_DATE", s));
 
-//        MOD_DATE
+//        MODDATE
         Optional<String> modDate = tx.getModDate();
-        modDate.ifPresent(s -> record.put("MOD_DATE", s));
+        modDate.ifPresent(s -> record.put("MODDATE", s));
 
-//        ACTIVE_DATE
+//        ACTIVEDATE
         Optional<String> activeDate = tx.getActiveDate();
-        activeDate.ifPresent(s -> record.put("ACTIVE_DATE", s));
+        activeDate.ifPresent(s -> record.put("ACTIVEDATE", s));
 
-//        LATEST_ACTIVE_DATE
+//        LATESTACTIVE_DATE
         Optional<String> latestActiveDate = tx.getLatestActiveDate();
-        latestActiveDate.ifPresent(s -> record.put("LATEST_ACTIVE_DATE", s));
+        latestActiveDate.ifPresent(s -> record.put("LATESTACTIVE_DATE", s));
 
 //        EVENT_DATE
         Optional<String> eventDate = tx.getEventDate();
