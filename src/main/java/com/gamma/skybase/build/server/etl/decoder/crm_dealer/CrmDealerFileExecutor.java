@@ -22,7 +22,7 @@ import java.util.Map;
 public class CrmDealerFileExecutor extends CrmDealerFileProcessor {
     private static final Logger logger = LoggerFactory.getLogger(CrmDealerFileExecutor.class);
     private List<LinkedHashMap<String, Object>> jsonRecords;
-    String[] headers = new String[]{"DEALER_ID" + "DEALER_NAME" , "BE_ID" , "CHANNEL_TYPE" , "DEALER_GRADE" , "STATUS" , "FULLNAME" , "ZONE" , "DISTRICT" , "ADDRESS_ID" , "OPERATOR" , "CREATE_DATE" , "REMARKS" , "INFO1" , "INFO2" , "INFO3" , "INFO4" , "INFO5" , "INFO6" , "INFO7" , "INFO8" , "INFO9" , "INFO10" , "DEALER_CODE" , "IS_EVC" , "SUPER_DEALER_ID" , "UNKNOWN"};
+    String[] headers = new String[]{"DEALER_ID" , "DEALER_NAME" , "BE_ID" , "CHANNEL_TYPE" , "DEALER_GRADE" , "STATUS" , "FULLNAME" , "ZONE" , "DISTRICT" , "ADDRESS_ID" , "OPERATOR" , "CREATE_DATE" , "REMARKS" , "INFO1" , "INFO2" , "INFO3" , "INFO4" , "INFO5" , "INFO6" , "INFO7" , "INFO8" , "INFO9" , "INFO10" , "DEALER_CODE" , "IS_EVC" , "SUPER_DEALER_ID"};
 
     @Override
     public void parseFile(String fileName) throws Exception {
