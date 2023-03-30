@@ -1,4 +1,4 @@
-package com.gamma.skybase.build.server.etl.decoder.med_sgsn;
+package com.gamma.skybase.build.server.etl.decoder.mobily_sgsn;
 
 import com.gamma.skybase.common.config.datasource.FileDataSource;
 import com.gamma.skybase.contract.decoders.AFileSourceDecoder;
@@ -8,9 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("Duplicates")
-public abstract class MedSGSNFileProcessor extends AFileSourceDecoder {
+public abstract class MobilySGSNFileProcessor extends AFileSourceDecoder {
 
-    private static final Logger logger = LoggerFactory.getLogger(MedSGSNFileProcessor.class);
+    private static final Logger logger = LoggerFactory.getLogger(MobilySGSNFileProcessor.class);
     protected FileDataSource dataSource;
     protected FileMetadata metadata;
 
