@@ -1,4 +1,4 @@
-package com.gamma.skybase.build.server.etl.decoder.med_sgsn;
+package com.gamma.skybase.build.server.etl.decoder.mobily_sgsn;
 
 import com.gamma.skybase.contract.decoders.IEnrichment;
 import com.gamma.skybase.contract.decoders.MEnrichmentReq;
@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Optional;
 
-public class MedSGSNRecordEnrichment implements IEnrichment {
+public class MobilySGSNRecordEnrichment implements IEnrichment {
 
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
 
@@ -18,7 +18,7 @@ public class MedSGSNRecordEnrichment implements IEnrichment {
         MEnrichmentResponse response = new MEnrichmentResponse();
         LinkedHashMap<String, Object> record = request.getRequest();
 
-        MedSGSNEnrichmentUtil tx = MedSGSNEnrichmentUtil.of(record);
+        MobilySGSNEnrichmentUtil tx = MobilySGSNEnrichmentUtil.of(record);
 
 
 //        EVENT_START_TIME
