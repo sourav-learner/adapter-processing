@@ -1,4 +1,4 @@
-package com.gamma.skybase.build.server.etl.decoder.ggsn;
+package com.gamma;
 
 import java.io.BufferedInputStream;
 import java.io.EOFException;
@@ -13,7 +13,7 @@ import java.util.*;
 /**
  * Unit test for simple App.
  */
-public class ASNDot1Reader extends TAGReader {
+public class ASNDot1Reader extends TLReader {
     String fileName;
     BufferedInputStream bis;
     long offset;
@@ -36,42 +36,51 @@ public class ASNDot1Reader extends TAGReader {
 //      String filename = "C:\\sandbox\\incubator\\gasn\\gasn\\data\\sudan_south\\ggsn\\PSPGW2022091000213111";
 
         ASNDot1Reader executor = new ASNDot1Reader(filename);
-        executor.parseFile();
+        while (executor.hasNext()) {
+            Map<String, Object> r = executor.next();
+            System.out.println(r);
+        }
+        executor.close();
         System.out.println("");
     }
 
-    public void parseFile() throws Exception {
-        while (!hasNext())
-            next();
-        close();
-    }
+    public Map<String, Object> next() throws Exception {
+//           int hex = skipUntil(new int[]{0xBF});
+//        String hex = skipUntil(new int[]{0xBF});
+//        String he x= skipFiller(0xBF);
 
-    public LinkedHashMap<String, Object> next() throws Exception {
-        Tag tag = skipUntil(0xBF);
-        int length = getLength();
-        byte[] buffer = new byte[length];
-        read(buffer);
+        String hex = skipBytes(4);
+        System.out.println("Skipped " + hex);
+
+        Tag tag = readTag("");
+        int length = readLength();
+        byte[] value = new byte[length];
+        read(value);
         LinkedHashMap<String, Object> record = new LinkedHashMap<>();
-        if (tag.constructed) {
-            ArrayList<Tag> sNode = new NodeDecoder().parse(String.valueOf(tag.tValue), buffer);
-            record.put(String.valueOf(tag.tValue), sNode);
-        } else
-            record.put(String.valueOf(tag.tValue), buffer);
+        TagReader tr = new TagReader(String.valueOf(tag.tValue), value);
+//        Map<String, Object> xx = tr.parse();
+
+//        while (tr.hasNext()) {
+//            if (tag.constructed) {
+//                T tlv = tr.readTag("");
+//                int l = getLength();
+//                byte[] v = new byte[l];
+//                ArrayList<T> sNode = new TagReader(String.valueOf(tlv.tValue), v).parse();
+//                record.put(String.valueOf(tag.tValue), sNode);
+//            } else
+//                record.put(String.valueOf(tag.tValue), value);
+//        }
 
 //            System.out.println("V:" + printHexBinary(buffer));
 //            if(!tag.constructed)
 //            System.out.println("T:" + tag.value + "\tL:" + length + "\tC:" + tag.constructed + "\tO:" + offset);
-        return record;
+
+        return tr.parse();
     }
 
     public boolean hasNext() throws IOException {
         return bis.available() > 0;
     }
-
-//    long skipOffset(int size) throws IOException {
-//        this.offset = this.offset + size;
-//        return this.bis.skip(size);
-//    }
 
     public int read() throws IOException {
         offset++;
@@ -86,17 +95,43 @@ public class ASNDot1Reader extends TAGReader {
         if (result == -1) throw new EOFException();
     }
 
-
-    public Tag skipUntil(int filler) throws IOException {
-        int c = read();
-        StringBuilder hex = new StringBuilder();
-        while (c != filler) {
-            hex.append(Integer.toHexString(c).toUpperCase()).append(" ");
-            c = read();
+    public String skipUntil(int[] tags) throws IOException {
+        bis.mark(16);
+        int count = 0;
+        byte[] value = new byte[0];
+        boolean skip = true;
+        while (skip) {
+            count++;
+            int c = read();
+            for (int v : tags)
+                if (v == c) {
+                    bis.reset();
+                    value = new byte[count];
+                    read(value);
+                    skip = false;
+                    break;
+                }
         }
-        hex.append(" | ").append(Integer.toHexString(c).toUpperCase());
-        System.out.println(hex);
-        return getTag(pTag, c);
+        return printHexBinary(value).toUpperCase();
+    }
+
+    @Override
+    public String skipFiller(int filler) throws IOException {
+        bis.mark(16);
+        byte[] value = new byte[0];
+        int count = 0;
+        boolean skip = true;
+        while (skip) {
+            count++;
+            if (read() == filler) {
+                bis.reset();
+                value = new byte[count];
+                read(value);
+                skip = false;
+//                break;
+            }
+        }
+        return printHexBinary(value).toUpperCase();
     }
 
     public void close() throws IOException {
@@ -104,23 +139,33 @@ public class ASNDot1Reader extends TAGReader {
             bis.close();
     }
 
-
-    private static class NodeDecoder extends TAGReader {
-        byte[] buffer;
+    private static class TagReader extends TLReader {
+        byte[] data;
         int offset = 0;
 
-
-        public ArrayList<Tag> parse(String pTag, byte[] b) throws Exception {
-            buffer = b;
+        public TagReader(String valueOf, byte[] value) {
+            data = value;
             this.pTag = pTag;
-            ArrayList<Tag> nodes = new ArrayList<>();
-            while (offset < buffer.length) {
-                Tag node = readTagIgnoreFiller(pTag, 0x00);
-                int length = getLength();
+        }
+
+        protected boolean hasNext() {
+            return  data.length > offset;
+        }
+
+        public Map<String, Object> parse() throws Exception {
+            Map<String, Object> nodes = new LinkedHashMap<>();
+            while (hasNext()) {
+
+//                String ignored = ignoreFiller(0x00);
+//                String skip = skipBytes(4);
+
+                Tag t = readTag(pTag);
+                int length = readLength();
                 byte[] buf = new byte[length];
                 read(buf);
-                if (node.constructed) {
-                    switch (node.clazz) {
+                String tagNo = t.tValue + "";
+                if (t.constructed) {
+                    switch (t.clazz) {
                         case 0:
                             System.out.println("<UNIVERSAL>");
                             break;
@@ -136,44 +181,76 @@ public class ASNDot1Reader extends TAGReader {
                         default:
                             System.out.println("<UNKNOWN>");
                     }
-                    ArrayList<Tag> x = new NodeDecoder().parse(pTag + '.' + node.tValue, buf);
-                    node.sNodes.add(x);
-                } else {
-                    node.data = node.getValue(buffer);
-                }
+
+                    Map<String, Object> x = new TagReader(tagNo, buf).parse();
+                    Object val = nodes.get(tagNo);
+                    if (val != null) {
+                        if (val instanceof List)
+                            ((ArrayList) val).add(x);
+                        else {
+                            List<Object> l = new ArrayList<>();
+                            l.add(val);
+                            nodes.put(tagNo, x);
+                        }
+                    }
+                    else nodes.put(tagNo, x);
+                } else
+                    nodes.put(tagNo, Decoder.getValue(tagNo, buf));
+
 //                System.out.println("\t\tT: " + tag.pTag + "\t\tL:" + length + "\t\tC:" + tag.constructed
 //                        + "\t\tO:" + offset + "\t\tV:" + tag.getValue() + "\t(" + printHexBinary(buf) + ")");
+
 //                if (!node.constructed)
-                System.out.println("\tP: " + node.pTag + ",\t\tT: " + node.tValue + ",\tL: " + length + ",\tO:"
-                        + offset + ",\tV: " + node.getValue(buffer) + ",\t\t(" + printHexBinary(buf) + ")");
-                nodes.add(node);
+//                System.out.println("\tP: " + node.pTag + ",\t\tT: " + node.tValue + ",\tL: " + length + ",\tO:"
+//                        + offset + ",\tV: " + Decoder.getValue(tagNo, data) + ",\t\t(" + printHexBinary(buf) + ")");
+//                nodes.put(node);
             }
             return nodes;
         }
 
-        public Tag readTagIgnoreFiller(String pTag, int filler) throws IOException {
+        public String skipFiller(int filler) throws IOException {
             int c = read();
             StringBuilder hex = new StringBuilder();
             while (c == filler) {
                 hex.append(" ").append(Integer.toHexString(c).toUpperCase()).append(" ");
                 c = read();
             }
+            offset--;
             hex.append("|").append(Integer.toHexString(c).toUpperCase());
             System.out.println(hex);
             if (c == -1) throw new EOFException();
-            return getTag(pTag, c);
+            return hex.toString();
+        }
+
+        @Override
+        public String skipUntil(int[] tags) throws IOException {
+            int c;
+            StringBuilder hex = new StringBuilder();
+            boolean skip = true;
+            while (skip) {
+                c = read();
+                for (int v : tags) {
+                    if (v == c) {
+                        offset--;
+                        skip = false;
+                        break;
+                    }
+                    hex.append(Integer.toHexString(c).toUpperCase()).append(" ");
+                }
+            }
+            return hex.toString();
         }
 
         public int read() throws EOFException {
-            if (offset >= buffer.length) throw new EOFException();
-            int result = buffer[offset];
+            if (offset >= data.length) throw new EOFException();
+            int result = data[offset];
             offset++;
             return result;
         }
 
         public void read(byte[] buf) throws EOFException {
-            if (offset >= buffer.length) throw new EOFException();
-            System.arraycopy(buffer, offset, buf, 0, buf.length);
+            if (offset >= data.length) throw new EOFException();
+            System.arraycopy(data, offset, buf, 0, buf.length);
             offset = offset + buf.length;
         }
     }
@@ -181,16 +258,62 @@ public class ASNDot1Reader extends TAGReader {
 }
 
 class Decoder {
-    public static String toBCDString(byte[] bvalue) {
+    private static Map<String, TagProps> decoderMap = new HashMap<>();
+
+    static {
+        decoderMap.put("79.0", new TagProps("recordType", "INTEGER"));
+    }
+
+    public static Object getValue(String pTag, byte[] data) {
+        Object v = "";
+        if (data != null) {
+            TagProps dConf = decoderMap.get(pTag);
+
+            if (dConf != null) {
+                switch (dConf.method.toUpperCase()) {
+                    case "OCTET_STRING":
+                        v = new String(data, StandardCharsets.UTF_8);
+                        break;
+                    case "TBCD":
+                        v = Decoder.TBCD(data);
+                        break;
+                    case "IPV4_ADDRESS":
+                        v = Decoder.IPV4Address(data);
+                        break;
+                    case "LONG":
+                        v = Decoder.toLong(data);
+                        break;
+                    case "PDP":
+                        v = Decoder.toPDPType(data);
+                        break;
+                    case "TIMESTAMP":
+                        v = Decoder.toTimeStamp(data);
+                        break;
+                    case "BCD":
+                        v = Decoder.toBCDString(data);
+                        break;
+                    case "INTEGER":
+                        v = new BigInteger(data);
+                        break;
+                    default:
+                        v = data;
+                }
+            } else
+                return pTag + new String(data, StandardCharsets.UTF_8);
+        }
+        return v;
+    }
+
+    public static String toBCDString(byte[] bValue) {
         StringBuilder strInt = new StringBuilder();
-        for (byte t_byte : bvalue) {//take a nibble
+        for (byte t_byte : bValue) { // take a nibble
             int m_nibble = t_byte & 0xF0;
             m_nibble = m_nibble >>> 4;
-            if (m_nibble < 0x0A) //since it is a BCD string
+            if (m_nibble < 0x0A) // since it is a BCD string
                 strInt.append(m_nibble);
             int l_nibble = t_byte & 0x0F;
 
-            if (l_nibble < 0x0A)//since it is a BCD string
+            if (l_nibble < 0x0A) // since it is a BCD string
                 strInt.append(l_nibble);
         }
         return strInt.toString();
@@ -238,7 +361,6 @@ class Decoder {
             return InetAddress.getByAddress(data).getHostAddress();
         } catch (UnknownHostException e) {
             e.printStackTrace();
-//            throw new RuntimeException(e);
         }
         return "";
     }
@@ -258,17 +380,43 @@ class Decoder {
 //        }
         return tbcd.toString();
     }
+
+    static class TagProps {
+        public String name, method;
+
+        public TagProps(String name, String method) {
+            this.name = name;
+            this.method = method;
+        }
+    }
 }
 
 
-abstract class TAGReader {
+abstract class TLReader {
     String pTag;
+    static char[] hexCode = "0123456789ABCDEF".toCharArray();
 
     public abstract int read() throws IOException;
 
-    Tag getTag(String pTag, int c) throws IOException {
+    public abstract String skipUntil(int[] tags) throws IOException;
+
+    public abstract String skipFiller(int filler) throws IOException;
+
+    public String skipBytes(int count) throws IOException {
+        StringBuilder hex = new StringBuilder();
+        for (int i = 0; i < count; i++) {
+            int c = read();
+            hex.append(Integer.toHexString(c).toUpperCase()).append(" ");
+            if (c == -1) throw new EOFException();
+        }
+        System.out.println(hex);
+        return hex.toString();
+    }
+
+    Tag readTag(String pTag) throws IOException {
         this.pTag = pTag;
         StringBuilder hex = new StringBuilder();
+        int c = read();
         int tClass = c & 0xC0;
         boolean tConstructed = (c & 0x20) != 0;
         int tValue = c & 0x1F;
@@ -297,7 +445,7 @@ abstract class TAGReader {
         return result;
     }
 
-    int getLength() throws Exception {
+    int readLength() throws Exception {
         int limit = read();
 
         StringBuilder hex = new StringBuilder(Integer.toHexString(limit).toUpperCase());
@@ -319,9 +467,6 @@ abstract class TAGReader {
         System.out.println("L: " + hex);
         return result;
     }
-
-
-    private static final char[] hexCode = "0123456789ABCDEF".toCharArray();
 
     public static String printHexBinary(byte[] data) {
         StringBuilder r = new StringBuilder(data.length * 2);
@@ -368,106 +513,14 @@ abstract class TAGReader {
         ret.put("RESULT", sum);
         return ret;
     }
-
 }
 
 class Tag {
+    public int clazz, tValue;
+    public boolean explicit, constructed;
     public String pTag = ""; // the parent tags
-    public int clazz; // the tag's class id
-    public int tValue; // the tag's actual value
-    public Object data; // the tag's actual value
-    public ArrayList<ArrayList<Tag>> sNodes = new ArrayList<>(); // the tag's actual value
-    public boolean explicit; // is it explicit or implicit?
-    public boolean constructed; // is it constructed?
-    private static Map<String, TagConf> decoderMap = new HashMap<>();
+    //    public Map<String, Object> sNodes = new LinkedHashMap<>(); // the tag's actual value
 
-    static {
-        decoderMap.put("79.0", new TagConf("recordType", "INTEGER"));
-        decoderMap.put("79.3", new TagConf("servedIMSI", "tbcd"));
-        decoderMap.put("79.4.0", new TagConf("pGWAddress", "IPV4_ADDRESS"));
-        decoderMap.put("79.5", new TagConf("chargingID", "INTEGER"));
-        decoderMap.put("79.6.0", new TagConf("servingNodeAddress", "IPV4_ADDRESS"));
-        decoderMap.put("79.7", new TagConf("accessPointNameNI", "OCTET_STRING"));
-        decoderMap.put("79.8", new TagConf("pdpPDNType", "PDP"));
-        decoderMap.put("79.9.0.0", new TagConf("servedPDPPDNAddress", "IPV4_ADDRESS"));
-        decoderMap.put("79.11", new TagConf("dynamicAddressFlag", "INTEGER"));
-        decoderMap.put("79.12.16.1", new TagConf("qosRequested", "OCTET_STRING"));
-        decoderMap.put("79.12.16.2", new TagConf("qosNegotiated", "OCTET_STRING"));
-        decoderMap.put("79.12.16.3", new TagConf("dataVolumeGPRSUplink", "INTEGER"));
-        decoderMap.put("79.12.16.4", new TagConf("dataVolumeGPRSDownlink", "INTEGER"));
-        decoderMap.put("79.12.16.5", new TagConf("changeCondition", "INTEGER"));
-        decoderMap.put("79.12.16.6", new TagConf("changeTime", "TIMESTAMP"));
-        decoderMap.put("79.12.16.7", new TagConf("failureHandlingContinue", "OCTET_STRING"));
-        decoderMap.put("79.12.16.8", new TagConf("userLocationInformation", "OCTET_STRING"));
-        decoderMap.put("79.12.16.9.1", new TagConf("qCI", "INTEGER"));
-        decoderMap.put("79.12.16.9.2", new TagConf("maxRequestedBandwithUL", "INTEGER"));
-        decoderMap.put("79.12.16.9.3", new TagConf("maxRequestedBandwithDL", "INTEGER"));
-        decoderMap.put("79.12.16.9.4", new TagConf("guaranteedBitrateUL", "INTEGER"));
-        decoderMap.put("79.12.16.9.5", new TagConf("guaranteedBitrateDL", "INTEGER"));
-        decoderMap.put("79.12.16.9.6", new TagConf("aRP", "INTEGER"));
-        decoderMap.put("79.12.16.9.7", new TagConf("aPNAggregateMaxBitrateUL", "INTEGER"));
-        decoderMap.put("79.12.16.9.8", new TagConf("aPNAggregateMaxBitrateDL", "INTEGER"));
-        decoderMap.put("79.12.16.9.9", new TagConf("extendedMaxRequestedBWUL", "INTEGER"));
-        decoderMap.put("79.12.16.9.10", new TagConf("extendedMaxRequestedBWDL", "INTEGER"));
-        decoderMap.put("79.12.16.9.11", new TagConf("extendedGBRUL", "INTEGER"));
-        decoderMap.put("79.12.16.9.12", new TagConf("extendedGBRDL", "INTEGER"));
-        decoderMap.put("79.12.16.9.13", new TagConf("extendedAPNAMBRUL", "INTEGER"));
-        decoderMap.put("79.12.16.9.14", new TagConf("extendedAPNAMBRDL", "INTEGER"));
-        decoderMap.put("79.12.16.10", new TagConf("", "OCTET_STRING"));
-        decoderMap.put("79.12.16.11", new TagConf("", "OCTET_STRING"));
-        decoderMap.put("79.12.16.12", new TagConf("", "OCTET_STRING"));
-        decoderMap.put("79.12.16.13", new TagConf("", "OCTET_STRING"));
-        decoderMap.put("79.12.16.14", new TagConf("", "OCTET_STRING"));
-        decoderMap.put("79.12.16.15", new TagConf("", "OCTET_STRING"));
-        decoderMap.put("79.13", new TagConf("recordOpeningTime", "BCD"));
-        decoderMap.put("79.14", new TagConf("duration", "INTEGER"));
-        decoderMap.put("79.15", new TagConf("causeForRecClosing", "INTEGER"));
-        decoderMap.put("79.16.0", new TagConf("gsm0408Cause", "INTEGER"));
-        decoderMap.put("79.16.1", new TagConf("gsm0902MapErrorValue", "INTEGER"));
-        decoderMap.put("79.16.2", new TagConf("tu_tQ767Cause", "INTEGER"));
-        decoderMap.put("79.16.3", new TagConf("networkSpecificCause", "OCTET_STRING"));
-        decoderMap.put("79.16.4", new TagConf("manufacturerSpecificCause", "INTEGER"));
-        decoderMap.put("79.16.5", new TagConf("positionMethodFailureCause", ""));
-        decoderMap.put("79.16.6", new TagConf("unauthorizedLCSClientCause", ""));
-        decoderMap.put("79.17", new TagConf("recordSequenceNumber", ""));
-        decoderMap.put("79.18", new TagConf("nodeID", ""));
-        decoderMap.put("79.19", new TagConf("recordExtensions", ""));
-        decoderMap.put("79.20", new TagConf("localSequenceNumber", ""));
-        decoderMap.put("79.21", new TagConf("apnSelectionMode", ""));
-        decoderMap.put("79.22", new TagConf("servedMSISDN", ""));
-        decoderMap.put("79.23", new TagConf("chargingCharacteristics", ""));
-        decoderMap.put("79.24", new TagConf("chChSelectionMode", ""));
-        decoderMap.put("79.25", new TagConf("iMSsignalingContext", ""));
-        decoderMap.put("79.26", new TagConf("externalChargingID", ""));
-        decoderMap.put("79.27", new TagConf("servingNodePLMNIdentifier", ""));
-        decoderMap.put("79.28", new TagConf("pSFurnishChargingInformation", ""));
-        decoderMap.put("79.29", new TagConf("servedIMEISV", ""));
-        decoderMap.put("79.30", new TagConf("rATType", ""));
-        decoderMap.put("79.31", new TagConf("mSTimeZone", ""));
-        decoderMap.put("79.32", new TagConf("userLocationInformation", ""));
-        decoderMap.put("79.33", new TagConf("cAMELChargingInformation", "CHARACTER_STRING"));
-        decoderMap.put("79.34.16.0", new TagConf("", ""));
-        decoderMap.put("79.34.16.1", new TagConf("", ""));
-        decoderMap.put("79.34.16.2", new TagConf("", ""));
-        decoderMap.put("79.34.16.3", new TagConf("", ""));
-        decoderMap.put("79.34.16.4", new TagConf("", ""));
-        decoderMap.put("79.34.16.5", new TagConf("", ""));
-        decoderMap.put("79.34.16.6", new TagConf("", ""));
-        decoderMap.put("79.34.16.7", new TagConf("", ""));
-        decoderMap.put("79.34.16.8", new TagConf("", ""));
-        decoderMap.put("79.34.16.9", new TagConf("", ""));
-        decoderMap.put("79.34.16.9.1", new TagConf("", ""));
-        decoderMap.put("79.34.16.9.6", new TagConf("", ""));
-        decoderMap.put("79.34.16.10", new TagConf("", ""));
-        decoderMap.put("79.34.16.10.0", new TagConf("", ""));
-        decoderMap.put("79.34.16.11", new TagConf("", ""));
-        decoderMap.put("79.34.16.12", new TagConf("", ""));
-        decoderMap.put("79.34.16.13", new TagConf("", ""));
-        decoderMap.put("79.34.16.14", new TagConf("", ""));
-        decoderMap.put("79.34.16.15", new TagConf("", ""));
-        decoderMap.put("79.35.10", new TagConf("", ""));
-        decoderMap.put("79.35.0", new TagConf("", ""));
-    }
 
     /**
      * @param clazz       the tag's class.
@@ -481,54 +534,10 @@ class Tag {
         this.tValue = tValue;
         this.explicit = explicit;
         this.constructed = constructed;
-
-    }
-
-    public Object getValue(byte[] data) {
-        Object v = "";
-        if (data != null) {
-            TagConf dConf = decoderMap.get(pTag);
-            if (!constructed)
-                if (dConf != null) {
-                    v = dConf.name + "-> ";
-                    switch (dConf.method.toUpperCase()) {
-                        case "OCTET_STRING":
-                            v = new String(data, StandardCharsets.UTF_8);
-                            break;
-                        case "TBCD":
-                            v = Decoder.TBCD(data);
-                            break;
-                        case "IPV4_ADDRESS":
-                            v = Decoder.IPV4Address(data);
-                            break;
-                        case "LONG":
-                            v = Decoder.toLong(data);
-                            break;
-                        case "PDP":
-                            v = Decoder.toPDPType(data);
-                            break;
-                        case "TIMESTAMP":
-                            v = Decoder.toTimeStamp(data);
-                            break;
-                        case "BCD":
-                            v = Decoder.toBCDString(data);
-                            break;
-                        case "INTEGER":
-                            v = new BigInteger(data);
-                            break;
-                        default:
-                            v = data;
-                    }
-                } else
-                    return pTag + new String(data, StandardCharsets.UTF_8);
-        }
-        return v;
-    }
-    public String toString() {
-        return "<Tag class=\"" + clazz + "\" value=\"" + tValue + "\" explicit=\"" + explicit + "\" constructed=\"" + constructed + "\" />";
     }
 
 }
+
 
 
 //class TagConst {
