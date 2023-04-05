@@ -525,7 +525,7 @@
             <Field sourceFieldName="TRADE_TYPE"/>
             <Field sourceFieldName="AGENT_NAME"/>
             <Field sourceFieldName="ADDITIONAL_INFO"/>
-            <Field sourceFieldName="BANK_CODE"/>
+            <Field sourceFieldName="BANKCODE"/>
             <Field sourceFieldName="SUB_IDENTITY_TYPE"/>
             <Field sourceFieldName="OLD_VALIDITY"/>
             <Field sourceFieldName="NEW_VALIDITY"/>
