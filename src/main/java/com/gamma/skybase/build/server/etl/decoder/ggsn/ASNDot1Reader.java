@@ -1,4 +1,4 @@
-package com.gamma;
+package com.gamma.skybase.build.server.etl.decoder.ggsn;
 
 import java.io.BufferedInputStream;
 import java.io.EOFException;
@@ -8,7 +8,11 @@ import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Unit test for simple App.
@@ -44,7 +48,7 @@ public class ASNDot1Reader extends TLReader {
         System.out.println("");
     }
 
-    public Map<String, Object> next() throws Exception {
+    public LinkedHashMap<String, Object> next() throws Exception {
 //           int hex = skipUntil(new int[]{0xBF});
 //        String hex = skipUntil(new int[]{0xBF});
 //        String he x= skipFiller(0xBF);
@@ -75,7 +79,7 @@ public class ASNDot1Reader extends TLReader {
 //            if(!tag.constructed)
 //            System.out.println("T:" + tag.value + "\tL:" + length + "\tC:" + tag.constructed + "\tO:" + offset);
 
-        return tr.parse();
+        return new LinkedHashMap<>(tr.parse());
     }
 
     public boolean hasNext() throws IOException {
@@ -261,8 +265,25 @@ class Decoder {
     private static Map<String, TagProps> decoderMap = new HashMap<>();
 
     static {
-        decoderMap.put("79.0", new TagProps("recordType", "INTEGER"));
+        String[] headers = new String[]{"TAG_PATH", "TAG_NAME", "TAG_METHOD"};
+            readConfig();
+        }
+
+    private static void readConfig() {
+        String filePath = "/home/gamma/business.csv";
+        Path path = Paths.get(filePath);
+        try (Stream<String> lines = Files.lines(path)) {
+            lines.forEach(l -> {
+                String[] sa = l.split(",");
+                if (sa.length > 2) {
+                    decoderMap.put(sa[0], new TagProps(sa[1], sa[2]));
+                }
+            });
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
+
 
     public static Object getValue(String pTag, byte[] data) {
         Object v = "";

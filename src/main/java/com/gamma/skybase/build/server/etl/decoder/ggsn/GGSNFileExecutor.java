@@ -11,21 +11,16 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 public class GGSNFileExecutor extends AFileSourceDecoder {
 
     private static final Logger logger = LoggerFactory.getLogger(GGSNFileExecutor.class);
     private List<LinkedHashMap<String, Object>> jsonRecords;
-    private static Map<String, TagConf> decoderMap = new LinkedHashMap<>();
+//    private static Map<String, TagConf> decoderMap = new LinkedHashMap<>();
     protected FileDataSource dataSource;
     protected FileMetadata metadata;
 
@@ -45,26 +40,6 @@ public class GGSNFileExecutor extends AFileSourceDecoder {
     public void flush() throws SkybaseDeserializerException {
         super.flush();
     }
-    String[] headers = new String[]{"TAG_PATH", "TAG_NAME", "TAG_METHOD"};
-
-    static {
-        readConfig();
-    }
-
-    private static void readConfig() {
-        String filePath = "/home/gamma/business.csv";
-        Path path = Paths.get(filePath);
-        try (Stream<String> lines = Files.lines(path)) {
-            lines.forEach(l -> {
-                String[] sa = l.split(",");
-                if (sa.length > 2) {
-                    decoderMap.put(sa[0], new TagConf(sa[1], sa[2]));
-                }
-            });
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
 
     @Override
     public void doCustomization(String eventName, Map<String, IDatum> record) throws Exception {
@@ -72,7 +47,7 @@ public class GGSNFileExecutor extends AFileSourceDecoder {
 
     @Override
     public void parseFile(String fileName) throws Exception {
-        readConfig();
+//        readConfig();
         boolean jsonOutputRequired = dataSource.isRawJsonEnabled();
         String fn = null;
         Gson gson = null;
