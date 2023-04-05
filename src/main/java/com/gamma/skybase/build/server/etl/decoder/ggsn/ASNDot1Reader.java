@@ -36,7 +36,8 @@ public class ASNDot1Reader extends TLReader {
 
 
     public static void main(String[] args) throws Exception {
-        String filename = "C:\\sandbox\\asn-decoders\\huawei-gsn-lebara\\data\\L1CG1_FILE20220901000000_9640.dat";
+//        String filename = "C:\\sandbox\\asn-decoders\\huawei-gsn-lebara\\data\\L1CG1_FILE20220901000000_9640.dat";
+        String filename = "C:\\sandbox\\asn-decoders\\huawei-gsn-lebara\\data\\L1CG1_FILE20220901000004_9641.dat";
 //      String filename = "C:\\sandbox\\incubator\\gasn\\gasn\\data\\sudan_south\\ggsn\\PSPGW2022091000213111";
 
         ASNDot1Reader executor = new ASNDot1Reader(filename);
@@ -49,7 +50,7 @@ public class ASNDot1Reader extends TLReader {
     }
 
     public LinkedHashMap<String, Object> next() throws Exception {
-//           int hex = skipUntil(new int[]{0xBF});
+//        int hex = skipUntil(new int[]{0xBF});
 //        String hex = skipUntil(new int[]{0xBF});
 //        String he x= skipFiller(0xBF);
 
@@ -60,25 +61,7 @@ public class ASNDot1Reader extends TLReader {
         int length = readLength();
         byte[] value = new byte[length];
         read(value);
-        LinkedHashMap<String, Object> record = new LinkedHashMap<>();
         TagReader tr = new TagReader(String.valueOf(tag.tValue), value);
-//        Map<String, Object> xx = tr.parse();
-
-//        while (tr.hasNext()) {
-//            if (tag.constructed) {
-//                T tlv = tr.readTag("");
-//                int l = getLength();
-//                byte[] v = new byte[l];
-//                ArrayList<T> sNode = new TagReader(String.valueOf(tlv.tValue), v).parse();
-//                record.put(String.valueOf(tag.tValue), sNode);
-//            } else
-//                record.put(String.valueOf(tag.tValue), value);
-//        }
-
-//            System.out.println("V:" + printHexBinary(buffer));
-//            if(!tag.constructed)
-//            System.out.println("T:" + tag.value + "\tL:" + length + "\tC:" + tag.constructed + "\tO:" + offset);
-
         return new LinkedHashMap<>(tr.parse());
     }
 
@@ -149,7 +132,7 @@ public class ASNDot1Reader extends TLReader {
 
         public TagReader(String valueOf, byte[] value) {
             data = value;
-            this.pTag = pTag;
+            this.pTag = valueOf;
         }
 
         protected boolean hasNext() {
@@ -267,7 +250,7 @@ class Decoder {
     static {
         String[] headers = new String[]{"TAG_PATH", "TAG_NAME", "TAG_METHOD"};
             readConfig();
-        }
+    }
 
     private static void readConfig() {
         String filePath = "/home/gamma/business.csv";
@@ -285,10 +268,10 @@ class Decoder {
     }
 
 
-    public static Object getValue(String pTag, byte[] data) {
+    public static Object getValue(String tags, byte[] data) {
         Object v = "";
         if (data != null) {
-            TagProps dConf = decoderMap.get(pTag);
+            TagProps dConf = decoderMap.get(tags);
 
             if (dConf != null) {
                 switch (dConf.method.toUpperCase()) {
@@ -320,7 +303,7 @@ class Decoder {
                         v = data;
                 }
             } else
-                return pTag + new String(data, StandardCharsets.UTF_8);
+                return new String(data, StandardCharsets.UTF_8);
         }
         return v;
     }
@@ -540,8 +523,6 @@ class Tag {
     public int clazz, tValue;
     public boolean explicit, constructed;
     public String pTag = ""; // the parent tags
-    //    public Map<String, Object> sNodes = new LinkedHashMap<>(); // the tag's actual value
-
 
     /**
      * @param clazz       the tag's class.
