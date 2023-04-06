@@ -1,9 +1,6 @@
 package com.gamma.skybase.build.server.etl.decoder.ggsn;
 
-import java.io.BufferedInputStream;
-import java.io.EOFException;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -37,16 +34,20 @@ public class ASNDot1Reader extends TLReader {
 
     public static void main(String[] args) throws Exception {
 //        String filename = "C:\\sandbox\\asn-decoders\\huawei-gsn-lebara\\data\\L1CG1_FILE20220901000000_9640.dat";
-        String filename = "C:\\sandbox\\asn-decoders\\huawei-gsn-lebara\\data\\L1CG1_FILE20220901000004_9641.dat";
+//        String filename = "C:\\sandbox\\asn-decoders\\huawei-gsn-lebara\\data\\L1CG1_FILE20220901000004_9641.dat";
+        String dirName = "C:\\sandbox\\asn-decoders\\huawei-gsn-lebara\\data";
 //      String filename = "C:\\sandbox\\incubator\\gasn\\gasn\\data\\sudan_south\\ggsn\\PSPGW2022091000213111";
 
-        ASNDot1Reader executor = new ASNDot1Reader(filename);
-        while (executor.hasNext()) {
-            Map<String, Object> r = executor.next();
-            System.out.println(r);
+        String[] f = new File(dirName).list();
+        for (String filename : f) {
+            ASNDot1Reader executor = new ASNDot1Reader(dirName+"\\"+filename);
+            while (executor.hasNext()) {
+                Map<String, Object> r = executor.next();
+                System.out.println(r);
+            }
+            executor.close();
+            System.out.println("");
         }
-        executor.close();
-        System.out.println("");
     }
 
     public LinkedHashMap<String, Object> next() throws Exception {
@@ -130,13 +131,13 @@ public class ASNDot1Reader extends TLReader {
         byte[] data;
         int offset = 0;
 
-        public TagReader(String valueOf, byte[] value) {
+        public TagReader(String pTag, byte[] value) {
             data = value;
-            this.pTag = valueOf;
+            this.pTag = pTag;
         }
 
         protected boolean hasNext() {
-            return  data.length > offset;
+            return data.length > offset;
         }
 
         public Map<String, Object> parse() throws Exception {
@@ -150,23 +151,23 @@ public class ASNDot1Reader extends TLReader {
                 int length = readLength();
                 byte[] buf = new byte[length];
                 read(buf);
-                String tagNo = t.tValue + "";
+                String tagNo = pTag+"."+t.tValue + "";
                 if (t.constructed) {
                     switch (t.clazz) {
                         case 0:
-                            System.out.println("<UNIVERSAL>");
+//                            System.out.println("<UNIVERSAL>");
                             break;
                         case 64:
-                            System.out.println("<APPLICATION>");
+//                            System.out.println("<APPLICATION>");
                             break;
                         case 128:
-                            System.out.println("<CONTEXT>");
+//                            System.out.println("<CONTEXT>");
                             break;
                         case 192:
-                            System.out.println("<PRIVATE>");
+//                            System.out.println("<PRIVATE>");
                             break;
                         default:
-                            System.out.println("<UNKNOWN>");
+//                            System.out.println("<UNKNOWN>");
                     }
 
                     Map<String, Object> x = new TagReader(tagNo, buf).parse();
@@ -179,10 +180,11 @@ public class ASNDot1Reader extends TLReader {
                             l.add(val);
                             nodes.put(tagNo, x);
                         }
-                    }
-                    else nodes.put(tagNo, x);
-                } else
-                    nodes.put(tagNo, Decoder.getValue(tagNo, buf));
+                    } else nodes.put(tagNo, x);
+                } else {
+                    Decoder.TagProps x = Decoder.getValue(tagNo, buf);
+                    nodes.put(x.name, t);
+                }
 
 //                System.out.println("\t\tT: " + tag.pTag + "\t\tL:" + length + "\t\tC:" + tag.constructed
 //                        + "\t\tO:" + offset + "\t\tV:" + tag.getValue() + "\t(" + printHexBinary(buf) + ")");
@@ -245,21 +247,21 @@ public class ASNDot1Reader extends TLReader {
 }
 
 class Decoder {
-    private static Map<String, TagProps> decoderMap = new HashMap<>();
+    private static Map<String, TagProps> decoderMap = new LinkedHashMap<>();
 
     static {
         String[] headers = new String[]{"TAG_PATH", "TAG_NAME", "TAG_METHOD"};
-            readConfig();
+        readConfig();
     }
 
     private static void readConfig() {
-        String filePath = "/home/gamma/business.csv";
+        String filePath = "C:\\sandbox\\client\\lebara\\skybase-lebara-build\\conf\\parser\\ggsn.csv";
         Path path = Paths.get(filePath);
         try (Stream<String> lines = Files.lines(path)) {
             lines.forEach(l -> {
                 String[] sa = l.split(",");
                 if (sa.length > 2) {
-                    decoderMap.put(sa[0], new TagProps(sa[1], sa[2]));
+                    decoderMap.put(sa[0].trim(), new TagProps(sa[1].trim(), sa[2].trim()));
                 }
             });
         } catch (IOException ex) {
@@ -268,44 +270,46 @@ class Decoder {
     }
 
 
-    public static Object getValue(String tags, byte[] data) {
-        Object v = "";
+    public static TagProps getValue(String tags, byte[] data) {
+        TagProps dConf  = null;
         if (data != null) {
-            TagProps dConf = decoderMap.get(tags);
+             dConf = decoderMap.get(tags);
 
             if (dConf != null) {
                 switch (dConf.method.toUpperCase()) {
                     case "OCTET_STRING":
-                        v = new String(data, StandardCharsets.UTF_8);
+                        dConf.value = new String(data, StandardCharsets.UTF_8);
                         break;
                     case "TBCD":
-                        v = Decoder.TBCD(data);
+                        dConf.value = Decoder.TBCD(data);
                         break;
                     case "IPV4_ADDRESS":
-                        v = Decoder.IPV4Address(data);
+                        dConf.value = Decoder.IPV4Address(data);
                         break;
                     case "LONG":
-                        v = Decoder.toLong(data);
+                        dConf.value = Decoder.toLong(data);
                         break;
                     case "PDP":
-                        v = Decoder.toPDPType(data);
+                        dConf.value = Decoder.toPDPType(data);
                         break;
                     case "TIMESTAMP":
-                        v = Decoder.toTimeStamp(data);
+                        dConf.value = Decoder.toTimeStamp(data);
                         break;
                     case "BCD":
-                        v = Decoder.toBCDString(data);
+                        dConf.value = Decoder.toBCDString(data);
                         break;
                     case "INTEGER":
-                        v = new BigInteger(data);
+                        dConf.value = new BigInteger(data);
                         break;
                     default:
-                        v = data;
+                        dConf.value = data;
                 }
-            } else
-                return new String(data, StandardCharsets.UTF_8);
+            } else {
+                dConf = new TagProps(tags,"BYTE_ARRAY");
+                dConf.value = new String(data, StandardCharsets.UTF_8);
+            }
         }
-        return v;
+        return dConf;
     }
 
     public static String toBCDString(byte[] bValue) {
@@ -387,6 +391,7 @@ class Decoder {
 
     static class TagProps {
         public String name, method;
+        Object value;
 
         public TagProps(String name, String method) {
             this.name = name;
@@ -418,7 +423,6 @@ abstract class TLReader {
     }
 
     Tag readTag(String pTag) throws IOException {
-        this.pTag = pTag;
         StringBuilder hex = new StringBuilder();
         int c = read();
         int tClass = c & 0xC0;
@@ -438,22 +442,15 @@ abstract class TLReader {
                 tValue = c & 0x7F;
                 appArr[i++] = tValue;
             }
-            tValue = calculateAppNumber(appArr, i);//ns
+            tValue = calculateAppNumber(appArr, i);
         }
-        if (this.pTag != null && this.pTag.length() > 0)
-            this.pTag = this.pTag + '.' + tValue;
-        else this.pTag = "";
-
-        Tag result = new Tag(this.pTag, tClass, tValue, true, tConstructed);
-        System.out.print("\nHex:" + hex + " \t| ");
-        return result;
+        return new Tag(pTag, tClass, tValue, true, tConstructed);
     }
 
     int readLength() throws Exception {
         int limit = read();
 
-        StringBuilder hex = new StringBuilder(Integer.toHexString(limit).toUpperCase());
-
+//        StringBuilder hex = new StringBuilder(Integer.toHexString(limit).toUpperCase());
         int result;
         if ((limit & 0x80) == 0) result = limit;
         else if (limit == 0x80) // NON-definite Length encoding
@@ -464,11 +461,11 @@ abstract class TLReader {
             result = 0;
             while (limit-- > 0) {
                 int c = read();
-                hex.append(" ").append(Integer.toHexString(c).toUpperCase());
+//                hex.append(" ").append(Integer.toHexString(c).toUpperCase());
                 result = (result << 8) | (c & 0xFF);
             }
         }
-        System.out.println("L: " + hex);
+//        System.out.println("L: " + hex);
         return result;
     }
 
@@ -539,7 +536,6 @@ class Tag {
     }
 
 }
-
 
 
 //class TagConst {
