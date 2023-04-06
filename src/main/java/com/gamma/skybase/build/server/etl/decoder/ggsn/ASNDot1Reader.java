@@ -183,7 +183,7 @@ public class ASNDot1Reader extends TLReader {
                     } else nodes.put(tagNo, x);
                 } else {
                     Decoder.TagProps x = Decoder.getValue(tagNo, buf);
-                    nodes.put(x.name, t);
+                    nodes.put(x.name, x.value);
                 }
 
 //                System.out.println("\t\tT: " + tag.pTag + "\t\tL:" + length + "\t\tC:" + tag.constructed
