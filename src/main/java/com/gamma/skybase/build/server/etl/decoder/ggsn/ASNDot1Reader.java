@@ -40,7 +40,7 @@ public class ASNDot1Reader extends TLReader {
 
         String[] f = new File(dirName).list();
         for (String filename : f) {
-            ASNDot1Reader executor = new ASNDot1Reader(dirName+"\\"+filename);
+            ASNDot1Reader executor = new ASNDot1Reader(dirName + "\\" + filename);
             while (executor.hasNext()) {
                 Map<String, Object> r = executor.next();
                 System.out.println(r);
@@ -133,7 +133,7 @@ public class ASNDot1Reader extends TLReader {
 
         public TagReader(String pTag, byte[] value) {
             data = value;
-            this.pTag = pTag;
+            this.parentTag = pTag;
         }
 
         protected boolean hasNext() {
@@ -147,13 +147,13 @@ public class ASNDot1Reader extends TLReader {
 //                String ignored = ignoreFiller(0x00);
 //                String skip = skipBytes(4);
 
-                Tag t = readTag(pTag);
+                Tag tag = readTag(parentTag);
                 int length = readLength();
                 byte[] buf = new byte[length];
                 read(buf);
-                String tagNo = pTag+"."+t.tValue + "";
-                if (t.constructed) {
-                    switch (t.clazz) {
+                String tagNo = parentTag + "." + tag.tValue + "";
+                if (tag.constructed) {
+                    switch (tag.clazz) {
                         case 0:
 //                            System.out.println("<UNIVERSAL>");
                             break;
@@ -170,17 +170,20 @@ public class ASNDot1Reader extends TLReader {
 //                            System.out.println("<UNKNOWN>");
                     }
 
-                    Map<String, Object> x = new TagReader(tagNo, buf).parse();
-                    Object val = nodes.get(tagNo);
+                    Map<String, Object> nestedTag = new TagReader(tagNo, buf).parse();
+                    String tagName = Decoder.getTagInfo(tagNo).name;
+                    Object val = nodes.get(tagName);
                     if (val != null) {
-                        if (val instanceof List)
-                            ((ArrayList) val).add(x);
+                        if (val instanceof List) {
+                            ((ArrayList) val).add(nestedTag);
+                        }
                         else {
                             List<Object> l = new ArrayList<>();
                             l.add(val);
-                            nodes.put(tagNo, x);
+                            l.add(nestedTag);
+                            nodes.put(tagName, l);
                         }
-                    } else nodes.put(tagNo, x);
+                    } else nodes.put(tagNo, nestedTag);
                 } else {
                     Decoder.TagProps x = Decoder.getValue(tagNo, buf);
                     nodes.put(x.name, x.value);
@@ -206,7 +209,7 @@ public class ASNDot1Reader extends TLReader {
             }
             offset--;
             hex.append("|").append(Integer.toHexString(c).toUpperCase());
-            System.out.println(hex);
+//            System.out.println(hex);
             if (c == -1) throw new EOFException();
             return hex.toString();
         }
@@ -271,9 +274,9 @@ class Decoder {
 
 
     public static TagProps getValue(String tags, byte[] data) {
-        TagProps dConf  = null;
+        TagProps dConf = null;
         if (data != null) {
-             dConf = decoderMap.get(tags);
+            dConf = getTagInfo(tags);
 
             if (dConf != null) {
                 switch (dConf.method.toUpperCase()) {
@@ -301,15 +304,216 @@ class Decoder {
                     case "INTEGER":
                         dConf.value = new BigInteger(data);
                         break;
+                    case "MSISDN":
+                        dConf.value = Decoder.MSISDN(data);
+                        break;
+                    case "CHARGING_CHARACTERISTICS":
+                        dConf.value = Decoder.toChargingCharacteristics(data);
+                        break;
+                    case "PLMN_ID":
+                        dConf.value = Decoder.toPLMNId(data);
+                        break;
+                    case "IMEI":
+                        dConf.value = Decoder.toIMEI(data);
+                        break;
+                    case "USER_LOCATION_INFO":
+                        dConf.value = Decoder.toUSER_LOCATION_INFO(data);
+                        break;
+                    case "BIT_STRING":
+                        dConf.value = Decoder.toBIT_STRING(data);
+                        break;
                     default:
                         dConf.value = data;
                 }
             } else {
-                dConf = new TagProps(tags,"BYTE_ARRAY");
+                dConf = new TagProps(tags, "BYTE_ARRAY");
                 dConf.value = new String(data, StandardCharsets.UTF_8);
             }
         }
         return dConf;
+    }
+
+    public static TagProps getTagInfo(String tags) {
+        TagProps t = decoderMap.get(tags);
+        if (t == null) return new TagProps(tags, "Unknown");
+        return t;
+    }
+
+    private static Object toBIT_STRING(byte[] data) {
+        return new BigInteger(1, data).toString(16);
+    }
+
+    public static String toUSER_LOCATION_INFO(byte[] bytes) {
+        StringBuilder uli = new StringBuilder();
+        int index = 0;
+        //if value is 1 its signifies CGI, if 2 then signify SAI
+        int cgiInd = bytes[index] & 0xF;
+
+        index++;
+        StringBuilder mcc = new StringBuilder();
+        mcc.append(bytes[index] & 0xF);
+        mcc.append((bytes[index] & 0xF0) >>> 4);
+
+        index++;
+        mcc.append(bytes[index] & 0xF);
+
+        StringBuilder mnc = new StringBuilder();
+        //If only two digits are included in the MNC, then mncFirstDigit value will be 15
+        // i.e. octet binary value will be 1111
+        int mncFirstDigit = (bytes[index] & 0xF0) >>> 4;
+        if (mncFirstDigit != 15)
+            mnc.append(mncFirstDigit);
+        index++;
+        mnc.append(bytes[index] & 0xF);
+        mnc.append((bytes[index] & 0xF0) >>> 4);
+
+        String lac = toLong(bytes, index, 2);
+        if (lac.length() < 5) lac = String.format("%05d", Integer.parseInt(lac));
+
+        index += 2;
+        String ci = toLong(bytes, index, 2);
+        if (ci.length() < 5) ci = String.format("%05d", Integer.parseInt(ci));
+
+        return uli.append(mcc).append(mnc).append(lac).append(ci).toString();
+    }
+
+    public static String toLong(byte[] ints, int index, int intLength) throws NumberFormatException {
+        if (index > ints.length) {
+            throw new NumberFormatException("Given index is out of range of given array, " + "Index = "
+                    + index + " array length = " + ints.length);
+        }
+        long octNumber = 0;
+        int length = Math.min((index + intLength), ints.length);
+        for (int i = index; i < length; i++) {
+            octNumber = octNumber * 16 + ((ints[i] & 0xF0) >>> 4);
+            octNumber = octNumber * 16 + (ints[i] & 0x0F);
+        }
+        return Long.toString(octNumber);
+    }
+
+    public static String toIMEI(byte[] hexValues) {
+        String imei = hex2TBCD(hexValues);
+        return imeiCheckDigitAdjustment(imei);
+    }
+
+    public static String hex2TBCD(byte[] ba) {
+        try {
+            int len = ba.length;
+            String strInt = "";
+            for (byte t_byte : ba) {
+                int m_nibble = t_byte & 0xF0;
+                m_nibble = m_nibble >>> 4;
+                int l_nibble = t_byte & 0x0F;
+                if (l_nibble == 0x0A) {
+                    strInt += "A";//"*";
+                } else if (l_nibble == 0x0B) {
+                    strInt += "B";//"#";
+                } else if (l_nibble == 0x0C) {
+                    strInt += "C";//"a";
+                } else if (l_nibble == 0x0D) {
+                    strInt += "D";//"b";
+                } else if (l_nibble == 0x0E) {
+                    strInt += "E";//"c";
+                } else if (l_nibble < 0x0A)//since it is a BCD string
+                {
+                    strInt += l_nibble;
+                }
+                if (m_nibble == 0x0A) {
+                    strInt += "A";
+                } else if (m_nibble == 0x0B) {
+                    strInt += "B";
+                } else if (m_nibble == 0x0C) {
+                    strInt += "C";
+                } else if (m_nibble == 0x0D) {
+                    strInt += "D";
+                } else if (m_nibble == 0x0E) {
+                    strInt += "E";
+                } else if (m_nibble < 0x0A) //since it is a BCD string
+                {
+                    strInt += m_nibble;
+                }
+            }
+
+            return strInt;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String imeiCheckDigitAdjustment(String value) {
+        StringBuilder imei15 = new StringBuilder();
+        if (value != null && !value.isEmpty()) {
+            if (value.length() < 14) {
+                imei15.append(value);
+            } else if (value.length() == 14) {
+                imei15.append(value).append(computeCheckDigit(value));
+            } else {
+                String imei14 = value.substring(0, 14);
+                imei15.append(imei14);
+                imei15.append(computeCheckDigit(imei14));
+            }
+
+            return imei15.toString();
+        } else {
+            return "";
+        }
+    }
+
+    private static Integer computeCheckDigit(String imei14) {
+        Integer sum = 0;
+
+        int checkDigit;
+        for (checkDigit = 0; checkDigit < imei14.length(); ++checkDigit) {
+            char c = imei14.charAt(checkDigit);
+            int digit;
+            if (checkDigit % 2 != 0) {
+                digit = charToInt(c) * 2;
+                if (String.valueOf(digit).length() == 2) {
+                    char[] var5 = String.valueOf(digit).toCharArray();
+                    int var6 = var5.length;
+
+                    for (int var7 = 0; var7 < var6; ++var7) {
+                        char sub = var5[var7];
+                        sum = sum + charToInt(sub);
+                    }
+                } else {
+                    sum = sum + digit;
+                }
+            } else {
+                digit = charToInt(c);
+                sum = sum + digit;
+            }
+        }
+
+        checkDigit = 0;
+        if (sum % 10 != 0) {
+            checkDigit = 10 - sum % 10;
+        }
+
+        return checkDigit;
+    }
+
+    private static int charToInt(char c) {
+        return c - 48;
+    }
+
+    public static String toPLMNId(byte[] hexValues) {
+        StringBuilder octNumber = new StringBuilder();
+        octNumber.append(hexValues[0] & 0x0F);  //MCC 1
+        octNumber.append((hexValues[0] & 0xF0) >>> 4);   //MCC 2
+        octNumber.append(hexValues[1] & 0x0F);   //MCC 3
+        octNumber.append(hexValues[2] & 0x0F);   //MNC 1
+        octNumber.append((hexValues[2] & 0xF0) >>> 4);   //MNC 2
+        int mnc3 = (hexValues[1] & 0xF0) >>> 4;
+        if (mnc3 < 15)
+            octNumber.append((hexValues[1] & 0xF0) >>> 4);
+
+        return octNumber.toString();
+    }
+
+    public static String toChargingCharacteristics(byte[] hexValues) {
+        return String.valueOf(hexValues[1]) + ((hexValues[0] & 0xF0) >>> 4) + (hexValues[0] & 0x0F);
     }
 
     public static String toBCDString(byte[] bValue) {
@@ -373,6 +577,49 @@ class Decoder {
         return "";
     }
 
+    public static String MSISDN(byte[] data) {
+        String temp = toHex(data, 0, 1);
+        return temp + toTBCD(data, 1, data.length, 15);
+    }
+
+    public static String toTBCD(byte[] result, int _index, int _intLength, int _filler) {
+        StringBuilder b = new StringBuilder();
+        int temp;
+        int endIndex = ((_index + _intLength) < result.length) ? (_index + _intLength)
+                : result.length;
+        for (int i = _index; i < endIndex; i++) {
+            int x = result[i] & 0x0F;
+            temp = result[i] & 0x0F;
+            if (x == _filler)
+                break;
+            b.append(Integer.toHexString(temp));
+
+            x = (result[i] & 0xF0) >>> 4;
+            temp = (result[i] & 0xF0) >>> 4;
+            if (x != _filler) {
+                b.append(Integer.toHexString(temp));
+            }
+        }
+        return b.toString();
+    }
+
+    public static String toHex(byte[] ba, int idx, int len) {
+        len = idx + len;
+        int i = idx;
+        long temp;
+        StringBuilder sb = new StringBuilder();
+        while (i < len) {
+            temp = (ba[i] & 0xF0) >>> 4;
+            if (temp <= 9) sb.append(temp);
+            else sb.append((char) ('A' + temp - 10));
+            temp = ba[i] & 0x0F;
+            if (temp <= 9) sb.append(temp);
+            else sb.append((char) ('A' + temp - 10));
+            i++;
+        }
+        return sb.toString();
+    }
+
     public static String TBCD(byte[] data) {
         StringBuilder tbcd = new StringBuilder();
         for (int i = 0; i < data.length - 1; i++) {
@@ -402,7 +649,7 @@ class Decoder {
 
 
 abstract class TLReader {
-    String pTag;
+    String parentTag;
     static char[] hexCode = "0123456789ABCDEF".toCharArray();
 
     public abstract int read() throws IOException;
@@ -418,7 +665,7 @@ abstract class TLReader {
             hex.append(Integer.toHexString(c).toUpperCase()).append(" ");
             if (c == -1) throw new EOFException();
         }
-        System.out.println(hex);
+//        System.out.println(hex);
         return hex.toString();
     }
 

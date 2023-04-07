@@ -51,32 +51,32 @@ TAG_PATH, TAG_NAME, TAG_METHOD
 79.18, nodeID, INTEGER
 79.19, recordExtensions,
 79.20, localSequenceNumber, INTEGER
-79.21, apnSelectionMode,
-79.22, servedMSISDN,
-79.23, chargingCharacteristics,OCTET_STRING
+79.21, apnSelectionMode, INTEGER
+79.22, servedMSISDN, MSISDN
+79.23, chargingCharacteristics, CHARGING_CHARACTERISTICS
 79.24, chChSelectionMode,INTEGER
 79.25, iMSsignalingContext,
 79.26, externalChargingID,CHARACTER_STRING
-79.27, servingNodePLMNIdentifier,
+79.27, servingNodePLMNIdentifier,PLMN_ID
 79.28, pSFurnishChargingInformation,
-79.29, servedIMEISV,
+79.29, servedIMEISV,IMEI
 79.30, rATType,INTEGER
 79.31, mSTimeZone,TIMESTAMP
-79.32, userLocationInformation,OCTET_STRING
+79.32, userLocationInformation,USER_LOCATION_INFO
 79.33, cAMELChargingInformation,CHARACTER_STRING
 79.34.16.1, ratingGroup, INTEGER
-79.34.16.2, chargingRuleBaseName,CHARACTER_STRING
+79.34.16.2, chargingRuleBaseName,OCTET_STRING
 79.34.16.3, resultCode,INTEGER
 79.34.16.4, localSequenceNumber,INTEGER
 79.34.16.5, timeOfFirstUsage,TIMESTAMP
 79.34.16.6, timeOfLastUsage,TIMESTAMP
 79.34.16.7, timeUsage,INTEGER
-79.34.16.8, serviceConditionChange,
+79.34.16.8, serviceConditionChange, BIT_STRING
 79.34.16.9, qoSInformationNeg,
-79.34.16.10, sgsnAddress,
+79.34.16.10.0, sgsnAddress,IPV4_ADDRESS
 79.34.16.11, sGSNPLMNIdentifier,
-79.34.16.12, datavolumeFBCUplink,
-79.34.16.13, datavolumeFBCDownlink,
+79.34.16.12, datavolumeFBCUplink,INTEGER
+79.34.16.13, datavolumeFBCDownlink,INTEGER
 79.34.16.14, timeOfReport,TIMESTAMP
 79.34.16.15, rATType,
 79.34.16.16, failureHandlingContinue,
@@ -90,7 +90,7 @@ TAG_PATH, TAG_NAME, TAG_METHOD
 79.34.16.21.2, eventTimeStamps, TIMESTAMP
 79.34.16.22.1, timeQuotaType, INTEGER
 79.34.16.22.2, baseTimeInterval, INTEGER
-79.35, servingNodeType, INTEGER
+79.35.10, servingNodeType, INTEGER
 79.36.0, subscriptionIDType, INTEGER
 79.36.1, subscriptionIDData, CHARACTER_STRING
 79.37, pGWPLMNIdentifier, OCTET_STRING
