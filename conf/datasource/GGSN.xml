@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Adapter Name="GGSN" Type="ASN.1" Version="1.0" Active="true" StatusDBHandler="mongo" rawJson="true"
+         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.ggsn.GGSNFileExecutor" ExecMode="server"
+         txExecClass="com.gamma.skybase.build.server.etl.decoder.ggsn.GGSNRecordEnrichment" ignoreLogging="false"
+         ignoreDuplicates="false" parallel="1" instance-size="1" load-factor="1" customized="enable">
+
+    <!--Extraction tag-->
+    <Extraction type="sniff" protocol="local"
+                execClass="com.gamma.skybase.server.core.collector.sniff.DefaultSniffingExtractionAgent">
+        <Settings host="" port="" path="/raetl/processing/tag_gasn/poll" username="" password="">
+            <Signature required="false" key=""/>
+            <Extract pattern="" metaFields="fileName\" dateFieldPattern="yyyyMMdd"/>
+        </Settings>
+    </Extraction>
+
+    <DirConfig>
+        <Source path="/raetl/processing/ggsn/source" clogging="true"/>
+        <Backup path="/raetl/processing/ggsn/backup" clogging="true" compress="gz"/>
+        <Staging path="/raetl/processing/ggsn/staging" clogging="true"/>
+        <Output path="/raetl/processing/ggsn/output" clogging="true"/>
+        <Error path="/raetl/processing/ggsn/error" clogging="true"/>
+        <Target protocol="" host="" path="/" pwd="" user="" active="true"/>
+    </DirConfig>
+
+    <DataDef>
+        <Event eventName="PGWRecord" tableName="FCT_GGSN" synonym="FCT_GGSN" dataBase="">
+
+            <Field sourceFieldName="filename" targetFieldName="FILE_NAME"/>
+            <Field sourceFieldName="EVENT_DATE"/>
+            <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss"
+                   default="19700101 00:00:01"/>
+            <Field sourceFieldName="POPULATION_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss"
+                   default="19700101 00:00:01"/>
+        </Event>
+
+        <Event eventName="PGWRecord_RAW" tableName="PGWRecord_RAW" synonym="PGWRecord_RAW" dataBase="">
+            <Field sourceFieldName="eventType"/>
+            <Field sourceFieldName="recordType"/>
+            <Field sourceFieldName="servedIMSI"/>
+            <Field sourceFieldName="pGWAddress"/>
+            <Field sourceFieldName="chargingID"/>
+            <Field sourceFieldName="servingNodeAddress"/>
+            <Field sourceFieldName="accessPointNameNI"/>
+            <Field sourceFieldName="pdpPDNType"/>
+            <Field sourceFieldName="servedPDP"/>
+            <Field sourceFieldName="dynamicAddressFlag"/>
+            <Field sourceFieldName="dataVolumeGPRSUplink"/>
+            <Field sourceFieldName="dataVolumeGPRSDownlink"/>
+            <Field sourceFieldName="changeCondition"/>
+            <Field sourceFieldName="changeTime"/>
+            <Field sourceFieldName="userLocationInformation"/>
+            <Field sourceFieldName="qCI"/>
+            <Field sourceFieldName="aRP"/>
+            <Field sourceFieldName="recordOpeningTime"/>
+            <Field sourceFieldName="duration"/>
+            <Field sourceFieldName="causeForRecClosing"/>
+            <Field sourceFieldName="recordSequenceNumber"/>
+            <Field sourceFieldName="nodeID"/>
+            <Field sourceFieldName="extensionType"/>
+            <Field sourceFieldName="length"/>
+            <Field sourceFieldName="serviceCode"/>
+            <Field sourceFieldName="uplinkVolume"/>
+            <Field sourceFieldName="downlinkVolume"/>
+            <Field sourceFieldName="usageduration"/>
+            <Field sourceFieldName="url"/>
+            <Field sourceFieldName="servedMSISDN"/>
+            <Field sourceFieldName="chargingCharacteristics"/>
+            <Field sourceFieldName="chChSelectionMode"/>
+            <Field sourceFieldName="servingNodePLMNIdentifier"/>
+            <Field sourceFieldName="servedIMEISV"/>
+            <Field sourceFieldName="rATType"/>
+            <Field sourceFieldName="mSTimeZone"/>
+            <Field sourceFieldName="userLocationInformation"/>
+            <Field sourceFieldName="ratingGroup"/>
+            <Field sourceFieldName="localSequenceNumber"/>
+            <Field sourceFieldName="timeOfFirstUsage"/>
+            <Field sourceFieldName="timeOfLastUsage"/>
+            <Field sourceFieldName="timeUsage"/>
+            <Field sourceFieldName="serviceConditionChange"/>
+            <Field sourceFieldName="qoSInformationNeg"/>
+            <Field sourceFieldName="sgsnAddress"/>
+            <Field sourceFieldName="datavolumeFBCUplink"/>
+            <Field sourceFieldName="datavolumeFBCDownlink"/>
+            <Field sourceFieldName="timeOfReport"/>
+            <Field sourceFieldName="servingNodeType"/>
+            <Field sourceFieldName="serviceIdentifier"/>
+            <Field sourceFieldName="unknown"/>
+        </Event>
+
+        <Event eventName="PGWRecord_PRE" tableName="GGSN_PRE_FCT" synonym="GGSN_PRE_FCT" dataBase="">
+            <Field sourceFieldName="EVENT_TYPE"/>
+            <Field sourceFieldName="RECORD_TYPE"/>
+            <Field sourceFieldName="SERVED_MSISDN"/>
+            <Field sourceFieldName="SERVED_IMSI"/>
+            <Field sourceFieldName="SERVED_IMEI"/>
+            <Field sourceFieldName="tac" targetFieldName="TAC"/>
+            <Field sourceFieldName="PGW_ADDRESS"/>
+            <Field sourceFieldName="SGSN_ADDRESS"/>
+            <Field sourceFieldName="PDP_ADDRESS"/>
+            <Field sourceFieldName="CHARGING_ID"/>
+            <Field sourceFieldName="APN_NAME"/>
+            <Field sourceFieldName="PDP_TYPE"/>
+            <Field sourceFieldName="DYNAMIC_ADDRESS_FLAG"/>
+            <Field sourceFieldName="ORIGINAL_DUR" dataType="long" default="0"/>
+            <Field sourceFieldName="REC_TYPE_ID_KEY"/>
+            <Field sourceFieldName="EVENT_TYPE_KEY" default="4"/>
+            <Field sourceFieldName="EVENT_START_TIME" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+            <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+            <Field sourceFieldName="POPULATION_DATE_TIME" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+            <Field sourceFieldName="SERVING_PLMN_ID"/>
+            <Field sourceFieldName="SERVING_NODE_TYPE"/>
+            <Field sourceFieldName="CGI_ID"/>
+            <Field sourceFieldName="NODE_ID"/>
+            <Field sourceFieldName="EXT_TYPE"/>
+            <Field sourceFieldName="RAT_TYPE"/>
+            <Field sourceFieldName="SRV_TYPE_KEY"/>
+            <Field sourceFieldName="chargingCharacteristics" targetFieldName="CHARGING_CHAR"/>
+            <Field sourceFieldName="ORIGINAL_A_NUM"/>
+            <Field sourceFieldName="SERVED_MSISDN_DIAL_DIGIT_KEY"/>
+            <Field sourceFieldName="SERVED_MSISDN_NOP_ID_KEY"/>
+            <Field sourceFieldName="RATING_GROUP"/>
+            <Field sourceFieldName="LOCAL_SEQ_NUM"/>
+            <Field sourceFieldName="SERVICE_COND_CHANGE"/>
+            <Field sourceFieldName="QOS_INFO"/>
+            <Field sourceFieldName="SERVICE_EVENT_URL"/>
+            <Field sourceFieldName="DATA_VOLUME_FBC_UPLINK" dataType="long" default="0"/>
+            <Field sourceFieldName="DATA_VOLUME_FBC_DOWNLINK"  dataType="long" default="0"/>
+            <Field sourceFieldName="TOTAL_VOLUME" dataType="long" default="0"/>
+            <Field sourceFieldName="BILLABLE_VOLUME" dataType="double" default="0"/>
+            <Field sourceFieldName="TIME_FIRST_USAGE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+            <Field sourceFieldName="TIME_LAST_USAGE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+            <Field sourceFieldName="REPORT_TIME" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+            <Field sourceFieldName="FILE_NAME"/>
+        </Event>
+
+        <Event eventName="PGWRecord_POST" tableName="GGSN_POST_FCT" synonym="GGSN_POST_FCT" dataBase="">
+            <Field sourceFieldName="EVENT_TYPE"/>
+            <Field sourceFieldName="RECORD_TYPE"/>
+            <Field sourceFieldName="SERVED_MSISDN"/>
+            <Field sourceFieldName="SERVED_IMSI"/>
+            <Field sourceFieldName="SERVED_IMEI"/>
+            <Field sourceFieldName="tac" targetFieldName="TAC"/>
+            <Field sourceFieldName="PGW_ADDRESS"/>
+            <Field sourceFieldName="SGSN_ADDRESS"/>
+            <Field sourceFieldName="PDP_ADDRESS"/>
+            <Field sourceFieldName="CHARGING_ID"/>
+            <Field sourceFieldName="APN_NAME"/>
+            <Field sourceFieldName="PDP_TYPE"/>
+            <Field sourceFieldName="DYNAMIC_ADDRESS_FLAG"/>
+            <Field sourceFieldName="ORIGINAL_DUR" dataType="long" default="0"/>
+            <Field sourceFieldName="REC_TYPE_ID_KEY"/>
+            <Field sourceFieldName="EVENT_TYPE_KEY" default="4"/>
+            <Field sourceFieldName="EVENT_START_TIME" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+            <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+            <Field sourceFieldName="POPULATION_DATE_TIME" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+            <Field sourceFieldName="SERVING_PLMN_ID"/>
+            <Field sourceFieldName="SERVING_NODE_TYPE"/>
+            <Field sourceFieldName="CGI_ID"/>
+            <Field sourceFieldName="NODE_ID"/>
+            <Field sourceFieldName="EXT_TYPE"/>
+            <Field sourceFieldName="RAT_TYPE"/>
+            <Field sourceFieldName="SRV_TYPE_KEY"/>
+            <Field sourceFieldName="chargingCharacteristics" targetFieldName="CHARGING_CHAR"/>
+            <Field sourceFieldName="ORIGINAL_A_NUM"/>
+            <Field sourceFieldName="SERVED_MSISDN_DIAL_DIGIT_KEY"/>
+            <Field sourceFieldName="SERVED_MSISDN_NOP_ID_KEY"/>
+            <Field sourceFieldName="RATING_GROUP"/>
+            <Field sourceFieldName="LOCAL_SEQ_NUM"/>
+            <Field sourceFieldName="SERVICE_COND_CHANGE"/>
+            <Field sourceFieldName="QOS_INFO"/>
+            <Field sourceFieldName="SERVICE_EVENT_URL"/>
+            <Field sourceFieldName="DATA_VOLUME_FBC_UPLINK" dataType="long" default="0"/>
+            <Field sourceFieldName="DATA_VOLUME_FBC_DOWNLINK"  dataType="long" default="0"/>
+            <Field sourceFieldName="TOTAL_VOLUME" dataType="long" default="0"/>
+            <Field sourceFieldName="BILLABLE_VOLUME" dataType="double" default="0"/>
+            <Field sourceFieldName="TIME_FIRST_USAGE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+            <Field sourceFieldName="TIME_LAST_USAGE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+            <Field sourceFieldName="REPORT_TIME" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+            <Field sourceFieldName="FILE_NAME"/>
+        </Event>
+
+    </DataDef>
+</Adapter>

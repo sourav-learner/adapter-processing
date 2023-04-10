@@ -1,22 +1,29 @@
 TAG_PATH, TAG_NAME, TAG_METHOD
 79.0,  recordType,  INTEGER
 79.3, servedIMSI, tbcd
+79.4,PGWAddress,pGWAddress
 79.4.0,pGWAddress,IPV4_ADDRESS
 79.4.1,pGWAddress,IPV6_ADDRESS
 79.5, chargingID , INTEGER
+79.6, ServingNodeAddress, XX
 79.6.0, servingNodeAddress, IPV4_ADDRESS
 79.7, accessPointNameNI, OCTET_STRING
 79.8, pdpPDNType, PDP
+79.9, PDPAddress,LIST
+79.9.0, IPAddress,XX
 79.9.0.0, servedPDPPDNAddress,IPV4_ADDRESS
 79.11, dynamicAddressFlag,INTEGER
-79.12.16.1,qosRequested,OCTET_STRING
+79.12,qosRequested,ChangeOfCharCondition
+79.12,ChangeOfCharConditions,xx
+79.12.16,ChangeOfCharCondition,xx
 79.12.16.2,qosNegotiated,OCTET_STRING
 79.12.16.3,dataVolumeGPRSUplink,INTEGER
 79.12.16.4,dataVolumeGPRSDownlink,INTEGER
 79.12.16.5,changeCondition,INTEGER
 79.12.16.6,changeTime,TIMESTAMP
 79.12.16.7,failureHandlingContinue,OCTET_STRING
-79.12.16.8,userLocationInformation,OCTET_STRING
+79.12.16.8,userLocationInformation, USER_LOCATION_INFO
+79.12.16.9, EPCQoSInformation, XX
 79.12.16.9.1, qCI, INTEGER
 79.12.16.9.2,maxRequestedBandwithUL,INTEGER
 79.12.16.9.3,maxRequestedBandwithDL,INTEGER
@@ -40,6 +47,7 @@ TAG_PATH, TAG_NAME, TAG_METHOD
 79.13, recordOpeningTime, BCD
 79.14, duration, INTEGER
 79.15, causeForRecClosing, INTEGER
+79.16, Diagnostics, INTEGER
 79.16.0, gsm0408Cause, INTEGER
 79.16.1, gsm0902MapErrorValue,INTEGER
 79.16.2, itu-tQ767Cause, INTEGER
@@ -64,6 +72,8 @@ TAG_PATH, TAG_NAME, TAG_METHOD
 79.31, mSTimeZone,TIMESTAMP
 79.32, userLocationInformation,USER_LOCATION_INFO
 79.33, cAMELChargingInformation,CHARACTER_STRING
+79.34, ListOfServiceData,ST
+79.34.16, ChangeOfServiceConditions,XX
 79.34.16.1, ratingGroup, INTEGER
 79.34.16.2, chargingRuleBaseName,OCTET_STRING
 79.34.16.3, resultCode,INTEGER
@@ -72,7 +82,10 @@ TAG_PATH, TAG_NAME, TAG_METHOD
 79.34.16.6, timeOfLastUsage,TIMESTAMP
 79.34.16.7, timeUsage,INTEGER
 79.34.16.8, serviceConditionChange, BIT_STRING
-79.34.16.9, qoSInformationNeg,
+79.34.16.9, qoSInformationNeg,XX
+79.34.16.9.1, qCI,INTEGER
+79.34.16.9.6, aRP,INTEGER
+79.34.16.10, IPAddress,XX
 79.34.16.10.0, sgsnAddress,IPV4_ADDRESS
 79.34.16.11, sGSNPLMNIdentifier,
 79.34.16.12, datavolumeFBCUplink,INTEGER
@@ -85,11 +98,12 @@ TAG_PATH, TAG_NAME, TAG_METHOD
 79.34.16.18.2, pSFreeFormatData
 79.34.16.19.1, aFChargingIdentifier,
 79.34.16.19.2, flows,
-79.34.16.20, userLocationInformation,OCTET_STRING
+79.34.16.20, userLocationInformation,USER_LOCATION_INFO
 79.34.16.21.1, numberOfEvents, INTEGER
 79.34.16.21.2, eventTimeStamps, TIMESTAMP
 79.34.16.22.1, timeQuotaType, INTEGER
 79.34.16.22.2, baseTimeInterval, INTEGER
+79.35, ServingNodeType, XX
 79.35.10, servingNodeType, INTEGER
 79.36.0, subscriptionIDType, INTEGER
 79.36.1, subscriptionIDData, CHARACTER_STRING
@@ -98,7 +112,7 @@ TAG_PATH, TAG_NAME, TAG_METHOD
 79.39, stopTime, TIMESTAMP
 79.40, served3gpp2MEID, OCTET_STRING
 79.41, pDNConnectionChargingID , INTEGER
-79.42, threeGPP2UserLocationInformation , OCTET_STRING
+79.42, threeGPP2UserLocationInformation , USER_LOCATION_INFO
 79.43.0, iPAddress ,
 79.43.1, eTSIAddress ,
 79.46, lowPriorityIndicator ,

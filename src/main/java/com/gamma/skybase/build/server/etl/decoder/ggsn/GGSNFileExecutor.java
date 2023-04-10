@@ -20,7 +20,7 @@ public class GGSNFileExecutor extends AFileSourceDecoder {
 
     private static final Logger logger = LoggerFactory.getLogger(GGSNFileExecutor.class);
     private List<LinkedHashMap<String, Object>> jsonRecords;
-//    private static Map<String, TagConf> decoderMap = new LinkedHashMap<>();
+    //    private static Map<String, TagConf> decoderMap = new LinkedHashMap<>();
     protected FileDataSource dataSource;
     protected FileMetadata metadata;
 
@@ -47,7 +47,6 @@ public class GGSNFileExecutor extends AFileSourceDecoder {
 
     @Override
     public void parseFile(String fileName) throws Exception {
-//        readConfig();
         boolean jsonOutputRequired = dataSource.isRawJsonEnabled();
         String fn = null;
         Gson gson = null;
@@ -56,6 +55,7 @@ public class GGSNFileExecutor extends AFileSourceDecoder {
             gson = new GsonBuilder().setPrettyPrinting().create();
             jsonRecords = new LinkedList<>();
         }
+
 
         IEnrichment enrichment = null;
         try {
@@ -69,11 +69,11 @@ public class GGSNFileExecutor extends AFileSourceDecoder {
         try {
             long recCount = 0;
             decoder = new ASNDot1Reader(fileName);
+
             while (decoder.hasNext()) {
                 try {
                     LinkedHashMap<String, Object> record = decoder.next();
                     if (jsonOutputRequired) jsonRecords.add(record);
-
                     record.put("fileName", metadata.decompFileName);
 //                    processRecord(record, enrichment);
                 } catch (Exception e) {
@@ -105,11 +105,20 @@ public class GGSNFileExecutor extends AFileSourceDecoder {
             MEnrichmentReq request = new MEnrichmentReq();
             request.setRequest(record);
             MEnrichmentResponse response = enrichment.transform(request);
+
             if (response.isResponseCode()) {
                 LinkedHashMap<String, Object> data = response.getResponse();
-                metadata.noOfParsedRecord++;
-                if (data != null)
-                    handleEvents("PGWRecord", data);
+                for (Object value : data.values()) {
+                    LinkedHashMap<String, Object> txRec = (LinkedHashMap<String, Object>) value;
+                    metadata.noOfParsedRecord++;
+                    Object chargingCharacteristics = txRec.get("chargingCharacteristics");
+                    String eventType;
+                    if (chargingCharacteristics.toString().trim().equalsIgnoreCase("8"))
+                        eventType = "PGWRecord_PRE";
+                    else
+                        eventType = "PGWRecord_POST";
+                    handleEvents(eventType, txRec);
+                }
             }
         }
     }
