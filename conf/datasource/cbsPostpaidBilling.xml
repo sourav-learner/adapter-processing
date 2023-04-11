@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Adapter Name="CBS_POSTPAID_BILLING" Type="ASN.1" Version="1.0" Active="true" StatusDBHandler="mongo" rawJson="true"
+         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.cbs_postpaid_billing.CbsPostpaidBillingFileExecutor" ExecMode="server"
+         txExecClass="com.gamma.skybase.build.server.etl.decoder.cbs_postpaid_billing.CbsPostpaidBillingRecordEnrichment" ignoreLogging="false"
+         ignoreDuplicates="false" parallel="1" instance-size="1" load-factor="1" customized="enable">
+
+    <!--Extraction tag-->
+    <Extraction type="sniff" protocol="local" execClass="com.gamma.skybase.server.core.collector.sniff.DefaultSniffingExtractionAgent">
+        <Settings host="" port="" path="/raetl/processing/cbs_postpaid_billing/poll" username="" password="">
+            <Signature required="false" key=""/>
+            <Extract pattern="" metaFields="fileName\" dateFieldPattern="yyyyMMdd"/>
+        </Settings>
+    </Extraction>
+
+    <DirConfig>
+        <Source path="/raetl/processing/cbs_postpaid_billing/source" clogging="true"/>
+        <Backup path="/raetl/processing/cbs_postpaid_billing/backup" clogging="true" compress="gz"/>
+        <Staging path="/raetl/processing/cbs_postpaid_billing/staging" clogging="true"/>
+        <Output path="/raetl/processing/cbs_postpaid_billing/output" clogging="true"/>
+        <Error path="/raetl/processing/cbs_postpaid_billing/error" clogging="true"/>
+        <Target protocol="" host="" path="/" pwd="" user="" active="true"/>
+    </DirConfig>
+    <DataDef>
+        <Event eventName="FCT_CBS_POSTPAID_BILLING" tableName="FCT_CBS_POSTPAID_BILLING" synonym="FCT_CBS_POSTPAID_BILLING" dataBase="">
+            <Field sourceFieldName="BE_ID"/>
+            <Field sourceFieldName="BILLCHARGE_ID"/>
+            <Field sourceFieldName="INVOICE_ID"/>
+            <Field sourceFieldName="HOT_SEQ"/>
+            <Field sourceFieldName="SPAN_SEQ"/>
+            <Field sourceFieldName="BILL_CYCLE_ID"/>
+            <Field sourceFieldName="ORI_CYCLE_ID"/>
+            <Field sourceFieldName="REGION_ID"/>
+            <Field sourceFieldName="CUST_ID"/>
+            <Field sourceFieldName="ACCT_ID"/>
+            <Field sourceFieldName="OBJ_ID"/>
+            <Field sourceFieldName="BILLING_LEVEL"/>
+            <Field sourceFieldName="CATEGORY"/>
+            <Field sourceFieldName="SUB_CATEGORY"/>
+            <Field sourceFieldName="OFFERING_ID"/>
+            <Field sourceFieldName="FISCAL_DATE"/>
+            <Field sourceFieldName="SPLIT_POINT"/>
+            <Field sourceFieldName="CHARGE_CODE"/>
+            <Field sourceFieldName="PAY_FLAG"/>
+            <Field sourceFieldName="START_DATE"/>
+            <Field sourceFieldName="END_DATE"/>
+            <Field sourceFieldName="AMT"/>
+            <Field sourceFieldName="TAX_AMT"/>
+            <Field sourceFieldName="SUB_DISC_AMT"/>
+            <Field sourceFieldName="OTHER_DISC_AMT"/>
+            <Field sourceFieldName="CURRENCY_ID"/>
+            <Field sourceFieldName="ORIG_ACCT_ID"/>
+            <Field sourceFieldName="FLOW_TYPE"/>
+            <Field sourceFieldName="BILLRUN_TASKID"/>
+            <Field sourceFieldName="BILLITEM_CODE"/>
+            <Field sourceFieldName="BILL_SUBITEM_CODE"/>
+            <Field sourceFieldName="TAX_SUB_DISC"/>
+            <Field sourceFieldName="TAX_OTHER_DISC"/>
+            <Field sourceFieldName="BI_TAX_AMT"/>
+            <Field sourceFieldName="BEXT_TAX"/>
+            <Field sourceFieldName="BEXT_CATE"/>
+            <Field sourceFieldName="BEXT_ATTR"/>
+            <Field sourceFieldName="EXT_CATE"/>
+            <Field sourceFieldName="EXT_ATTR"/>
+            <Field sourceFieldName="OEXT_ATTR"/>
+            <Field sourceFieldName="filename" targetFieldName="FileName"/>
+            <Field sourceFieldName="EVENT_DATE" targetFieldName="EVENT_DATE"/>
+            <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+            <Field sourceFieldName="POPULATION_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+        </Event>
+    </DataDef>
+</Adapter>
