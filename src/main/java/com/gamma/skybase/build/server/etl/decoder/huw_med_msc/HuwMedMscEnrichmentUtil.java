@@ -1,4 +1,4 @@
-package com.gamma.skybase.build.server.etl.decoder.mobily_msc;
+package com.gamma.skybase.build.server.etl.decoder.huw_med_msc;
 
 import com.gamma.skybase.build.server.etl.decoder.LebaraUtil;
 import com.gamma.telco.opco.ReferenceDimDialDigit;
@@ -11,18 +11,18 @@ import java.util.Optional;
 
 import static com.gamma.telco.utility.TelcoEnrichmentUtility.ltrim;
 
-public class MobilyMscEnrichmentUtil extends LebaraUtil {
+public class HuwMedMscEnrichmentUtil extends LebaraUtil {
 
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
     DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("yyyyMMdd");
     DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 
-    public MobilyMscEnrichmentUtil(LinkedHashMap<String, Object> record) {
+    public HuwMedMscEnrichmentUtil(LinkedHashMap<String, Object> record) {
         super(record);
     }
 
-    public static MobilyMscEnrichmentUtil of(LinkedHashMap<String, Object> record) {
-        return new MobilyMscEnrichmentUtil(record);
+    public static HuwMedMscEnrichmentUtil of(LinkedHashMap<String, Object> record) {
+        return new HuwMedMscEnrichmentUtil(record);
     }
 
     String callIndicator, servedMSISDN;

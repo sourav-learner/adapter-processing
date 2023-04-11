@@ -1,4 +1,4 @@
-package com.gamma.skybase.build.server.etl.decoder.mobily_msc;
+package com.gamma.skybase.build.server.etl.decoder.huw_med_msc;
 
 import com.gamma.components.commons.constants.GammaConstants;
 import com.gamma.components.structure.IDatum;
@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("Duplicates")
-public class MobilyMscFileExecutor extends MobilyMscFileProcessor {
-    private static final Logger logger = LoggerFactory.getLogger(MobilyMscFileExecutor.class);
+public class HuwMedMscFileExecutor extends HuwMedMscFileProcessor {
+    private static final Logger logger = LoggerFactory.getLogger(HuwMedMscFileExecutor.class);
     private List<LinkedHashMap<String, Object>> jsonRecords;
     String[] headers = new String[]{"SEQUENCENUMBER" , "BATCHNUMBER" , "SERVICECLASS" , "TOTALTYPE" , "CALLINDICATOR" , "A_NUMBER" , "B_NUMBER" , "STARTDATE" , "STARTTIME" , "DURATION" , "A_PARTYCATEGORY" , "B_PARTYCATEGORY" , "INCOMINGTRUNK" , "OUTGOINGTRUNK" , "PARTIAL_CALL_INDICATOR" , "C_NUMBER" , "IMSI" , "SERVICETYPE" , "SERVICEID" , "EQUIPID_A" , "EQUIP_ID_B" , "CELL_NAME_FIRST" , "CELL_NAME_LAST" , "LOCATION_AREA_ID_LAST" , "LOCATION_AREA_ID_FIRST" , "MSCLASSMARK" , "DATAVOLUME" , "DATAVOLUMEREF" , "MSRN" , "MSCID" , "RECORDINGENTITYTYPE" , "CAMELINDICATOR" , "CAMELSERVERADDRESS" , "CAMELSERVICELEVEL" , "CAMELSERVICEKEY" , "CAMELMSCADDRESS" , "CAMELREFERENCENUMBER" , "CAMELDESTINATIONNUMBER" , "CAMELINITIATEDCFINDICATOR" , "PORTINFLAG" , "FLEXI_COL1" , "FLEXI_COL2"};
 

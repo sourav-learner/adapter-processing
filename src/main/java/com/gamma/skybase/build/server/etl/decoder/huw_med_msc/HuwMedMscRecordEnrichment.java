@@ -1,4 +1,4 @@
-package com.gamma.skybase.build.server.etl.decoder.mobily_msc;
+package com.gamma.skybase.build.server.etl.decoder.huw_med_msc;
 
 import com.gamma.skybase.contract.decoders.IEnrichment;
 import com.gamma.skybase.contract.decoders.MEnrichmentReq;
@@ -12,7 +12,7 @@ import java.util.LinkedHashMap;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class MobilyMscRecordEnrichment implements IEnrichment {
+public class HuwMedMscRecordEnrichment implements IEnrichment {
 
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
 
@@ -20,7 +20,7 @@ public class MobilyMscRecordEnrichment implements IEnrichment {
         MEnrichmentResponse response = new MEnrichmentResponse();
         LinkedHashMap<String, Object> record = request.getRequest();
 
-        MobilyMscEnrichmentUtil tx = MobilyMscEnrichmentUtil.of(record);
+        HuwMedMscEnrichmentUtil tx = HuwMedMscEnrichmentUtil.of(record);
 
 //        SERVED_MSISDN
         Optional<String> servedMSISDN = tx.getServedMSISDN();

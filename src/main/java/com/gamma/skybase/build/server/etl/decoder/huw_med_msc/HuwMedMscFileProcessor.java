@@ -1,4 +1,4 @@
-package com.gamma.skybase.build.server.etl.decoder.mobily_msc;
+package com.gamma.skybase.build.server.etl.decoder.huw_med_msc;
 
 import com.gamma.skybase.common.config.datasource.FileDataSource;
 import com.gamma.skybase.contract.decoders.AFileSourceDecoder;
@@ -8,9 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("Duplicates")
-public abstract class MobilyMscFileProcessor extends AFileSourceDecoder {
+public abstract class HuwMedMscFileProcessor extends AFileSourceDecoder {
 
-    private static final Logger logger = LoggerFactory.getLogger(MobilyMscFileProcessor.class);
+    private static final Logger logger = LoggerFactory.getLogger(HuwMedMscFileProcessor.class);
     protected FileDataSource dataSource;
     protected FileMetadata metadata;
 
