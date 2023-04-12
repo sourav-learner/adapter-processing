@@ -23,71 +23,46 @@
 
     <DataDef>
         <Event eventName="FCT_Mob_MSC" tableName="FCT_Mob_MSC" synonym="FCT_Mob_MSC" dataBase="">
-            <Field sourceFieldName="SEQUENCENUMBER" targetFieldName="EDR_SEQ_NUM"/>
-            <Field sourceFieldName="BATCHNUMBER" targetFieldName="BATCH_NUMBER"/>
-            <Field sourceFieldName="SERVICECLASS" targetFieldName="SERVICE_CLASS"/>
-            <Field sourceFieldName="TOTALTYPE" targetFieldName="TYPE_OF_SERVICE"/>
-            <Field sourceFieldName="CALLINDICATOR" targetFieldName="CALL_TYPE"/>
-            <Field sourceFieldName="A_NUMBER" targetFieldName="ORIGINAL_A_NUM"/>
-            <Field sourceFieldName="B_NUMBER" targetFieldName="ORIGINAL_B_NUM"/>
-            <Field sourceFieldName="STARTDATE" targetFieldName="START_DATE"/>
-            <Field sourceFieldName="STARTTIME" targetFieldName="START_TIME"/>
-            <Field sourceFieldName="DURATION" targetFieldName="ORIGINAL_DUR"/>
-            <Field sourceFieldName="A_PARTYCATEGORY" targetFieldName="A_PARTY_CATEGORY"/>
-            <Field sourceFieldName="B_PARTYCATEGORY" targetFieldName="B_PARTY_CATEGORY"/>
-            <Field sourceFieldName="INCOMINGTRUNK" targetFieldName="IN_TG_ID_KEY"/>
-            <Field sourceFieldName="OUTGOINGTRUNK" targetFieldName="OUT_TG_ID_KEY"/>
-            <Field sourceFieldName="PARTIAL_CALL_INDICATOR" targetFieldName="REC_TYPE_ID_KEY"/>
-            <Field sourceFieldName="C_NUMBER" targetFieldName="ORIGINAL_C_NUM"/>
-            <Field sourceFieldName="IMSI" targetFieldName="SERVED_IMSI"/>
-            <Field sourceFieldName="SERVICETYPE" targetFieldName="SERVICE_TYPE"/>
-            <Field sourceFieldName="SERVICEID" targetFieldName="BASIC_SERVICE_KEY"/>
-            <Field sourceFieldName="EQUIPID_A" targetFieldName="SERVED_IMEI"/>
-            <Field sourceFieldName="EQUIP_ID_B" targetFieldName="EQUIP_ID_B"/>
-            <Field sourceFieldName="CELL_NAME_FIRST" targetFieldName="FIRST_CELL_ID"/>
-            <Field sourceFieldName="CELL_NAME_LAST" targetFieldName="LAST_CELL_ID"/>
-            <Field sourceFieldName="LOCATION_AREA_ID_LAST" targetFieldName="LAST_LOCATION_ID"/>
-            <Field sourceFieldName="LOCATION_AREA_ID_FIRST" targetFieldName="FIRST_LOCATION_ID"/>
-            <Field sourceFieldName="MSCLASSMARK" targetFieldName="MS_CLASSMARK"/>
-            <Field sourceFieldName="DATAVOLUME" targetFieldName="DATA_VOLUME"/>
-            <Field sourceFieldName="DATAVOLUMEREF" targetFieldName="DATA_VOLUME_REF"/>
-            <Field sourceFieldName="MSRN" targetFieldName="ORIGINAL_MSRN"/>
-            <Field sourceFieldName="MSCID" targetFieldName="MSC_ID"/>
-            <Field sourceFieldName="RECORDINGENTITYTYPE" targetFieldName="RECORDINGENTITYTYPE"/>
-            <Field sourceFieldName="CAMELINDICATOR" targetFieldName="CAMEL_INDICATOR"/>
-            <Field sourceFieldName="CAMELSERVERADDRESS" targetFieldName="CAMEL_SERVER_ADDRESS"/>
-            <Field sourceFieldName="CAMELSERVICELEVEL" targetFieldName="CAMEL_SERVICE_LEVEL"/>
-            <Field sourceFieldName="CAMELSERVICEKEY" targetFieldName="CAMEL_SERVICE_KEY"/>
-            <Field sourceFieldName="CAMELMSCADDRESS" targetFieldName="CAMEL_MSC_ADDRESS"/>
-            <Field sourceFieldName="CAMELREFERENCENUMBER" targetFieldName="CAMEL_REF_NUM"/>
-            <Field sourceFieldName="CAMELDESTINATIONNUMBER" targetFieldName="CAMEL_DEST_NUM"/>
-            <Field sourceFieldName="CAMELINITIATEDCFINDICATOR" targetFieldName="CAMEL_INITIATED_CF_IND"/>
-            <Field sourceFieldName="PORTINFLAG" targetFieldName="PORT_IN_FLAG"/>
-            <Field sourceFieldName="SERVED_MSISDN"/>
-<!--            <Field sourceFieldName="SERVED_MSRN"/>-->
-<!--            <Field sourceFieldName="SERVED_MRSN_TEST"/>-->
-            <Field sourceFieldName="THIRD_PARTY_MSISDN"/>
-            <Field sourceFieldName="THIRD_PARTY_MSISDN_DIAL_DIGIT_KEY" default="-99"/>
-<!--            <Field sourceFieldName="SERVED_MSISDN_DIAL_DIGIT_KEY" default="-99"/>-->
-<!--            <Field sourceFieldName="SERVED_MSISDN_NOP_ID_KEY" default="-99"/>-->
-            <Field sourceFieldName="OTHER_MSISDN"/>
-            <Field sourceFieldName="OTHER_MSISDN_DIAL_DIGIT_KEY" default="-99"/>
-            <Field sourceFieldName="OTHER_PARTY_OPERATOR" default="-99"/>
-            <Field sourceFieldName="OTHER_PARTY_NW_IND_KEY" default="-99"/>
-            <Field sourceFieldName="OTHER_MSISDN_NOP_ID_KEY" default="-99"/>
-<!--            <Field sourceFieldName="SERVED_MSRN_DIAL_DIGIT_KEY" default="-99"/>-->
-            <Field sourceFieldName="NETWORK_CALL_REF" default="-97"/>
-            <Field sourceFieldName="ZERO_DURATION_IND"/>
-            <Field sourceFieldName="SRV_TYPE_KEY"/>
-            <Field sourceFieldName="CHRG_UNIT_ID_KEY"/>
-            <Field sourceFieldName="EVENT_DIRECTION_KEY"/>
-            <Field sourceFieldName="TERMINATION_REASON_KEY" default="-97"/>
-            <Field sourceFieldName="EVENT_TYPE_KEY"/>
-            <Field sourceFieldName="BILLABLE_PULSE"/>
-            <Field sourceFieldName="EVENT_START_TIME"/>
-            <Field sourceFieldName="EVENT_END_TIME"/>
-            <Field sourceFieldName="FLEXI_COL1"/>
-            <Field sourceFieldName="FLEXI_COL2"/>
+            <Field sourceFieldName="SEQUENCE_NUMBER"/>
+            <Field sourceFieldName="BATCH_NUMBER"/>
+            <Field sourceFieldName="SERVICE_CLASS"/>
+            <Field sourceFieldName="TOTAL_TYPE"/>
+            <Field sourceFieldName="CALL_INDICATOR"/>
+            <Field sourceFieldName="A_NUMBER"/>
+            <Field sourceFieldName="B_NUMBER"/>
+            <Field sourceFieldName="START_DATE"/>
+            <Field sourceFieldName="START_TIME"/>
+            <Field sourceFieldName="DURATION"/>
+            <Field sourceFieldName="A_PARTY_CATEGORY"/>
+            <Field sourceFieldName="B_PARTY_CATEGORY"/>
+            <Field sourceFieldName="INCOMING_TRUNK"/>
+            <Field sourceFieldName="OUTGOING_TRUNK"/>
+            <Field sourceFieldName="PARTIAL_CALL_INDICATOR"/>
+            <Field sourceFieldName="C_NUMBER"/>
+            <Field sourceFieldName="IMSI"/>
+            <Field sourceFieldName="SERVICE_TYPE"/>
+            <Field sourceFieldName="SERVICE_ID"/>
+            <Field sourceFieldName="EQUIP_ID_A"/>
+            <Field sourceFieldName="EQUIP_ID_B"/>
+            <Field sourceFieldName="CELL_NAME_FIRST"/>
+            <Field sourceFieldName="CELL_NAME_LAST"/>
+            <Field sourceFieldName="LOCATION_AREA_ID_LAST"/>
+            <Field sourceFieldName="LOCATION_AREA_ID_FIRST"/>
+            <Field sourceFieldName="MS_CLASS_MARK"/>
+            <Field sourceFieldName="DATA_VOLUME"/>
+            <Field sourceFieldName="DATA_VOLUME_REF"/>
+            <Field sourceFieldName="MSRN"/>
+            <Field sourceFieldName="MSC_ID"/>
+            <Field sourceFieldName="RECORDING_ENTITY_TYPE"/>
+            <Field sourceFieldName="CAMEL_INDICATOR"/>
+            <Field sourceFieldName="CAMEL_SERVER_ADDRESS"/>
+            <Field sourceFieldName="CAMEL_SERVICE_LEVEL"/>
+            <Field sourceFieldName="CAMEL_SERVICE_KEY"/>
+            <Field sourceFieldName="CAMEL_MSC_ADDRESS"/>
+            <Field sourceFieldName="CAMEL_REFERENCE_NUMBER"/>
+            <Field sourceFieldName="CAMEL_DESTINATION_NUMBER"/>
+            <Field sourceFieldName="CAMEL_INITIATED_CF_INDICATOR"/>
+            <Field sourceFieldName="PORTINFLAG"/>
             <Field sourceFieldName="filename" targetFieldName="FILE_NAME"/>
             <Field sourceFieldName="EVENT_DATE" targetFieldName="EVENT_DATE"/>
             <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
