@@ -87,7 +87,7 @@ public class HuwMedMscFileExecutor extends HuwMedMscFileProcessor {
                 LinkedHashMap<String, Object> data = response.getResponse();
                 metadata.noOfParsedRecord++;
                 if (data != null)
-                    handleEvents("FCT_Mob_MSC", data);
+                    handleEvents("FCT_HUW_MED_MSC", data);
             }
         }
     }
