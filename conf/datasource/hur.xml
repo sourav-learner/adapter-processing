@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Adapter Name="HUR" Type="ASN.1" Version="1.0" Active="true" StatusDBHandler="mongo" rawJson="false"
+         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.hur.HURFileExecutor" ExecMode="server"
+         txExecClass="com.gamma.skybase.build.server.etl.decoder.hur.HURRecordEnrichment" ignoreLogging="false"
+         ignoreDuplicates="false" parallel="1" instance-size="1" load-factor="1" customized="enable">
+
+    <!--Extraction tag-->
+    <Extraction type="sniff" protocol="local"
+                execClass="com.gamma.skybase.server.core.collector.sniff.DefaultSniffingExtractionAgent">
+        <Settings host="" port="" path="data/hur/poll" username="" password="">
+            <Signature required="false" key=""/>
+            <Extract pattern="" metaFields="fileName" dateFieldPattern="yyyyMMdd"/>
+        </Settings>
+    </Extraction>
+
+    <DirConfig>
+        <Source  path="data/hur/source" clogging="true"/>
+        <Backup  path="data/hur/backup" clogging="true" compress="gz"/>
+        <Staging path="data/hur/staging" clogging="true"/>
+        <Output  path="data/hur/output" clogging="false"/>
+        <Error   path="data/hur/error" clogging="true"/>
+        <Target protocol="" host="" path="/" pwd="" user="" active="true"/>
+    </DirConfig>
+
+    <DataDef>
+        <Event eventName="HUR_FCT" tableName="HUR_FCT" synonym="HUR_FCT" dataBase="hive">
+            <Field sourceFieldName="SERIAL_NO" />
+            <Field sourceFieldName="CALLER_NUMBER" />
+            <Field sourceFieldName="CALLED_NUMBER" />
+            <Field sourceFieldName="FORWARDED_NUMBER" />
+            <Field sourceFieldName="RECORD_TYPE"/>
+            <Field sourceFieldName="DURATION"/>
+            <Field sourceFieldName="TIME_STAMP"/>
+            <Field sourceFieldName="EQUIPMENT_ID"/>
+            <Field sourceFieldName="IMSI_NUMBER"/>
+            <Field sourceFieldName="GEOGRAPHIC_POSITION"/>
+            <Field sourceFieldName="CALL_TYPE"/>
+            <Field sourceFieldName="VALUE"/>
+            <Field sourceFieldName="CDR_TYPE"/>
+            <Field sourceFieldName="SERVICE_TYPE"/>
+            <Field sourceFieldName="IS_COMPLETE"/>
+            <Field sourceFieldName="IS_ATTEMPTED"/>
+            <Field sourceFieldName="SERVICE"/>
+            <Field sourceFieldName="PHONE_NUMBER"/>
+            <Field sourceFieldName="VPMN"/>
+
+            <Field sourceFieldName="filename" targetFieldName="FILE_NAME"/>
+            <Field sourceFieldName="EVENT_DATE"/>
+            <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+            <Field sourceFieldName="POPULATION_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+        </Event>
+    </DataDef>
+</Adapter>
