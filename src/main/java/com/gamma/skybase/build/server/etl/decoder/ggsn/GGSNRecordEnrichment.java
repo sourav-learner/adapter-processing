@@ -30,6 +30,7 @@ public class GGSNRecordEnrichment implements IEnrichment {
 
     String opcoCode = AppConfig.instance().getProperty("app.datasource.opcode");
     String countryCode = AppConfig.instance().getProperty("app.datasource.countrycode");
+    Object serviceList = null;
 
     @Override
     public LinkedHashMap<String, Object> transform(LinkedHashMap<String, Object> data) {
@@ -38,9 +39,24 @@ public class GGSNRecordEnrichment implements IEnrichment {
             Object eventType = data.get("eventType");
             Object recordType = data.get("recordType");
             Object servedIMSI = data.get("servedIMSI");
-            Object pGWAddress = data.get("pGWAddress");
-            Object servingNodeAddress = data.get("servingNodeAddress");
+            Object pGWAddress = data.get("PGWAddress");
+
+            String strpGWAddress = pGWAddress.toString();
+            strpGWAddress = strpGWAddress.replace("[{pGWAddress=","");
+            strpGWAddress = strpGWAddress.replace("}]","");
+
+            Object servingNodeAddress = data.get("ServingNodeAddress");
+
+            String strservingNodeAddress = servingNodeAddress.toString();
+            strservingNodeAddress = strservingNodeAddress.replace("[{servingNodeAddress=" , "");
+            strservingNodeAddress = strservingNodeAddress.replace("}]" , "");
+
             Object servedPDPPDNAddress = data.get("servedPDPPDNAddress");
+
+            String strservedPDPPDNAddress = servedPDPPDNAddress.toString();
+            strservedPDPPDNAddress = strservedPDPPDNAddress.replace("[{IPAddress=[{IPV4BinAddress=" , "");
+            strservedPDPPDNAddress = strservedPDPPDNAddress.replace("}]}]" , "");
+
             Object chargingID = data.get("chargingID");
             Object accessPointNameNI = data.get("accessPointNameNI");
             Object pdpPDNType = data.get("pdpPDNType");
@@ -57,10 +73,10 @@ public class GGSNRecordEnrichment implements IEnrichment {
             Object servedIMEISV = data.get("servedIMEISV");
             Object rATType = data.get("rATType");
             Object userLocationInformation = data.get("userLocationInformation");
-            Object servingNodeType = data.get("servingNodeType");
+            Object servingNodeType = data.get("ServingNodeType");
             Object fileName = data.get("fileName");
-            Object recordExtension = data.get("recordExtension");
-            Object serviceEventUrl = getServiceEventUrlIfPresent(recordExtension);
+            Object recordExtensions = data.get("recordExtensions");
+            Object serviceEventUrl = getServiceEventUrlIfPresent(recordExtensions);
 
             commonAttributes.put("EVENT_TYPE", eventType);
             commonAttributes.put("RECORD_TYPE", recordType);
@@ -69,9 +85,9 @@ public class GGSNRecordEnrichment implements IEnrichment {
             if (servedIMEISV != null && !servedIMEISV.toString().isEmpty())
                 commonAttributes.put("tac", servedIMEISV.toString().substring(0, 8));
 
-            commonAttributes.put("PGW_ADDRESS", extractIpAddress(pGWAddress));
-            commonAttributes.put("SGSN_ADDRESS", extractIpAddress(servingNodeAddress));
-            commonAttributes.put("PDP_ADDRESS", extractIpAddress(servedPDPPDNAddress));
+            commonAttributes.put("PGW_ADDRESS", strpGWAddress);
+            commonAttributes.put("SGSN_ADDRESS", strservingNodeAddress);
+            commonAttributes.put("PDP_ADDRESS", strservedPDPPDNAddress);
             commonAttributes.put("CHARGING_ID", chargingID);
             commonAttributes.put("APN_NAME", accessPointNameNI);
             commonAttributes.put("PDP_TYPE", pdpPDNType);
@@ -146,7 +162,21 @@ public class GGSNRecordEnrichment implements IEnrichment {
             }
 
             Object listOfTrafficVolumes = data.get("listOfTrafficVolumes");
-            Object serviceList = data.get("listOfServiceData");
+            //if (data.get("listOfServiceData").equals(null) == false && data.get("listOfServiceData").toString().equalsIgnoreCase(null) == false)
+
+            if (data.containsKey("listOfServiceData") == true)
+            {
+                serviceList = data.get("listOfServiceData");
+            }else{
+                //nothing to do
+            }
+
+            /*if (data.get("listOfServiceData").equals(null) == false)
+            {
+                serviceList = data.get("listOfServiceData");
+            }*/
+
+            //Object serviceList = data.get("listOfServiceData");
             List<LinkedHashMap<String, Object>> listOfServiceData = handleListOfServiceData(serviceList);
             LinkedHashMap<String, Object> splitDataset = splitByRatingGroup(listOfServiceData, commonAttributes);
             LinkedHashMap<String, Object> finalDataset = new LinkedHashMap<>();
@@ -168,7 +198,6 @@ public class GGSNRecordEnrichment implements IEnrichment {
         }
         return null;
     }
-
 
     @Override
     @SuppressWarnings("Duplicates")
@@ -194,86 +223,92 @@ public class GGSNRecordEnrichment implements IEnrichment {
     }
 
     private List<LinkedHashMap<String, Object>> handleListOfServiceData(Object serviceData) {
-        List<LinkedHashMap<String, Object>> listOfServiceData = new ArrayList<>();
-        if (serviceData instanceof List) {
-            for (Object serviceDataArray : (ArrayList) serviceData) {
-                if (serviceDataArray instanceof List) {
-                    for (Object serviceDataItem : (ArrayList) serviceDataArray) {
-                        if (serviceDataItem instanceof LinkedHashMap) {
-                            LinkedHashMap<String, Object> serviceEntry = (LinkedHashMap<String, Object>) serviceDataItem;
-                            LinkedHashMap<String, Object> serviceEntries = new LinkedHashMap<>();
-                            serviceEntries.put("ratingGroup", serviceEntry.get("ratingGroup"));
-                            serviceEntries.put("localSequenceNumber", serviceEntry.get("localSequenceNumber"));
-                            serviceEntries.put("timeOfFirstUsage", serviceEntry.get("timeOfFirstUsage"));
-                            serviceEntries.put("timeOfLastUsage", serviceEntry.get("timeOfLastUsage"));
-                            serviceEntries.put("timeUsage", serviceEntry.get("timeUsage"));
-                            serviceEntries.put("serviceConditionChange", serviceEntry.get("serviceConditionChange"));
-                            serviceEntries.put("qoSInformationNeg", serviceEntry.get("qoSInformationNeg"));
-                            serviceEntries.put("sgsnAddress", extractIpAddress(serviceEntry.get("sgsnAddress")));
-                            serviceEntries.put("dataVolumeFBCUplink", serviceEntry.get("dataVolumeFBCUplink"));
-                            serviceEntries.put("dataVolumeFBCDownlink", serviceEntry.get("dataVolumeFBCDownlink"));
-                            serviceEntries.put("timeOfReport", serviceEntry.get("timeOfReport"));
-                            listOfServiceData.add(serviceEntries);
-                        }
-                    }
-                }
-            }
-        }
-        return listOfServiceData;
-    }
+        if (serviceData instanceof ArrayList) {
+            ArrayList<LinkedHashMap<String, Object>> sd = (ArrayList<LinkedHashMap<String,java.lang.Object>>) serviceData;
+            LinkedHashMap<String , Object> csc = sd.get(0);
+            ArrayList<LinkedHashMap<String , Object>> list = (ArrayList<LinkedHashMap<String, Object>>) csc.get("ChangeOfServiceCondition");
 
+//            ArrayList<LinkedHashMap<String,Object>> x = (ArrayList<LinkedHashMap<String, Object>>) sd.get();
+//            List<LinkedHashMap<String, Object>> x = (List<LinkedHashMap<String,java.lang.Object>>) sd.get("ChangeOfServiceCondition");
+//            ArrayList<LinkedHashMap<String, Object> > list = (ArrayList<LinkedHashMap<String, Object>>) sd.get("ChangeOfServiceCondition");
+            if (list.size()>0) {
+                LinkedHashMap<String, Object> serviceEntry = (LinkedHashMap<String, Object>) list.get(0);
+                LinkedHashMap<String, Object> serviceEntries = new LinkedHashMap<>();
+                serviceEntries.put("ratingGroup", serviceEntry.get("ratingGroup"));
+                serviceEntries.put("localSequenceNumber", serviceEntry.get("localSequenceNumber"));
+                serviceEntries.put("timeOfFirstUsage", serviceEntry.get("timeOfFirstUsage"));
+                serviceEntries.put("timeOfLastUsage", serviceEntry.get("timeOfLastUsage"));
+                serviceEntries.put("timeUsage", serviceEntry.get("timeUsage"));
+                serviceEntries.put("serviceConditionChange", serviceEntry.get("serviceConditionChange"));
+                serviceEntries.put("qoSInformationNeg", serviceEntry.get("qoSInformationNeg"));
+                serviceEntries.put("sgsnAddress", extractIpAddress(serviceEntry.get("sgsnAddress")));
+                serviceEntries.put("dataVolumeFBCUplink", serviceEntry.get("dataVolumeFBCUplink"));
+                serviceEntries.put("dataVolumeFBCDownlink", serviceEntry.get("dataVolumeFBCDownlink"));
+                serviceEntries.put("timeOfReport", serviceEntry.get("timeOfReport"));
+                list.add(serviceEntries);
+            }
+            return list;
+        }
+        return null;
+    }
 
     private LinkedHashMap<String, Object> splitByRatingGroup(List<LinkedHashMap<String, Object>> listOfServiceData,
                                                              LinkedHashMap<String, Object> commonAttributes) {
         LinkedHashMap<String, Object> rgMappings = new LinkedHashMap<>();
-        for (LinkedHashMap<String, Object> serviceData : listOfServiceData) {
-            try {
-                LinkedHashMap<String, Object> rgData = new LinkedHashMap<>(commonAttributes);
-                String ratingGroup = String.valueOf(serviceData.get("ratingGroup"));
-                String localSequenceNumber = String.valueOf(serviceData.get("localSequenceNumber"));
-                String key = ratingGroup + "|" + localSequenceNumber;
-                rgData.put("RATING_GROUP", serviceData.get("ratingGroup"));
-                rgData.put("LOCAL_SEQ_NUM", serviceData.get("localSequenceNumber"));
-                rgData.put("SGSN_ADDRESS", serviceData.get("sgsnAddress"));
-                rgData.put("SERVICE_COND_CHANGE", serviceData.get("serviceConditionChange"));
-                rgData.put("QOS_INFO", serviceData.get("qoSInformationNeg"));
-                Object dataVolumeFBCUplink = serviceData.get("dataVolumeFBCUplink");
-                Object dataVolumeFBCDownlink = serviceData.get("dataVolumeFBCDownlink");
-                Object timeOfFirstUsage = serviceData.get("timeOfFirstUsage");
-                Object timeOfLastUsage = serviceData.get("timeOfLastUsage");
-                Object timeOfReport = serviceData.get("timeOfReport");
+        if (listOfServiceData != null){
+            for (LinkedHashMap<String, Object> serviceData : listOfServiceData) {
+                try {
+                    LinkedHashMap<String, Object> rgData = new LinkedHashMap<>(commonAttributes);
+                    String ratingGroup = String.valueOf(serviceData.get("ratingGroup"));
+                    String localSequenceNumber = String.valueOf(serviceData.get("localSequenceNumber"));
+                    String key = ratingGroup + "|" + localSequenceNumber;
+                    rgData.put("RATING_GROUP", serviceData.get("ratingGroup"));
+                    rgData.put("LOCAL_SEQ_NUM", serviceData.get("localSequenceNumber"));
+                    rgData.put("SGSN_ADDRESS", serviceData.get("sgsnAddress"));
+                    rgData.put("SERVICE_COND_CHANGE", serviceData.get("serviceConditionChange"));
+                    rgData.put("QOS_INFO", serviceData.get("qoSInformationNeg"));
 
-                long totalVolume = 0L;
-                if (dataVolumeFBCUplink != null) {
-                    totalVolume += Long.parseLong((String.valueOf(dataVolumeFBCUplink)));
-                    rgData.put("DATA_VOLUME_FBC_UPLINK", dataVolumeFBCUplink);
+                    Object datavolumeFBCUplink = serviceData.get("datavolumeFBCUplink");
+                    Object datavolumeFBCDownlink = serviceData.get("datavolumeFBCDownlink");
+
+                    rgData.put("DATA_VOLUME_FB_UPLINK",serviceData.get("datavolumeFBCUplink"));
+                    rgData.put("DATA_VOLUME_FB_DOWNLINK",serviceData.get("datavolumeFBCDownlink"));
+
+                    Object timeOfFirstUsage = serviceData.get("timeOfFirstUsage");
+                    Object timeOfLastUsage = serviceData.get("timeOfLastUsage");
+                    Object timeOfReport = serviceData.get("timeOfReport");
+
+                    long totalVolume = 0L;
+                    if (datavolumeFBCUplink != null) {
+                        totalVolume += Long.parseLong((String.valueOf(datavolumeFBCUplink)));
+                        rgData.put("DATA_VOLUME_FBC_UPLINK", datavolumeFBCUplink);
+                    }
+                    if (datavolumeFBCDownlink != null) {
+                        totalVolume += Long.parseLong((String.valueOf(datavolumeFBCDownlink)));
+                        rgData.put("DATA_VOLUME_FBC_DOWNLINK", datavolumeFBCDownlink);
+                    }
+
+                    rgData.put("TOTAL_VOLUME", totalVolume);
+                    Date timeOfFirstUsageTime = sdfS.get().parse(timeOfFirstUsage.toString());
+                    Date timeOfLastUsageTime = sdfS.get().parse(timeOfLastUsage.toString());
+                    Date timeOfReportTime = sdfS.get().parse(timeOfReport.toString());
+                    rgData.put("TIME_FIRST_USAGE", sdfT.get().format(timeOfFirstUsageTime));
+                    rgData.put("TIME_LAST_USAGE", sdfT.get().format(timeOfLastUsageTime));
+                    rgData.put("REPORT_TIME", sdfT.get().format(timeOfReportTime));
+
+                    rgMappings.put(key, rgData);
+                } catch (ParseException e) {
+                    logger.error(e.getMessage(), e);
                 }
-                if (dataVolumeFBCDownlink != null) {
-                    totalVolume += Long.parseLong((String.valueOf(dataVolumeFBCDownlink)));
-                    rgData.put("DATA_VOLUME_FBC_DOWNLINK", dataVolumeFBCDownlink);
-                }
-
-                rgData.put("TOTAL_VOLUME", totalVolume);
-                Date timeOfFirstUsageTime = sdfS.get().parse(timeOfFirstUsage.toString());
-                Date timeOfLastUsageTime = sdfS.get().parse(timeOfLastUsage.toString());
-                Date timeOfReportTime = sdfS.get().parse(timeOfReport.toString());
-                rgData.put("TIME_FIRST_USAGE", sdfT.get().format(timeOfFirstUsageTime));
-                rgData.put("TIME_LAST_USAGE", sdfT.get().format(timeOfLastUsageTime));
-                rgData.put("REPORT_TIME", sdfT.get().format(timeOfReportTime));
-
-                rgMappings.put(key, rgData);
-            } catch (ParseException e) {
-                logger.error(e.getMessage(), e);
             }
         }
         return rgMappings;
     }
 
+    private Object getServiceEventUrlIfPresent(Object recordExtensions) {
+        if (recordExtensions == null) return "";
 
-    private Object getServiceEventUrlIfPresent(Object recordExtension) {
-        if (recordExtension == null) return "";
-
-        List<Object> recordExtensionList = (List<Object>) recordExtension;
+        List<Object> recordExtensionList = (List<Object>) recordExtensions;
         LinkedHashMap<String, Object> recordExtensionEntry = (LinkedHashMap<String, Object>) recordExtensionList.stream().findFirst().get();
         Object serviceList = recordExtensionEntry.get("serviceList");
         if (serviceList == null) return "";

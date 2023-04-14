@@ -19,13 +19,13 @@ public class ASNDot1Reader extends TLReader {
     BufferedInputStream bis;
     long offset;
     int size;
-
-    public ASNDot1Reader(String fileName) {
+    Decoder decoder;
+    public ASNDot1Reader(String fileName, String cfg) {
         try {
             this.fileName = fileName;
+             decoder = new Decoder(cfg);
             FileInputStream fis = new FileInputStream(fileName);
             bis = new BufferedInputStream(fis);
-            size = bis.available();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -35,15 +35,19 @@ public class ASNDot1Reader extends TLReader {
     public static void main(String[] args) throws Exception {
 //        String filename = "C:\\sandbox\\asn-decoders\\huawei-gsn-lebara\\data\\L1CG1_FILE20220901000000_9640.dat";
 //        String filename = "C:\\sandbox\\asn-decoders\\huawei-gsn-lebara\\data\\L1CG1_FILE20220901000004_9641.dat";
-        String dirName = "C:\\sandbox\\asn-decoders\\huawei-gsn-lebara\\data";
+        String dirName = "/home/gamma/Documents/Gamma/File/Lebara/SpecNSamples-20230127T125147Z-001/SpecNSamples/GGSN/parser";
 //      String filename = "C:\\sandbox\\incubator\\gasn\\gasn\\data\\sudan_south\\ggsn\\PSPGW2022091000213111";
 
         String[] f = new File(dirName).list();
         for (String filename : f) {
-            ASNDot1Reader executor = new ASNDot1Reader(dirName + "\\" + filename);
+            ASNDot1Reader executor = new ASNDot1Reader(dirName + "/" + filename, "");
             while (executor.hasNext()) {
-                Map<String, Object> r = executor.next();
-                System.out.println(r);
+                try {
+                    Map<String, Object> r = executor.next();
+                    System.out.println(r);
+                } catch (EOFException e) {
+                    break;
+                }
             }
             executor.close();
             System.out.println("");
@@ -56,7 +60,7 @@ public class ASNDot1Reader extends TLReader {
 //        String he x= skipFiller(0xBF);
 
         String hex = skipBytes(4);
-        System.out.println("Skipped " + hex);
+//        System.out.println("Skipped " + hex);
 
         Tag tag = readTag("");
         int length = readLength();
@@ -67,13 +71,26 @@ public class ASNDot1Reader extends TLReader {
     }
 
     public boolean hasNext() throws IOException {
-        return bis.available() > 0;
+//        System.out.println("-> "+bis.available() + " : offset : "+ offset);
+        size = bis.available();
+        return size > 0;
     }
 
     public int read() throws IOException {
         offset++;
         int result = bis.read();
+//        System.out.println("...inside read()");
+//        System.out.println(result);
+        //if (result == -1) throw new EOFException();
         if (result == -1) throw new EOFException();
+//        try {
+//            if (result == 0 || result == -1){
+//
+//            }
+//        } catch (Exception e){
+////            System.out.println(e.getMessage());
+//            e.printStackTrace();
+//        }
         return result;
     }
 
@@ -127,7 +144,7 @@ public class ASNDot1Reader extends TLReader {
             bis.close();
     }
 
-    private static class TagReader extends TLReader {
+    private class TagReader extends TLReader {
         byte[] data;
         int offset = 0;
 
@@ -153,38 +170,35 @@ public class ASNDot1Reader extends TLReader {
                 read(buf);
                 String tagNo = parentTag + "." + tag.tValue + "";
                 if (tag.constructed) {
-                    switch (tag.clazz) {
-                        case 0:
-//                            System.out.println("<UNIVERSAL>");
-                            break;
-                        case 64:
-//                            System.out.println("<APPLICATION>");
-                            break;
-                        case 128:
-//                            System.out.println("<CONTEXT>");
-                            break;
-                        case 192:
-//                            System.out.println("<PRIVATE>");
-                            break;
-                        default:
-//                            System.out.println("<UNKNOWN>");
-                    }
+//                    switch (tag.clazz) {
+//                        case 0:
+////                            System.out.println("<UNIVERSAL>");
+//                            break;
+//                        case 64:
+////                            System.out.println("<APPLICATION>");
+//                            break;
+//                        case 128:
+////                            System.out.println("<CONTEXT>");
+//                            break;
+//                        case 192:
+////                            System.out.println("<PRIVATE>");
+//                            break;
+//                        default:
+////                            System.out.println("<UNKNOWN>");
+//                    }
 
                     Map<String, Object> nestedTag = new TagReader(tagNo, buf).parse();
-                    String tagName = Decoder.getTagInfo(tagNo).name;
+                    String tagName = decoder.getTagInfo(tagNo).name;
                     Object val = nodes.get(tagName);
                     if (val != null) {
-                        if (val instanceof List) {
                             ((ArrayList) val).add(nestedTag);
-                        } else {
-                            List<Object> l = new ArrayList<>();
-                            l.add(val);
-                            l.add(nestedTag);
-                            nodes.put(tagName, l);
-                        }
-                    } else nodes.put(tagName, nestedTag);
+                    } else {
+                        List<Object> l = new ArrayList<>();
+                        l.add(nestedTag);
+                        nodes.put(tagName, l);
+                    }
                 } else {
-                    Decoder.TagProps x = Decoder.getValue(tagNo, buf);
+                    Decoder.TagProps x = decoder.getValue(tagNo, buf);
                     nodes.put(x.name, x.value);
                 }
 
@@ -240,6 +254,8 @@ public class ASNDot1Reader extends TLReader {
         }
 
         public void read(byte[] buf) throws EOFException {
+//            System.out.println("-> " + (data.length - offset) + " : offset : " + offset);
+
             if (offset >= data.length) throw new EOFException();
             System.arraycopy(data, offset, buf, 0, buf.length);
             offset = offset + buf.length;
@@ -249,15 +265,21 @@ public class ASNDot1Reader extends TLReader {
 }
 
 class Decoder {
-    private static final Map<String, TagProps> decoderMap = new LinkedHashMap<>();
+    private final Map<String, TagProps> decoderMap = new LinkedHashMap<>();
+
+    public Decoder(String decoder) {
+        readConfig(decoder);
+    }
 
     static {
         String[] headers = new String[]{"TAG_PATH", "TAG_NAME", "TAG_METHOD"};
-        readConfig();
+
     }
 
-    private static void readConfig() {
-        String filePath = "C:\\sandbox\\client\\lebara\\skybase-lebara-build\\conf\\parser\\ggsn.csv";
+    private void readConfig(String decoder) {
+//        String filePath = "/home/gamma/Documents/Gamma/Work/skybase-lebara-build/conf/parser/ggsn.csv";
+//        read this file
+        String filePath = "/home/gamma/Documents/Gamma/Work/skybase-lebara-build/conf/parser/ggsn.csv";
         Path path = Paths.get(filePath);
         try (Stream<String> lines = Files.lines(path)) {
             lines.forEach(l -> {
@@ -271,7 +293,7 @@ class Decoder {
     }
 
 
-    public static TagProps getValue(String tags, byte[] data) {
+    public TagProps getValue(String tags, byte[] data) {
         TagProps dConf = null;
         if (data != null) {
             dConf = getTagInfo(tags);
@@ -285,6 +307,9 @@ class Decoder {
                     break;
                 case "IPV4_ADDRESS":
                     dConf.value = Decoder.IPV4Address(data);
+                    break;
+                case "IPV6_ADDRESS":
+                    dConf.value = Decoder.IPV6Address(data);
                     break;
                 case "LONG":
                     dConf.value = Decoder.toLong(data);
@@ -326,7 +351,7 @@ class Decoder {
         return dConf;
     }
 
-    public static TagProps getTagInfo(String tags) {
+    public TagProps getTagInfo(String tags) {
         TagProps t = decoderMap.get(tags);
         if (t == null) return new TagProps(tags, "Unknown");
         return t;
@@ -551,6 +576,15 @@ class Decoder {
     }
 
     public static String IPV4Address(byte[] data) {
+        try {
+            return InetAddress.getByAddress(data).getHostAddress();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public static String IPV6Address(byte[] data) {
         try {
             return InetAddress.getByAddress(data).getHostAddress();
         } catch (UnknownHostException e) {
