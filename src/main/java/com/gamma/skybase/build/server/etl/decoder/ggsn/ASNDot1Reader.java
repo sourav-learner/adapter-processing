@@ -279,7 +279,14 @@ class Decoder {
     private void readConfig(String decoder) {
 //        String filePath = "/home/gamma/Documents/Gamma/Work/skybase-lebara-build/conf/parser/ggsn.csv";
 //        read this file
-        String filePath = "/home/gamma/Documents/Gamma/Work/skybase-lebara-build/conf/parser/ggsn.csv";
+        Properties props = new Properties();
+        InputStream inputStream = Decoder.class.getClassLoader().getResourceAsStream("config.properties");
+        try {
+            props.load(inputStream);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        String filePath = props.getProperty("app.ggsn.path");
         Path path = Paths.get(filePath);
         try (Stream<String> lines = Files.lines(path)) {
             lines.forEach(l -> {

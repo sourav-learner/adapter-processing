@@ -74,6 +74,11 @@ public class GGSNRecordEnrichment implements IEnrichment {
             Object rATType = data.get("rATType");
             Object userLocationInformation = data.get("userLocationInformation");
             Object servingNodeType = data.get("ServingNodeType");
+
+            String strServingNodeType = servingNodeType.toString();
+            strServingNodeType = strServingNodeType.replace("[{servingNodeType=" , "");
+            strServingNodeType = strServingNodeType.replace("}]" , "");
+
             Object fileName = data.get("fileName");
             Object recordExtensions = data.get("recordExtensions");
             Object serviceEventUrl = getServiceEventUrlIfPresent(recordExtensions);
@@ -162,7 +167,6 @@ public class GGSNRecordEnrichment implements IEnrichment {
             }
 
             Object listOfTrafficVolumes = data.get("listOfTrafficVolumes");
-            //if (data.get("listOfServiceData").equals(null) == false && data.get("listOfServiceData").toString().equalsIgnoreCase(null) == false)
 
             if (data.containsKey("listOfServiceData") == true)
             {
@@ -170,11 +174,6 @@ public class GGSNRecordEnrichment implements IEnrichment {
             }else{
                 //nothing to do
             }
-
-            /*if (data.get("listOfServiceData").equals(null) == false)
-            {
-                serviceList = data.get("listOfServiceData");
-            }*/
 
             //Object serviceList = data.get("listOfServiceData");
             List<LinkedHashMap<String, Object>> listOfServiceData = handleListOfServiceData(serviceList);
@@ -228,9 +227,6 @@ public class GGSNRecordEnrichment implements IEnrichment {
             LinkedHashMap<String , Object> csc = sd.get(0);
             ArrayList<LinkedHashMap<String , Object>> list = (ArrayList<LinkedHashMap<String, Object>>) csc.get("ChangeOfServiceCondition");
 
-//            ArrayList<LinkedHashMap<String,Object>> x = (ArrayList<LinkedHashMap<String, Object>>) sd.get();
-//            List<LinkedHashMap<String, Object>> x = (List<LinkedHashMap<String,java.lang.Object>>) sd.get("ChangeOfServiceCondition");
-//            ArrayList<LinkedHashMap<String, Object> > list = (ArrayList<LinkedHashMap<String, Object>>) sd.get("ChangeOfServiceCondition");
             if (list.size()>0) {
                 LinkedHashMap<String, Object> serviceEntry = (LinkedHashMap<String, Object>) list.get(0);
                 LinkedHashMap<String, Object> serviceEntries = new LinkedHashMap<>();
@@ -252,8 +248,7 @@ public class GGSNRecordEnrichment implements IEnrichment {
         return null;
     }
 
-    private LinkedHashMap<String, Object> splitByRatingGroup(List<LinkedHashMap<String, Object>> listOfServiceData,
-                                                             LinkedHashMap<String, Object> commonAttributes) {
+    private LinkedHashMap<String, Object> splitByRatingGroup(List<LinkedHashMap<String, Object>> listOfServiceData, LinkedHashMap<String, Object> commonAttributes) {
         LinkedHashMap<String, Object> rgMappings = new LinkedHashMap<>();
         if (listOfServiceData != null){
             for (LinkedHashMap<String, Object> serviceData : listOfServiceData) {
