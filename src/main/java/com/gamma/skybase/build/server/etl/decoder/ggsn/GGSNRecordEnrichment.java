@@ -130,7 +130,7 @@ public class GGSNRecordEnrichment implements IEnrichment {
 
             commonAttributes.put("FILE_NAME", fileName);
             commonAttributes.put("SERVING_PLMN_ID", servingNodePLMNIdentifier);
-            commonAttributes.put("SERVING_NODE_TYPE", servingNodeType);
+            commonAttributes.put("SERVING_NODE_TYPE", strServingNodeType);
             commonAttributes.put("CGI_ID", userLocationInformation);
             commonAttributes.put("NODE_ID", nodeID);
             commonAttributes.put("EXT_TYPE", extensionType);
@@ -157,7 +157,7 @@ public class GGSNRecordEnrichment implements IEnrichment {
 
             if (servedMSISDN != null) {
                 commonAttributes.put("ORIGINAL_A_NUM", servedMSISDN);
-                servedMSISDN = servedMSISDN.toString().substring(2);
+//                servedMSISDN = servedMSISDN.toString().substring(2);
                 commonAttributes.put("SERVED_MSISDN", servedMSISDN);
                 ReferenceDimDialDigit ddk = transformationLib.getDialedDigitSettings(servedMSISDN.toString());
                 if (ddk != null) {
