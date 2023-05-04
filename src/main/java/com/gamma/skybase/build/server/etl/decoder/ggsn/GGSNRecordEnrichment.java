@@ -259,7 +259,7 @@ public class GGSNRecordEnrichment implements IEnrichment {
                     String key = ratingGroup + "|" + localSequenceNumber;
                     rgData.put("RATING_GROUP", serviceData.get("ratingGroup"));
                     rgData.put("LOCAL_SEQ_NUM", serviceData.get("localSequenceNumber"));
-                    rgData.put("SGSN_ADDRESS", serviceData.get("sgsnAddress"));
+//                    rgData.put("SGSN_ADDRESS", strservingNodeAddress);
                     rgData.put("SERVICE_COND_CHANGE", serviceData.get("serviceConditionChange"));
                     rgData.put("QOS_INFO", serviceData.get("qoSInformationNeg"));
 
