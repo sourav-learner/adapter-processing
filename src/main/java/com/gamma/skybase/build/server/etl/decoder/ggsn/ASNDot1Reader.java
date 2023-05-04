@@ -560,8 +560,7 @@ class Decoder {
     }
 
     public static String MSISDN(byte[] data) {
-        String temp = toHex(data, 0, 1);
-        return temp + toTBCD(data, 1, data.length, 15);
+        return toTBCD(data, 0, data.length, 15);
     }
 
     public static String toTBCD(byte[] result, int _index, int _intLength, int _filler) {
