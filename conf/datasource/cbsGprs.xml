@@ -435,21 +435,28 @@
             <Field sourceFieldName="LostAmount" targetFieldName="LOST_AMOUNT"/>
             <Field sourceFieldName="ADVANCE_PREPAID_BALANCE"/>
             <Field sourceFieldName="CREDIT_POSTPAID_BALANCE"/>
+            <Field sourceFieldName="FLEXI_COL1"/>
+            <Field sourceFieldName="FLEXI_COL2"/>
+            <Field sourceFieldName="FLEXI_COL3"/>
+            <Field sourceFieldName="FLEXI_COL4"/>
+            <Field sourceFieldName="FLEXI_COL5"/>
+            <Field sourceFieldName="FLEXI_COL6"/>
+            <Field sourceFieldName="FLEXI_COL7"/>
+            <Field sourceFieldName="FLEXI_COL8"/>
+            <Field sourceFieldName="FLEXI_COL9"/>
+            <Field sourceFieldName="FLEXI_COL10"/>
             <Field sourceFieldName="SERVED_MSISDN_DIALED_KEY" default="-99"/>
             <Field sourceFieldName="ZERO_CHARGE_IND"/>
             <Field sourceFieldName="BLACK_LIST_IND" default="-97"/>
             <Field sourceFieldName="CHARGE"/>
             <Field sourceFieldName="PAY_TYPE"/>
             <Field sourceFieldName="SERVICE_CATEGORY1"/>
-
             <Field sourceFieldName="TotalFlux" targetFieldName="TOTAL_VOL"/>
             <Field sourceFieldName="UpFlux" targetFieldName="UPLOAD_VOLUME"/>
             <Field sourceFieldName="DownFlux" targetFieldName="DOWNLOAD_VOLUME"/>
-
             <Field sourceFieldName="COMPUTED_UPLOAD_VOL"/>
             <Field sourceFieldName="COMPUTED_DOWNLOAD_VOL"/>
             <Field sourceFieldName="COMPUTED_TOTAL_VOL"/>
-
             <Field sourceFieldName="EVENT_DATE"/>
             <Field sourceFieldName="filename" targetFieldName="FILE_NAME"/>
             <Field sourceFieldName="EVENT_DATE" targetFieldName="EVENT_DATE"/>

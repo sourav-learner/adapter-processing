@@ -1,0 +1,77 @@
+app.home=/home/gamma/Documents/Gamma/Work/skybase-lebara-build
+app.name=skybase
+app.deployment.id=skybase-1589
+
+# app dev settings (to be commented in prod)
+app.post-boot.url=${app.platform.url}
+
+##Build Settings
+app.build.rule-engine.enabled=false
+app.build.counters.enabled=false
+
+# app events
+app.event.terminate.signal-file=${app.home}/.terminate_signal
+app.event.monitor-interval-in-secs=30
+
+#app config paths
+app.conf=${app.home}/conf
+app.module.datasource.directory-path=${app.home}/conf/datasource/
+app.module.metrics.directory-path=${app.home}/conf/metrices/
+app.db.config-path=${app.home}/conf/database.xml
+app.reference.context-param=${app.home}/conf/ContextParameters.xml
+app.cache.config-path=${app.home}/conf/cache-schema.xml
+
+##app module settings
+app.module.default.db=mongo
+app.module.utility.db=mongo
+app.module.rule.db=mongo
+app.module.etl.db=mongo
+app.module.job.db=mongo
+
+#app license
+app.license.file-path=${app.home}/zain-sudan-license.lic
+server.port=7202
+spring.application.name=${app.name}
+
+#app eod job configuration
+app.deployment.mode=local
+notification.deployment.mode=local
+
+app.datasource.opcode=42006
+app.datasource.countrycode=966
+app.datasource.opconame=Lebara
+app.datasource.plmn=SAULB
+app.datasource.isocode=SAU
+
+# in-memory db path
+app.sqlite.db-path=${app.home}/sqlitedb/
+app.h2.db-path=${app.home}/h2db/
+
+app.stitcher.db=h2
+#sync in minutes
+app.skybase.stitch.sync=10
+app.skybase.stitch.timeout=15
+#app.skybase.stitch.activity.timeout=20
+app.skybase.stitch.write.out.timeout=10
+
+##adapter additional settings
+app.datasource.ccn.context-param-exec-class=com.gamma.telco.parser.ccn5.ContextParameterHandler
+
+app.datasource.gmsc.stitcher=false
+app.datasource.gmsc.stitcher.process-partial-records=true
+app.datasource.gmsc.stitcher.temp.path=${app.home}/data/gmsc/tmp
+app.datasource.gmsc.stitcher.out.path=${app.home}/data/gmsc/stitched
+
+app.datasource.msc.stitcher=false
+app.datasource.msc.stitcher.process-partial-records=true
+app.datasource.msc.stitcher.temp.path=${app.home}/data/msc/tmp
+app.datasource.msc.stitcher.out.path=${app.home}/data/msc/stitched
+
+
+app.datasource.ccn.timeoffset=+0
+app.datasource.ccn.dateformat=yyyyMMddHHmmss
+app.datasource.ccn.twodigityeardateformat=yyMMddHHmmss
+app.datasource.ccn.fourdigityeardateformat=yyyyMMddHHmmss
+
+app.datasource.ccn.sysidkey=16007
+app.datasource.timeoffset=+0300

@@ -68,14 +68,14 @@ public class GGSNFileExecutor extends AFileSourceDecoder {
         ASNDot1Reader decoder = null;
         try {
             long recCount = 0;
-            decoder = new ASNDot1Reader(fileName);
+            decoder = new ASNDot1Reader(fileName, "");
 
             while (decoder.hasNext()) {
                 try {
                     LinkedHashMap<String, Object> record = decoder.next();
                     if (jsonOutputRequired) jsonRecords.add(record);
                     record.put("fileName", metadata.decompFileName);
-//                    processRecord(record, enrichment);
+                    processRecord(record, enrichment);
                 } catch (Exception e) {
                     e.printStackTrace();
                     metadata.comments = "Parsing issues";

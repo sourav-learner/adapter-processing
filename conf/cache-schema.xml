@@ -384,50 +384,50 @@
     <!--        </cache-load-policy>-->
     <!--    </cache-config>-->
 
-    <!--    <cache-config id="16" name="DIM_TADIG_LOOKUP_CACHE" dbHandler="mongo"-->
-    <!--                  claz="com.gamma.components.cache.service.CachingServiceHandler" storeName="DIM_TADIG_LOOKUP">-->
-    <!--        <keys>-->
-    <!--            <key type="java.lang.String">plmnCode</key>-->
-    <!--        </keys>-->
-    <!--        <values multiple="false" type="com.gamma.telco.utility.reference.ReferenceDimTadigLookup"/>-->
-    <!--        <cache-load-policy type="advanced">-->
-    <!--            <components>-->
-    <!--                <component id="1" storeName="DIM_TADIG_LOOKUP">-->
-    <!--                    <column>mccmnc</column>-->
-    <!--                    <column>plmnCode</column>-->
-    <!--                    <column>operator</column>-->
-    <!--                    <column>country</column>-->
-    <!--                    <column>iso2</column>-->
-    <!--                    <column>iso3</column>-->
-    <!--                </component>-->
-    <!--            </components>-->
-    <!--            <connectors>-->
-    <!--            </connectors>-->
-    <!--        </cache-load-policy>-->
-    <!--    </cache-config>-->
+        <cache-config id="16" name="DIM_TADIG_LOOKUP_CACHE" dbHandler="mongo"
+                      claz="com.gamma.components.cache.service.CachingServiceHandler" storeName="DIM_TADIG_LOOKUP">
+            <keys>
+                <key type="java.lang.String">plmnCode</key>
+            </keys>
+            <values multiple="false" type="com.gamma.telco.utility.reference.ReferenceDimTadigLookup"/>
+            <cache-load-policy type="advanced">
+                <components>
+                    <component id="1" storeName="DIM_TADIG_LOOKUP">
+                        <column>mccmnc</column>
+                        <column>plmnCode</column>
+                        <column>operator</column>
+                        <column>country</column>
+                        <column>iso2</column>
+                        <column>iso3</column>
+                    </component>
+                </components>
+                <connectors>
+                </connectors>
+            </cache-load-policy>
+        </cache-config>
 
-    <!--    <cache-config id="17" name="DIM_SERVICE_RANGE_LOOKUP_CACHE" dbHandler="mongo"-->
-    <!--                  claz="com.gamma.components.cache.service.CachingServiceHandler" storeName="DIM_SERVICE_RANGE_LOOKUP">-->
-    <!--        <keys>-->
-    <!--            <key type="java.lang.String">id</key>-->
-    <!--        </keys>-->
-    <!--        <values multiple="false" type="com.gamma.telco.opco.ReferenceDimServiceRangeLookup"/>-->
-    <!--        <cache-load-policy type="advanced">-->
-    <!--            <components>-->
-    <!--                <component id="1" storeName="DIM_SERVICE_RANGE_LOOKUP">-->
-    <!--                    <column>id</column>-->
-    <!--                    <column>lookupKey</column>-->
-    <!--                    <column>lookupOutput</column>-->
-    <!--                    <column>validFrom</column>-->
-    <!--                    <column>validTo</column>-->
-    <!--                    <column>populationDateTime</column>-->
-    <!--                    <column>updateDateTime</column>-->
-    <!--                </component>-->
-    <!--            </components>-->
-    <!--            <connectors>-->
-    <!--            </connectors>-->
-    <!--        </cache-load-policy>-->
-    <!--    </cache-config>-->
+        <cache-config id="17" name="DIM_SERVICE_RANGE_LOOKUP_CACHE" dbHandler="mongo"
+                      claz="com.gamma.components.cache.service.CachingServiceHandler" storeName="DIM_SERVICE_RANGE_LOOKUP">
+            <keys>
+                <key type="java.lang.String">id</key>
+            </keys>
+            <values multiple="false" type="com.gamma.telco.opco.ReferenceDimServiceRangeLookup"/>
+            <cache-load-policy type="advanced">
+                <components>
+                    <component id="1" storeName="DIM_SERVICE_RANGE_LOOKUP">
+                        <column>id</column>
+                        <column>lookupKey</column>
+                        <column>lookupOutput</column>
+                        <column>validFrom</column>
+                        <column>validTo</column>
+                        <column>populationDateTime</column>
+                        <column>updateDateTime</column>
+                    </component>
+                </components>
+                <connectors>
+                </connectors>
+            </cache-load-policy>
+        </cache-config>
 
     <cache-config id="18" name="DIM_CRM_INF_SUBSCRIBER_ALL_LOOKUP_CACHE" dbHandler="mongo"
                   claz="com.gamma.components.cache.service.CachingServiceHandler"

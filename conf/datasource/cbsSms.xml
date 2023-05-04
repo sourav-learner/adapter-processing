@@ -452,6 +452,16 @@
             <Field sourceFieldName="Recipient_cp_id " targetFieldName="RECIPIENT_CP_ID"/>
             <Field sourceFieldName="Advance_prepaid_balance" targetFieldName="ADVANCE_PREPAID_BALANCE"/>
             <Field sourceFieldName="Credit_postpid_Balance" targetFieldName="CREDIT_POSTPID_BALANCE"/>
+            <Field sourceFieldName="FLEXI_COL1"/>
+            <Field sourceFieldName="FLEXI_COL2"/>
+            <Field sourceFieldName="FLEXI_COL3"/>
+            <Field sourceFieldName="FLEXI_COL4"/>
+            <Field sourceFieldName="FLEXI_COL5"/>
+            <Field sourceFieldName="FLEXI_COL6"/>
+            <Field sourceFieldName="FLEXI_COL7"/>
+            <Field sourceFieldName="FLEXI_COL8"/>
+            <Field sourceFieldName="FLEXI_COL9"/>
+            <Field sourceFieldName="FLEXI_COL10"/>
             <Field sourceFieldName="OTHER_MSISDN_DIALED_KEY" default="-99"/>
             <Field sourceFieldName="OTHER_PARTY_OPERATOR" default="-99"/>
             <Field sourceFieldName="OTHER_PARTY_NW_IND_KEY" default="-99"/>

@@ -1,7 +1,7 @@
 TAG_PATH, TAG_NAME, TAG_METHOD
 79.0,  recordType,  INTEGER
 79.3, servedIMSI, tbcd
-79.4,PGWAddress,pGWAddress
+79.4,PGWAddress,XX
 79.4.0,pGWAddress,IPV4_ADDRESS
 79.4.1,pGWAddress,IPV6_ADDRESS
 79.5, chargingID , INTEGER
@@ -9,13 +9,15 @@ TAG_PATH, TAG_NAME, TAG_METHOD
 79.6.0, servingNodeAddress, IPV4_ADDRESS
 79.7, accessPointNameNI, OCTET_STRING
 79.8, pdpPDNType, PDP
-79.9, PDPAddress,LIST
-79.9.0, IPAddress,XX
-79.9.0.0, servedPDPPDNAddress,IPV4_ADDRESS
+79.9, servedPDPPDNAddress,PDPAddress
+79.9.0,IPAddress,PDPAddress
+79.9.0.0,IPV4BinAddress,IPV4_ADDRESS
+79.9.0.1,IPV6BinAddress,IPV6_ADDRESS
+79.9.1,ETSIAddress,PDPAddress
 79.11, dynamicAddressFlag,INTEGER
-79.12,qosRequested,ChangeOfCharCondition
-79.12,ChangeOfCharConditions,xx
+79.12,listOfTrafficVolumes,xx
 79.12.16,ChangeOfCharCondition,xx
+79.12.16.1,qosRequested,OCTET_STRING
 79.12.16.2,qosNegotiated,OCTET_STRING
 79.12.16.3,dataVolumeGPRSUplink,INTEGER
 79.12.16.4,dataVolumeGPRSDownlink,INTEGER
@@ -38,6 +40,10 @@ TAG_PATH, TAG_NAME, TAG_METHOD
 79.12.16.9.12,extendedGBRDL,INTEGER
 79.12.16.9.13,extendedAPNAMBRUL,INTEGER
 79.12.16.9.14,extendedAPNAMBRDL,INTEGER
+79.12.16.19, cPCIoTEPSOptimisationIndicator,INTEGER
+79.12.16.20,servingPLMNRateControl,XX
+79.12.16.20.0, sPLMNDLRateControlValue,INTEGER
+79.12.16.20.1, sPLMNULRateControlValue,INTEGER
 79.12.16.10,, OCTET_STRING
 79.12.16.11,, OCTET_STRING
 79.12.16.12,, OCTET_STRING
@@ -51,13 +57,59 @@ TAG_PATH, TAG_NAME, TAG_METHOD
 79.16.0, gsm0408Cause, INTEGER
 79.16.1, gsm0902MapErrorValue,INTEGER
 79.16.2, itu-tQ767Cause, INTEGER
-79.16.3, networkSpecificCause, OCTET_STRING
+79.16.3.0,identifier, INTEGER
+79.16.3.1, significance,
+79.16.3.2, information, OCTET_STRING
 79.16.4, manufacturerSpecificCause,INTEGER
 79.16.5,positionMethodFailureCause,
 79.16.6, unauthorizedLCSClientCause,
 79.17, recordSequenceNumber,INTEGER
-79.18, nodeID, INTEGER
-79.19, recordExtensions,
+79.18, nodeID, OCTET_STRING
+79.19, recordExtensions,ST
+79.19.16,ContentInfo,XX
+79.19.16.0,extensionType, INTEGER
+79.19.16.1,length, INTEGER
+79.19.16.2,serviceList,XX
+79.19.16.2.0,serviceCode,INTEGER
+79.19.16.2.1,uplinkVolume,INTEGER
+79.19.16.2.2,downlinkVolume,
+79.19.16.2.3,usageduration,INTEGER
+79.19.16.2.3,url,CHARACTER_STRING
+79.19.16.2.8,chargingRuleBaseName,CHARACTER_STRING
+79.19.16.2.9,ratingGroup,INTEGER
+79.19.16.2.10,serviceIdentifier,INTEGER
+79.19.16.2.11,localSequenceNumber,INTEGER
+79.19.16.2.12,envelopeStartTime,TIME_STAMP
+79.19.16.2.13,envelopeEndTime,TIME_STAMP
+79.19.16.2.14,duration, OCTET_STRING
+79.19.16.2.15, changeTimeTimeZone,INTEGER
+79.19.16.2.16, noOCSCreditControl,
+79.19.16.2.17, uplinkPacketNum,INTEGER
+79.19.16.2.18, downlinkPacketNum,INTEGER
+79.19.16.3,changeTimeList,XX
+79.19.16.3.1, changeTime,TIME_STAMP
+79.19.16.3.2, changeTimeTimeZone,INTEGER
+79.19.16.4,recordOpeningTime,TIME_STAMP
+79.19.16.5,duration,OCTET_STRING
+79.19.16.6,transparentVSA,OCTET_STRING
+79.19.16.7,cdrType,
+79.19.16.8,createTime,TIME_STAMP
+79.19.16.9,chargingType,INTEGER
+79.19.16.10,roaming,
+79.19.16.11, profile,INTEGER
+79.19.16.12, nsapi,INTEGER
+79.19.16.13, lastActivityTimeUpLink,TIME_STAMP
+79.19.16.14, lastActivityTimeDownLink,TIME_STAMP
+79.19.16.15, zoneId,INTEGER
+79.19.16.16, daylightSavingTime,INTEGER
+79.19.16.17, localTimeZone,INTEGER
+79.19.16.18, sgsnChange,
+79.19.16.19, sessionID,INTEGER
+79.19.16.20, recordOpeningTimeZone,INTEGER
+79.19.16.21, saRecordChangeTime,TIME_STAMP
+79.19.16.22, saRecordChangeTimeZone,INTEGER
+79.19.16.26,acctSessionId,OCTET_STRING
+79.19.16.27,acctTerminateCause,INTEGER
 79.20, localSequenceNumber, INTEGER
 79.21, apnSelectionMode, INTEGER
 79.22, servedMSISDN, MSISDN
@@ -66,14 +118,15 @@ TAG_PATH, TAG_NAME, TAG_METHOD
 79.25, iMSsignalingContext,
 79.26, externalChargingID,CHARACTER_STRING
 79.27, servingNodePLMNIdentifier,PLMN_ID
-79.28, pSFurnishChargingInformation,
+79.28.1, pSFreeFormatData,
+79.28.2,pSFFDAppendIndicator
 79.29, servedIMEISV,IMEI
 79.30, rATType,INTEGER
 79.31, mSTimeZone,TIMESTAMP
 79.32, userLocationInformation,USER_LOCATION_INFO
 79.33, cAMELChargingInformation,CHARACTER_STRING
-79.34, ListOfServiceData,ST
-79.34.16, ChangeOfServiceConditions,XX
+79.34, listOfServiceData,ST
+79.34.16, ChangeOfServiceCondition,XX
 79.34.16.1, ratingGroup, INTEGER
 79.34.16.2, chargingRuleBaseName,OCTET_STRING
 79.34.16.3, resultCode,INTEGER
@@ -84,7 +137,19 @@ TAG_PATH, TAG_NAME, TAG_METHOD
 79.34.16.8, serviceConditionChange, BIT_STRING
 79.34.16.9, qoSInformationNeg,XX
 79.34.16.9.1, qCI,INTEGER
+79.34.16.9.2, maxRequestedBandwithUL,INTEGER
+79.34.16.9.3, maxRequestedBandwithDL,INTEGER
+79.34.16.9.4, guaranteedBitrateUL,INTEGER
+79.34.16.9.5, guaranteedBitrateDL,INTEGER
 79.34.16.9.6, aRP,INTEGER
+79.34.16.9.7, aPNAggregateMaxBitrateUL,INTEGER
+79.34.16.9.8, aPNAggregateMaxBitrateDL,INTEGER
+79.34.16.9.9, extendedMaxRequestedBWUL,INTEGER
+79.34.16.9.10, extendedMaxRequestedBWDL,INTEGER
+79.34.16.9.11, extendedGBRUL,INTEGER
+79.34.16.9.12, extendedGBRDL,INTEGER
+79.34.16.9.13, extendedAPNAMBRUL,INTEGER
+79.34.16.9.14, extendedAPNAMBRDL,INTEGER
 79.34.16.10, IPAddress,XX
 79.34.16.10.0, sgsnAddress,IPV4_ADDRESS
 79.34.16.11, sGSNPLMNIdentifier,
@@ -99,10 +164,21 @@ TAG_PATH, TAG_NAME, TAG_METHOD
 79.34.16.19.1, aFChargingIdentifier,
 79.34.16.19.2, flows,
 79.34.16.20, userLocationInformation,USER_LOCATION_INFO
+79.34.16.21,eventBasedChargingInformation,XX
 79.34.16.21.1, numberOfEvents, INTEGER
 79.34.16.21.2, eventTimeStamps, TIMESTAMP
 79.34.16.22.1, timeQuotaType, INTEGER
 79.34.16.22.2, baseTimeInterval, INTEGER
+79.34.16.35,servingPLMNRateControl,XX
+79.34.16.35.0,sPLMNDLRateControlValue,INTEGER
+79.34.16.35.1,sPLMNULRateControlValue,INTEGER
+79.34.16.36,aPNRateControl,XX
+79.34.16.36.0,aPNRateControlUplink,XX
+79.34.16.36.0.0,additionalExceptionReports,INTEGER
+79.34.16.36.0.1,rateControlTimeUnit,INTEGER
+79.34.16.36.0.2,rateControlMaxRate,INTEGER
+79.34.16.36.0.3,rateControlMaxMessageSize,INTEGER
+79.34.16.36.1,aPNRateControlDownlink,
 79.35, ServingNodeType, XX
 79.35.10, servingNodeType, INTEGER
 79.36.0, subscriptionIDType, INTEGER
@@ -119,13 +195,25 @@ TAG_PATH, TAG_NAME, TAG_METHOD
 79.47,  dynamicAddressFlagExt  ,
 79.64,  sGiPtPTunnellingMethod, INTEGER
 79.65,  uNIPDUCPOnlyFlag,
+79.66, servingPLMNRateControl,XX
 79.66.0,  sPLMNDLRateControlValue,INTEGER
 79.66.1,  sPLMNULRateControlValue,INTEGER
-79.67.0,  aPNRateControlUplink,
-79.67.1,  aPNRateControlDownlink,
+79.67, aPNRateControl,XX
+79.67.0,  aPNRateControlUplink,XX
+79.67.0.0,  additionalExceptionReports,INTEGER
+79.67.0.1,  rateControlTimeUnit,INTEGER
+79.67.0.2,  rateControlMaxRate,INTEGER
+79.67.0.3,  rateControlMaxMessageSize,INTEGER
+79.67.1,  aPNRateControlDownlink,XX
+79.67.1.0,  additionalExceptionReports,INTEGER
+79.67.1.1,  rateControlTimeUnit,INTEGER
+79.67.1.2,  rateControlMaxRate,INTEGER
+79.67.1.3,  rateControlMaxMessageSize,INTEGER
 79.68,  pDPPDNTypeExtension,INTEGER
+79.69,mOExceptionDataCounter,XX
 79.69.0,  counterValue,INTEGER
 79.69.1,  counterTimestamp,TIMESTAMP
+79.73,listOfRANSecondaryRATUsageReports,XX
 79.73.1,  dataVolumeUplink,
 79.73.2,  dataVolumeDownlink,
 79.73.3,  rANStartTime, TIMESTAMP
