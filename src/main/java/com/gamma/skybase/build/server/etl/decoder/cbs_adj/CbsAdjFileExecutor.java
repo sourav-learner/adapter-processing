@@ -10,20 +10,16 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.io.FileWriter;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @SuppressWarnings("Duplicates")
 public class CbsAdjFileExecutor extends CbsAdjFileProcessor {
     private static final Logger logger = LoggerFactory.getLogger(CbsAdjFileExecutor.class);
     private List<LinkedHashMap<String, Object>> jsonRecords;
 
-    String [] headers = new String[]{"ADJUST_LOG_ID" , "ACCT_ID" , "CUST_ID" , "SUB_ID" , "PRI_IDENTITY" , "PAY_TYPE" , "BATCH_NO" , "CHANNEL_ID" , "REASON_CODE" , "RESULT_CODE" , "ERROR_TYPE" , "ACCT_BALANCE_ID" , "ADJUST_AMT" , "ADJUST_TRANS_ID" , "EXT_TRANS_TYPE" , "EXT_TRANS_ID" , "ACCESS_METHOD" , "REVERSAL_TRANS_ID" , "REVERSAL_REASON_CODE" , "REVERSAL_DATE" , "STATUS" , "ENTRY_DATE" , "OPER_ID" , "DEPT_ID" , "REMARK" , "BE_ID" , "BE_CODE" , "REGION_ID" , "REGION_CODE" , "DEBIT_AMOUNT" , "UN_DEBIT_AMOUNT" , "DEBIT_FROM_PREPAID" , "DEBIT_FROM_ADVANCE_PREPAID" , "DEBIT_FROM_POSTPAID" , "DEBIT_FROM_ADVANCE_POSTPAID" , "DEBIT_FROM_CREDIT_POSTPAID" , "TOTAL_TAX" , "FREE_UNIT_AMOUNT_OF_TIMES" , "FREE_UNIT_AMOUNT_OF_DURATION" , "FREE_UNIT_AMOUNT_OF_FLUX" , "BC1_ACCT_ID" , "BC1_ACCT_BALANCE_ID" , "BC1_BALANCE_TYPE" , "BC1_CUR_BALANCE" , "BC1_CHG_BALANCE" , "BC1_PRE_APPLY_TIME" , "BC1_PRE_EXPIRE_TIME" , "BC1_CUR_EXPIRE_TIME" , "BC1_CURRENCYE_ID" , "BC1_OPER_TYPE" , "BC2_ACCT_ID" , "BC2_ACCT_BALANCE_ID" , "BC2_BALANCE_TYPE" , "BC2_CUR_BALANCE" , "BC2_CHG_BALANCE" , "BC2_PRE_APPLY_TIME" , "BC2_PRE_EXPIRE_TIME" , "BC2_CUR_EXPIRE_TIME" , "BC2_CURRENCYE_ID" , "BC2__OPER_TYPE" , "BC3_ACCT_ID" , "BC3_ACCT_BALANCE_ID" , "BC3_BALANCE_TYPE" , "BC3_CUR_BALANCE" , "BC3_CHG_BALANCE" , "BC3_PRE_APPLY_TIME" , "BC3_PRE_EXPIRE_TIME" , "BC3_CUR_EXPIRE_TIME" , "BC3_CURRENCYE_ID" , "BC3_OPER_TYPE" , "BC4_ACCT_ID" , "BC4_ACCT_BALANCE_ID" , "BC4_BALANCE_TYPE" , "BC4_CUR_BALANCE" , "BC4_CHG_BALANCE" , "BC4_PRE_APPLY_TIME" , "BC4_PRE_EXPIRE_TIME" , "BC4_CUR_EXPIRE_TIME" , "BC4_CURRENCYE_ID" , "BC4_OPER_TYPE" , "BC5_ACCT_ID" , "BC5_ACCT_BALANCE_ID" , "BC5_BALANCE_TYPE" , "BC5_CUR_BALANCE" , "BC5_CHG_BALANCE" , "BC5_PRE_APPLY_TIME" , "BC5_PRE_EXPIRE_TIME" , "BC5_CUR_EXPIRE_TIME" , "BC5_CURRENCYE_ID" , "BC5_OPER_TYPE" , "BC6_ACCT_ID" , "BC6_ACCT_BALANCE_ID" , "BC6_BALANCE_TYPE" , "BC6_CUR_BALANCE" , "BC6_CHG_BALANCE" , "BC6_PRE_APPLY_TIME" , "BC6_PRE_EXPIRE_TIME" , "BC6_CUR_EXPIRE_TIME" , "BC6_CURRENCYE_ID" , "BC6_OPER_TYPE" , "BC7_ACCT_ID" , "BC7_ACCT_BALANCE_ID" , "BC7_BALANCE_TYPE" , "BC7_CUR_BALANCE" , "BC7_CHG_BALANCE" , "BC7_PRE_APPLY_TIME" , "BC7_PRE_EXPIRE_TIME" , "BC7_CUR_EXPIRE_TIME" , "BC7_CURRENCYE_ID" , "BC7_OPER_TYPE" , "BC8_ACCT_ID" , "BC8_ACCT_BALANCE_ID" , "BC8_BALANCE_TYPE" , "BC8_CUR_BALANCE" , "BC8_CHG_BALANCE" , "BC8_PRE_APPLY_TIME" , "BC8_PRE_EXPIRE_TIME" , "BC8_CUR_EXPIRE_TIME" , "BC8_CURRENCYE_ID" , "BC8_OPER_TYPE" , "BC9_ACCT_ID" , "BC9_ACCT_BALANCE_ID" , "BC9_BALANCE_TYPE" , "BC9_CUR_BALANCE" , "BC9_CHG_BALANCE" , "BC9_PRE_APPLY_TIME" , "BC9_PRE_EXPIRE_TIME" , "BC9_CUR_EXPIRE_TIME" , "BC9_CURRENCYE_ID" , "BC9_OPER_TYPE" , "BC10_ACCT_ID" , "BC10_ACCT_BALANCE_ID" , "BC10_BALANCE_TYPE" , "BC10_CUR_BALANCE" , "BC10_CHG_BALANCE" , "BC10_PRE_APPLY_TIME" , "BC10_PRE_EXPIRE_TIME" , "BC10_CUR_EXPIRE_TIME" , "BC10_CURRENCYE_ID" , "BC10_OPER_TYPE" , "FC1_FU_OWN_TYPE" , "FC1_FU_OWN_ID" , "FC1_FREE_UNIT_ID" , "FC1_FREE_UNIT_TYPE" , "FC1_CUR_AMOUNT" , "FC1_CHG_AMOUNT" , "FC1_PRE_APPLY_TIME" , "FC1_PRE_EXPIRE_TIME" , "FC1_CUR_EXPIRE_TIME" , "FC1_FU_MEASURE_ID" , "FC1_OPER_TYPE" , "FC2_FU_OWN_TYPE" , "FC2_FU_OWN_ID" , "FC2_FREE_UNIT_ID" , "FC2_FREE_UNIT_TYPE" , "FC2_CUR_AMOUNT" , "FC2_CHG_AMOUNT" , "FC2_PRE_APPLY_TIME" , "FC2_PRE_EXPIRE_TIME" , "FC2_CUR_EXPIRE_TIME" , "FC2_FU_MEASURE_ID" , "FC2_OPER_TYPE" , "FC3_FU_OWN_TYPE" , "FC3_FU_OWN_ID" , "FC3_FREE_UNIT_ID" , "FC3_FREE_UNIT_TYPE" , "FC3_CUR_AMOUNT" , "FC3_CHG_AMOUNT" , "FC3_PRE_APPLY_TIME" , "FC3_PRE_EXPIRE_TIME" , "FC3_CUR_EXPIRE_TIME" , "FC3_FU_MEASURE_ID" , "FC3_OPER_TYPE" , "FC4_FU_OWN_TYPE" , "FC4_FU_OWN_ID" , "FC4_FREE_UNIT_ID" , "FC4_FREE_UNIT_TYPE" , "FC4_CUR_AMOUNT" , "FC4_CHG_AMOUNT" , "FC4_PRE_APPLY_TIME" , "FC4_PRE_EXPIRE_TIME" , "FC4_CUR_EXPIRE_TIME" , "FC4_FU_MEASURE_ID" , "FC4_OPER_TYPE" , "F5_FU_OWN_TYPE" , "FC5_FU_OWN_ID" , "FC5_FREE_UNIT_ID" , "FC5_FREE_UNIT_TYPE" , "FC5_CUR_AMOUNT" , "FC5_CHG_AMOUNT" , "FC5_PRE_APPLY_TIME" , "FC5_PRE_EXPIRE_TIME" , "FC5_CUR_EXPIRE_TIME" , "FC5_FU_MEASURE_ID" , "FC5_OPER_TYPE" , "FC6_FU_OWN_TYPE" , "FC6_FU_OWN_ID" , "FC6_FREE_UNIT_ID" , "FC6_FREE_UNIT_TYPE" , "FC6_CUR_AMOUNT" , "FC6_CHG_AMOUNT" , "FC6_PRE_APPLY_TIME" , "FC6_PRE_EXPIRE_TIME" , "FC6_CUR_EXPIRE_TIME" , "FC6_FU_MEASURE_ID" , "FC6_OPER_TYPE" , "FC7_FU_OWN_TYPE" , "FC7_FU_OWN_ID" , "FC7_FREE_UNIT_ID" , "FC7_FREE_UNIT_TYPE" , "FC7_CUR_AMOUNT" , "FC7_CHG_AMOUNT" , "FC7_PRE_APPLY_TIME" , "FC7_PRE_EXPIRE_TIME" , "FC7_CUR_EXPIRE_TIME" , "FC7_FU_MEASURE_ID" , "FC7_OPER_TYPE" , "FC8_FU_OWN_TYPE" , "FC8_FU_OWN_ID" , "FC8_FREE_UNIT_ID" , "FC8_FREE_UNIT_TYPE" , "FC8_CUR_AMOUNT" , "FC8_CHG_AMOUNT" , "FC8_PRE_APPLY_TIME" , "FC8_PRE_EXPIRE_TIME" , "FC8_CUR_EXPIRE_TIME" , "FC8_FU_MEASURE_ID" , "FC8_OPER_TYPE" , "FC9_FU_OWN_TYPE" , "FC9_FU_OWN_ID" , "FC9_FREE_UNIT_ID" , "FC9_FREE_UNIT_TYPE" , "FC9_CUR_AMOUNT" , "FC9_CHG_AMOUNT" , "FC9_PRE_APPLY_TIME" , "FC9_PRE_EXPIRE_TIME" , "FC9_CUR_EXPIRE_TIME" , "FC9_FU_MEASURE_ID" , "FC9_OPER_TYPE" , "FC10_FU_OWN_TYPE" , "FC10_FU_OWN_ID" , "FC10_FREE_UNIT_ID" , "FC10_FREE_UNIT_TYPE" , "FC10_CUR_AMOUNT" , "FC10_CHG_AMOUNT" , "FC10_PRE_APPLY_TIME" , "FC10_PRE_EXPIRE_TIME" , "FC10_CUR_EXPIRE_TIME" , "FC10_FU_MEASURE_ID" , "FC10_OPER_TYPE" , "BD1_ACCT_ID" , "BD1_ACCT_BALANCE_ID" , "BD1_BALANCE_TYPE" , "BD1_BONUS_AMOUNT" , "BD1_CURRENT_BALANCE" , "BD1_PRE_APPLY_TIME" , "BD1_PRE_EXPIRE_TIME" , "BD1_CUR_EXPIRE_TIME" , "BD1_CURRENCY_ID" , "BD1_OPER_TYPE" , "BD2_ACCT_ID" , "BD2_ACCT_BALANCE_ID" , "BD2_BALANCE_TYPE" , "BD2_BONUS_AMOUNT" , "BD2_CURRENT_BALANCE" , "BD2_PRE_APPLY_TIME" , "BD2_PRE_EXPIRE_TIME" , "BD2_CUR_EXPIRE_TIME" , "BD2_CURRENCY_ID" , "BD2_OPER_TYPE" , "BD3_ACCT_ID" , "BD3_ACCT_BALANCE_ID" , "BD3_BALANCE_TYPE" , "BD3_BONUS_AMOUNT" , "BD3_CURRENT_BALANCE" , "BD3_PRE_APPLY_TIME" , "BD3_PRE_EXPIRE_TIME" , "BD3_CUR_EXPIRE_TIME" , "BD3_CURRENCY_ID" , "BD3_OPER_TYPE" , "BD4_ACCT_ID" , "BD4_ACCT_BALANCE_ID" , "BD4_BALANCE_TYPE" , "BD4_BONUS_AMOUNT" , "BD4_CURRENT_BALANCE" , "BD4_PRE_APPLY_TIME" , "BD4_PRE_EXPIRE_TIME" , "BD4_CUR_EXPIRE_TIME" , "BD4_CURRENCY_ID" , "BD4_OPER_TYPE" , "BD5_ACCT_ID" , "BD5_ACCT_BALANCE_ID" , "BD5_BALANCE_TYPE" , "BD5_BONUS_AMOUNT" , "BD5_CURRENT_BALANCE" , "BD5_PRE_APPLY_TIME" , "BD5_PRE_EXPIRE_TIME" , "BD5_CUR_EXPIRE_TIME" , "BD5_CURRENCY_ID" , "BD5_OPER_TYPE" , "BD6_ACCT_ID" , "BD6_ACCT_BALANCE_ID" , "BD6_BALANCE_TYPE" , "BD6_BONUS_AMOUNT" , "BD6_CURRENT_BALANCE" , "BD6_PRE_APPLY_TIME" , "BD6_PRE_EXPIRE_TIME" , "BD6_CUR_EXPIRE_TIME" , "BD6_CURRENCY_ID" , "BD6_OPER_TYPE" , "BD7_ACCT_ID" , "BD7_ACCT_BALANCE_ID" , "BD7_BALANCE_TYPE" , "BD7_BONUS_AMOUNT" , "BD7_CURRENT_BALANCE" , "BD7_PRE_APPLY_TIME" , "BD7_PRE_EXPIRE_TIME" , "BD7_CUR_EXPIRE_TIME" , "BD7_CURRENCY_ID" , "BD7_OPER_TYPE" , "BD8_ACCT_ID" , "BD8_ACCT_BALANCE_ID" , "BD8_BALANCE_TYPE" , "BD8_BONUS_AMOUNT" , "BD8_CURRENT_BALANCE" , "BD8_PRE_APPLY_TIME" , "BD8_PRE_EXPIRE_TIME" , "BD8_CUR_EXPIRE_TIME" , "BD8_CURRENCY_ID" , "BD8_OPER_TYPE" , "BD9_ACCT_ID" , "BD9_ACCT_BALANCE_ID" , "BD9_BALANCE_TYPE" , "BD9_BONUS_AMOUNT" , "BD9_CURRENT_BALANCE" , "BD9_PRE_APPLY_TIME" , "BD9_PRE_EXPIRE_TIME" , "BD9_CUR_EXPIRE_TIME" , "BD9_CURRENCY_ID" , "BD9_OPER_TYPE" , "BD10_ACCT_ID" , "BD10_ACCT_BALANCE_ID" , "BD10_BALANCE_TYPE" , "BD10_BONUS_AMOUNT" , "BD10_CURRENT_BALANCE" , "BD10_PRE_APPLY_TIME" , "BD10_PRE_EXPIRE_TIME" , "BD10_CUR_EXPIRE_TIME" , "BD10_CURRENCY_ID" , "BD10_OPER_TYPE" , "FR1_FU_OWN_TYPE" , "FR1_FU_OWN_ID" , "FR1_FREE_UNIT_TYPE" , "FR1_FREE_UNIT_ID" , "FR1_BONUS_AMOUNT" , "FR1_CURRENT_AMOUNT" , "FR1_PRE_APPLY_TIME" , "FR1_PRE_EXPIRE_TIME" , "FR1_CUR_EXPIRE_TIME" , "FR1_FU_MEASURE_ID" , "FR1_OPER_TYPE" , "FR2_FU_OWN_TYPE" , "FR2_FU_OWN_ID" , "FR2_FREE_UNIT_TYPE" , "FR2_FREE_UNIT_ID" , "FR2_BONUS_AMOUNT" , "FR2_CURRENT_AMOUNT" , "FR2_PRE_APPLY_TIME" , "FR2_PRE_EXPIRE_TIME" , "FR2_CUR_EXPIRE_TIME" , "FR2_FU_MEASURE_ID" , "FR2_OPER_TYPE" , "FR3_FU_OWN_TYPE" , "FR3_FU_OWN_ID" , "FR3_FREE_UNIT_TYPE" , "FR3_FREE_UNIT_ID" , "FR3_BONUS_AMOUNT" , "FR3_CURRENT_AMOUNT" , "FR3_PRE_APPLY_TIME" , "FR3_PRE_EXPIRE_TIME" , "FR3_CUR_EXPIRE_TIME" , "FR3_FU_MEASURE_ID" , "FR3_OPER_TYPE" , "FR4_FU_OWN_TYPE" , "FR4_FU_OWN_ID" , "FR4_FREE_UNIT_TYPE" , "FR4_FREE_UNIT_ID" , "FR4_BONUS_AMOUNT" , "FR4_CURRENT_AMOUNT" , "FR4_PRE_APPLY_TIME" , "FR4_PRE_EXPIRE_TIME" , "FR4_CUR_EXPIRE_TIME" , "FR4_FU_MEASURE_ID" , "FR4_OPER_TYPE" , "FR5_FU_OWN_TYPE" , "FR5_FU_OWN_ID" , "FR5_FREE_UNIT_TYPE" , "FR5_FREE_UNIT_ID" , "FR5_BONUS_AMOUNT" , "FR5_CURRENT_AMOUNT" , "FR5_PRE_APPLY_TIME" , "FR5_PRE_EXPIRE_TIME" , "FR5_CUR_EXPIRE_TIME" , "FR5_FU_MEASURE_ID" , "FR5_OPER_TYPE" , "FR6_FU_OWN_TYPE" , "FR6_FU_OWN_ID" , "FR6_FREE_UNIT_TYPE" , "FR6_FREE_UNIT_ID" , "FR6_BONUS_AMOUNT" , "FR6_CURRENT_AMOUNT" , "FR6_PRE_APPLY_TIME" , "FR6_PRE_EXPIRE_TIME" , "FR6_CUR_EXPIRE_TIME" , "FR6_FU_MEASURE_ID" , "FR6_OPER_TYPE" , "FR7_FU_OWN_TYPE" , "FR7_FU_OWN_ID" , "FR7_FREE_UNIT_TYPE" , "FR7_FREE_UNIT_ID" , "FR7_BONUS_AMOUNT" , "FR7_CURRENT_AMOUNT" , "FR7_PRE_APPLY_TIME" , "FR7_PRE_EXPIRE_TIME" , "FR7_CUR_EXPIRE_TIME" , "FR7_FU_MEASURE_ID" , "FR7_OPER_TYPE" , "FR8_FU_OWN_TYPE" , "FR8_FU_OWN_ID" , "FR8_FREE_UNIT_TYPE" , "FR8_FREE_UNIT_ID" , "FR8_BONUS_AMOUNT" , "FR8_CURRENT_AMOUNT" , "FR8_PRE_APPLY_TIME" , "FR8_PRE_EXPIRE_TIME" , "FR8_CUR_EXPIRE_TIME" , "FR8_FU_MEASURE_ID" , "FR8_OPER_TYPE" , "FR9_FU_OWN_TYPE" , "FR9_FU_OWN_ID" , "FR9_FREE_UNIT_TYPE" , "FR9_FREE_UNIT_ID" , "FR9_BONUS_AMOUNT" , "FR9_CURRENT_AMOUNT" , "FR9_PRE_APPLY_TIME" , "FR9_PRE_EXPIRE_TIME" , "FR9_CUR_EXPIRE_TIME" , "FR9_FU_MEASURE_ID" , "FR9_OPER_TYPE" , "FR10_FU_OWN_TYPE" , "FR10_FU_OWN_ID" , "FR10_FREE_UNIT_TYPE" , "FR10_FREE_UNIT_ID" , "FR10_BONUS_AMOUNT" , "FR10_CURRENT_AMOUNT" , "FR10_PRE_APPLY_TIME" , "FR10_PRE_EXPIRE_TIME" , "FR10_CUR_EXPIRE_TIME" , "FR10_FU_MEASURE_ID" , "FR10_OPER_TYPE" , "BrandID" , "MainOfferingID" , "PayType" , "StartTimeOfBillCycle" , "Account" , "MainBalanceInfo" , "ChgBalanceInfo" , "ChgFreeUnitInfo" , "UserState" , "oldUserState" , "SPID" , "AdditionalInfo" , "Merchant" , "Service" , "UNKNOWN"};
+    String[] headers = new String[]{"ADJUST_LOG_ID", "ACCT_ID", "CUST_ID", "SUB_ID", "PRI_IDENTITY", "PAY_TYPE", "BATCH_NO", "CHANNEL_ID", "REASON_CODE", "RESULT_CODE", "ERROR_TYPE", "ACCT_BALANCE_ID", "ADJUST_AMT", "ADJUST_TRANS_ID", "EXT_TRANS_TYPE", "EXT_TRANS_ID", "ACCESS_METHOD", "REVERSAL_TRANS_ID", "REVERSAL_REASON_CODE", "REVERSAL_DATE", "STATUS", "ENTRY_DATE", "OPER_ID", "DEPT_ID", "REMARK", "BE_ID", "BE_CODE", "REGION_ID", "REGION_CODE", "TOTAL_FEE", "TOTAL_FREE_UNIT", "CHARGE_SERVICE_INFO", "CHG_BALANCE", "CHG_FREE_UNIT", "BONUS_FUND", "BONUS_FREE_UNIT", "BONUS_OFFERING", "INSTALMENT", "CHG_ACCUMULATE", "CHG_SPENDING_LIMIT", "CHG_PAY_LIMIT", "CHG_CREDIT_LIMIT", "CHG_BALANCE_LIMIT", "CHG_FU_LIMIT", "SUB_LIFECYCLE", "ADDITIONAL_INFO", "LOAN_INFO", "TAX_INFO"};
 
     @Override
     public void parseFile(String fileName) throws Exception {
@@ -54,19 +50,152 @@ public class CbsAdjFileExecutor extends CbsAdjFileProcessor {
                     LinkedHashMap<String, Object> record = decoder.next();
                     if (jsonOutputRequired) jsonRecords.add(record);
 
+                    String tot = record.get("TOTAL_FREE_UNIT").toString();
+                    String a = trim(tot);
+
+//                    record.put("DEBIT_AMOUNT", String.valueOf(tot1[0]));
+//                    record.put("UN_DEBIT_AMOUNT", String.valueOf(tot1[1]));
+//                    record.put("DEBIT_FROM_PREPAID", String.valueOf(tot1[2]));
+//                    record.put("DEBIT_FROM_ADVANCE_PREPAID", String.valueOf(tot1[3]));
+//                    record.put("DEBIT_FROM_POSTPAID", String.valueOf(tot1[4]));
+//                    record.put("DEBIT_FROM_ADVANCE_POSTPAID", String.valueOf(tot1[5]));
+//                    record.put("DEBIT_FROM_CREDIT_POSTPAID", String.valueOf(tot1[6]));
+//                    record.put("TOTAL_TAX", String.valueOf(tot1[7]));
+//                    record.put("CURRENCY_ID", String.valueOf(tot1[8]));
+
+                    ArrayList<String> totalFree = new ArrayList<>();
+                    totalFree.add("DEBIT_AMOUNT");
+                    totalFree.add("UN_DEBIT_AMOUNT");
+                    totalFree.add("DEBIT_FROM_PREPAID");
+                    totalFree.add("DEBIT_FROM_ADVANCE_PREPAID");
+                    totalFree.add("DEBIT_FROM_POSTPAID");
+                    totalFree.add("DEBIT_FROM_ADVANCE_POSTPAID");
+                    totalFree.add("DEBIT_FROM_CREDIT_POSTPAID");
+                    totalFree.add("TOTAL_TAX");
+                    totalFree.add("CURRENCY_ID");
+
+                    String[] total = a.split(",");
+
+                    int totalFreeUnit = total.length;
+
+                    for(int i = 0 ; i < totalFreeUnit; i++){
+                        record.put(totalFree.get(i),String.valueOf(total[i]));
+                    }
+
+                    String chgbalance = record.get("CHG_BALANCE").toString();
+                    String cb = trim(chgbalance);
+
+                    ArrayList<String> chgBalance = new ArrayList<>();
+                    chgBalance.add("ACCT_ID1");
+                    chgBalance.add("ACCT_BALANCE_ID1");
+                    chgBalance.add("BALANCE_TYPE1");
+                    chgBalance.add("CUR_BALANCE1");
+                    chgBalance.add("CHG_BALANCE1");
+                    chgBalance.add("PRE_APPLY_TIME");
+                    chgBalance.add("PRE_EXPIRE_TIME");
+                    chgBalance.add("CUR_EXPIRE_TIME");
+                    chgBalance.add("CURRENCY_ID");
+                    chgBalance.add("OPER_TYPE");
+                    chgBalance.add("DAILY_BILL_DATE");
+                    chgBalance.add("CHG_FREE_UNIT");
+                    String[] chrg_balance = cb.split(",");
+
+                    int chBalance = chrg_balance.length;
+
+                    for(int i = 0 ; i < chBalance; i++){
+                        record.put(chgBalance.get(i),String.valueOf(chrg_balance[i]));
+                    }
+
+                    String subLifecycle = record.get("SUB_LIFECYCLE").toString();
+                    String subLifeC = trim(subLifecycle);
+
+                    ArrayList<String> subLife = new ArrayList<>();
+                    subLife.add("OLD_STATUS");
+                    subLife.add("CURRENT_STATUS");
+                    subLife.add("OLD_DETAILED_STATUS");
+                    subLife.add("CURRENT_DETAILED_STATUS");
+                    subLife.add("ACTIVE_LIMIT_TIME");
+                    subLife.add("OLD_ACTIVE_TIME");
+                    subLife.add("CUR_ACTIVE_TIME");
+                    subLife.add("OLD_S1_EXP_DATE");
+                    subLife.add("CUR_S1_EXP_DATE");
+                    subLife.add("OLD_S2_EXP_DATE");
+                    subLife.add("CUR_S2_EXP_DATE");
+                    subLife.add("OLD_S3_EXP_DATE");
+                    subLife.add("CUR_S3_EXP_DATE");
+                    subLife.add("OLD_S4_EXP_DATE");
+                    subLife.add("CUR_S4_EXP_DATE");
+                    subLife.add("OLD_S5_EXP_DATE");
+                    subLife.add("CUR_S5_EXP_DATE");
+                    subLife.add("OLD_S6_EXP_DATE");
+                    subLife.add("CUR_S6_EXP_DATE");
+                    subLife.add("OLD_S7_EXP_DATE");
+                    subLife.add("CUR_S7_EXP_DATE");
+                    subLife.add("OLD_S8_EXP_DATE");
+                    subLife.add("CUR_S8_EXP_DATE");
+                    subLife.add("OLD_S9_EXP_DATE");
+                    subLife.add("CUR_S9_EXP_DATE");
+
+                    String[] subLifeCycle = subLifeC.split(",");
+                    int lastInt = subLifeCycle.length;
+
+                    for(int i = 0 ; i < lastInt; i++){
+                        record.put(subLife.get(i),String.valueOf(subLifeCycle[i]));
+                    }
+
+                    String additional_info = record.get("ADDITIONAL_INFO").toString();
+                    String[] additionalInfo = additional_info.split(",");
+
+                    ArrayList<String> additional = new ArrayList<>();
+                    additional.add("BrandID");
+                    additional.add("MainOfferingID");
+                    additional.add("PayType");
+                    additional.add("StartTimeOfBillCycle");
+                    additional.add("AdditionalInfo");
+                    additional.add("SPCode");
+                    additional.add("Merchant");
+                    additional.add("Service");
+                    additional.add("Reserve");
+                    additional.add("TransactionCode");
+                    additional.add("BILL_CYCLE_ID");
+
+                    int aI= additionalInfo.length;
+
+                    for(int i = 0 ; i < aI; i++) {
+                        record.put(additional.get(i), String.valueOf(additionalInfo[i]));
+                    }
+
+                    String loan_info = record.get("LOAN_INFO").toString();
+                    String loanIn = trim(loan_info);
+
+                    ArrayList<String> loan = new ArrayList<>();
+                    loan.add("LOAN_AMOUNT");
+                    loan.add("LOAN_POUNDAGE");
+                    loan.add("LOAN_PENALTY");
+
+                    String[] loans = loanIn.split(",");
+
+                    int loanInfo = loans.length;
+
+                    for(int i = 0 ; i < loanInfo; i++){
+                        record.put(loan.get(i),String.valueOf(loans[i]));
+                    }
+
                     record.put("fileName", metadata.decompFileName);
                     processRecord(record, enrichment);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                     metadata.comments = "Parsing issues";
                     metadata.noOfBadRecord++;
-                    logger.error(dataSource.getAdapterName() + " -> " , e.getMessage(), e);
+                    logger.error(dataSource.getAdapterName() + " -> ", e.getMessage(), e);
                 }
                 recCount++;
                 metadata.totalNoOfRecords = recCount;
             }
             if (metadata.noOfBadRecord > 0) metadata.status = "partial";
             if (metadata.noOfParsedRecord == 0 && recCount > 0) metadata.status = "failed";
+
 
             if (jsonOutputRequired) {
                 FileWriter writer = new FileWriter("out" + GammaConstants.PATH_SEP + fn + ".json");
@@ -78,6 +207,19 @@ public class CbsAdjFileExecutor extends CbsAdjFileProcessor {
         } finally {
             if (decoder != null) decoder.close();
         }
+    }
+
+    public static String trim(String value) {
+        int len = value.length();
+        int st = 0;
+        while (st < len && value.charAt(st) == '{')
+            st++;
+
+        int end = 1;
+        while ( value.charAt(len - end) == '}')
+            end++;
+
+        return value.substring(st, len - end+1);
     }
 
     private void processRecord(LinkedHashMap<String, Object> record, IEnrichment enrichment) throws Exception {
