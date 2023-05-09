@@ -42,7 +42,7 @@ public class CbsAdjFileExecutor extends CbsAdjFileProcessor {
 
         DelimitedFileDecoder decoder = null;
         try {
-            long recCount = 0;
+            long recCount = 1;
 
             decoder = new DelimitedFileDecoder(fileName, '|', headers, 0);
             while (decoder.hasNext()) {
@@ -182,6 +182,7 @@ public class CbsAdjFileExecutor extends CbsAdjFileProcessor {
                     }
 
                     record.put("fileName", metadata.decompFileName);
+                    record.put("_SEQUENCE_NUMBER",recCount);
                     processRecord(record, enrichment);
 
                 } catch (Exception e) {
