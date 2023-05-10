@@ -79,6 +79,8 @@ public class GGSNRecordEnrichment implements IEnrichment {
             strServingNodeType = strServingNodeType.replace("[{servingNodeType=" , "");
             strServingNodeType = strServingNodeType.replace("}]" , "");
 
+            Object seqNumber = data.get("_SEQUENCE_NUMBER");
+            commonAttributes.put("_SEQUENCE_NUMBER",seqNumber);
             Object fileName = data.get("fileName");
             Object recordExtensions = data.get("recordExtensions");
             Object serviceEventUrl = getServiceEventUrlIfPresent(recordExtensions);
