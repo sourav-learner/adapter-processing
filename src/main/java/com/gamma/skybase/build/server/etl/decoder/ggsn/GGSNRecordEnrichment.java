@@ -41,21 +41,19 @@ public class GGSNRecordEnrichment implements IEnrichment {
             Object servedIMSI = data.get("servedIMSI");
             Object pGWAddress = data.get("PGWAddress");
 
-            String strpGWAddress = pGWAddress.toString();
-            strpGWAddress = strpGWAddress.replace("[{pGWAddress=","");
-            strpGWAddress = strpGWAddress.replace("}]","");
+            String pGW = pGWAddress.toString();
+            String strpGWAddress = pGW.substring(pGW.indexOf('=') + 1, pGW.indexOf('}'));
 
             Object servingNodeAddress = data.get("ServingNodeAddress");
-
-            String strservingNodeAddress = servingNodeAddress.toString();
-            strservingNodeAddress = strservingNodeAddress.replace("[{servingNodeAddress=" , "");
-            strservingNodeAddress = strservingNodeAddress.replace("}]" , "");
+            String servingNode = servingNodeAddress.toString();
+            String strservingNodeAddress = servingNode.substring(servingNode.indexOf('=') + 1, servingNode.indexOf('}'));
 
             Object servedPDPPDNAddress = data.get("servedPDPPDNAddress");
+            String servedPDPPDN = servedPDPPDNAddress.toString();
 
-            String strservedPDPPDNAddress = servedPDPPDNAddress.toString();
-            strservedPDPPDNAddress = strservedPDPPDNAddress.replace("[{IPAddress=[{IPV4BinAddress=" , "");
-            strservedPDPPDNAddress = strservedPDPPDNAddress.replace("}]}]" , "");
+            String served = servedPDPPDN.substring(servedPDPPDN.indexOf('=') + 1, servedPDPPDN.indexOf('}'));
+            String[] servedPdpdNAddress = served.split("=");
+            String strservedPDPPDNAddress = servedPdpdNAddress[1];
 
             Object chargingID = data.get("chargingID");
             Object accessPointNameNI = data.get("accessPointNameNI");
@@ -75,9 +73,8 @@ public class GGSNRecordEnrichment implements IEnrichment {
             Object userLocationInformation = data.get("userLocationInformation");
             Object servingNodeType = data.get("ServingNodeType");
 
-            String strServingNodeType = servingNodeType.toString();
-            strServingNodeType = strServingNodeType.replace("[{servingNodeType=" , "");
-            strServingNodeType = strServingNodeType.replace("}]" , "");
+            String strServingNode = servingNodeType.toString();
+            String strServingNodeType = strServingNode.substring(strServingNode.indexOf('=') + 1, strServingNode.indexOf('}'));
 
             Object seqNumber = data.get("_SEQUENCE_NUMBER");
             commonAttributes.put("_SEQUENCE_NUMBER",seqNumber);
@@ -114,7 +111,6 @@ public class GGSNRecordEnrichment implements IEnrichment {
                     recTypeIdKey = "6";
             }
             commonAttributes.put("REC_TYPE_ID_KEY", recTypeIdKey);
-
             if (accessPointNameNI != null) {
                 String eventTypeKey;
                 if (accessPointNameNI.toString().contains("mms")) eventTypeKey = "3";
