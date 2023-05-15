@@ -349,5 +349,52 @@
             <Field sourceFieldName="FILE_NAME"/>
             <Field sourceFieldName="_SEQUENCE_NUMBER"/>
         </Event>
+
+        <Event eventName="FCT_ASN_GGSN" tableName="FCT_ASN_GGSN" synonym="FCT_ASN_GGSN" dataBase="">
+            <Field sourceFieldName="recordType" targetFieldName="RECORD_TYPE"/>
+            <Field sourceFieldName="servedIMSI" targetFieldName="SERVED_IMSI"/>
+            <Field sourceFieldName="servedIMEISV" targetFieldName="SERVED_IMEI"/>
+            <Field sourceFieldName="" targetFieldName="TAC"/>
+            <Field sourceFieldName="pGWAddress" targetFieldName="PGW_ADDRESS"/>
+            <Field sourceFieldName="servingNodeAddress" targetFieldName="SGSN_ADDRESS"/>
+            <Field sourceFieldName="servedPDPPDNAddress" targetFieldName="PDP_ADDRESS"/>
+            <Field sourceFieldName="chargingID" targetFieldName="CHARGING_ID"/>
+            <Field sourceFieldName="accessPointNameNI" targetFieldName="APN_NAME"/>
+            <Field sourceFieldName="pdpPDNType" targetFieldName="PDP_TYPE"/>
+            <Field sourceFieldName="dynamicAddressFlag" targetFieldName="DYNAMIC_ADDRESS_FLAG"/>
+            <Field sourceFieldName="duration" targetFieldName="ORIGINAL_DUR"/>
+            <Field sourceFieldName="causeForRecClosing" targetFieldName="CAUSE_FOR_REC_CLOSING"/>
+            <Field sourceFieldName="recordSequenceNumber" targetFieldName="REC_SEQ_NUM"/>
+            <Field sourceFieldName="recordSequenceNumber" targetFieldName="REC_TYPE_ID_KEY"/>
+            <Field sourceFieldName="" targetFieldName="EVENT_TYPE_KEY"/>
+            <Field sourceFieldName="recordOpeningTime" targetFieldName="EVENT_START_TIME"/>
+            <Field sourceFieldName="servingNodePLMNIdentifier" targetFieldName="SERVING_PLMN_ID"/>
+            <Field sourceFieldName="servingNodeType" targetFieldName="SERVING_NODE_TYPE"/>
+            <Field sourceFieldName="userLocationInformation" targetFieldName="CGI_ID"/>
+            <Field sourceFieldName="nodeID" targetFieldName="NODE_ID"/>
+            <Field sourceFieldName="rATType" targetFieldName="RAT_TYPE"/>
+            <Field sourceFieldName="" targetFieldName="SRV_TYPE_KEY"/>
+            <Field sourceFieldName="chargingCharacteristics" targetFieldName="CHARGING_CHARACTERISTICS"/>
+            <Field sourceFieldName="servedMSISDN" targetFieldName="ORIGINAL_A_NUM"/>
+            <Field sourceFieldName="servedMSISDN" targetFieldName="SERVED_MSISDN"/>
+            <Field sourceFieldName="" targetFieldName="SERVED_MSISDN_DIAL_DIGIT_KEY"/>
+            <Field sourceFieldName="ratingGroup" targetFieldName="RATING_GROUP"/>
+            <Field sourceFieldName="localSequenceNumber" targetFieldName="LOCAL_SEQ_NUM"/>
+            <Field sourceFieldName="sgsnAddress" targetFieldName="SGSN_ADDRESS"/>
+            <Field sourceFieldName="serviceConditionChange" targetFieldName="SERVICE_COND_CHANGE"/>
+            <Field sourceFieldName="qoSInformationNeg" targetFieldName="QOS_INFO"/>
+            <Field sourceFieldName="dataVolumeFBCUplink" targetFieldName="DATA_VOLUME_FBC_UPLINK"/>
+            <Field sourceFieldName="dataVolumeFBCDownlink" targetFieldName="DATA_VOLUME_FBC_DOWNLINK"/>
+            <Field sourceFieldName="" targetFieldName="TOTAL_VOLUME"/>
+            <Field sourceFieldName="" targetFieldName="TIME_FIRST_USAGE"/>
+            <Field sourceFieldName="" targetFieldName="TIME_LAST_USAGE"/>
+            <Field sourceFieldName="timeOfReportTime" targetFieldName="REPORT_TIME"/>
+            <Field sourceFieldName="" targetFieldName="BILLABLE_VOLUME"/>
+            <Field sourceFieldName="filename" targetFieldName="FILE_NAME"/>
+            <Field sourceFieldName="EVENT_DATE"/>
+            <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+            <Field sourceFieldName="POPULATION_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+            <Field sourceFieldName="_SEQUENCE_NUMBER"/>
+        </Event>
     </DataDef>
 </Adapter>
