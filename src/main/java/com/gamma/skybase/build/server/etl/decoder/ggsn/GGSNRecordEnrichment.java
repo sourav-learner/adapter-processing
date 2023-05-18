@@ -23,18 +23,10 @@ public class GGSNRecordEnrichment implements IEnrichment {
     private static final Logger logger = LoggerFactory.getLogger(GGSNRecordEnrichment.class);
     private final OpcoBusinessTransformation transformationLib = new OpcoBusinessTransformation();
 
-    private static final String FORMAT1 = "yyMMddHHmmss";
-    private static final String FORMAT2 = "yyyyMMdd HH:mm:ss";
-
-    private static final ThreadLocal<SimpleDateFormat> sdfS = ThreadLocal.withInitial(() -> new SimpleDateFormat(FORMAT1));
-    private static final ThreadLocal<SimpleDateFormat> sdfT = ThreadLocal.withInitial(() -> new SimpleDateFormat(FORMAT2));
-
-//    final ThreadLocal<SimpleDateFormat> sdfT = ThreadLocal.withInitial(
-//            () -> new SimpleDateFormat("yyyyMMdd HH:mm:ss"));
-//    final ThreadLocal<SimpleDateFormat> fullDate = ThreadLocal.withInitial(
-//            () -> new SimpleDateFormat("yyyyMMdd"));
-//    private final ThreadLocal<SimpleDateFormat> sdfS = ThreadLocal.withInitial(
-//            () -> new SimpleDateFormat("yyyyMMddHHmmss"));
+    final ThreadLocal<SimpleDateFormat> sdfT = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMdd HH:mm:ss"));
+    final ThreadLocal<SimpleDateFormat> fullDate = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMdd"));
+    private final ThreadLocal<SimpleDateFormat> sdfS = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMddHHmmss"));
+    ThreadLocal<SimpleDateFormat> sdfT1 = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyMMddHHmmss Z"));
 
     String opcoCode = AppConfig.instance().getProperty("app.datasource.opcode");
     String countryCode = AppConfig.instance().getProperty("app.datasource.countrycode");
@@ -86,12 +78,12 @@ public class GGSNRecordEnrichment implements IEnrichment {
             String strServingNodeType = strServingNode.substring(strServingNode.indexOf('=') + 1, strServingNode.indexOf('}'));
 
             Object seqNumber = data.get("_SEQUENCE_NUMBER");
-            commonAttributes.put("_SEQUENCE_NUMBER",seqNumber);
+            commonAttributes.put("_SEQUENCE_NUMBER", seqNumber);
             Object fileName = data.get("fileName");
 //            Object recordExtensions = data.get("recordExtensions");
 //            Object serviceEventUrl = getServiceEventUrlIfPresent(recordExtensions);
 
-            commonAttributes.put("CDR_SEQUENCE_NUM",cdrSeqNum);
+            commonAttributes.put("CDR_SEQUENCE_NUM", cdrSeqNum);
             commonAttributes.put("EVENT_TYPE", eventType);
             commonAttributes.put("RECORD_TYPE", recordType);
             commonAttributes.put("SERVED_IMSI", servedIMSI);
@@ -120,8 +112,8 @@ public class GGSNRecordEnrichment implements IEnrichment {
                 else
                     recTypeIdKey = "6";
             }
-            commonAttributes.put("recordSequenceNumber",recordSequenceNumber);
-            commonAttributes.put("causeForRecClosing",causeForRecClosing);
+            commonAttributes.put("recordSequenceNumber", recordSequenceNumber);
+            commonAttributes.put("causeForRecClosing", causeForRecClosing);
             commonAttributes.put("REC_TYPE_ID_KEY", recTypeIdKey);
             if (accessPointNameNI != null) {
                 String eventTypeKey;
@@ -131,19 +123,13 @@ public class GGSNRecordEnrichment implements IEnrichment {
             }
 
             if (recordOpeningTime != null) {
-//                try {
-//                    Date date = sdfT.get().parse(recordOpeningTime.toString());
-//                    String formattedDate = sdfT.get().format(date);
-//                    commonAttributes.put("EVENT_START_TIME", formattedDate);
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
-
                 Date eventStartTime = sdfS.get().parse(recordOpeningTime.toString());
-                commonAttributes.put("EVENT_START_TIME", sdfT.get().format(eventStartTime)); // 2
-                commonAttributes.put("XDR_DATE", sdfT.get().format(eventStartTime)); // 2
-                commonAttributes.put("POPULATION_DATE", sdfT.get().format(new Date())); // 2
-                commonAttributes.put("EVENT_DATE", new SimpleDateFormat("yyyyMMdd").format(eventStartTime) + " 00:00:00"); //31
+                String eventStart = sdfT.get().format(eventStartTime);
+                commonAttributes.put("EVENT_START_TIME", eventStart);
+                commonAttributes.put("XDR_DATE", eventStart);
+                commonAttributes.put("POPULATION_DATE", sdfT.get().format(new Date()));
+                String eventDate = fullDate.get().format(eventStartTime);
+                commonAttributes.put("EVENT_DATE", eventDate); //31
             }
 
             commonAttributes.put("FILE_NAME", fileName);
@@ -153,7 +139,7 @@ public class GGSNRecordEnrichment implements IEnrichment {
 
             String userLocation = userLocationInformation.toString().substring(4);
 
-            commonAttributes.put("ECI",userLocation);
+            commonAttributes.put("ECI", userLocation);
             commonAttributes.put("NODE_ID", nodeID);
             commonAttributes.put("EXT_TYPE", extensionType);
             commonAttributes.put("RAT_TYPE", rATType);
@@ -191,10 +177,9 @@ public class GGSNRecordEnrichment implements IEnrichment {
 
             Object listOfTrafficVolumes = data.get("listOfTrafficVolumes");
 
-            if (data.containsKey("listOfServiceData") == true)
-            {
+            if (data.containsKey("listOfServiceData") == true) {
                 serviceList = data.get("listOfServiceData");
-            }else{
+            } else {
                 //nothing to do
             }
 
@@ -246,11 +231,11 @@ public class GGSNRecordEnrichment implements IEnrichment {
 
     private List<LinkedHashMap<String, Object>> handleListOfServiceData(Object serviceData) {
         if (serviceData instanceof ArrayList) {
-            ArrayList<LinkedHashMap<String, Object>> sd = (ArrayList<LinkedHashMap<String,java.lang.Object>>) serviceData;
-            LinkedHashMap<String , Object> csc = sd.get(0);
-            ArrayList<LinkedHashMap<String , Object>> list = (ArrayList<LinkedHashMap<String, Object>>) csc.get("ChangeOfServiceCondition");
+            ArrayList<LinkedHashMap<String, Object>> sd = (ArrayList<LinkedHashMap<String, java.lang.Object>>) serviceData;
+            LinkedHashMap<String, Object> csc = sd.get(0);
+            ArrayList<LinkedHashMap<String, Object>> list = (ArrayList<LinkedHashMap<String, Object>>) csc.get("ChangeOfServiceCondition");
 
-            if (list.size()>0) {
+            if (list.size() > 0) {
                 LinkedHashMap<String, Object> serviceEntry = (LinkedHashMap<String, Object>) list.get(0);
                 LinkedHashMap<String, Object> serviceEntries = new LinkedHashMap<>();
                 serviceEntries.put("ratingGroup", serviceEntry.get("ratingGroup"));
@@ -273,9 +258,8 @@ public class GGSNRecordEnrichment implements IEnrichment {
 
     private LinkedHashMap<String, Object> splitByRatingGroup(List<LinkedHashMap<String, Object>> listOfServiceData, LinkedHashMap<String, Object> commonAttributes) {
         LinkedHashMap<String, Object> rgMappings = new LinkedHashMap<>();
-        if (listOfServiceData != null){
+        if (listOfServiceData != null) {
             for (LinkedHashMap<String, Object> serviceData : listOfServiceData) {
-                try {
                 LinkedHashMap<String, Object> rgData = new LinkedHashMap<>(commonAttributes);
                 String ratingGroup = String.valueOf(serviceData.get("ratingGroup"));
                 String localSequenceNumber = String.valueOf(serviceData.get("localSequenceNumber"));
@@ -302,61 +286,67 @@ public class GGSNRecordEnrichment implements IEnrichment {
                 }
 
                 rgData.put("TOTAL_VOLUME", totalVolume);
-                    Date timeOfFirstUsageTime = sdfS.get().parse(timeOfFirstUsage.toString());
-                    Date timeOfLastUsageTime = sdfS.get().parse(timeOfLastUsage.toString());
-                    Date timeOfReportTime = sdfS.get().parse(timeOfReport.toString());
-                    rgData.put("TIME_FIRST_USAGE", sdfT.get().format(timeOfFirstUsageTime));
-                    rgData.put("TIME_LAST_USAGE", sdfT.get().format(timeOfLastUsageTime));
-                    rgData.put("REPORT_TIME", sdfT.get().format(timeOfReportTime));
+                try {
+                    Date timeFirst = sdfT1.get().parse(timeOfFirstUsage.toString());
+                    String timeFirstUsage = sdfT.get().format(timeFirst);
+                    rgData.put("TIME_FIRST_USAGE", timeFirstUsage);
 
-                rgMappings.put(key, rgData);
+                    Date timeLast = sdfT1.get().parse(timeOfLastUsage.toString());
+                    String timeLastUsage = sdfT.get().format(timeLast);
+                    rgData.put("TIME_LAST_USAGE", timeLastUsage);
+
+                    Date timeReport = sdfT1.get().parse(timeOfReport.toString());
+                    String reportTime = sdfT.get().format(timeReport);
+                    rgData.put("REPORT_TIME", reportTime);
+
                 } catch (ParseException e) {
-                    logger.error(e.getMessage(), e);
+                    e.printStackTrace();
+                }
+                rgMappings.put(key, rgData);
                 }
             }
+            return rgMappings;
         }
-        return rgMappings;
-    }
 
-    private Object getServiceEventUrlIfPresent(Object recordExtensions) {
-        if (recordExtensions == null) return "";
+        private Object getServiceEventUrlIfPresent (Object recordExtensions){
+            if (recordExtensions == null) return "";
 
-        List<Object> recordExtensionList = (List<Object>) recordExtensions;
-        LinkedHashMap<String, Object> recordExtensionEntry = (LinkedHashMap<String, Object>) recordExtensionList.stream().findFirst().get();
-        Object serviceList = recordExtensionEntry.get("serviceList");
-        if (serviceList == null) return "";
+            List<Object> recordExtensionList = (List<Object>) recordExtensions;
+            LinkedHashMap<String, Object> recordExtensionEntry = (LinkedHashMap<String, Object>) recordExtensionList.stream().findFirst().get();
+            Object serviceList = recordExtensionEntry.get("serviceList");
+            if (serviceList == null) return "";
 
-        String serviceEventUrl = "";
-        ArrayList<Object> servList = (ArrayList<Object>) serviceList;
-        if (servList.size() > 0) {
-            Object serviceObjList = servList.stream().findFirst().get();
-            List<Object> serviceEntryList = (List<Object>) serviceObjList;
-            if (serviceEntryList.size() > 0) {
-                Object serviceObj = serviceEntryList.stream().findFirst().get();
-                if (serviceObj instanceof LinkedHashMap) {
-                    LinkedHashMap<String, Object> service = (LinkedHashMap<String, Object>) serviceObj;
-                    if (service.containsKey("url"))
-                        serviceEventUrl = (String) service.get("url");
+            String serviceEventUrl = "";
+            ArrayList<Object> servList = (ArrayList<Object>) serviceList;
+            if (servList.size() > 0) {
+                Object serviceObjList = servList.stream().findFirst().get();
+                List<Object> serviceEntryList = (List<Object>) serviceObjList;
+                if (serviceEntryList.size() > 0) {
+                    Object serviceObj = serviceEntryList.stream().findFirst().get();
+                    if (serviceObj instanceof LinkedHashMap) {
+                        LinkedHashMap<String, Object> service = (LinkedHashMap<String, Object>) serviceObj;
+                        if (service.containsKey("url"))
+                            serviceEventUrl = (String) service.get("url");
+                    }
                 }
             }
+            return serviceEventUrl;
         }
-        return serviceEventUrl;
-    }
 
-    String normalizeMSISDN(String number) {
-        if (number != null) {
-            if (number.startsWith("0")) {
-                number = ltrim(number, '0');
+        String normalizeMSISDN (String number){
+            if (number != null) {
+                if (number.startsWith("0")) {
+                    number = ltrim(number, '0');
+                    if (number.length() < 10) {
+                        number = "966" + number;
+                    }
+                }
                 if (number.length() < 10) {
                     number = "966" + number;
                 }
+                return number;
             }
-            if (number.length() < 10) {
-                number = "966" + number;
-            }
-            return number;
+            return "";
         }
-        return "";
-    }
 
-}
+    }
