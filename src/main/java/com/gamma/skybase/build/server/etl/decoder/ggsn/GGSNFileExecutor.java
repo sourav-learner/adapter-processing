@@ -114,11 +114,13 @@ public class GGSNFileExecutor extends AFileSourceDecoder {
                     metadata.noOfParsedRecord++;
                     Object chargingCharacteristics = txRec.get("chargingCharacteristics");
                     String eventType;
-                    if (chargingCharacteristics.toString().trim().equalsIgnoreCase("8"))
-                        eventType = "PGWRecord_PRE";
-                    else
-                        eventType = "PGWRecord_POST";
-                    handleEvents(eventType, txRec);
+//                    if (chargingCharacteristics.toString().trim().equalsIgnoreCase("8"))
+//                        eventType = "PGWRecord_PRE";
+//                    else
+//                        eventType = "PGWRecord_POST";
+//                    handleEvents(eventType, txRec);
+                    eventType="FCT_ASN_GGSN";
+                    handleEvents(eventType,txRec);
                 }
             }
         }
