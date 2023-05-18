@@ -22,11 +22,19 @@ import static com.gamma.telco.utility.TelcoEnrichmentUtility.ltrim;
 public class GGSNRecordEnrichment implements IEnrichment {
     private static final Logger logger = LoggerFactory.getLogger(GGSNRecordEnrichment.class);
     private final OpcoBusinessTransformation transformationLib = new OpcoBusinessTransformation();
+
     private static final String FORMAT1 = "yyMMddHHmmss";
     private static final String FORMAT2 = "yyyyMMdd HH:mm:ss";
 
     private static final ThreadLocal<SimpleDateFormat> sdfS = ThreadLocal.withInitial(() -> new SimpleDateFormat(FORMAT1));
     private static final ThreadLocal<SimpleDateFormat> sdfT = ThreadLocal.withInitial(() -> new SimpleDateFormat(FORMAT2));
+
+//    final ThreadLocal<SimpleDateFormat> sdfT = ThreadLocal.withInitial(
+//            () -> new SimpleDateFormat("yyyyMMdd HH:mm:ss"));
+//    final ThreadLocal<SimpleDateFormat> fullDate = ThreadLocal.withInitial(
+//            () -> new SimpleDateFormat("yyyyMMdd"));
+//    private final ThreadLocal<SimpleDateFormat> sdfS = ThreadLocal.withInitial(
+//            () -> new SimpleDateFormat("yyyyMMddHHmmss"));
 
     String opcoCode = AppConfig.instance().getProperty("app.datasource.opcode");
     String countryCode = AppConfig.instance().getProperty("app.datasource.countrycode");
@@ -72,6 +80,7 @@ public class GGSNRecordEnrichment implements IEnrichment {
             Object rATType = data.get("rATType");
             Object userLocationInformation = data.get("userLocationInformation");
             Object servingNodeType = data.get("ServingNodeType");
+            Object cdrSeqNum = data.get("localSequenceNumber");
 
             String strServingNode = servingNodeType.toString();
             String strServingNodeType = strServingNode.substring(strServingNode.indexOf('=') + 1, strServingNode.indexOf('}'));
@@ -79,9 +88,10 @@ public class GGSNRecordEnrichment implements IEnrichment {
             Object seqNumber = data.get("_SEQUENCE_NUMBER");
             commonAttributes.put("_SEQUENCE_NUMBER",seqNumber);
             Object fileName = data.get("fileName");
-            Object recordExtensions = data.get("recordExtensions");
-            Object serviceEventUrl = getServiceEventUrlIfPresent(recordExtensions);
+//            Object recordExtensions = data.get("recordExtensions");
+//            Object serviceEventUrl = getServiceEventUrlIfPresent(recordExtensions);
 
+            commonAttributes.put("CDR_SEQUENCE_NUM",cdrSeqNum);
             commonAttributes.put("EVENT_TYPE", eventType);
             commonAttributes.put("RECORD_TYPE", recordType);
             commonAttributes.put("SERVED_IMSI", servedIMSI);
@@ -97,7 +107,7 @@ public class GGSNRecordEnrichment implements IEnrichment {
             commonAttributes.put("PDP_TYPE", pdpPDNType);
             commonAttributes.put("DYNAMIC_ADDRESS_FLAG", dynamicAddressFlag);
             commonAttributes.put("ORIGINAL_DUR", duration);
-            commonAttributes.put("SERVICE_EVENT_URL", serviceEventUrl);
+//            commonAttributes.put("SERVICE_EVENT_URL", serviceEventUrl);
 
             String recTypeIdKey;
             if (recordSequenceNumber == null)
@@ -110,6 +120,8 @@ public class GGSNRecordEnrichment implements IEnrichment {
                 else
                     recTypeIdKey = "6";
             }
+            commonAttributes.put("recordSequenceNumber",recordSequenceNumber);
+            commonAttributes.put("causeForRecClosing",causeForRecClosing);
             commonAttributes.put("REC_TYPE_ID_KEY", recTypeIdKey);
             if (accessPointNameNI != null) {
                 String eventTypeKey;
@@ -119,17 +131,29 @@ public class GGSNRecordEnrichment implements IEnrichment {
             }
 
             if (recordOpeningTime != null) {
+//                try {
+//                    Date date = sdfT.get().parse(recordOpeningTime.toString());
+//                    String formattedDate = sdfT.get().format(date);
+//                    commonAttributes.put("EVENT_START_TIME", formattedDate);
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
+
                 Date eventStartTime = sdfS.get().parse(recordOpeningTime.toString());
                 commonAttributes.put("EVENT_START_TIME", sdfT.get().format(eventStartTime)); // 2
                 commonAttributes.put("XDR_DATE", sdfT.get().format(eventStartTime)); // 2
-                commonAttributes.put("POPULATION_DATE_TIME", sdfT.get().format(new Date())); // 2
-                commonAttributes.put("GENERATED_FULL_DATE", new SimpleDateFormat("yyyyMMdd").format(eventStartTime) + " 00:00:00"); //31
+                commonAttributes.put("POPULATION_DATE", sdfT.get().format(new Date())); // 2
+                commonAttributes.put("EVENT_DATE", new SimpleDateFormat("yyyyMMdd").format(eventStartTime) + " 00:00:00"); //31
             }
 
             commonAttributes.put("FILE_NAME", fileName);
             commonAttributes.put("SERVING_PLMN_ID", servingNodePLMNIdentifier);
             commonAttributes.put("SERVING_NODE_TYPE", strServingNodeType);
             commonAttributes.put("CGI_ID", userLocationInformation);
+
+            String userLocation = userLocationInformation.toString().substring(4);
+
+            commonAttributes.put("ECI",userLocation);
             commonAttributes.put("NODE_ID", nodeID);
             commonAttributes.put("EXT_TYPE", extensionType);
             commonAttributes.put("RAT_TYPE", rATType);
@@ -156,7 +180,8 @@ public class GGSNRecordEnrichment implements IEnrichment {
             if (servedMSISDN != null) {
                 commonAttributes.put("ORIGINAL_A_NUM", servedMSISDN);
 //                servedMSISDN = servedMSISDN.toString().substring(2);
-                commonAttributes.put("SERVED_MSISDN", servedMSISDN);
+                String servedMsisdn = normalizeMSISDN((String) servedMSISDN);
+                commonAttributes.put("SERVED_MSISDN", servedMsisdn);
                 ReferenceDimDialDigit ddk = transformationLib.getDialedDigitSettings(servedMSISDN.toString());
                 if (ddk != null) {
                     commonAttributes.put("SERVED_MSISDN_DIAL_DIGIT_KEY", ddk.getDialDigitKey());
@@ -251,37 +276,32 @@ public class GGSNRecordEnrichment implements IEnrichment {
         if (listOfServiceData != null){
             for (LinkedHashMap<String, Object> serviceData : listOfServiceData) {
                 try {
-                    LinkedHashMap<String, Object> rgData = new LinkedHashMap<>(commonAttributes);
-                    String ratingGroup = String.valueOf(serviceData.get("ratingGroup"));
-                    String localSequenceNumber = String.valueOf(serviceData.get("localSequenceNumber"));
-                    String key = ratingGroup + "|" + localSequenceNumber;
-                    rgData.put("RATING_GROUP", serviceData.get("ratingGroup"));
-                    rgData.put("LOCAL_SEQ_NUM", serviceData.get("localSequenceNumber"));
+                LinkedHashMap<String, Object> rgData = new LinkedHashMap<>(commonAttributes);
+                String ratingGroup = String.valueOf(serviceData.get("ratingGroup"));
+                String localSequenceNumber = String.valueOf(serviceData.get("localSequenceNumber"));
+                String key = ratingGroup + "|" + localSequenceNumber;
+                rgData.put("RATING_GROUP", serviceData.get("ratingGroup"));
+                rgData.put("RG_SEQUENCE_NUM", serviceData.get("localSequenceNumber"));
 //                    rgData.put("SGSN_ADDRESS", strservingNodeAddress);
-                    rgData.put("SERVICE_COND_CHANGE", serviceData.get("serviceConditionChange"));
-                    rgData.put("QOS_INFO", serviceData.get("qoSInformationNeg"));
+                rgData.put("SERVICE_COND_CHANGE", serviceData.get("serviceConditionChange"));
+                rgData.put("QOS_INFO", serviceData.get("qoSInformationNeg"));
+                Object datavolumeFBCUplink = serviceData.get("datavolumeFBCUplink");
+                Object datavolumeFBCDownlink = serviceData.get("datavolumeFBCDownlink");
+                Object timeOfFirstUsage = serviceData.get("timeOfFirstUsage");
+                Object timeOfLastUsage = serviceData.get("timeOfLastUsage");
+                Object timeOfReport = serviceData.get("timeOfReport");
 
-                    Object datavolumeFBCUplink = serviceData.get("datavolumeFBCUplink");
-                    Object datavolumeFBCDownlink = serviceData.get("datavolumeFBCDownlink");
+                long totalVolume = 0L;
+                if (datavolumeFBCUplink != null) {
+                    totalVolume += Long.parseLong((String.valueOf(datavolumeFBCUplink)));
+                    rgData.put("DATA_VOLUME_FBC_UPLINK", datavolumeFBCUplink);
+                }
+                if (datavolumeFBCDownlink != null) {
+                    totalVolume += Long.parseLong((String.valueOf(datavolumeFBCDownlink)));
+                    rgData.put("DATA_VOLUME_FBC_DOWNLINK", datavolumeFBCDownlink);
+                }
 
-                    rgData.put("DATA_VOLUME_FB_UPLINK",serviceData.get("datavolumeFBCUplink"));
-                    rgData.put("DATA_VOLUME_FB_DOWNLINK",serviceData.get("datavolumeFBCDownlink"));
-
-                    Object timeOfFirstUsage = serviceData.get("timeOfFirstUsage");
-                    Object timeOfLastUsage = serviceData.get("timeOfLastUsage");
-                    Object timeOfReport = serviceData.get("timeOfReport");
-
-                    long totalVolume = 0L;
-                    if (datavolumeFBCUplink != null) {
-                        totalVolume += Long.parseLong((String.valueOf(datavolumeFBCUplink)));
-                        rgData.put("DATA_VOLUME_FBC_UPLINK", datavolumeFBCUplink);
-                    }
-                    if (datavolumeFBCDownlink != null) {
-                        totalVolume += Long.parseLong((String.valueOf(datavolumeFBCDownlink)));
-                        rgData.put("DATA_VOLUME_FBC_DOWNLINK", datavolumeFBCDownlink);
-                    }
-
-                    rgData.put("TOTAL_VOLUME", totalVolume);
+                rgData.put("TOTAL_VOLUME", totalVolume);
                     Date timeOfFirstUsageTime = sdfS.get().parse(timeOfFirstUsage.toString());
                     Date timeOfLastUsageTime = sdfS.get().parse(timeOfLastUsage.toString());
                     Date timeOfReportTime = sdfS.get().parse(timeOfReport.toString());
@@ -289,7 +309,7 @@ public class GGSNRecordEnrichment implements IEnrichment {
                     rgData.put("TIME_LAST_USAGE", sdfT.get().format(timeOfLastUsageTime));
                     rgData.put("REPORT_TIME", sdfT.get().format(timeOfReportTime));
 
-                    rgMappings.put(key, rgData);
+                rgMappings.put(key, rgData);
                 } catch (ParseException e) {
                     logger.error(e.getMessage(), e);
                 }
@@ -322,4 +342,21 @@ public class GGSNRecordEnrichment implements IEnrichment {
         }
         return serviceEventUrl;
     }
+
+    String normalizeMSISDN(String number) {
+        if (number != null) {
+            if (number.startsWith("0")) {
+                number = ltrim(number, '0');
+                if (number.length() < 10) {
+                    number = "966" + number;
+                }
+            }
+            if (number.length() < 10) {
+                number = "966" + number;
+            }
+            return number;
+        }
+        return "";
+    }
+
 }
