@@ -303,50 +303,50 @@ public class GGSNRecordEnrichment implements IEnrichment {
                     e.printStackTrace();
                 }
                 rgMappings.put(key, rgData);
+            }
+        }
+        return rgMappings;
+    }
+
+    private Object getServiceEventUrlIfPresent(Object recordExtensions) {
+        if (recordExtensions == null) return "";
+
+        List<Object> recordExtensionList = (List<Object>) recordExtensions;
+        LinkedHashMap<String, Object> recordExtensionEntry = (LinkedHashMap<String, Object>) recordExtensionList.stream().findFirst().get();
+        Object serviceList = recordExtensionEntry.get("serviceList");
+        if (serviceList == null) return "";
+
+        String serviceEventUrl = "";
+        ArrayList<Object> servList = (ArrayList<Object>) serviceList;
+        if (servList.size() > 0) {
+            Object serviceObjList = servList.stream().findFirst().get();
+            List<Object> serviceEntryList = (List<Object>) serviceObjList;
+            if (serviceEntryList.size() > 0) {
+                Object serviceObj = serviceEntryList.stream().findFirst().get();
+                if (serviceObj instanceof LinkedHashMap) {
+                    LinkedHashMap<String, Object> service = (LinkedHashMap<String, Object>) serviceObj;
+                    if (service.containsKey("url"))
+                        serviceEventUrl = (String) service.get("url");
                 }
             }
-            return rgMappings;
         }
+        return serviceEventUrl;
+    }
 
-        private Object getServiceEventUrlIfPresent (Object recordExtensions){
-            if (recordExtensions == null) return "";
-
-            List<Object> recordExtensionList = (List<Object>) recordExtensions;
-            LinkedHashMap<String, Object> recordExtensionEntry = (LinkedHashMap<String, Object>) recordExtensionList.stream().findFirst().get();
-            Object serviceList = recordExtensionEntry.get("serviceList");
-            if (serviceList == null) return "";
-
-            String serviceEventUrl = "";
-            ArrayList<Object> servList = (ArrayList<Object>) serviceList;
-            if (servList.size() > 0) {
-                Object serviceObjList = servList.stream().findFirst().get();
-                List<Object> serviceEntryList = (List<Object>) serviceObjList;
-                if (serviceEntryList.size() > 0) {
-                    Object serviceObj = serviceEntryList.stream().findFirst().get();
-                    if (serviceObj instanceof LinkedHashMap) {
-                        LinkedHashMap<String, Object> service = (LinkedHashMap<String, Object>) serviceObj;
-                        if (service.containsKey("url"))
-                            serviceEventUrl = (String) service.get("url");
-                    }
-                }
-            }
-            return serviceEventUrl;
-        }
-
-        String normalizeMSISDN (String number){
-            if (number != null) {
-                if (number.startsWith("0")) {
-                    number = ltrim(number, '0');
-                    if (number.length() < 10) {
-                        number = "966" + number;
-                    }
-                }
+    String normalizeMSISDN(String number) {
+        if (number != null) {
+            if (number.startsWith("0")) {
+                number = ltrim(number, '0');
                 if (number.length() < 10) {
                     number = "966" + number;
                 }
-                return number;
             }
-            return "";
+            if (number.length() < 10) {
+                number = "966" + number;
+            }
+            return number;
         }
-
+        return "";
     }
+
+}
