@@ -259,6 +259,9 @@ public class GGSNRecordEnrichment implements IEnrichment {
     private LinkedHashMap<String, Object> splitByRatingGroup(List<LinkedHashMap<String, Object>> listOfServiceData, LinkedHashMap<String, Object> commonAttributes) {
         LinkedHashMap<String, Object> rgMappings = new LinkedHashMap<>();
         if (listOfServiceData != null) {
+            Map<String, Date> minFirstUsageMap = new HashMap<>();
+            Map<String, Date> maxLastUsageMap = new HashMap<>();
+
             for (LinkedHashMap<String, Object> serviceData : listOfServiceData) {
                 LinkedHashMap<String, Object> rgData = new LinkedHashMap<>(commonAttributes);
                 String ratingGroup = String.valueOf(serviceData.get("ratingGroup"));
@@ -266,7 +269,6 @@ public class GGSNRecordEnrichment implements IEnrichment {
                 String key = ratingGroup + "|" + localSequenceNumber;
                 rgData.put("RATING_GROUP", serviceData.get("ratingGroup"));
                 rgData.put("RG_SEQUENCE_NUM", serviceData.get("localSequenceNumber"));
-//                    rgData.put("SGSN_ADDRESS", strservingNodeAddress);
                 rgData.put("SERVICE_COND_CHANGE", serviceData.get("serviceConditionChange"));
                 rgData.put("QOS_INFO", serviceData.get("qoSInformationNeg"));
                 Object datavolumeFBCUplink = serviceData.get("datavolumeFBCUplink");
@@ -284,28 +286,46 @@ public class GGSNRecordEnrichment implements IEnrichment {
                     totalVolume += Long.parseLong((String.valueOf(datavolumeFBCDownlink)));
                     rgData.put("DATA_VOLUME_FBC_DOWNLINK", datavolumeFBCDownlink);
                 }
-
                 rgData.put("TOTAL_VOLUME", totalVolume);
-                try {
-                    Date timeFirst = sdfT1.get().parse(timeOfFirstUsage.toString());
-                    String timeFirstUsage = sdfT.get().format(timeFirst);
-                    rgData.put("TIME_FIRST_USAGE", timeFirstUsage);
 
-                    Date timeLast = sdfT1.get().parse(timeOfLastUsage.toString());
-                    String timeLastUsage = sdfT.get().format(timeLast);
-                    rgData.put("TIME_LAST_USAGE", timeLastUsage);
+                // Check if the current ratingGroup and localSequenceNumber combination exists in the maps
+                if (minFirstUsageMap.containsKey(key) && maxLastUsageMap.containsKey(key)) {
+                    Date currentFirstUsage = getDateFromString(timeOfFirstUsage.toString());
+                    Date currentLastUsage = getDateFromString(timeOfLastUsage.toString());
 
-                    Date timeReport = sdfT1.get().parse(timeOfReport.toString());
-                    String reportTime = sdfT.get().format(timeReport);
-                    rgData.put("REPORT_TIME", reportTime);
+                    // Update the minimum timeOfFirstUsage if the current value is smaller
+                    if (currentFirstUsage != null && currentFirstUsage.before(minFirstUsageMap.get(key))) {
+                        minFirstUsageMap.put(key, currentFirstUsage);
+                    }
 
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                    // Update the maximum timeOfLastUsage if the current value is larger
+                    if (currentLastUsage != null && currentLastUsage.after(maxLastUsageMap.get(key))) {
+                        maxLastUsageMap.put(key, currentLastUsage);
+                    }
+                } else {
+                    minFirstUsageMap.put(key, getDateFromString(timeOfFirstUsage.toString()));
+                    maxLastUsageMap.put(key, getDateFromString(timeOfLastUsage.toString()));
                 }
+                rgData.put("TIME_FIRST_USAGE", formatDate(minFirstUsageMap.get(key)));
+                rgData.put("TIME_LAST_USAGE", formatDate(maxLastUsageMap.get(key)));
+                rgData.put("REPORT_TIME", timeOfReport);
+
                 rgMappings.put(key, rgData);
             }
         }
         return rgMappings;
+    }
+    private String formatDate(Date date) {
+        return sdfT.get().format(date);
+    }
+
+    private Date getDateFromString(String dateString) {
+        try {
+            return sdfT1.get().parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private Object getServiceEventUrlIfPresent(Object recordExtensions) {
@@ -348,5 +368,4 @@ public class GGSNRecordEnrichment implements IEnrichment {
         }
         return "";
     }
-
 }
