@@ -7,7 +7,7 @@
     <!--Extraction tag-->
     <Extraction type="sniff" protocol="local"
                 execClass="com.gamma.skybase.server.core.collector.sniff.DefaultSniffingExtractionAgent">
-        <Settings host="" port="" path="/raetl/processing/tag_gasn/poll" username="" password="">
+        <Settings host="" port="" path="/raetl/processing/ggsn/poll" username="" password="">
             <Signature required="false" key=""/>
             <Extract pattern="" metaFields="fileName\" dateFieldPattern="yyyyMMdd"/>
         </Settings>
