@@ -1,4 +1,4 @@
-package com.gamma.skybase.build.server.etl.decoder.mobily_sgsn;
+package com.gamma.skybase.build.server.etl.decoder.huw_sgsn_gpx;
 
 import com.gamma.skybase.contract.decoders.IEnrichment;
 import com.gamma.skybase.contract.decoders.MEnrichmentReq;
@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Optional;
 
-public class MobilySGSNRecordEnrichment implements IEnrichment {
+public class HuwSGSNGpxRecordEnrichment implements IEnrichment {
 
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
 
@@ -18,7 +18,7 @@ public class MobilySGSNRecordEnrichment implements IEnrichment {
         MEnrichmentResponse response = new MEnrichmentResponse();
         LinkedHashMap<String, Object> record = request.getRequest();
 
-        MobilySGSNEnrichmentUtil tx = MobilySGSNEnrichmentUtil.of(record);
+        HuwSGSNGpxEnrichmentUtil tx = HuwSGSNGpxEnrichmentUtil.of(record);
 
 
 //        EVENT_START_TIME

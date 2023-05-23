@@ -1,4 +1,4 @@
-package com.gamma.skybase.build.server.etl.decoder.mobily_sgsn;
+package com.gamma.skybase.build.server.etl.decoder.huw_sgsn_gpx;
 
 import com.gamma.components.commons.constants.GammaConstants;
 import com.gamma.components.structure.IDatum;
@@ -16,8 +16,8 @@ import java.io.FileWriter;
 import java.util.*;
 
 @SuppressWarnings("Duplicates")
-public class MobilySGSNFileExecutor extends MobilySGSNFileProcessor {
-    private static final Logger logger = LoggerFactory.getLogger(MobilySGSNFileExecutor.class);
+public class HuwSGSNGpxFileExecutor extends HuwSGSNGpxFileProcessor {
+    private static final Logger logger = LoggerFactory.getLogger(HuwSGSNGpxFileExecutor.class);
     private List<LinkedHashMap<String, Object>> jsonRecords;
     String[] headers = new String[]{"SEQUENCENUMBER" , "BATCHNUMBER" , "SERVICETYPE" , "TOTALTYPE" , "CALLINDICATOR" , "MSISDN" , "ACCESSPOINTNAME" , "CALL_EVENT_START_TIMESTAMP" , "TOTAL_CALL_EVENT_DURATION" , "PARTIALCALLINDICATOR" , "CNUMBER" , "IMSI" , "NODEID" , "SERVICEID" , "EQUIPMENTIDA" , "EQUIPMENTIDAB" , "CELLNAME" , "LOCATIONAREAID" , "MSCLASSWORK" , "MSRN" , "MSCID" , "CALL_REFERENCE_NUMBER" , "RECORDINGENTITYIDENTIFICATION" , "PDP_TYPE" , "PDPADDRESS" , "CAUSE_FOR_TERMINATION" , "PDPCONTEXTSTARTTIMESTAMP" , "CHARGING_ID" , "RESERVED" , "DATAVOLUMEINCOMING" , "DATAVOLUMEOUTGOING" , "SGSN_Address" , "GGSN_Address" , "PORTINFLAG" };
 
@@ -124,7 +124,7 @@ public class MobilySGSNFileExecutor extends MobilySGSNFileProcessor {
                 LinkedHashMap<String, Object> data = response.getResponse();
                 metadata.noOfParsedRecord++;
                 if (data != null)
-                    handleEvents("FCT_SGSN", data);
+                    handleEvents("FCT_HUW_SGSN_GPX", data);
             }
         }
     }
