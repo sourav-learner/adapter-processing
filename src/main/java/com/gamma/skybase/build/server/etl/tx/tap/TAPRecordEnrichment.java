@@ -60,6 +60,7 @@ public class TAPRecordEnrichment implements IEnrichment {
         Object eventType = record.get("eventType");
         txRecord.put("eventType", eventType);
         txRecord.put("FILE_NAME", record.get("fileName"));
+        txRecord.put("_SEQUENCE_NUMBER",record.get("_SEQUENCE_NUMBER"));
 
         switch (eventType.toString().trim().toLowerCase()) {
             case "notification":
@@ -217,7 +218,7 @@ public class TAPRecordEnrichment implements IEnrichment {
         txRecord.put("CHARGEABLE_UNITS", chargeableUnits);
         txRecord.put("ORIGINAL_DUR", originalDuration);
 //        if(originalDuration > 0) billablePulse = (long) Math.ceil((double) originalDuration / 60);
-        if(chargeableUnits > 0) billablePulse = (long) Math.ceil((double) chargeableUnits / 60);
+        if (chargeableUnits > 0) billablePulse = (long) Math.ceil((double) chargeableUnits / 60);
         txRecord.put("BILLABLE_PULSE", billablePulse);
 
 
@@ -386,7 +387,7 @@ public class TAPRecordEnrichment implements IEnrichment {
         int localOffsetInMins = ZoneOffset.of(localDateOffset).getTotalSeconds() / 60;
 
 //        int offsetDiff = partnerOffsetInMins - localOffsetInMins;
-        int offsetDiff =  localOffsetInMins - partnerOffsetInMins;
+        int offsetDiff = localOffsetInMins - partnerOffsetInMins;
         Date date = DateUtility.addMinutesToDate(cdrRecordDate, offsetDiff);
         return date;
     }
@@ -432,7 +433,7 @@ public class TAPRecordEnrichment implements IEnrichment {
             value = subInfo.getPrepaidFlag();
             if (value != null)
                 try {
-                    int val =Integer.parseInt(value);
+                    int val = Integer.parseInt(value);
                     return val;
                 } catch (Exception ignore) {
                     ignore.printStackTrace();
@@ -451,7 +452,7 @@ public class TAPRecordEnrichment implements IEnrichment {
 
             Object infoList = getElementsList(items, "ChargeInformationList");
             List<Object> chargeInfoList = (List<Object>) infoList;
-            for (Object  obj : chargeInfoList) {
+            for (Object obj : chargeInfoList) {
                 out.putAll(handleChargeInformation(obj));
             }
         }
