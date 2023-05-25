@@ -350,7 +350,7 @@
             <Field sourceFieldName="_SEQUENCE_NUMBER"/>
         </Event>
 
-        <Event eventName="FCT_ASN_GGSN" tableName="FCT_ASN_GGSN" synonym="FCT_ASN_GGSN" dataBase="">
+        <Event eventName="FCT_GGSN" tableName="FCT_GGSN" synonym="FCT_GGSN" dataBase="">
             <Field sourceFieldName="RECORD_TYPE"/>
             <Field sourceFieldName="SERVED_IMSI"/>
             <Field sourceFieldName="SERVED_IMEI"/>
