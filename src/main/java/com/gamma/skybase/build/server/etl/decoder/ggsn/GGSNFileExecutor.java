@@ -119,7 +119,7 @@ public class GGSNFileExecutor extends AFileSourceDecoder {
 //                    else
 //                        eventType = "PGWRecord_POST";
 //                    handleEvents(eventType, txRec);
-                    eventType="FCT_ASN_GGSN";
+                    eventType="FCT_GGSN";
                     handleEvents(eventType,txRec);
                 }
             }
