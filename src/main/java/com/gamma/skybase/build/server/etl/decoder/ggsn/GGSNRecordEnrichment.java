@@ -146,7 +146,7 @@ public class GGSNRecordEnrichment implements IEnrichment {
 
             if (chargingCharacteristics != null) {
                 chargingCharacteristics = ltrim(chargingCharacteristics.toString(), '0').trim();
-                boolean hasPLMN = servingNodePLMNIdentifier != null && servingNodePLMNIdentifier.toString().startsWith(opcoCode);
+                boolean hasPLMN = hasPLMN(servingNodePLMNIdentifier.toString());
                 String srvTypeKey;
                 switch (chargingCharacteristics.toString().trim()) {
                     case "4":
@@ -204,6 +204,14 @@ public class GGSNRecordEnrichment implements IEnrichment {
             logger.error(e.getMessage(), e);
         }
         return null;
+    }
+
+    boolean hasPLMN(String plmn) {
+        if (plmn == null || plmn.trim().isEmpty()) return false;
+        String[] opcoCodes = opcoCode.split(",");
+        for (int i = 0; i < opcoCodes.length; i++)
+            if (plmn.startsWith(opcoCodes[i])) return true;
+        return false;
     }
 
     @Override
@@ -306,10 +314,13 @@ public class GGSNRecordEnrichment implements IEnrichment {
                     minFirstUsageMap.put(key, getDateFromString(timeOfFirstUsage.toString()));
                     maxLastUsageMap.put(key, getDateFromString(timeOfLastUsage.toString()));
                 }
-                rgData.put("TIME_FIRST_USAGE", formatDate(minFirstUsageMap.get(key)));
-                rgData.put("TIME_LAST_USAGE", formatDate(maxLastUsageMap.get(key)));
-                rgData.put("REPORT_TIME", timeOfReport);
 
+                String timeFirst = timeOfFirstUsage.toString();
+                rgData.put("TIME_FIRST_USAGE", getString(timeFirst));
+                String timeLast = timeOfLastUsage.toString();
+                rgData.put("TIME_LAST_USAGE", getString(timeLast));
+                String timeReport = timeOfReport.toString();
+                rgData.put("REPORT_TIME", getString(timeReport));
                 rgMappings.put(key, rgData);
             }
         }
@@ -322,6 +333,20 @@ public class GGSNRecordEnrichment implements IEnrichment {
     private Date getDateFromString(String dateString) {
         try {
             return sdfT1.get().parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private String getString(String dates) {
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyMMddHHmmss Z");
+        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+        try {
+            Date date = inputFormat.parse(dates);
+            String formattedTimestamp = outputFormat.format(date);
+//            System.out.println(formattedTimestamp);
+            return formattedTimestamp;
         } catch (ParseException e) {
             e.printStackTrace();
         }
