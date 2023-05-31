@@ -100,6 +100,9 @@ public class CbsSmsRecordEnrichment implements IEnrichment {
                         case "GSM-Lebara Mobile":
                         case "LEBARA- Free Number":
                         case "LEBARA-Spl Number":
+                        case "LEBARA-VAS":
+                        case "LEBARA -M2M":
+                        case "LEBARA-B2B-DATA-NUMBER":
                             otherPartyNwIndKey = "1";
                             break;
                         default:
