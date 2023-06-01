@@ -290,7 +290,9 @@
             <Field sourceFieldName="RATING_GROUP"/>
             <Field sourceFieldName="LOCAL_SEQ_NUM"/>
             <Field sourceFieldName="SERVICE_COND_CHANGE"/>
-            <Field sourceFieldName="QOS_INFO"/>
+<!--            <Field sourceFieldName="QOS_INFO"/>-->
+            <Field sourceFieldName="QOS_INFO_qC1"/>
+            <Field sourceFieldName="QOS_INFO_aRP"/>
             <Field sourceFieldName="SERVICE_EVENT_URL"/>
             <Field sourceFieldName="DATA_VOLUME_FBC_UPLINK" dataType="long" default="0"/>
             <Field sourceFieldName="DATA_VOLUME_FBC_DOWNLINK"  dataType="long" default="0"/>
@@ -337,7 +339,9 @@
             <Field sourceFieldName="RATING_GROUP"/>
             <Field sourceFieldName="LOCAL_SEQ_NUM"/>
             <Field sourceFieldName="SERVICE_COND_CHANGE"/>
-            <Field sourceFieldName="QOS_INFO"/>
+<!--            <Field sourceFieldName="QOS_INFO"/>-->
+            <Field sourceFieldName="QOS_INFO_qC1"/>
+            <Field sourceFieldName="QOS_INFO_aRP"/>
             <Field sourceFieldName="SERVICE_EVENT_URL"/>
             <Field sourceFieldName="DATA_VOLUME_FBC_UPLINK" dataType="long" default="0"/>
             <Field sourceFieldName="DATA_VOLUME_FBC_DOWNLINK"  dataType="long" default="0"/>
@@ -384,7 +388,9 @@
             <Field sourceFieldName="RG_SEQUENCE_NUM"/>
             <Field sourceFieldName="SGSN_ADDRESS"/>
             <Field sourceFieldName="SERVICE_COND_CHANGE"/>
-            <Field sourceFieldName="QOS_INFO"/>
+<!--            <Field sourceFieldName="QOS_INFO"/>-->
+            <Field sourceFieldName="QOS_INFO_qC1"/>
+            <Field sourceFieldName="QOS_INFO_aRP"/>
             <Field sourceFieldName="DATA_VOLUME_FBC_UPLINK"/>
             <Field sourceFieldName="DATA_VOLUME_FBC_DOWNLINK"/>
             <Field sourceFieldName="TOTAL_VOLUME"/>

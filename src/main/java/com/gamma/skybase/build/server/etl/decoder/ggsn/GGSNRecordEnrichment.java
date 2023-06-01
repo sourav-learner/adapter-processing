@@ -27,7 +27,6 @@ public class GGSNRecordEnrichment implements IEnrichment {
     final ThreadLocal<SimpleDateFormat> fullDate = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMdd"));
     private final ThreadLocal<SimpleDateFormat> sdfS = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMddHHmmss"));
     ThreadLocal<SimpleDateFormat> sdfT1 = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyMMddHHmmss Z"));
-
     String opcoCode = AppConfig.instance().getProperty("app.datasource.opcode");
     String countryCode = AppConfig.instance().getProperty("app.datasource.countrycode");
     Object serviceList = null;
@@ -278,7 +277,22 @@ public class GGSNRecordEnrichment implements IEnrichment {
                 rgData.put("RATING_GROUP", serviceData.get("ratingGroup"));
                 rgData.put("RG_SEQUENCE_NUM", serviceData.get("localSequenceNumber"));
                 rgData.put("SERVICE_COND_CHANGE", serviceData.get("serviceConditionChange"));
-                rgData.put("QOS_INFO", serviceData.get("qoSInformationNeg"));
+                //rgData.put("QOS_INFO", serviceData.get("qoSInformationNeg"));
+               // String qosInfoValue = serviceData.get("qoSInformationNeg").toString();
+                String qosInfoValue = serviceData.get("qoSInformationNeg").toString();
+                String[] values = qosInfoValue.split("\\s+");
+
+                for (int i = 0; i < values.length; i++) {
+                    String key1;
+                    if (i == 0) {
+                        key1 = "QOS_INFO_qC1";
+                    } else {
+                        key1 = "QOS_INFO_aRP";
+                    }
+                    String numericValue = values[i].replaceAll("[^0-9]", "");
+                    rgData.put(key1, numericValue);
+                }
+
                 Object datavolumeFBCUplink = serviceData.get("datavolumeFBCUplink");
                 Object datavolumeFBCDownlink = serviceData.get("datavolumeFBCDownlink");
                 Object timeOfFirstUsage = serviceData.get("timeOfFirstUsage");
