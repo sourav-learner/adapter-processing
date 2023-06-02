@@ -1,5 +1,8 @@
 package com.gamma.skybase.build.server.etl.decoder.ggsn;
 
+import org.apache.commons.lang3.StringUtils;
+
+import javax.xml.bind.DatatypeConverter;
 import java.io.*;
 import java.math.BigInteger;
 import java.net.InetAddress;
@@ -20,10 +23,11 @@ public class ASNDot1Reader extends TLReader {
     long offset;
     int size;
     Decoder decoder;
+
     public ASNDot1Reader(String fileName, String cfg) {
         try {
             this.fileName = fileName;
-             decoder = new Decoder(cfg);
+            decoder = new Decoder(cfg);
             FileInputStream fis = new FileInputStream(fileName);
             bis = new BufferedInputStream(fis);
         } catch (IOException e) {
@@ -35,11 +39,12 @@ public class ASNDot1Reader extends TLReader {
     public static void main(String[] args) throws Exception {
 //        String filename = "C:\\sandbox\\asn-decoders\\huawei-gsn-lebara\\data\\L1CG1_FILE20220901000000_9640.dat";
 //        String filename = "C:\\sandbox\\asn-decoders\\huawei-gsn-lebara\\data\\L1CG1_FILE20220901000004_9641.dat";
-        String dirName = "/home/gamma/Documents/Gamma/File/Lebara/SpecNSamples-20230127T125147Z-001/SpecNSamples/GGSN/parser";
+        String dirName = "C:\\data\\lebara\\huawei-ggsn";
 //      String filename = "C:\\sandbox\\incubator\\gasn\\gasn\\data\\sudan_south\\ggsn\\PSPGW2022091000213111";
 
         String[] f = new File(dirName).list();
         for (String filename : f) {
+            if (filename.endsWith(".gz")) continue;
             ASNDot1Reader executor = new ASNDot1Reader(dirName + "/" + filename, "");
             while (executor.hasNext()) {
                 try {
@@ -191,7 +196,7 @@ public class ASNDot1Reader extends TLReader {
                     String tagName = decoder.getTagInfo(tagNo).name;
                     Object val = nodes.get(tagName);
                     if (val != null) {
-                            ((ArrayList) val).add(nestedTag);
+                        ((ArrayList) val).add(nestedTag);
                     } else {
                         List<Object> l = new ArrayList<>();
                         l.add(nestedTag);
@@ -286,7 +291,8 @@ class Decoder {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        String filePath = props.getProperty("app.ggsn.path");
+//        String filePath = props.getProperty("C:\\projects\\Lebara_RAFM\\skybase-lebara-build\\conf\\parser\\ggsn.csv");
+        String filePath = "C:\\projects\\Lebara_RAFM\\skybase-lebara-build\\conf\\parser\\ggsn.csv";
         Path path = Paths.get(filePath);
         try (Stream<String> lines = Files.lines(path)) {
             lines.forEach(l -> {
@@ -369,6 +375,21 @@ class Decoder {
     }
 
     public static String toUSER_LOCATION_INFO(byte[] bytes) {
+        String cgiIDKey = "";
+        if (bytes.length > 0) {
+            cgiIDKey = DatatypeConverter.printHexBinary(bytes);
+
+            byte typeByte = bytes[0];
+            if (typeByte > 8) {
+                String hexCellLoc = StringUtils.right(cgiIDKey, 8);
+                long eci = new BigInteger(hexCellLoc, 16).longValue();
+                return cgiIDKey + "-" + eci;
+            }
+        }
+        return cgiIDKey;
+    }
+
+    public static String toUSER_LOCATION_INFO1(byte[] bytes) {
         StringBuilder uli = new StringBuilder();
         int index = 0;
 
@@ -391,15 +412,11 @@ class Decoder {
         index++;
         mnc.append(bytes[index] & 0xF);
         mnc.append((bytes[index] & 0xF0) >>> 4);
-
         String lac = toLong(bytes, index, 2);
-        if (lac.length() < 5) lac = String.format("%05d", Integer.parseInt(lac));
 
         index += 2;
         String ci = toLong(bytes, index, 2);
-        if (ci.length() < 5) ci = String.format("%05d", Integer.parseInt(ci));
-
-        return uli.append(mcc).append(mnc).append(lac).append(ci).toString();
+        return uli.append(mcc).append(mnc).append('-').append(lac).append(ci).toString();
     }
 
     public static String toLong(byte[] ints, int index, int intLength) throws NumberFormatException {
@@ -582,6 +599,16 @@ class Decoder {
         return lNum;
     }
 
+    static class TagProps {
+        public String name, method;
+        Object value;
+
+        public TagProps(String name, String method) {
+            this.name = name;
+            this.method = method;
+        }
+    }
+
     public static String IPV4Address(byte[] data) {
         try {
             return InetAddress.getByAddress(data).getHostAddress();
@@ -655,16 +682,6 @@ class Decoder {
 //            tbcd.append((data[data.length - 1] & 0xF0) >>> 4);
 //        }
         return tbcd.toString();
-    }
-
-    static class TagProps {
-        public String name, method;
-        Object value;
-
-        public TagProps(String name, String method) {
-            this.name = name;
-            this.method = method;
-        }
     }
 }
 
