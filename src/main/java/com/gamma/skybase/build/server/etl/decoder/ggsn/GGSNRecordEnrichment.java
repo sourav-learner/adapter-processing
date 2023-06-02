@@ -10,8 +10,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static com.gamma.telco.utility.TelcoEnrichmentUtility.ltrim;
@@ -24,6 +27,7 @@ public class GGSNRecordEnrichment implements IEnrichment {
     private final OpcoBusinessTransformation transformationLib = new OpcoBusinessTransformation();
 
     final ThreadLocal<SimpleDateFormat> sdfT = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMdd HH:mm:ss"));
+
     final ThreadLocal<SimpleDateFormat> fullDate = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMdd"));
     private final ThreadLocal<SimpleDateFormat> sdfS = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMddHHmmss"));
     ThreadLocal<SimpleDateFormat> sdfT1 = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyMMddHHmmss Z"));
@@ -136,9 +140,9 @@ public class GGSNRecordEnrichment implements IEnrichment {
             commonAttributes.put("SERVING_NODE_TYPE", strServingNodeType);
             commonAttributes.put("CGI_ID", userLocationInformation);
 
-            String userLocation = userLocationInformation.toString().substring(4);
-
-            commonAttributes.put("ECI", userLocation);
+            String userLocation = userLocationInformation.toString();
+            String userLoc = userLocation.toString().substring(0, 11);
+            commonAttributes.put("ECI", userLoc);
             commonAttributes.put("NODE_ID", nodeID);
             commonAttributes.put("EXT_TYPE", extensionType);
             commonAttributes.put("RAT_TYPE", rATType);
@@ -257,18 +261,15 @@ public class GGSNRecordEnrichment implements IEnrichment {
                 serviceEntries.put("dataVolumeFBCDownlink", serviceEntry.get("dataVolumeFBCDownlink"));
                 serviceEntries.put("timeOfReport", serviceEntry.get("timeOfReport"));
                 list.add(serviceEntries);
-            }
+                                    }
             return list;
         }
         return null;
     }
 
-    private LinkedHashMap<String, Object> splitByRatingGroup(List<LinkedHashMap<String, Object>> listOfServiceData, LinkedHashMap<String, Object> commonAttributes) {
+    public static LinkedHashMap<String, Object> splitByRatingGroup(List<LinkedHashMap<String, Object>> listOfServiceData, LinkedHashMap<String, Object> commonAttributes) throws Exception {
         LinkedHashMap<String, Object> rgMappings = new LinkedHashMap<>();
         if (listOfServiceData != null) {
-            Map<String, Date> minFirstUsageMap = new HashMap<>();
-            Map<String, Date> maxLastUsageMap = new HashMap<>();
-
             for (LinkedHashMap<String, Object> serviceData : listOfServiceData) {
                 LinkedHashMap<String, Object> rgData = new LinkedHashMap<>(commonAttributes);
                 String ratingGroup = String.valueOf(serviceData.get("ratingGroup"));
@@ -277,28 +278,12 @@ public class GGSNRecordEnrichment implements IEnrichment {
                 rgData.put("RATING_GROUP", serviceData.get("ratingGroup"));
                 rgData.put("RG_SEQUENCE_NUM", serviceData.get("localSequenceNumber"));
                 rgData.put("SERVICE_COND_CHANGE", serviceData.get("serviceConditionChange"));
-                //rgData.put("QOS_INFO", serviceData.get("qoSInformationNeg"));
-               // String qosInfoValue = serviceData.get("qoSInformationNeg").toString();
-                String qosInfoValue = serviceData.get("qoSInformationNeg").toString();
-                String[] values = qosInfoValue.split("\\s+");
-
-                for (int i = 0; i < values.length; i++) {
-                    String key1;
-                    if (i == 0) {
-                        key1 = "QOS_INFO_qC1";
-                    } else {
-                        key1 = "QOS_INFO_aRP";
-                    }
-                    String numericValue = values[i].replaceAll("[^0-9]", "");
-                    rgData.put(key1, numericValue);
-                }
-
+                rgData.put("QOS_INFO", serviceData.get("qoSInformationNeg"));
                 Object datavolumeFBCUplink = serviceData.get("datavolumeFBCUplink");
                 Object datavolumeFBCDownlink = serviceData.get("datavolumeFBCDownlink");
                 Object timeOfFirstUsage = serviceData.get("timeOfFirstUsage");
                 Object timeOfLastUsage = serviceData.get("timeOfLastUsage");
                 Object timeOfReport = serviceData.get("timeOfReport");
-
                 long totalVolume = 0L;
                 if (datavolumeFBCUplink != null) {
                     totalVolume += Long.parseLong((String.valueOf(datavolumeFBCUplink)));
@@ -310,36 +295,57 @@ public class GGSNRecordEnrichment implements IEnrichment {
                 }
                 rgData.put("TOTAL_VOLUME", totalVolume);
 
-                // Check if the current ratingGroup and localSequenceNumber combination exists in the maps
-                if (minFirstUsageMap.containsKey(key) && maxLastUsageMap.containsKey(key)) {
-                    Date currentFirstUsage = getDateFromString(timeOfFirstUsage.toString());
-                    Date currentLastUsage = getDateFromString(timeOfLastUsage.toString());
+                String timeFirstPrevious = null, timeLastPrevious = null, timeLastCurrent = null, timeFirstCurrent = null;
+                LocalDateTime maxTimeFirst = null, minTimeLast = null;
+                if (rgMappings.containsKey(key)) {
+                    LinkedHashMap<String, Object> tmp = (LinkedHashMap<String, Object>) rgMappings.get(key);
+                    Object tmpFirstCurrent = tmp.get("TIME_FIRST_USAGE");
+                    Object tmpLastCurrent = tmp.get("TIME_LAST_USAGE");
 
-                    // Update the minimum timeOfFirstUsage if the current value is smaller
-                    if (currentFirstUsage != null && currentFirstUsage.before(minFirstUsageMap.get(key))) {
-                        minFirstUsageMap.put(key, currentFirstUsage);
+                    // Get the maximum timeOfFirstUsage between current and previous records
+                    if (timeOfFirstUsage != null & timeOfLastUsage != null) {
+                        timeFirstCurrent = timeOfFirstUsage.toString();
+                        timeLastCurrent = timeOfLastUsage.toString();
+                    }
+                    if (tmpFirstCurrent != null && tmpLastCurrent != null) {
+                        timeFirstPrevious = tmpFirstCurrent.toString();
+                        timeLastPrevious = tmpLastCurrent.toString();
                     }
 
-                    // Update the maximum timeOfLastUsage if the current value is larger
-                    if (currentLastUsage != null && currentLastUsage.after(maxLastUsageMap.get(key))) {
-                        maxLastUsageMap.put(key, currentLastUsage);
+                    if (tmpFirstCurrent != null && timeLastCurrent != null) {
+                       maxTimeFirst = compareTimeMin(getString(timeFirstCurrent), timeFirstPrevious);
+                       minTimeLast = compareTimeMax(getString(timeLastCurrent), timeLastPrevious);
                     }
+                    tmp.put("TIME_FIRST_USAGE", maxTimeFirst);
+                    tmp.put("TIME_LAST_USAGE", minTimeLast);
                 } else {
-                    minFirstUsageMap.put(key, getDateFromString(timeOfFirstUsage.toString()));
-                    maxLastUsageMap.put(key, getDateFromString(timeOfLastUsage.toString()));
+                    String timeFirst = timeOfFirstUsage.toString();
+                    rgData.put("TIME_FIRST_USAGE", getString(timeFirst));
+                    String timeLast = timeOfLastUsage.toString();
+                    rgData.put("TIME_LAST_USAGE", getString(timeLast));
+                    String timeReport = timeOfReport.toString();
+                    rgData.put("REPORT_TIME", getString(timeReport));
                 }
-
-                String timeFirst = timeOfFirstUsage.toString();
-                rgData.put("TIME_FIRST_USAGE", getString(timeFirst));
-                String timeLast = timeOfLastUsage.toString();
-                rgData.put("TIME_LAST_USAGE", getString(timeLast));
-                String timeReport = timeOfReport.toString();
-                rgData.put("REPORT_TIME", getString(timeReport));
                 rgMappings.put(key, rgData);
             }
         }
         return rgMappings;
     }
+
+    private static LocalDateTime compareTimeMax(String time1, String time2) {
+        final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
+        LocalDateTime dateTime1 = LocalDateTime.parse(time1, FORMATTER);
+        LocalDateTime dateTime2 = LocalDateTime.parse(time2, FORMATTER);
+        return dateTime1.isAfter(dateTime2) ? dateTime1 : dateTime2;
+    }
+
+    private static LocalDateTime compareTimeMin(String time1, String time2) {
+        final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
+        LocalDateTime dateTime1 = LocalDateTime.parse(time1, FORMATTER);
+        LocalDateTime dateTime2 = LocalDateTime.parse(time2, FORMATTER);
+        return dateTime1.isAfter(dateTime2) ? dateTime1 : dateTime2;
+    }
+
     private String formatDate(Date date) {
         return sdfT.get().format(date);
     }
@@ -353,16 +359,55 @@ public class GGSNRecordEnrichment implements IEnrichment {
         return null;
     }
 
-    private String getString(String dates) {
+    private static String getString(String dates) {
         SimpleDateFormat inputFormat = new SimpleDateFormat("yyMMddHHmmss Z");
         SimpleDateFormat outputFormat = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
         try {
             Date date = inputFormat.parse(dates);
             String formattedTimestamp = outputFormat.format(date);
-//            System.out.println(formattedTimestamp);
             return formattedTimestamp;
         } catch (ParseException e) {
             e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Date getDate(String date1) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+        if (date1 != null) {
+            try {
+                String sDate = date1.toString();
+                Date date4 = formatter.parse(sDate);
+                return date4;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    public String dummyDate(String str) throws Exception {
+        Date date = new Date();
+        try {
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date dateLnx = df.parse(str);
+            long epoch = dateLnx.getTime();
+            System.out.println(epoch);
+
+            date = new Date(epoch);
+            System.out.println(".....1->" + date);
+            DateFormat format = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+            format.setTimeZone(TimeZone.getTimeZone("Etc/UTC"));
+            String formatted = format.format(date);
+            System.out.println(formatted);
+            format.setTimeZone(TimeZone.getTimeZone("India"));
+            formatted = format.format(date);
+            System.out.println("Formatted -> " + formatted);
+            return formatted;
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
         }
         return null;
     }
