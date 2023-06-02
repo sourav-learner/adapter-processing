@@ -1,4 +1,4 @@
-package com.gamma.skybase.build.server.etl.decoder.crm_dealer;
+package com.gamma.skybase.build.server.etl.decoder.huw_sgsn_unl;
 
 import com.gamma.components.commons.constants.GammaConstants;
 import com.gamma.components.structure.IDatum;
@@ -10,19 +10,16 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.io.FileWriter;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @SuppressWarnings("Duplicates")
-public class CrmDealerFileExecutor extends CrmDealerFileProcessor {
-    private static final Logger logger = LoggerFactory.getLogger(CrmDealerFileExecutor.class);
+public class HuwSGSNUnlFileExecutor extends HuwSGSNUnlFileProcessor {
+    private static final Logger logger = LoggerFactory.getLogger(HuwSGSNUnlFileExecutor.class);
     private List<LinkedHashMap<String, Object>> jsonRecords;
-    String[] headers = new String[]{"DEALER_ID" , "DEALER_NAME" , "BE_ID" , "CHANNEL_TYPE" , "DEALER_GRADE" , "STATUS" , "FULLNAME" , "ZONE" , "DISTRICT" , "ADDRESS_ID" , "OPERATOR" , "CREATE_DATE" , "REMARKS" , "INFO1" , "INFO2" , "INFO3" , "INFO4" , "INFO5" , "INFO6" , "INFO7" , "INFO8" , "INFO9" , "INFO10" , "DEALER_CODE" , "IS_EVC" , "SUPER_DEALER_ID"};
+
+    String[] headers = new String[]{"SEQUENCENUMBER" , "BATCHNUMBER" , "SERVICETYPE" , "TOTALTYPE" , "CALLINDICATOR" , "MSISDN" , "ACCESSPOINTNAME" , "CALL_EVENT_START_TIMESTAMP" , "TOTAL_CALL_EVENT_DURATION" , "PARTIALCALLINDICATOR" , "CNUMBER" , "IMSI" , "NODEID" , "SERVICEID" , "EQUIPMENTIDA" , "EQUIPMENTIDAB" , "CELLNAME" , "LOCATIONAREAID" , "MSCLASSWORK" , "MSRN" , "MSCID" , "CALL_REFERENCE_NUMBER" , "RECORDINGENTITYIDENTIFICATION" , "PDP_TYPE" , "PDPADDRESS" , "CAUSE_FOR_TERMINATION" , "PDPCONTEXTSTARTTIMESTAMP" , "CHARGING_ID" , "RESERVED" , "DATAVOLUMEINCOMING" , "DATAVOLUMEOUTGOING" , "SGSN_Address" , "GGSN_Address" , "PORTINFLAG" , "UNKNOWN"};
 
     @Override
     public void parseFile(String fileName) throws Exception {
@@ -47,7 +44,7 @@ public class CrmDealerFileExecutor extends CrmDealerFileProcessor {
         try {
             long recCount = 1;
 
-            decoder = new DelimitedFileDecoder(fileName, '|', headers, 0);
+            decoder = new DelimitedFileDecoder(fileName, ',', headers, 0);
             while (decoder.hasNext()) {
                 try {
                     LinkedHashMap<String, Object> record = decoder.next();
@@ -56,9 +53,10 @@ public class CrmDealerFileExecutor extends CrmDealerFileProcessor {
                     record.put("fileName", metadata.decompFileName);
                     processRecord(record, enrichment);
                 } catch (Exception e) {
+                    e.printStackTrace();
                     metadata.comments = "Parsing issues";
                     metadata.noOfBadRecord++;
-                    logger.error(dataSource.getAdapterName() + " -> " + e.getMessage(), e);
+                    logger.error(dataSource.getAdapterName() + " -> " , e.getMessage(), e);
                 }
                 recCount++;
                 metadata.totalNoOfRecords = recCount;
@@ -87,7 +85,7 @@ public class CrmDealerFileExecutor extends CrmDealerFileProcessor {
                 LinkedHashMap<String, Object> data = response.getResponse();
                 metadata.noOfParsedRecord++;
                 if (data != null)
-                    handleEvents("FCT_HUW_CRM_DEALER", data);
+                    handleEvents("FCT_HUW_SGSN_UNL", data);
             }
         }
     }

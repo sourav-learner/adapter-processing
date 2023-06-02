@@ -10,8 +10,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static com.gamma.telco.utility.TelcoEnrichmentUtility.ltrim;
@@ -22,12 +25,12 @@ import static com.gamma.telco.utility.TelcoEnrichmentUtility.ltrim;
 public class GGSNRecordEnrichment implements IEnrichment {
     private static final Logger logger = LoggerFactory.getLogger(GGSNRecordEnrichment.class);
     private final OpcoBusinessTransformation transformationLib = new OpcoBusinessTransformation();
-    private static final String FORMAT1 = "yyMMddHHmmss";
-    private static final String FORMAT2 = "yyyyMMdd HH:mm:ss";
 
-    private static final ThreadLocal<SimpleDateFormat> sdfS = ThreadLocal.withInitial(() -> new SimpleDateFormat(FORMAT1));
-    private static final ThreadLocal<SimpleDateFormat> sdfT = ThreadLocal.withInitial(() -> new SimpleDateFormat(FORMAT2));
+    final ThreadLocal<SimpleDateFormat> sdfT = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMdd HH:mm:ss"));
 
+    final ThreadLocal<SimpleDateFormat> fullDate = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMdd"));
+    private final ThreadLocal<SimpleDateFormat> sdfS = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMddHHmmss"));
+    ThreadLocal<SimpleDateFormat> sdfT1 = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyMMddHHmmss Z"));
     String opcoCode = AppConfig.instance().getProperty("app.datasource.opcode");
     String countryCode = AppConfig.instance().getProperty("app.datasource.countrycode");
     Object serviceList = null;
@@ -41,21 +44,19 @@ public class GGSNRecordEnrichment implements IEnrichment {
             Object servedIMSI = data.get("servedIMSI");
             Object pGWAddress = data.get("PGWAddress");
 
-            String strpGWAddress = pGWAddress.toString();
-            strpGWAddress = strpGWAddress.replace("[{pGWAddress=","");
-            strpGWAddress = strpGWAddress.replace("}]","");
+            String pGW = pGWAddress.toString();
+            String strpGWAddress = pGW.substring(pGW.indexOf('=') + 1, pGW.indexOf('}'));
 
             Object servingNodeAddress = data.get("ServingNodeAddress");
-
-            String strservingNodeAddress = servingNodeAddress.toString();
-            strservingNodeAddress = strservingNodeAddress.replace("[{servingNodeAddress=" , "");
-            strservingNodeAddress = strservingNodeAddress.replace("}]" , "");
+            String servingNode = servingNodeAddress.toString();
+            String strservingNodeAddress = servingNode.substring(servingNode.indexOf('=') + 1, servingNode.indexOf('}'));
 
             Object servedPDPPDNAddress = data.get("servedPDPPDNAddress");
+            String servedPDPPDN = servedPDPPDNAddress.toString();
 
-            String strservedPDPPDNAddress = servedPDPPDNAddress.toString();
-            strservedPDPPDNAddress = strservedPDPPDNAddress.replace("[{IPAddress=[{IPV4BinAddress=" , "");
-            strservedPDPPDNAddress = strservedPDPPDNAddress.replace("}]}]" , "");
+            String served = servedPDPPDN.substring(servedPDPPDN.indexOf('=') + 1, servedPDPPDN.indexOf('}'));
+            String[] servedPdpdNAddress = served.split("=");
+            String strservedPDPPDNAddress = servedPdpdNAddress[1];
 
             Object chargingID = data.get("chargingID");
             Object accessPointNameNI = data.get("accessPointNameNI");
@@ -74,15 +75,18 @@ public class GGSNRecordEnrichment implements IEnrichment {
             Object rATType = data.get("rATType");
             Object userLocationInformation = data.get("userLocationInformation");
             Object servingNodeType = data.get("ServingNodeType");
+            Object cdrSeqNum = data.get("localSequenceNumber");
 
-            String strServingNodeType = servingNodeType.toString();
-            strServingNodeType = strServingNodeType.replace("[{servingNodeType=" , "");
-            strServingNodeType = strServingNodeType.replace("}]" , "");
+            String strServingNode = servingNodeType.toString();
+            String strServingNodeType = strServingNode.substring(strServingNode.indexOf('=') + 1, strServingNode.indexOf('}'));
 
+            Object seqNumber = data.get("_SEQUENCE_NUMBER");
+            commonAttributes.put("_SEQUENCE_NUMBER", seqNumber);
             Object fileName = data.get("fileName");
-            Object recordExtensions = data.get("recordExtensions");
-            Object serviceEventUrl = getServiceEventUrlIfPresent(recordExtensions);
+//            Object recordExtensions = data.get("recordExtensions");
+//            Object serviceEventUrl = getServiceEventUrlIfPresent(recordExtensions);
 
+            commonAttributes.put("CDR_SEQUENCE_NUM", cdrSeqNum);
             commonAttributes.put("EVENT_TYPE", eventType);
             commonAttributes.put("RECORD_TYPE", recordType);
             commonAttributes.put("SERVED_IMSI", servedIMSI);
@@ -98,7 +102,7 @@ public class GGSNRecordEnrichment implements IEnrichment {
             commonAttributes.put("PDP_TYPE", pdpPDNType);
             commonAttributes.put("DYNAMIC_ADDRESS_FLAG", dynamicAddressFlag);
             commonAttributes.put("ORIGINAL_DUR", duration);
-            commonAttributes.put("SERVICE_EVENT_URL", serviceEventUrl);
+//            commonAttributes.put("SERVICE_EVENT_URL", serviceEventUrl);
 
             String recTypeIdKey;
             if (recordSequenceNumber == null)
@@ -111,8 +115,9 @@ public class GGSNRecordEnrichment implements IEnrichment {
                 else
                     recTypeIdKey = "6";
             }
+            commonAttributes.put("recordSequenceNumber", recordSequenceNumber);
+            commonAttributes.put("causeForRecClosing", causeForRecClosing);
             commonAttributes.put("REC_TYPE_ID_KEY", recTypeIdKey);
-
             if (accessPointNameNI != null) {
                 String eventTypeKey;
                 if (accessPointNameNI.toString().contains("mms")) eventTypeKey = "3";
@@ -122,23 +127,29 @@ public class GGSNRecordEnrichment implements IEnrichment {
 
             if (recordOpeningTime != null) {
                 Date eventStartTime = sdfS.get().parse(recordOpeningTime.toString());
-                commonAttributes.put("EVENT_START_TIME", sdfT.get().format(eventStartTime)); // 2
-                commonAttributes.put("XDR_DATE", sdfT.get().format(eventStartTime)); // 2
-                commonAttributes.put("POPULATION_DATE_TIME", sdfT.get().format(new Date())); // 2
-                commonAttributes.put("GENERATED_FULL_DATE", new SimpleDateFormat("yyyyMMdd").format(eventStartTime) + " 00:00:00"); //31
+                String eventStart = sdfT.get().format(eventStartTime);
+                commonAttributes.put("EVENT_START_TIME", eventStart);
+                commonAttributes.put("XDR_DATE", eventStart);
+                commonAttributes.put("POPULATION_DATE", sdfT.get().format(new Date()));
+                String eventDate = fullDate.get().format(eventStartTime);
+                commonAttributes.put("EVENT_DATE", eventDate); //31
             }
 
             commonAttributes.put("FILE_NAME", fileName);
             commonAttributes.put("SERVING_PLMN_ID", servingNodePLMNIdentifier);
             commonAttributes.put("SERVING_NODE_TYPE", strServingNodeType);
             commonAttributes.put("CGI_ID", userLocationInformation);
+
+            String userLocation = userLocationInformation.toString();
+            String userLoc = userLocation.toString().substring(0, 11);
+            commonAttributes.put("ECI", userLoc);
             commonAttributes.put("NODE_ID", nodeID);
             commonAttributes.put("EXT_TYPE", extensionType);
             commonAttributes.put("RAT_TYPE", rATType);
 
             if (chargingCharacteristics != null) {
                 chargingCharacteristics = ltrim(chargingCharacteristics.toString(), '0').trim();
-                boolean hasPLMN = servingNodePLMNIdentifier != null && servingNodePLMNIdentifier.toString().startsWith(opcoCode);
+                boolean hasPLMN = hasPLMN(servingNodePLMNIdentifier.toString());
                 String srvTypeKey;
                 switch (chargingCharacteristics.toString().trim()) {
                     case "4":
@@ -158,7 +169,8 @@ public class GGSNRecordEnrichment implements IEnrichment {
             if (servedMSISDN != null) {
                 commonAttributes.put("ORIGINAL_A_NUM", servedMSISDN);
 //                servedMSISDN = servedMSISDN.toString().substring(2);
-                commonAttributes.put("SERVED_MSISDN", servedMSISDN);
+                String servedMsisdn = normalizeMSISDN((String) servedMSISDN);
+                commonAttributes.put("SERVED_MSISDN", servedMsisdn);
                 ReferenceDimDialDigit ddk = transformationLib.getDialedDigitSettings(servedMSISDN.toString());
                 if (ddk != null) {
                     commonAttributes.put("SERVED_MSISDN_DIAL_DIGIT_KEY", ddk.getDialDigitKey());
@@ -168,10 +180,9 @@ public class GGSNRecordEnrichment implements IEnrichment {
 
             Object listOfTrafficVolumes = data.get("listOfTrafficVolumes");
 
-            if (data.containsKey("listOfServiceData") == true)
-            {
+            if (data.containsKey("listOfServiceData") == true) {
                 serviceList = data.get("listOfServiceData");
-            }else{
+            } else {
                 //nothing to do
             }
 
@@ -196,6 +207,14 @@ public class GGSNRecordEnrichment implements IEnrichment {
             logger.error(e.getMessage(), e);
         }
         return null;
+    }
+
+    boolean hasPLMN(String plmn) {
+        if (plmn == null || plmn.trim().isEmpty()) return false;
+        String[] opcoCodes = opcoCode.split(",");
+        for (int i = 0; i < opcoCodes.length; i++)
+            if (plmn.startsWith(opcoCodes[i])) return true;
+        return false;
     }
 
     @Override
@@ -223,11 +242,11 @@ public class GGSNRecordEnrichment implements IEnrichment {
 
     private List<LinkedHashMap<String, Object>> handleListOfServiceData(Object serviceData) {
         if (serviceData instanceof ArrayList) {
-            ArrayList<LinkedHashMap<String, Object>> sd = (ArrayList<LinkedHashMap<String,java.lang.Object>>) serviceData;
-            LinkedHashMap<String , Object> csc = sd.get(0);
-            ArrayList<LinkedHashMap<String , Object>> list = (ArrayList<LinkedHashMap<String, Object>>) csc.get("ChangeOfServiceCondition");
+            ArrayList<LinkedHashMap<String, Object>> sd = (ArrayList<LinkedHashMap<String, java.lang.Object>>) serviceData;
+            LinkedHashMap<String, Object> csc = sd.get(0);
+            ArrayList<LinkedHashMap<String, Object>> list = (ArrayList<LinkedHashMap<String, Object>>) csc.get("ChangeOfServiceCondition");
 
-            if (list.size()>0) {
+            if (list.size() > 0) {
                 LinkedHashMap<String, Object> serviceEntry = (LinkedHashMap<String, Object>) list.get(0);
                 LinkedHashMap<String, Object> serviceEntries = new LinkedHashMap<>();
                 serviceEntries.put("ratingGroup", serviceEntry.get("ratingGroup"));
@@ -242,62 +261,155 @@ public class GGSNRecordEnrichment implements IEnrichment {
                 serviceEntries.put("dataVolumeFBCDownlink", serviceEntry.get("dataVolumeFBCDownlink"));
                 serviceEntries.put("timeOfReport", serviceEntry.get("timeOfReport"));
                 list.add(serviceEntries);
-            }
+                                    }
             return list;
         }
         return null;
     }
 
-    private LinkedHashMap<String, Object> splitByRatingGroup(List<LinkedHashMap<String, Object>> listOfServiceData, LinkedHashMap<String, Object> commonAttributes) {
+    public static LinkedHashMap<String, Object> splitByRatingGroup(List<LinkedHashMap<String, Object>> listOfServiceData, LinkedHashMap<String, Object> commonAttributes) throws Exception {
         LinkedHashMap<String, Object> rgMappings = new LinkedHashMap<>();
-        if (listOfServiceData != null){
+        if (listOfServiceData != null) {
             for (LinkedHashMap<String, Object> serviceData : listOfServiceData) {
-                try {
-                    LinkedHashMap<String, Object> rgData = new LinkedHashMap<>(commonAttributes);
-                    String ratingGroup = String.valueOf(serviceData.get("ratingGroup"));
-                    String localSequenceNumber = String.valueOf(serviceData.get("localSequenceNumber"));
-                    String key = ratingGroup + "|" + localSequenceNumber;
-                    rgData.put("RATING_GROUP", serviceData.get("ratingGroup"));
-                    rgData.put("LOCAL_SEQ_NUM", serviceData.get("localSequenceNumber"));
-//                    rgData.put("SGSN_ADDRESS", strservingNodeAddress);
-                    rgData.put("SERVICE_COND_CHANGE", serviceData.get("serviceConditionChange"));
-                    rgData.put("QOS_INFO", serviceData.get("qoSInformationNeg"));
-
-                    Object datavolumeFBCUplink = serviceData.get("datavolumeFBCUplink");
-                    Object datavolumeFBCDownlink = serviceData.get("datavolumeFBCDownlink");
-
-                    rgData.put("DATA_VOLUME_FB_UPLINK",serviceData.get("datavolumeFBCUplink"));
-                    rgData.put("DATA_VOLUME_FB_DOWNLINK",serviceData.get("datavolumeFBCDownlink"));
-
-                    Object timeOfFirstUsage = serviceData.get("timeOfFirstUsage");
-                    Object timeOfLastUsage = serviceData.get("timeOfLastUsage");
-                    Object timeOfReport = serviceData.get("timeOfReport");
-
-                    long totalVolume = 0L;
-                    if (datavolumeFBCUplink != null) {
-                        totalVolume += Long.parseLong((String.valueOf(datavolumeFBCUplink)));
-                        rgData.put("DATA_VOLUME_FBC_UPLINK", datavolumeFBCUplink);
-                    }
-                    if (datavolumeFBCDownlink != null) {
-                        totalVolume += Long.parseLong((String.valueOf(datavolumeFBCDownlink)));
-                        rgData.put("DATA_VOLUME_FBC_DOWNLINK", datavolumeFBCDownlink);
-                    }
-
-                    rgData.put("TOTAL_VOLUME", totalVolume);
-                    Date timeOfFirstUsageTime = sdfS.get().parse(timeOfFirstUsage.toString());
-                    Date timeOfLastUsageTime = sdfS.get().parse(timeOfLastUsage.toString());
-                    Date timeOfReportTime = sdfS.get().parse(timeOfReport.toString());
-                    rgData.put("TIME_FIRST_USAGE", sdfT.get().format(timeOfFirstUsageTime));
-                    rgData.put("TIME_LAST_USAGE", sdfT.get().format(timeOfLastUsageTime));
-                    rgData.put("REPORT_TIME", sdfT.get().format(timeOfReportTime));
-
-                    rgMappings.put(key, rgData);
-                } catch (ParseException e) {
-                    logger.error(e.getMessage(), e);
+                LinkedHashMap<String, Object> rgData = new LinkedHashMap<>(commonAttributes);
+                String ratingGroup = String.valueOf(serviceData.get("ratingGroup"));
+                String localSequenceNumber = String.valueOf(serviceData.get("localSequenceNumber"));
+                String key = ratingGroup + "|" + localSequenceNumber;
+                rgData.put("RATING_GROUP", serviceData.get("ratingGroup"));
+                rgData.put("RG_SEQUENCE_NUM", serviceData.get("localSequenceNumber"));
+                rgData.put("SERVICE_COND_CHANGE", serviceData.get("serviceConditionChange"));
+                rgData.put("QOS_INFO", serviceData.get("qoSInformationNeg"));
+                Object datavolumeFBCUplink = serviceData.get("datavolumeFBCUplink");
+                Object datavolumeFBCDownlink = serviceData.get("datavolumeFBCDownlink");
+                Object timeOfFirstUsage = serviceData.get("timeOfFirstUsage");
+                Object timeOfLastUsage = serviceData.get("timeOfLastUsage");
+                Object timeOfReport = serviceData.get("timeOfReport");
+                long totalVolume = 0L;
+                if (datavolumeFBCUplink != null) {
+                    totalVolume += Long.parseLong((String.valueOf(datavolumeFBCUplink)));
+                    rgData.put("DATA_VOLUME_FBC_UPLINK", datavolumeFBCUplink);
                 }
+                if (datavolumeFBCDownlink != null) {
+                    totalVolume += Long.parseLong((String.valueOf(datavolumeFBCDownlink)));
+                    rgData.put("DATA_VOLUME_FBC_DOWNLINK", datavolumeFBCDownlink);
+                }
+                rgData.put("TOTAL_VOLUME", totalVolume);
+
+                String timeFirstPrevious = null, timeLastPrevious = null, timeLastCurrent = null, timeFirstCurrent = null;
+                LocalDateTime maxTimeFirst = null, minTimeLast = null;
+                if (rgMappings.containsKey(key)) {
+                    LinkedHashMap<String, Object> tmp = (LinkedHashMap<String, Object>) rgMappings.get(key);
+                    Object tmpFirstCurrent = tmp.get("TIME_FIRST_USAGE");
+                    Object tmpLastCurrent = tmp.get("TIME_LAST_USAGE");
+
+                    // Get the maximum timeOfFirstUsage between current and previous records
+                    if (timeOfFirstUsage != null & timeOfLastUsage != null) {
+                        timeFirstCurrent = timeOfFirstUsage.toString();
+                        timeLastCurrent = timeOfLastUsage.toString();
+                    }
+                    if (tmpFirstCurrent != null && tmpLastCurrent != null) {
+                        timeFirstPrevious = tmpFirstCurrent.toString();
+                        timeLastPrevious = tmpLastCurrent.toString();
+                    }
+
+                    if (tmpFirstCurrent != null && timeLastCurrent != null) {
+                       maxTimeFirst = compareTimeMin(getString(timeFirstCurrent), timeFirstPrevious);
+                       minTimeLast = compareTimeMax(getString(timeLastCurrent), timeLastPrevious);
+                    }
+                    tmp.put("TIME_FIRST_USAGE", maxTimeFirst);
+                    tmp.put("TIME_LAST_USAGE", minTimeLast);
+                } else {
+                    String timeFirst = timeOfFirstUsage.toString();
+                    rgData.put("TIME_FIRST_USAGE", getString(timeFirst));
+                    String timeLast = timeOfLastUsage.toString();
+                    rgData.put("TIME_LAST_USAGE", getString(timeLast));
+                    String timeReport = timeOfReport.toString();
+                    rgData.put("REPORT_TIME", getString(timeReport));
+                }
+                rgMappings.put(key, rgData);
             }
         }
         return rgMappings;
+    }
+
+    private static LocalDateTime compareTimeMax(String time1, String time2) {
+        final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
+        LocalDateTime dateTime1 = LocalDateTime.parse(time1, FORMATTER);
+        LocalDateTime dateTime2 = LocalDateTime.parse(time2, FORMATTER);
+        return dateTime1.isAfter(dateTime2) ? dateTime1 : dateTime2;
+    }
+
+    private static LocalDateTime compareTimeMin(String time1, String time2) {
+        final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
+        LocalDateTime dateTime1 = LocalDateTime.parse(time1, FORMATTER);
+        LocalDateTime dateTime2 = LocalDateTime.parse(time2, FORMATTER);
+        return dateTime1.isAfter(dateTime2) ? dateTime1 : dateTime2;
+    }
+
+    private String formatDate(Date date) {
+        return sdfT.get().format(date);
+    }
+
+    private Date getDateFromString(String dateString) {
+        try {
+            return sdfT1.get().parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static String getString(String dates) {
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyMMddHHmmss Z");
+        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+        try {
+            Date date = inputFormat.parse(dates);
+            String formattedTimestamp = outputFormat.format(date);
+            return formattedTimestamp;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Date getDate(String date1) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+        if (date1 != null) {
+            try {
+                String sDate = date1.toString();
+                Date date4 = formatter.parse(sDate);
+                return date4;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    public String dummyDate(String str) throws Exception {
+        Date date = new Date();
+        try {
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date dateLnx = df.parse(str);
+            long epoch = dateLnx.getTime();
+            System.out.println(epoch);
+
+            date = new Date(epoch);
+            System.out.println(".....1->" + date);
+            DateFormat format = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+            format.setTimeZone(TimeZone.getTimeZone("Etc/UTC"));
+            String formatted = format.format(date);
+            System.out.println(formatted);
+            format.setTimeZone(TimeZone.getTimeZone("India"));
+            formatted = format.format(date);
+            System.out.println("Formatted -> " + formatted);
+            return formatted;
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        return null;
     }
 
     private Object getServiceEventUrlIfPresent(Object recordExtensions) {
@@ -323,5 +435,21 @@ public class GGSNRecordEnrichment implements IEnrichment {
             }
         }
         return serviceEventUrl;
+    }
+
+    String normalizeMSISDN(String number) {
+        if (number != null) {
+            if (number.startsWith("0")) {
+                number = ltrim(number, '0');
+                if (number.length() < 10) {
+                    number = "966" + number;
+                }
+            }
+            if (number.length() < 10) {
+                number = "966" + number;
+            }
+            return number;
+        }
+        return "";
     }
 }

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Adapter Name="HUW_SGSN_UNL" Type="ASN.1" Version="1.0" Active="true" StatusDBHandler="mongo" rawJson="false"
+         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.huw_sgsn_unl.HuwSGSNUnlFileExecutor" ExecMode="server"
+         txExecClass="com.gamma.skybase.build.server.etl.decoder.huw_sgsn_unl.HuwSGSNUnlRecordEnrichment" ignoreLogging="false"
+         ignoreDuplicates="false" parallel="1" instance-size="1" load-factor="1" customized="enable">
+
+    <!--Extraction tag-->
+    <Extraction type="sniff" protocol="local"
+                execClass="com.gamma.skybase.server.core.collector.sniff.DefaultSniffingExtractionAgent">
+        <Settings host="" port="" path="/raetl/processing/huw_sgsn_unl/poll" username="" password="">
+            <Signature required="false" key=""/>
+            <Extract pattern="" metaFields="fileName\" dateFieldPattern="yyyyMMdd"/>
+        </Settings>
+    </Extraction>
+
+    <DirConfig>
+        <Source path="/raetl/processing/huw_sgsn_unl/source" clogging="true"/>
+        <Backup path="/raetl/processing/huw_sgsn_unl/backup" clogging="true" compress="gz"/>
+        <Staging path="/raetl/processing/huw_sgsn_unl/staging" clogging="true"/>
+        <Output path="/raetl/processing/huw_sgsn_unl/output" clogging="true"/>
+        <Error path="/raetl/processing/huw_sgsn_unl/error" clogging="true"/>
+        <Target protocol="" host="" path="/" pwd="" user="" active="true"/>
+    </DirConfig>
+
+    <DataDef>
+        <Event eventName="FCT_HUW_SGSN_UNL" tableName="FCT_HUW_SGSN_UNL" synonym="FCT_HUW_SGSN_UNL" dataBase="">
+            <Field sourceFieldName="SEQUENCENUMBER" targetFieldName="EDR_SEQ_NUM"/>
+            <Field sourceFieldName="BATCHNUMBER" targetFieldName="BATCH_NUMBER"/>
+            <Field sourceFieldName="SERVICETYPE" targetFieldName="SERVICE_TYPE"/>
+            <Field sourceFieldName="TOTALTYPE" targetFieldName="TYPE_OF_SERVICE"/>
+            <Field sourceFieldName="CALLINDICATOR" targetFieldName="SERVICE_INDICATOR"/>
+            <Field sourceFieldName="MSISDN" targetFieldName="ORIGINAL_A_NUMBER"/>
+            <Field sourceFieldName="ACCESSPOINTNAME" targetFieldName="APN_NAME"/>
+            <Field sourceFieldName="EVENT_START_TIME"/>
+            <Field sourceFieldName="EVENT_END_TIME"/>
+            <Field sourceFieldName="TOTAL_CALL_EVENT_DURATION" targetFieldName="SESSION_DURATION"/>
+            <Field sourceFieldName="PARTIALCALLINDICATOR" targetFieldName="REC_TYPE_ID_KEY"/>
+            <Field sourceFieldName="CNUMBER" targetFieldName="C_NUMBER"/>
+            <Field sourceFieldName="IMSI" targetFieldName="SERVED_IMSI"/>
+            <Field sourceFieldName="NODEID" targetFieldName="NODE_ID"/>
+            <Field sourceFieldName="SERVICEID" targetFieldName="SERVICE_ID"/>
+            <Field sourceFieldName="EQUIPMENTIDA" targetFieldName="SERVED_IMEI"/>
+            <Field sourceFieldName="EQUIPMENTIDAB" targetFieldName="TADIG_CODE"/>
+            <Field sourceFieldName="CELLNAME" targetFieldName="CELL_ID"/>
+            <Field sourceFieldName="LOCATIONAREAID" targetFieldName="LOCATION_AREA_CODE"/>
+            <Field sourceFieldName="MSCLASSWORK" targetFieldName="MS_CLASSWORK"/>
+            <Field sourceFieldName="MSRN" targetFieldName="SERVED_MSRN"/>
+            <Field sourceFieldName="MSCID" targetFieldName="MSC_ID"/>
+            <Field sourceFieldName="CALL_REFERENCE_NUMBER" targetFieldName="CALL_REF_NUM"/>
+            <Field sourceFieldName="RECORDINGENTITYIDENTIFICATION" targetFieldName="RECORDING_ENTITY_IDENENTIFIER"/>
+            <Field sourceFieldName="PDP_TYPE" targetFieldName="PDP_TYPE"/>
+            <Field sourceFieldName="PDPADDRESS" targetFieldName="PDP_ADDRESS"/>
+            <Field sourceFieldName="CAUSE_FOR_TERMINATION" targetFieldName="TERMINATION_REASON_KEY"/>
+            <Field sourceFieldName="PDPCONTEXTSTARTTIMESTAMP" targetFieldName="PDPCONTEXT_START_TIME"/>
+            <Field sourceFieldName="CHARGING_ID" targetFieldName="CHARGING_ID"/>
+            <Field sourceFieldName="RESERVED" targetFieldName="RESERVED_VALUE"/>
+            <Field sourceFieldName="DATAVOLUMEINCOMING" targetFieldName="GPRS_DOWNLINK_VOLUME"/>
+            <Field sourceFieldName="DATAVOLUMEOUTGOING" targetFieldName="GPRS_UPLINK_VOLUME"/>
+            <Field sourceFieldName="SGSN_Address" targetFieldName="SGSN_ADDRESS"/>
+            <Field sourceFieldName="GGSN_Address" targetFieldName="GGSN_ADDRESS"/>
+            <Field sourceFieldName="PORTINFLAG" targetFieldName="PORT_IN_FLAG"/>
+            <Field sourceFieldName="SERVED_MSISDN"/>
+            <Field sourceFieldName="SERVED_MSISDN_DIAL_DIGIT_KEY" default="-99"/>
+            <Field sourceFieldName="EVENT_TYPE_KEY" default="4"/>
+            <Field sourceFieldName="SRV_TYPE_KEY"/>
+            <Field sourceFieldName="EVENT_DIRECTION_KEY" default="1"/>
+            <Field sourceFieldName="CHRG_UNIT_ID_KEY" default="7"/>
+            <Field sourceFieldName="BILLABLE_VOLUME"/>
+            <Field sourceFieldName="ZERO_BYTE_IND"/>
+            <Field sourceFieldName="filename" targetFieldName="FILE_NAME"/>
+            <Field sourceFieldName="EVENT_DATE" targetFieldName="EVENT_DATE"/>
+            <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+            <Field sourceFieldName="POPULATION_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+            <Field sourceFieldName="_SEQUENCE_NUMBER"/>
+        </Event>
+    </DataDef>
+</Adapter>

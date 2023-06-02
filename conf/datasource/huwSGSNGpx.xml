@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Adapter Name="MOBILY_SGSN" Type="ASN.1" Version="1.0" Active="true" StatusDBHandler="mongo" rawJson="false"
-         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.mobily_sgsn.MobilySGSNFileExecutor" ExecMode="server"
-         txExecClass="com.gamma.skybase.build.server.etl.decoder.mobily_sgsn.MobilySGSNRecordEnrichment" ignoreLogging="false"
+<Adapter Name="HUW_SGSN_GPX" Type="ASN.1" Version="1.0" Active="true" StatusDBHandler="mongo" rawJson="false"
+         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.huw_sgsn_gpx.HuwSGSNGpxFileExecutor" ExecMode="server"
+         txExecClass="com.gamma.skybase.build.server.etl.decoder.huw_sgsn_gpx.HuwSGSNGpxRecordEnrichment" ignoreLogging="false"
          ignoreDuplicates="false" parallel="1" instance-size="1" load-factor="1" customized="enable">
 
     <!--Extraction tag-->
     <Extraction type="sniff" protocol="local"
                 execClass="com.gamma.skybase.server.core.collector.sniff.DefaultSniffingExtractionAgent">
-        <Settings host="" port="" path="/raetl/processing/mobily_sgsn/poll" username="" password="">
+        <Settings host="" port="" path="/raetl/processing/huw_sgsn_gpx/poll" username="" password="">
             <Signature required="false" key=""/>
             <Extract pattern="" metaFields="fileName\" dateFieldPattern="yyyyMMdd"/>
         </Settings>
     </Extraction>
 
     <DirConfig>
-        <Source path="/raetl/processing/mobily_sgsn/source" clogging="true"/>
-        <Backup path="/raetl/processing/mobily_sgsn/backup" clogging="true" compress="gz"/>
-        <Staging path="/raetl/processing/mobily_sgsn/staging" clogging="true"/>
-        <Output path="/raetl/processing/mobily_sgsn/output" clogging="true"/>
-        <Error path="/raetl/processing/mobily_sgsn/error" clogging="true"/>
+        <Source path="/raetl/processing/huw_sgsn_gpx/source" clogging="true"/>
+        <Backup path="/raetl/processing/huw_sgsn_gpx/backup" clogging="true" compress="gz"/>
+        <Staging path="/raetl/processing/huw_sgsn_gpx/staging" clogging="true"/>
+        <Output path="/raetl/processing/huw_sgsn_gpx/output" clogging="true"/>
+        <Error path="/raetl/processing/huw_sgsn_gpx/error" clogging="true"/>
         <Target protocol="" host="" path="/" pwd="" user="" active="true"/>
     </DirConfig>
 
     <DataDef>
-        <Event eventName="FCT_SGSN" tableName="FCT_SGSN" synonym="FCT_SGSN" dataBase="">
+        <Event eventName="FCT_HUW_SGSN_GPX" tableName="FCT_HUW_SGSN_GPX" synonym="FCT_HUW_SGSN_GPX" dataBase="">
             <Field sourceFieldName="SEQUENCENUMBER" targetFieldName="EDR_SEQ_NUM"/>
             <Field sourceFieldName="BATCHNUMBER" targetFieldName="BATCH_NUMBER"/>
             <Field sourceFieldName="SERVICETYPE" targetFieldName="SERVICE_TYPE"/>
@@ -70,6 +70,7 @@
             <Field sourceFieldName="EVENT_DATE" targetFieldName="EVENT_DATE"/>
             <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
             <Field sourceFieldName="POPULATION_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+            <Field sourceFieldName="_SEQUENCE_NUMBER"/>
         </Event>
     </DataDef>
 </Adapter>

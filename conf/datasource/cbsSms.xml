@@ -13,11 +13,11 @@
     </Extraction>
 
     <DirConfig>
-        <Source  path="/raetl/processing/cbs_sms/source" clogging="true"/>
-        <Backup  path="/raetl/processing/cbs_sms/backup" clogging="true" compress="gz"/>
+        <Source path="/raetl/processing/cbs_sms/source" clogging="true"/>
+        <Backup path="/raetl/processing/cbs_sms/backup" clogging="true" compress="gz"/>
         <Staging path="/raetl/processing/cbs_sms/staging" clogging="true"/>
-        <Output  path="/raetl/processing/cbs_sms/output" clogging="true"/>
-        <Error   path="/raetl/processing/cbs_sms/error" clogging="true"/>
+        <Output path="/raetl/processing/cbs_sms/output" clogging="true"/>
+        <Error path="/raetl/processing/cbs_sms/error" clogging="true"/>
         <Target protocol="" host="" path="/" pwd="" user="" active="true"/>
     </DirConfig>
 
@@ -477,6 +477,7 @@
             <Field sourceFieldName="filename" targetFieldName="File_Name"/>
             <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
             <Field sourceFieldName="POPULATION_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+            <Field sourceFieldName="_SEQUENCE_NUMBER"/>
         </Event>
     </DataDef>
 </Adapter>

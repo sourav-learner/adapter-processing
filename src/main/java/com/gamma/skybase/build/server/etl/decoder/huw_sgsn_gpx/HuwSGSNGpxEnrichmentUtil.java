@@ -1,4 +1,4 @@
-package com.gamma.skybase.build.server.etl.decoder.mobily_sgsn;
+package com.gamma.skybase.build.server.etl.decoder.huw_sgsn_gpx;
 
 import com.gamma.skybase.build.server.etl.decoder.LebaraUtil;
 import com.gamma.telco.OpcoBusinessTransformation;
@@ -11,19 +11,19 @@ import java.util.Optional;
 
 import static com.gamma.telco.utility.TelcoEnrichmentUtility.ltrim;
 
-public class MobilySGSNEnrichmentUtil extends LebaraUtil {
+public class HuwSGSNGpxEnrichmentUtil extends LebaraUtil {
 
     private final OpcoBusinessTransformation txLib = new OpcoBusinessTransformation();
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
     DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("yyyyMMdd");
     DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 
-    private MobilySGSNEnrichmentUtil(LinkedHashMap<String, Object> record) {
+    private HuwSGSNGpxEnrichmentUtil(LinkedHashMap<String, Object> record) {
         super(record);
     }
 
-    public static MobilySGSNEnrichmentUtil of(LinkedHashMap<String, Object> record) {
-        return new MobilySGSNEnrichmentUtil(record);
+    public static HuwSGSNGpxEnrichmentUtil of(LinkedHashMap<String, Object> record) {
+        return new HuwSGSNGpxEnrichmentUtil(record);
     }
     
     LocalDateTime callStartTime;

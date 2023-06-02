@@ -45,13 +45,14 @@ public class CbsSmsFileExecutor extends CbsSmsFileProcessor {
 
         DelimitedFileDecoder decoder = null;
         try {
-            long recCount = 0;
+            long recCount = 1;
 
             decoder = new DelimitedFileDecoder(fileName, '|', headers, 0);
             while (decoder.hasNext()) {
                 try {
                     LinkedHashMap<String, Object> record = decoder.next();
                     if (jsonOutputRequired) jsonRecords.add(record);
+                    record.put("_SEQUENCE_NUMBER",recCount);
                     record.put("fileName", metadata.decompFileName);
                     processRecord(record, enrichment);
                 } catch (Exception e) {
