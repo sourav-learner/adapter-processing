@@ -4,6 +4,7 @@ import com.gamma.skybase.build.server.etl.decoder.LebaraUtil;
 import com.gamma.telco.OpcoBusinessTransformation;
 import com.gamma.telco.opco.ReferenceDimDialDigit;
 
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
@@ -105,6 +106,28 @@ public class HuwSGSNUnlEnrichmentUtil extends LebaraUtil {
             return number;
         }
         return "";
+    }
+
+    public Optional<String> getEndTime() throws ParseException {
+        String dur = getValue("TOTAL_CALL_EVENT_DURATION");
+
+        if (dur != null) {
+            try {
+                long i = Long.parseLong(dur);
+                String dateTimeString = getValue("CALL_EVENT_START_TIMESTAMP");
+                if (dateTimeString != null) {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+                    LocalDateTime startTime = LocalDateTime.parse(dateTimeString, formatter);
+                    LocalDateTime endTime = startTime.plusSeconds(i);
+                    DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
+                    String eventEndTime = formatter1.format(endTime);
+                    return Optional.of(eventEndTime);
+                }
+            } catch (Exception ignore) {
+//                ignore.printStackTrace();
+            }
+        }
+        return Optional.empty();
     }
 
     ReferenceDimDialDigit getDialedDigitSettings(String otherMSISDN) {

@@ -5,6 +5,7 @@ import com.gamma.skybase.contract.decoders.MEnrichmentReq;
 import com.gamma.skybase.contract.decoders.MEnrichmentResponse;
 import com.gamma.telco.opco.ReferenceDimDialDigit;
 
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
@@ -61,6 +62,18 @@ public class HuwSGSNUnlRecordEnrichment implements IEnrichment {
 
 //        EVENT_DATE
         record.put("EVENT_DATE", tx.genFullDate);
+
+
+//      Enriched Field: EVENT_END_TIME
+        Optional<String> callEndTime = null;
+        try {
+            callEndTime = tx.getEndTime();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        callEndTime.ifPresent(s -> {
+            record.put("EVENT_END_TIME", s);
+        });
 
         response.setResponseCode(true);
         response.setResponse(record);
