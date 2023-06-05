@@ -39,7 +39,7 @@ public class ASNDot1Reader extends TLReader {
     public static void main(String[] args) throws Exception {
 //        String filename = "C:\\sandbox\\asn-decoders\\huawei-gsn-lebara\\data\\L1CG1_FILE20220901000000_9640.dat";
 //        String filename = "C:\\sandbox\\asn-decoders\\huawei-gsn-lebara\\data\\L1CG1_FILE20220901000004_9641.dat";
-        String dirName = "C:\\data\\lebara\\huawei-ggsn";
+        String dirName = "/home/gamma/Documents/Gamma/File/Lebara/SpecNSamples-20230127T125147Z-001/SpecNSamples/GGSN/parser";
 //      String filename = "C:\\sandbox\\incubator\\gasn\\gasn\\data\\sudan_south\\ggsn\\PSPGW2022091000213111";
 
         String[] f = new File(dirName).list();
@@ -291,8 +291,7 @@ class Decoder {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-//        String filePath = props.getProperty("C:\\projects\\Lebara_RAFM\\skybase-lebara-build\\conf\\parser\\ggsn.csv");
-        String filePath = "C:\\projects\\Lebara_RAFM\\skybase-lebara-build\\conf\\parser\\ggsn.csv";
+        String filePath = props.getProperty("app.ggsn.path");
         Path path = Paths.get(filePath);
         try (Stream<String> lines = Files.lines(path)) {
             lines.forEach(l -> {
@@ -378,18 +377,18 @@ class Decoder {
         String cgiIDKey = "";
         if (bytes.length > 0) {
             cgiIDKey = DatatypeConverter.printHexBinary(bytes);
-
-            byte typeByte = bytes[0];
-            if (typeByte > 8) {
-                String hexCellLoc = StringUtils.right(cgiIDKey, 8);
-                long eci = new BigInteger(hexCellLoc, 16).longValue();
-                return cgiIDKey + "-" + eci;
-            }
+            return cgiIDKey;
+//            byte typeByte = bytes[0];
+//            if (typeByte > 8) {
+//                String hexCellLoc = StringUtils.right(cgiIDKey, 8);
+//                long eci = new BigInteger(hexCellLoc, 16).longValue();
+//                return cgiIDKey + "-" + eci;
+//            }
         }
-        return cgiIDKey;
+        return null;
     }
 
-    public static String toUSER_LOCATION_INFO1(byte[] bytes) {
+        public static String toUSER_LOCATION_INFO1(byte[] bytes) {
         StringBuilder uli = new StringBuilder();
         int index = 0;
 
