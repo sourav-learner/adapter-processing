@@ -27,7 +27,6 @@ public class GGSNRecordEnrichment implements IEnrichment {
     private final OpcoBusinessTransformation transformationLib = new OpcoBusinessTransformation();
 
     final ThreadLocal<SimpleDateFormat> sdfT = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMdd HH:mm:ss"));
-
     final ThreadLocal<SimpleDateFormat> fullDate = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMdd"));
     private final ThreadLocal<SimpleDateFormat> sdfS = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMddHHmmss"));
     ThreadLocal<SimpleDateFormat> sdfT1 = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyMMddHHmmss Z"));
@@ -141,7 +140,7 @@ public class GGSNRecordEnrichment implements IEnrichment {
             commonAttributes.put("CGI_ID", userLocationInformation);
 
             String userLocation = userLocationInformation.toString();
-            String userLoc = userLocation.toString().substring(0, 11);
+            String userLoc = String.valueOf(getHexToLong(userLocation));
             commonAttributes.put("ECI", userLoc);
             commonAttributes.put("NODE_ID", nodeID);
             commonAttributes.put("EXT_TYPE", extensionType);
@@ -209,6 +208,27 @@ public class GGSNRecordEnrichment implements IEnrichment {
         return null;
     }
 
+//    public static String getHexToLong(byte[] bytes) {
+////        String cgiIDKey = "";
+////        if (bytes.length > 0) {
+////            cgiIDKey = DatatypeConverter.printHexBinary(bytes);
+////            return cgiIDKey;
+//        String userLocation = "";
+//            byte typeByte = bytes[0];
+//            if (typeByte > 8) {
+//                String hexCellLoc = StringUtils.right(userLocation, 8);
+//                long eci = new BigInteger(hexCellLoc, 16).longValue();
+//                return userLocation + "-" + eci;
+//            }
+//        return null;
+//    }
+
+    public static long getHexToLong(String userloc) {
+        String last8Characters = userloc.substring(userloc.length() - 8);
+        long number = Long.parseLong(last8Characters, 16);
+        return number;
+    }
+
     boolean hasPLMN(String plmn) {
         if (plmn == null || plmn.trim().isEmpty()) return false;
         String[] opcoCodes = opcoCode.split(",");
@@ -261,7 +281,7 @@ public class GGSNRecordEnrichment implements IEnrichment {
                 serviceEntries.put("dataVolumeFBCDownlink", serviceEntry.get("dataVolumeFBCDownlink"));
                 serviceEntries.put("timeOfReport", serviceEntry.get("timeOfReport"));
                 list.add(serviceEntries);
-                                    }
+            }
             return list;
         }
         return null;
@@ -278,12 +298,31 @@ public class GGSNRecordEnrichment implements IEnrichment {
                 rgData.put("RATING_GROUP", serviceData.get("ratingGroup"));
                 rgData.put("RG_SEQUENCE_NUM", serviceData.get("localSequenceNumber"));
                 rgData.put("SERVICE_COND_CHANGE", serviceData.get("serviceConditionChange"));
-                rgData.put("QOS_INFO", serviceData.get("qoSInformationNeg"));
+                //rgData.put("QOS_INFO", serviceData.get("qoSInformationNeg"));
+                if (serviceData.get("qoSInformationNeg")!= null){
+                    String qosInfoValue = serviceData.get("qoSInformationNeg").toString();
+                    if (qosInfoValue != null){
+                        String[] values = qosInfoValue.split("\\s+");
+
+                        for (int i = 0; i < values.length; i++) {
+                            String key1;
+                            if (i == 0) {
+                                key1 = "QOS_INFO_qC1";
+                            } else {
+                                key1 = "QOS_INFO_aRP";
+                            }
+                            String numericValue = values[i].replaceAll("[^0-9]", "");
+                            rgData.put(key1, numericValue);
+                        }
+                    }
+                }
+
                 Object datavolumeFBCUplink = serviceData.get("datavolumeFBCUplink");
                 Object datavolumeFBCDownlink = serviceData.get("datavolumeFBCDownlink");
                 Object timeOfFirstUsage = serviceData.get("timeOfFirstUsage");
                 Object timeOfLastUsage = serviceData.get("timeOfLastUsage");
                 Object timeOfReport = serviceData.get("timeOfReport");
+
                 long totalVolume = 0L;
                 if (datavolumeFBCUplink != null) {
                     totalVolume += Long.parseLong((String.valueOf(datavolumeFBCUplink)));
@@ -313,8 +352,8 @@ public class GGSNRecordEnrichment implements IEnrichment {
                     }
 
                     if (tmpFirstCurrent != null && timeLastCurrent != null) {
-                       maxTimeFirst = compareTimeMin(getString(timeFirstCurrent), timeFirstPrevious);
-                       minTimeLast = compareTimeMax(getString(timeLastCurrent), timeLastPrevious);
+                        maxTimeFirst = compareTimeMin(getString(timeFirstCurrent), timeFirstPrevious);
+                        minTimeLast = compareTimeMax(getString(timeLastCurrent), timeLastPrevious);
                     }
                     tmp.put("TIME_FIRST_USAGE", maxTimeFirst);
                     tmp.put("TIME_LAST_USAGE", minTimeLast);
@@ -346,19 +385,6 @@ public class GGSNRecordEnrichment implements IEnrichment {
         return dateTime1.isAfter(dateTime2) ? dateTime1 : dateTime2;
     }
 
-    private String formatDate(Date date) {
-        return sdfT.get().format(date);
-    }
-
-    private Date getDateFromString(String dateString) {
-        try {
-            return sdfT1.get().parse(dateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     private static String getString(String dates) {
         SimpleDateFormat inputFormat = new SimpleDateFormat("yyMMddHHmmss Z");
         SimpleDateFormat outputFormat = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
@@ -368,46 +394,6 @@ public class GGSNRecordEnrichment implements IEnrichment {
             return formattedTimestamp;
         } catch (ParseException e) {
             e.printStackTrace();
-        }
-        return null;
-    }
-
-    public Date getDate(String date1) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
-        if (date1 != null) {
-            try {
-                String sDate = date1.toString();
-                Date date4 = formatter.parse(sDate);
-                return date4;
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
-    }
-
-    public String dummyDate(String str) throws Exception {
-        Date date = new Date();
-        try {
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date dateLnx = df.parse(str);
-            long epoch = dateLnx.getTime();
-            System.out.println(epoch);
-
-            date = new Date(epoch);
-            System.out.println(".....1->" + date);
-            DateFormat format = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
-            format.setTimeZone(TimeZone.getTimeZone("Etc/UTC"));
-            String formatted = format.format(date);
-            System.out.println(formatted);
-            format.setTimeZone(TimeZone.getTimeZone("India"));
-            formatted = format.format(date);
-            System.out.println("Formatted -> " + formatted);
-            return formatted;
-
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
         }
         return null;
     }
