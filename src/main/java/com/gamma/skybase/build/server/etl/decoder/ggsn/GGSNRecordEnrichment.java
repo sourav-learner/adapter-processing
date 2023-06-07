@@ -10,12 +10,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.DateFormat;
+import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import static com.gamma.telco.utility.TelcoEnrichmentUtility.ltrim;
 
@@ -36,197 +39,203 @@ public class GGSNRecordEnrichment implements IEnrichment {
 
     @Override
     public LinkedHashMap<String, Object> transform(LinkedHashMap<String, Object> data) {
-        LinkedHashMap<String, Object> commonAttributes = new LinkedHashMap<>();
-        try {
-            Object eventType = data.get("eventType");
-            Object recordType = data.get("recordType");
-            Object servedIMSI = data.get("servedIMSI");
-            Object pGWAddress = data.get("PGWAddress");
+        LinkedHashMap<String, Object> transformedData = new LinkedHashMap<>();
+        Map<String, Map<String, Object>> records = new HashMap<>();
+        if (data.containsKey("listOfServiceData")) {
+            serviceList = data.remove("listOfServiceData");
+            Map<String, SortedSet<Map<String, Object>>> groupOfRatingGroups = handleListOfServiceData(serviceList);
 
-            String pGW = pGWAddress.toString();
-            String strpGWAddress = pGW.substring(pGW.indexOf('=') + 1, pGW.indexOf('}'));
+            groupOfRatingGroups.forEach((key, val) -> {
+                if (val.size() > 0) {
+                    String timeOfFirstUsage = val.first().get("timeOfFirstUsage").toString();
+                    String timeOfLastUsage = val.last().get("timeOfLastUsage").toString();
 
-            Object servingNodeAddress = data.get("ServingNodeAddress");
-            String servingNode = servingNodeAddress.toString();
-            String strservingNodeAddress = servingNode.substring(servingNode.indexOf('=') + 1, servingNode.indexOf('}'));
+                    AtomicLong upSum = new AtomicLong(0L);
+                    AtomicLong downSum = new AtomicLong(0L);
+                    long totalVolume;
+                    val.forEach(e -> {
+                        if (e.get("datavolumeFBCUplink") != null)
+                            upSum.addAndGet(Long.parseLong(e.get("datavolumeFBCUplink").toString()));
+                        if (e.get("datavolumeFBCDownlink") != null)
+                            downSum.addAndGet(Long.parseLong((e.get("datavolumeFBCDownlink").toString())));
+                    });
+                    totalVolume = upSum.get() + downSum.get();
 
-            Object servedPDPPDNAddress = data.get("servedPDPPDNAddress");
-            String servedPDPPDN = servedPDPPDNAddress.toString();
+                    Map<String, Object> mapToForm = val.last();
+                    mapToForm.put("DATA_VOLUME_FBC_UPLINK", upSum);
+                    mapToForm.put("DATA_VOLUME_FBC_DOWNLINK", downSum);
+                    mapToForm.put("TOTAL_VOLUME", totalVolume);
+                    mapToForm.put("RATING_GROUP", mapToForm.get("ratingGroup"));
+                    mapToForm.put("RG_SEQUENCE_NUM", mapToForm.get("localSequenceNumber"));
+                    mapToForm.put("SERVICE_COND_CHANGE", mapToForm.get("serviceConditionChange"));
+                    mapToForm.put("TIME_FIRST_USAGE", getString(timeOfFirstUsage));
+                    mapToForm.put("TIME_LAST_USAGE", getString(timeOfLastUsage));
+                    mapToForm.put("REPORT_TIME", getString(mapToForm.get("timeOfReport").toString()));
+                    mapToForm.put("SGSN_ADDRESS", extractIpAddress(mapToForm.get("sgsnAddress")));
+                    float billableVolume = (float) totalVolume / 1024;
+                    mapToForm.put("BILLABLE_VOLUME", ((Double) Math.ceil(billableVolume)).intValue());
 
-            String served = servedPDPPDN.substring(servedPDPPDN.indexOf('=') + 1, servedPDPPDN.indexOf('}'));
-            String[] servedPdpdNAddress = served.split("=");
-            String strservedPDPPDNAddress = servedPdpdNAddress[1];
+                    if (mapToForm.get("qoSInformationNeg") != null) {
+                        ArrayList<LinkedHashMap<String,Object>> qosInfoValue = (ArrayList<LinkedHashMap<String, Object>>) mapToForm.get("qoSInformationNeg");
+                        //if size > 0
 
-            Object chargingID = data.get("chargingID");
-            Object accessPointNameNI = data.get("accessPointNameNI");
-            Object pdpPDNType = data.get("pdpPDNType");
-            Object dynamicAddressFlag = data.get("dynamicAddressFlag");
-            Object recordOpeningTime = data.get("recordOpeningTime");
-            Object duration = data.get("duration");
-            Object causeForRecClosing = data.get("causeForRecClosing");
-            Object recordSequenceNumber = data.get("recordSequenceNumber");
-            Object nodeID = data.get("nodeID");
-            Object extensionType = data.get("extensionType");
-            Object servedMSISDN = data.get("servedMSISDN");
-            Object chargingCharacteristics = data.get("chargingCharacteristics");
-            Object servingNodePLMNIdentifier = data.get("servingNodePLMNIdentifier");
-            Object servedIMEISV = data.get("servedIMEISV");
-            Object rATType = data.get("rATType");
-            Object userLocationInformation = data.get("userLocationInformation");
-            Object servingNodeType = data.get("ServingNodeType");
-            Object cdrSeqNum = data.get("localSequenceNumber");
+                        Object qCI = qosInfoValue.get(0).get("qCI");
+                        mapToForm.put("QOS_INFO_qCI", qCI);
 
-            String strServingNode = servingNodeType.toString();
-            String strServingNodeType = strServingNode.substring(strServingNode.indexOf('=') + 1, strServingNode.indexOf('}'));
+                        Object aRP = qosInfoValue.get(0).get("aRP");
+                        mapToForm.put("QOS_INFO_aRP", aRP);
+                    }
+                    records.put(key, mapToForm);
+                }
+            });
+        }
 
-            Object seqNumber = data.get("_SEQUENCE_NUMBER");
-            commonAttributes.put("_SEQUENCE_NUMBER", seqNumber);
-            Object fileName = data.get("fileName");
-//            Object recordExtensions = data.get("recordExtensions");
-//            Object serviceEventUrl = getServiceEventUrlIfPresent(recordExtensions);
-
-            commonAttributes.put("CDR_SEQUENCE_NUM", cdrSeqNum);
-            commonAttributes.put("EVENT_TYPE", eventType);
-            commonAttributes.put("RECORD_TYPE", recordType);
-            commonAttributes.put("SERVED_IMSI", servedIMSI);
-            commonAttributes.put("SERVED_IMEI", servedIMEISV);
-            if (servedIMEISV != null && !servedIMEISV.toString().isEmpty())
-                commonAttributes.put("tac", servedIMEISV.toString().substring(0, 8));
-
-            commonAttributes.put("PGW_ADDRESS", strpGWAddress);
-            commonAttributes.put("SGSN_ADDRESS", strservingNodeAddress);
-            commonAttributes.put("PDP_ADDRESS", strservedPDPPDNAddress);
-            commonAttributes.put("CHARGING_ID", chargingID);
-            commonAttributes.put("APN_NAME", accessPointNameNI);
-            commonAttributes.put("PDP_TYPE", pdpPDNType);
-            commonAttributes.put("DYNAMIC_ADDRESS_FLAG", dynamicAddressFlag);
-            commonAttributes.put("ORIGINAL_DUR", duration);
-//            commonAttributes.put("SERVICE_EVENT_URL", serviceEventUrl);
-
-            String recTypeIdKey;
-            if (recordSequenceNumber == null)
-                recTypeIdKey = "4";
-            else if (recordSequenceNumber.toString().equals("1"))
-                recTypeIdKey = "5";
-            else {
-                if (causeForRecClosing.toString().equals("0") || causeForRecClosing.toString().equals("1"))
-                    recTypeIdKey = "7";
-                else
-                    recTypeIdKey = "6";
+        records.forEach((key, rg) -> {
+            rg.put("EVENT_TYPE", data.get("eventType"));
+            rg.put("RECORD_TYPE", data.get("recordType"));
+            rg.put("SERVED_IMSI", data.get("servedIMSI"));
+            String strpGWAddress = null, strservingNodeAddress = null, strservedPDPPDNAddress = null;
+            if (data.get("PGWAddress") != null) {
+                String pGW = data.get("PGWAddress").toString();
+                strpGWAddress = pGW.substring(pGW.indexOf('=') + 1, pGW.indexOf('}'));
             }
-            commonAttributes.put("recordSequenceNumber", recordSequenceNumber);
-            commonAttributes.put("causeForRecClosing", causeForRecClosing);
-            commonAttributes.put("REC_TYPE_ID_KEY", recTypeIdKey);
+            rg.put("PGW_ADDRESS", strpGWAddress);
+
+            if (data.get("ServingNodeAddress") != null) {
+                Object servingNodeAddress = data.get("ServingNodeAddress");
+                String servingNode = servingNodeAddress.toString();
+                strservingNodeAddress = servingNode.substring(servingNode.indexOf('=') + 1, servingNode.indexOf('}'));
+            }
+            rg.put("SGSN_ADDRESS", strservingNodeAddress);
+
+            if (data.get("servedPDPPDNAddress") != null) {
+                Object servedPDPPDNAddress = data.get("servedPDPPDNAddress");
+                String servedPDPPDN = servedPDPPDNAddress.toString();
+
+                String served = servedPDPPDN.substring(servedPDPPDN.indexOf('=') + 1, servedPDPPDN.indexOf('}'));
+                String[] servedPdpdNAddress = served.split("=");
+                strservedPDPPDNAddress = servedPdpdNAddress[1];
+            }
+            rg.put("PDP_ADDRESS", strservedPDPPDNAddress);
+            rg.put("CHARGING_ID", data.get("chargingID"));
+            Object accessPointNameNI = data.get("accessPointNameNI");
+            rg.put("APN_NAME", accessPointNameNI);
             if (accessPointNameNI != null) {
                 String eventTypeKey;
                 if (accessPointNameNI.toString().contains("mms")) eventTypeKey = "3";
                 else eventTypeKey = "4";
-                commonAttributes.put("EVENT_TYPE_KEY", eventTypeKey);
+                rg.put("EVENT_TYPE_KEY", eventTypeKey);
             }
+            rg.put("PDP_TYPE", data.get("pdpPDNType"));
+            rg.put("DYNAMIC_ADDRESS_FLAG", data.get("dynamicAddressFlag"));
 
+            Object recordOpeningTime = data.get("recordOpeningTime");
             if (recordOpeningTime != null) {
-                Date eventStartTime = sdfS.get().parse(recordOpeningTime.toString());
+                Date eventStartTime = null;
+                try {
+                    eventStartTime = sdfS.get().parse(recordOpeningTime.toString());
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
                 String eventStart = sdfT.get().format(eventStartTime);
-                commonAttributes.put("EVENT_START_TIME", eventStart);
-                commonAttributes.put("XDR_DATE", eventStart);
-                commonAttributes.put("POPULATION_DATE", sdfT.get().format(new Date()));
+                rg.put("EVENT_START_TIME", eventStart);
+                rg.put("XDR_DATE", eventStart);
+                rg.put("POPULATION_DATE", sdfT.get().format(new Date()));
                 String eventDate = fullDate.get().format(eventStartTime);
-                commonAttributes.put("EVENT_DATE", eventDate); //31
-            }
+                rg.put("EVENT_DATE", eventDate); //31
+                rg.put("ORIGINAL_DUR", data.get("duration"));
+                Object causeForRecClosing = data.get("causeForRecClosing");
+                Object recordSequenceNumber = data.get("recordSequenceNumber");
 
-            commonAttributes.put("FILE_NAME", fileName);
-            commonAttributes.put("SERVING_PLMN_ID", servingNodePLMNIdentifier);
-            commonAttributes.put("SERVING_NODE_TYPE", strServingNodeType);
-            commonAttributes.put("CGI_ID", userLocationInformation);
-
-            String userLocation = userLocationInformation.toString();
-            String userLoc = String.valueOf(getHexToLong(userLocation));
-            commonAttributes.put("ECI", userLoc);
-            commonAttributes.put("NODE_ID", nodeID);
-            commonAttributes.put("EXT_TYPE", extensionType);
-            commonAttributes.put("RAT_TYPE", rATType);
-
-            if (chargingCharacteristics != null) {
-                chargingCharacteristics = ltrim(chargingCharacteristics.toString(), '0').trim();
-                boolean hasPLMN = hasPLMN(servingNodePLMNIdentifier.toString());
-                String srvTypeKey;
-                switch (chargingCharacteristics.toString().trim()) {
-                    case "4":
-                        srvTypeKey = hasPLMN ? "1" : "5";
-                        break;
-                    case "8":
-                        srvTypeKey = hasPLMN ? "2" : "6";
-                        break;
-                    default:
-                        srvTypeKey = "-99";
-                        break;
+                String recTypeIdKey;
+                if (recordSequenceNumber == null)
+                    recTypeIdKey = "4";
+                else if (recordSequenceNumber.toString().equals("1"))
+                    recTypeIdKey = "5";
+                else {
+                    if (causeForRecClosing.toString().equals("0") || causeForRecClosing.toString().equals("1"))
+                        recTypeIdKey = "7";
+                    else
+                        recTypeIdKey = "6";
                 }
-                commonAttributes.put("SRV_TYPE_KEY", srvTypeKey);
-                commonAttributes.put("chargingCharacteristics", chargingCharacteristics);
-            }
-
-            if (servedMSISDN != null) {
-                commonAttributes.put("ORIGINAL_A_NUM", servedMSISDN);
-//                servedMSISDN = servedMSISDN.toString().substring(2);
-                String servedMsisdn = normalizeMSISDN((String) servedMSISDN);
-                commonAttributes.put("SERVED_MSISDN", servedMsisdn);
-                ReferenceDimDialDigit ddk = transformationLib.getDialedDigitSettings(servedMSISDN.toString());
-                if (ddk != null) {
-                    commonAttributes.put("SERVED_MSISDN_DIAL_DIGIT_KEY", ddk.getDialDigitKey());
-                    commonAttributes.put("SERVED_MSISDN_NOP_ID_KEY", ddk.getNopIdKey());
-                }
-            }
-
-            Object listOfTrafficVolumes = data.get("listOfTrafficVolumes");
-
-            if (data.containsKey("listOfServiceData") == true) {
-                serviceList = data.get("listOfServiceData");
-            } else {
-                //nothing to do
-            }
-
-            //Object serviceList = data.get("listOfServiceData");
-            List<LinkedHashMap<String, Object>> listOfServiceData = handleListOfServiceData(serviceList);
-            LinkedHashMap<String, Object> splitDataset = splitByRatingGroup(listOfServiceData, commonAttributes);
-            LinkedHashMap<String, Object> finalDataset = new LinkedHashMap<>();
-            for (Map.Entry<String, Object> recEntry : splitDataset.entrySet()) {  // ignore zero usage sessions
-                Object rec = recEntry.getValue();
-                if (rec instanceof LinkedHashMap) {
-                    LinkedHashMap<String, Object> rgData = (LinkedHashMap<String, Object>) rec;
-                    long totalVolume = (Long) rgData.get("TOTAL_VOLUME");
-                    if (totalVolume > 0) {
-                        finalDataset.put(recEntry.getKey(), rgData);
-                        float billableVolume = totalVolume / 1024;
-                        rgData.put("BILLABLE_VOLUME", ((Double) Math.ceil(billableVolume)).intValue());
+                rg.put("recordSequenceNumber", recordSequenceNumber);
+                rg.put("causeForRecClosing", causeForRecClosing);
+                rg.put("REC_TYPE_ID_KEY", recTypeIdKey);
+                rg.put("NODE_ID", data.get("nodeID"));
+                rg.put("EXT_TYPE", data.get("extensionType"));
+                Object servedMSISDN = data.get("servedMSISDN");
+                if (servedMSISDN != null) {
+                    rg.put("ORIGINAL_A_NUM", servedMSISDN);
+                    String servedMsisdn = normalizeMSISDN((String) servedMSISDN);
+                    rg.put("SERVED_MSISDN", servedMsisdn);
+                    ReferenceDimDialDigit ddk = transformationLib.getDialedDigitSettings(servedMSISDN.toString());
+                    if (ddk != null) {
+                        rg.put("SERVED_MSISDN_DIAL_DIGIT_KEY", ddk.getDialDigitKey());
+                        rg.put("SERVED_MSISDN_NOP_ID_KEY", ddk.getNopIdKey());
                     }
                 }
+                Object chargingCharacteristics = data.get("chargingCharacteristics");
+                Object servingNodePLMNIdentifier = data.get("servingNodePLMNIdentifier");
+
+                if (chargingCharacteristics != null) {
+                    chargingCharacteristics = ltrim(chargingCharacteristics.toString(), '0').trim();
+                    boolean hasPLMN = hasPLMN(servingNodePLMNIdentifier.toString());
+                    String srvTypeKey;
+                    switch (chargingCharacteristics.toString().trim()) {
+                        case "4":
+                            srvTypeKey = hasPLMN ? "1" : "5";
+                            break;
+                        case "8":
+                            srvTypeKey = hasPLMN ? "2" : "6";
+                            break;
+                        default:
+                            srvTypeKey = "-99";
+                            break;
+                    }
+                    rg.put("SRV_TYPE_KEY", srvTypeKey);
+                    rg.put("chargingCharacteristics", chargingCharacteristics);
+                }
+                rg.put("SERVING_PLMN_ID", servingNodePLMNIdentifier);
+                Object servedIMEISV = data.get("servedIMEISV");
+                rg.put("SERVED_IMEI", servedIMEISV);
+                if (servedIMEISV != null && !servedIMEISV.toString().isEmpty())
+                    rg.put("tac", servedIMEISV.toString().substring(0, 8));
+                rg.put("RAT_TYPE", data.get("rATType"));
+                Object userLocationInformation = data.get("userLocationInformation");
+                rg.put("CGI_ID", userLocationInformation);
+
+                String userLoc = String.valueOf(extractExtentedCellId(userLocationInformation));
+                rg.put("ECI", userLoc);
+                Object servingNodeType = data.get("ServingNodeType");
+                String strServingNode = servingNodeType.toString();
+                String strServingNodeType = strServingNode.substring(strServingNode.indexOf('=') + 1, strServingNode.indexOf('}'));
+                rg.put("SERVING_NODE_TYPE", strServingNodeType);
+                rg.put("CDR_SEQUENCE_NUM", data.get("localSequenceNumber"));
+                Object seqNumber = data.get("_SEQUENCE_NUMBER");
+                rg.put("_SEQUENCE_NUMBER", seqNumber);
+                rg.put("FILE_NAME", data.get("fileName"));
             }
-            return finalDataset;
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-        }
-        return null;
+            records.put(key, rg);
+        });
+        records.forEach((key, value) -> transformedData.put(key, (Object) value));
+        return transformedData;
     }
 
-//    public static String getHexToLong(byte[] bytes) {
-////        String cgiIDKey = "";
-////        if (bytes.length > 0) {
-////            cgiIDKey = DatatypeConverter.printHexBinary(bytes);
-////            return cgiIDKey;
-//        String userLocation = "";
-//            byte typeByte = bytes[0];
-//            if (typeByte > 8) {
-//                String hexCellLoc = StringUtils.right(userLocation, 8);
-//                long eci = new BigInteger(hexCellLoc, 16).longValue();
-//                return userLocation + "-" + eci;
-//            }
-//        return null;
-//    }
-
-    public static long getHexToLong(String userloc) {
-        String last8Characters = userloc.substring(userloc.length() - 8);
-        long number = Long.parseLong(last8Characters, 16);
-        return number;
+    public static String extractExtentedCellId(Object userlocHex) {
+        String cellId = "";
+        if (userlocHex != null) {
+            String hexValue = String.valueOf(userlocHex);
+            if (hexValue.length() > 0) {
+                // extract last 4 byte or 8 hex characters from user location information
+                String hexCellLoc = StringUtils.right(hexValue, 8);
+                BigInteger bi = new BigInteger(hexCellLoc, 16);
+                cellId = String.valueOf(bi.longValue());
+            }
+        }
+        return cellId;
+//        String last8Characters = userlocHex.substring(userlocHex.length() - 8);
+//        long number = Long.parseLong(last8Characters, 16);
+//        return number;
     }
 
     boolean hasPLMN(String plmn) {
@@ -260,167 +269,38 @@ public class GGSNRecordEnrichment implements IEnrichment {
         return extract;
     }
 
-    private List<LinkedHashMap<String, Object>> handleListOfServiceData(Object serviceData) {
+    private Map<String, SortedSet<Map<String, Object>>> handleListOfServiceData(Object serviceData) {
         if (serviceData instanceof ArrayList) {
             ArrayList<LinkedHashMap<String, Object>> sd = (ArrayList<LinkedHashMap<String, java.lang.Object>>) serviceData;
             LinkedHashMap<String, Object> csc = sd.get(0);
             ArrayList<LinkedHashMap<String, Object>> list = (ArrayList<LinkedHashMap<String, Object>>) csc.get("ChangeOfServiceCondition");
-
-            if (list.size() > 0) {
-                LinkedHashMap<String, Object> serviceEntry = (LinkedHashMap<String, Object>) list.get(0);
-                LinkedHashMap<String, Object> serviceEntries = new LinkedHashMap<>();
-                serviceEntries.put("ratingGroup", serviceEntry.get("ratingGroup"));
-                serviceEntries.put("localSequenceNumber", serviceEntry.get("localSequenceNumber"));
-                serviceEntries.put("timeOfFirstUsage", serviceEntry.get("timeOfFirstUsage"));
-                serviceEntries.put("timeOfLastUsage", serviceEntry.get("timeOfLastUsage"));
-                serviceEntries.put("timeUsage", serviceEntry.get("timeUsage"));
-                serviceEntries.put("serviceConditionChange", serviceEntry.get("serviceConditionChange"));
-                serviceEntries.put("qoSInformationNeg", serviceEntry.get("qoSInformationNeg"));
-                serviceEntries.put("sgsnAddress", extractIpAddress(serviceEntry.get("sgsnAddress")));
-                serviceEntries.put("dataVolumeFBCUplink", serviceEntry.get("dataVolumeFBCUplink"));
-                serviceEntries.put("dataVolumeFBCDownlink", serviceEntry.get("dataVolumeFBCDownlink"));
-                serviceEntries.put("timeOfReport", serviceEntry.get("timeOfReport"));
-                list.add(serviceEntries);
-            }
-            return list;
+            Map<String, SortedSet<Map<String, Object>>> groupedMaps = list.stream().collect(
+                    Collectors.groupingBy(
+                            map -> {
+                                return map.get("ratingGroup") + "|" + map.get("localSequenceNumber").toString();
+                            },
+                            Collector.of(
+                                    () -> new TreeSet<>(Comparator.comparing(m -> {
+                                        return m.get("timeOfLastUsage").toString();
+                                    })),
+                                    Set::add,
+                                    (left, right) -> {
+                                        left.addAll(right);
+                                        return left;
+                                    }
+                            )
+                    )
+            );
+            return groupedMaps;
         }
         return null;
-    }
-
-    public static LinkedHashMap<String, Object> splitByRatingGroup(List<LinkedHashMap<String, Object>> listOfServiceData, LinkedHashMap<String, Object> commonAttributes) throws Exception {
-        LinkedHashMap<String, Object> rgMappings = new LinkedHashMap<>();
-        if (listOfServiceData != null) {
-            for (LinkedHashMap<String, Object> serviceData : listOfServiceData) {
-                LinkedHashMap<String, Object> rgData = new LinkedHashMap<>(commonAttributes);
-                String ratingGroup = String.valueOf(serviceData.get("ratingGroup"));
-                String localSequenceNumber = String.valueOf(serviceData.get("localSequenceNumber"));
-                String key = ratingGroup + "|" + localSequenceNumber;
-                rgData.put("RATING_GROUP", serviceData.get("ratingGroup"));
-                rgData.put("RG_SEQUENCE_NUM", serviceData.get("localSequenceNumber"));
-                rgData.put("SERVICE_COND_CHANGE", serviceData.get("serviceConditionChange"));
-                //rgData.put("QOS_INFO", serviceData.get("qoSInformationNeg"));
-                if (serviceData.get("qoSInformationNeg")!= null){
-                    String qosInfoValue = serviceData.get("qoSInformationNeg").toString();
-                    if (qosInfoValue != null){
-                        String[] values = qosInfoValue.split("\\s+");
-
-                        for (int i = 0; i < values.length; i++) {
-                            String key1;
-                            if (i == 0) {
-                                key1 = "QOS_INFO_qC1";
-                            } else {
-                                key1 = "QOS_INFO_aRP";
-                            }
-                            String numericValue = values[i].replaceAll("[^0-9]", "");
-                            rgData.put(key1, numericValue);
-                        }
-                    }
-                }
-
-                Object datavolumeFBCUplink = serviceData.get("datavolumeFBCUplink");
-                Object datavolumeFBCDownlink = serviceData.get("datavolumeFBCDownlink");
-                Object timeOfFirstUsage = serviceData.get("timeOfFirstUsage");
-                Object timeOfLastUsage = serviceData.get("timeOfLastUsage");
-                Object timeOfReport = serviceData.get("timeOfReport");
-
-                long totalVolume = 0L;
-                if (datavolumeFBCUplink != null) {
-                    totalVolume += Long.parseLong((String.valueOf(datavolumeFBCUplink)));
-                    rgData.put("DATA_VOLUME_FBC_UPLINK", datavolumeFBCUplink);
-                }
-                if (datavolumeFBCDownlink != null) {
-                    totalVolume += Long.parseLong((String.valueOf(datavolumeFBCDownlink)));
-                    rgData.put("DATA_VOLUME_FBC_DOWNLINK", datavolumeFBCDownlink);
-                }
-                rgData.put("TOTAL_VOLUME", totalVolume);
-
-                String timeFirstPrevious = null, timeLastPrevious = null, timeLastCurrent = null, timeFirstCurrent = null;
-                LocalDateTime maxTimeFirst = null, minTimeLast = null;
-                if (rgMappings.containsKey(key)) {
-                    LinkedHashMap<String, Object> tmp = (LinkedHashMap<String, Object>) rgMappings.get(key);
-                    Object tmpFirstCurrent = tmp.get("TIME_FIRST_USAGE");
-                    Object tmpLastCurrent = tmp.get("TIME_LAST_USAGE");
-
-                    // Get the maximum timeOfFirstUsage between current and previous records
-                    if (timeOfFirstUsage != null & timeOfLastUsage != null) {
-                        timeFirstCurrent = timeOfFirstUsage.toString();
-                        timeLastCurrent = timeOfLastUsage.toString();
-                    }
-                    if (tmpFirstCurrent != null && tmpLastCurrent != null) {
-                        timeFirstPrevious = tmpFirstCurrent.toString();
-                        timeLastPrevious = tmpLastCurrent.toString();
-                    }
-
-                    if (tmpFirstCurrent != null && timeLastCurrent != null) {
-                        maxTimeFirst = compareTimeMin(getString(timeFirstCurrent), timeFirstPrevious);
-                        minTimeLast = compareTimeMax(getString(timeLastCurrent), timeLastPrevious);
-                    }
-                    tmp.put("TIME_FIRST_USAGE", maxTimeFirst);
-                    tmp.put("TIME_LAST_USAGE", minTimeLast);
-                } else {
-                    String timeFirst = timeOfFirstUsage.toString();
-                    rgData.put("TIME_FIRST_USAGE", getString(timeFirst));
-                    String timeLast = timeOfLastUsage.toString();
-                    rgData.put("TIME_LAST_USAGE", getString(timeLast));
-                    String timeReport = timeOfReport.toString();
-                    rgData.put("REPORT_TIME", getString(timeReport));
-                }
-                rgMappings.put(key, rgData);
-            }
-        }
-        return rgMappings;
-    }
-
-    private static LocalDateTime compareTimeMax(String time1, String time2) {
-        final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
-        LocalDateTime dateTime1 = LocalDateTime.parse(time1, FORMATTER);
-        LocalDateTime dateTime2 = LocalDateTime.parse(time2, FORMATTER);
-        return dateTime1.isAfter(dateTime2) ? dateTime1 : dateTime2;
-    }
-
-    private static LocalDateTime compareTimeMin(String time1, String time2) {
-        final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
-        LocalDateTime dateTime1 = LocalDateTime.parse(time1, FORMATTER);
-        LocalDateTime dateTime2 = LocalDateTime.parse(time2, FORMATTER);
-        return dateTime1.isAfter(dateTime2) ? dateTime1 : dateTime2;
     }
 
     private static String getString(String dates) {
-        SimpleDateFormat inputFormat = new SimpleDateFormat("yyMMddHHmmss Z");
-        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
-        try {
-            Date date = inputFormat.parse(dates);
-            String formattedTimestamp = outputFormat.format(date);
-            return formattedTimestamp;
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private Object getServiceEventUrlIfPresent(Object recordExtensions) {
-        if (recordExtensions == null) return "";
-
-        List<Object> recordExtensionList = (List<Object>) recordExtensions;
-        LinkedHashMap<String, Object> recordExtensionEntry = (LinkedHashMap<String, Object>) recordExtensionList.stream().findFirst().get();
-        Object serviceList = recordExtensionEntry.get("serviceList");
-        if (serviceList == null) return "";
-
-        String serviceEventUrl = "";
-        ArrayList<Object> servList = (ArrayList<Object>) serviceList;
-        if (servList.size() > 0) {
-            Object serviceObjList = servList.stream().findFirst().get();
-            List<Object> serviceEntryList = (List<Object>) serviceObjList;
-            if (serviceEntryList.size() > 0) {
-                Object serviceObj = serviceEntryList.stream().findFirst().get();
-                if (serviceObj instanceof LinkedHashMap) {
-                    LinkedHashMap<String, Object> service = (LinkedHashMap<String, Object>) serviceObj;
-                    if (service.containsKey("url"))
-                        serviceEventUrl = (String) service.get("url");
-                }
-            }
-        }
-        return serviceEventUrl;
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyMMddHHmmss Z");
+        LocalDateTime dateTime = LocalDateTime.parse(dates, inputFormatter);
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
+        return dateTime.format(outputFormatter);
     }
 
     String normalizeMSISDN(String number) {
