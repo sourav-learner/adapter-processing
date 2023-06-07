@@ -34,7 +34,7 @@ public class CbsAdjRecordEnrichment implements IEnrichment {
 
 //        ADJUST_AMT
         Optional<String> adjustAmt = tx.getAdjustAmt();
-        adjustAmt.ifPresent(s -> record.put("ADJUST_AMT", s));
+        adjustAmt.ifPresent(s -> record.put("ADJUSTAMT", s));
 
 //        STATUS
         Optional<String> status = tx.getStatus();
