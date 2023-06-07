@@ -35,7 +35,7 @@
             <Field sourceFieldName="RESULTCODE"/>
             <Field sourceFieldName="ERROR_TYPE"/>
             <Field sourceFieldName="ACCT_BALANCE_ID"/>
-            <Field sourceFieldName="ADJUST_AMT"/>
+            <Field sourceFieldName="ADJUSTAMT"/>
             <Field sourceFieldName="ADJUST_TRANS_ID"/>
             <Field sourceFieldName="EXT_TRANS_TYPE"/>
             <Field sourceFieldName="EXT_TRANS_ID"/>
