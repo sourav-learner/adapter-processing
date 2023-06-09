@@ -1,4 +1,4 @@
-package com.gamma.skybase.build.server.etl.decoder.cbs_subscription;
+package com.gamma.skybase.build.server.etl.decoder.cbs_subscription_cm;
 
 import com.gamma.skybase.common.config.datasource.FileDataSource;
 import com.gamma.skybase.contract.decoders.AFileSourceDecoder;
@@ -8,9 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("Duplicates")
-public abstract class CbsSubscritionFileProcessor extends AFileSourceDecoder {
+public abstract class CbsSubscritionCmFileProcessor extends AFileSourceDecoder {
 
-    private static final Logger logger = LoggerFactory.getLogger(CbsSubscritionFileProcessor.class);
+    private static final Logger logger = LoggerFactory.getLogger(CbsSubscritionCmFileProcessor.class);
     protected FileDataSource dataSource;
     protected FileMetadata metadata;
 

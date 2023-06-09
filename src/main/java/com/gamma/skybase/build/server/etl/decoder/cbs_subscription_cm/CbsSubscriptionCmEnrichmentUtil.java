@@ -1,4 +1,4 @@
-package com.gamma.skybase.build.server.etl.decoder.cbs_subscription;
+package com.gamma.skybase.build.server.etl.decoder.cbs_subscription_cm;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Optional;
 
-public class CbsSubscriptionEnrichmentUtil {
+public class CbsSubscriptionCmEnrichmentUtil {
     final ThreadLocal<SimpleDateFormat> sdfT = ThreadLocal.withInitial(
             () -> new SimpleDateFormat("yyyyMMdd HH:mm:ss"));
     final ThreadLocal<SimpleDateFormat> fullDate = ThreadLocal.withInitial(
@@ -15,12 +15,12 @@ public class CbsSubscriptionEnrichmentUtil {
             () -> new SimpleDateFormat("yyyyMMddHHmmss"));
     LinkedHashMap<String, Object> rec;
 
-    private CbsSubscriptionEnrichmentUtil(LinkedHashMap<String, Object> record) {
+    private CbsSubscriptionCmEnrichmentUtil(LinkedHashMap<String, Object> record) {
         rec = record;
     }
 
-    public static CbsSubscriptionEnrichmentUtil of(LinkedHashMap<String, Object> record) {
-        return new CbsSubscriptionEnrichmentUtil(record);
+    public static CbsSubscriptionCmEnrichmentUtil of(LinkedHashMap<String, Object> record) {
+        return new CbsSubscriptionCmEnrichmentUtil(record);
     }
 
     public String getValue(String field) {

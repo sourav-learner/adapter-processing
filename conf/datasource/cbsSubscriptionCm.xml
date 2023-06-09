@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Adapter Name="CBS_SUBSCRIPTION" Type="ASN.1" Version="1.0" Active="true" StatusDBHandler="mongo" rawJson="true"
-         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.cbs_subscription.CbsSubscriptionFileExecutor" ExecMode="server"
-         txExecClass="com.gamma.skybase.build.server.etl.decoder.cbs_subscription.CbsSubscriptionRecordEnrichment"
+<Adapter Name="CBS_SUBSCRIPTION_CM" Type="ASN.1" Version="1.0" Active="true" StatusDBHandler="mongo" rawJson="true"
+         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.cbs_subscription_cm.CbsSubscriptionCmFileExecutor" ExecMode="server"
+         txExecClass="com.gamma.skybase.build.server.etl.decoder.cbs_subscription_cm.CbsSubscriptionCmRecordEnrichment"
          ignoreLogging="false" ignoreDuplicates="false" parallel="1" instance-size="1" load-factor="1" customized="enable">
 
     <!--Extraction tag-->
     <Extraction type="sniff" protocol="local"
                 execClass="com.gamma.skybase.server.core.collector.sniff.DefaultSniffingExtractionAgent">
-        <Settings host="" port="" path="/raetl/processing/cbs_subscription/poll" username="" password="">
+        <Settings host="" port="" path="/raetl/processing/cbs_subscription_cm/poll" username="" password="">
             <Signature required="false" key=""/>
             <Extract pattern="" metaFields="fileName\" dateFieldPattern="yyyyMMdd"/>
         </Settings>
     </Extraction>
 
     <DirConfig>
-        <Source path="/raetl/processing/cbs_subscription/source" clogging="true"/>
-        <Backup path="/raetl/processing/cbs_subscription/backup" clogging="true" compress="gz"/>
-        <Staging path="/raetl/processing/cbs_subscription/staging" clogging="true"/>
-        <Output path="/raetl/processing/cbs_subscription/output" clogging="true"/>
-        <Error path="/raetl/processing/cbs_subscription/error" clogging="true"/>
+        <Source path="/raetl/processing/cbs_subscription_cm/source" clogging="true"/>
+        <Backup path="/raetl/processing/cbs_subscription_cm/backup" clogging="true" compress="gz"/>
+        <Staging path="/raetl/processing/cbs_subscription_cm/staging" clogging="true"/>
+        <Output path="/raetl/processing/cbs_subscription_cm/output" clogging="true"/>
+        <Error path="/raetl/processing/cbs_subscription_cm/error" clogging="true"/>
         <Target protocol="" host="" path="/" pwd="" user="" active="true"/>
     </DirConfig>
 
     <DataDef>
-        <Event eventName="FCT_CBS_SUBSCRIPTION" tableName="FCT_CBS_SUBSCRIPTION" synonym="FCT_CBS_SUBSCRIPTION" dataBase="">
+        <Event eventName="FCT_CBS_SUBSCRIPTION_CM" tableName="FCT_CBS_SUBSCRIPTION_CM" synonym="FCT_CBS_SUBSCRIPTION_CM" dataBase="">
             <Field sourceFieldName="CDR_ID"/>
             <Field sourceFieldName="CDR_SUB_ID"/>
             <Field sourceFieldName="CDR_TYPE"/>
