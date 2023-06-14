@@ -435,16 +435,6 @@
             <Field sourceFieldName="LostAmount" targetFieldName="LOST_AMOUNT"/>
             <Field sourceFieldName="ADVANCE_PREPAID_BALANCE"/>
             <Field sourceFieldName="CREDIT_POSTPAID_BALANCE"/>
-            <Field sourceFieldName="FLEXI_COL1"/>
-            <Field sourceFieldName="FLEXI_COL2"/>
-            <Field sourceFieldName="FLEXI_COL3"/>
-            <Field sourceFieldName="FLEXI_COL4"/>
-            <Field sourceFieldName="FLEXI_COL5"/>
-            <Field sourceFieldName="FLEXI_COL6"/>
-            <Field sourceFieldName="FLEXI_COL7"/>
-            <Field sourceFieldName="FLEXI_COL8"/>
-            <Field sourceFieldName="FLEXI_COL9"/>
-            <Field sourceFieldName="FLEXI_COL10"/>
             <Field sourceFieldName="SERVED_MSISDN_DIALED_KEY" default="-99"/>
             <Field sourceFieldName="ZERO_CHARGE_IND"/>
             <Field sourceFieldName="BLACK_LIST_IND" default="-97"/>
