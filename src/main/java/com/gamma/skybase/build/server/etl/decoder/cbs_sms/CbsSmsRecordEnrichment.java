@@ -27,7 +27,7 @@ public class CbsSmsRecordEnrichment implements IEnrichment {
         Optional<String> starTime = tx.getStartTime("CUST_LOCAL_START_DATE");
         starTime.ifPresent(s -> {
             record.put("EVENT_START_TIME", s);
-            //record.put("XDR_DATE", s);
+            record.put("XDR_DATE", s);
         });
 
 //        EVENT_END_TIME
@@ -48,9 +48,7 @@ public class CbsSmsRecordEnrichment implements IEnrichment {
 
 //        CHARGING_TIME
         Optional<String> chargingTime = tx.getChargingTime("ChargingTime");
-        chargingTime.ifPresent(s ->{ record.put("CHARGING_TIME", s);
-            record.put("XDR_DATE",s);
-                });
+        chargingTime.ifPresent(s -> record.put("CHARGING_TIME", s));
 
 //        SEND_RESULT
         Optional<String> sendResult = tx.getSendResult();
