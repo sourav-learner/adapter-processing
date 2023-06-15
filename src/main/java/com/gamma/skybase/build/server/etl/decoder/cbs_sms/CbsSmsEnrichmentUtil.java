@@ -5,8 +5,6 @@ import com.gamma.telco.opco.ReferenceDimDialDigit;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Optional;
@@ -16,18 +14,10 @@ import static com.gamma.telco.utility.TelcoEnrichmentUtility.ltrim;
 public class CbsSmsEnrichmentUtil {
     final ThreadLocal<SimpleDateFormat> sdfT = ThreadLocal.withInitial(
             () -> new SimpleDateFormat("yyyyMMdd HH:mm:ss"));
-
-
     final ThreadLocal<SimpleDateFormat> fullDate = ThreadLocal.withInitial(
             () -> new SimpleDateFormat("yyyyMMdd"));
     private final ThreadLocal<SimpleDateFormat> sdfS = ThreadLocal.withInitial(
             () -> new SimpleDateFormat("yyyyMMddHHmmss"));
-
-    private final ThreadLocal<DateTimeFormatter> dtfT = ThreadLocal.withInitial(() ->
-            DateTimeFormatter.ofPattern("ddMMyyyy HH:mm:ss"));
-    private final ThreadLocal<DateTimeFormatter> dtfS = ThreadLocal.withInitial(() ->
-            DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-
     LinkedHashMap<String, Object> rec;
     private final OpcoBusinessTransformation txLib = new OpcoBusinessTransformation();
 
@@ -48,37 +38,33 @@ public class CbsSmsEnrichmentUtil {
         return null;
     }
 
-    LocalDateTime callStartTime;
+    Date callStartTime;
     String genFullDate;
 
     public Optional<String> getStartTime(String field) {
         String s = getValue(field);
         try {
             if (s != null) {
-//                callStartTime = sdfS.get().parse(s);
-//                genFullDate = fullDate.get().format(callStartTime);
-//                return Optional.of(sdfT.get().format(callStartTime));
-
-                callStartTime = LocalDateTime.parse(s, dtfS.get());
-                return Optional.of(callStartTime.format(dtfT.get()));
+                callStartTime = sdfS.get().parse(s);
+                genFullDate = fullDate.get().format(callStartTime);
+                return Optional.of(sdfT.get().format(callStartTime));
             }
-        } catch (Exception e) {// Ignore invalid Date format
+        } catch (ParseException e) {// Ignore invalid Date format
         }
         return Optional.empty();
     }
 
-    LocalDateTime callEndTime;
+    Date callEndTime;
 
     public Optional<String> getEndTime(String field) {
         String s = getValue(field);
         try {
             if (s != null) {
-//                callEndTime = sdfS.get().parse(s);
-//                return Optional.of(sdfT.get().format(callEndTime));
-                callEndTime = LocalDateTime.parse(s, dtfS.get());
-                return Optional.of(callEndTime.format(dtfT.get()));
+                callEndTime = sdfS.get().parse(s);
+                return Optional.of(sdfT.get().format(callEndTime));
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e){
         }
         return Optional.empty();
     }
@@ -323,13 +309,10 @@ public class CbsSmsEnrichmentUtil {
         String s = getValue(field);
         try {
             if (s != null) {
-//                startTimeOfBill = sdfS.get().parse(s);
-//                return Optional.of(sdfT.get().format(startTimeOfBill));
-                LocalDateTime startTimeOfBill = LocalDateTime.parse(s, dtfS.get());
-                String formattedDate = startTimeOfBill.format(dtfT.get());
-                return Optional.of(formattedDate);
+                startTimeOfBill = sdfS.get().parse(s);
+                return Optional.of(sdfT.get().format(startTimeOfBill));
             }
-        } catch (Exception e) {
+        } catch (ParseException e) {// Ignore invalid Date format
         }
         return Optional.empty();
     }
