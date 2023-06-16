@@ -273,6 +273,25 @@ public class CbsVoiceEnrichmentUtil {
         return Optional.empty();
     }
 
+    String eventTypeKey;
+
+    public Optional<String> getEventTypeKey() {
+        serviceFlow = getValue("ServiceFlow");
+        if (serviceFlow != null) {
+            switch (serviceFlow) {
+                case "3":
+                    eventTypeKey = "9";
+                    break;
+                default:
+                    eventTypeKey = serviceFlow;
+                    break;
+            }
+        }
+        if (eventTypeKey != null)
+            return Optional.of(eventTypeKey);
+        return Optional.empty();
+    }
+
     String zeroDurationInd;
 
     public Optional<String> getZeroDurationInd() {
