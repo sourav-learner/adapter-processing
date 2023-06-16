@@ -47,7 +47,7 @@
             <Field sourceFieldName="DEFAULT_ACCT_ID"/>
             <Field sourceFieldName="PRI_IDENTITY"/>
             <Field sourceFieldName="BILL_CYCLE_ID"/>
-            <Field sourceFieldName="SERVICE_CATEGORY" targetFieldName="EVENT_TYPE_KEY"/>
+            <Field sourceFieldName="EVENT_TYPE_KEY"/>
             <Field sourceFieldName="USAGE_SERVICE_TYPE"/>
             <Field sourceFieldName="SESSION_ID"/>
             <Field sourceFieldName="RESULTCODE"/>
@@ -380,7 +380,7 @@
             <Field sourceFieldName="SERVED_IMSI"/>
             <Field sourceFieldName="OTHER_IMSI"/>
             <Field sourceFieldName="DialedNumber" targetFieldName="DIALED_NUMBER"/>
-            <Field sourceFieldName="OriginalCalledParty" targetFieldName="THIRD_PARTY_MSISDN"/>
+            <Field sourceFieldName="OriginalCalledParty" targetFieldName="ORIGINAL_CALLED_PARTY"/>
             <Field sourceFieldName="EVENT_DIRECTION_KEY"/>
             <Field sourceFieldName="CallForwardIndicator" targetFieldName="CFIND"/>
             <Field sourceFieldName="SERVED_PLMN"/>
@@ -468,6 +468,10 @@
             <Field sourceFieldName="PAY_TYPE"/>
             <Field sourceFieldName="SERVICE_FLOW"/>
             <Field sourceFieldName="SERVICE_CATEGORY1"/>
+            <Field sourceFieldName="CallingPartyNumber" targetFieldName="CALLING_PARTY_NUMBER"/>
+            <Field sourceFieldName="CalledPartyNumber" targetFieldName="CALLED_PARTY_NUMBER"/>
+            <Field sourceFieldName="CallingPartyIMSI" targetFieldName="CALLING_PARTY_IMSI"/>
+            <Field sourceFieldName="CalledPartyIMSI" targetFieldName="CALLED_PARTY_IMSI"/>
             <Field sourceFieldName="filename" targetFieldName="FILE_NAME"/>
             <Field sourceFieldName="EVENT_DATE" targetFieldName="EVENT_DATE"/>
             <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
