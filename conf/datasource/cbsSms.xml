@@ -379,7 +379,7 @@
             <Field sourceFieldName="CallingPartyIMSI" targetFieldName="SERVED_IMSI"/>
             <Field sourceFieldName="CallingPartyIMSI" targetFieldName="OTHER_IMSI"/>
             <Field sourceFieldName="DialedNumber" targetFieldName="DIALED_NUMBER"/>
-            <Field sourceFieldName="OriginalCalledParty" targetFieldName="THIRD_PARTY_MSISDN"/>
+            <Field sourceFieldName="OriginalCalledParty" targetFieldName="ORIGINAL_CALLED_PARTY"/>
             <Field sourceFieldName="EVENT_DIRECTION_KEY"/>
             <Field sourceFieldName="CallForwardIndicator " targetFieldName="CF_IND"/>
             <Field sourceFieldName="CallingRoamInfo" targetFieldName="SERVED_PLMN"/>
