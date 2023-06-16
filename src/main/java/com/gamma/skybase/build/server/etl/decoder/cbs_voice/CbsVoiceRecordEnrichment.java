@@ -89,32 +89,32 @@ public class CbsVoiceRecordEnrichment implements IEnrichment {
         String serviceFlow = tx.getValue("ServiceFlow");
         if(serviceFlow != null) {
             record.put("SERVICE_FLOW", serviceFlow);
-            if ("1".equals(serviceFlow.trim())){
+            if ("1".equals(serviceFlow.trim())) {
                 String callingPartyNumber = tx.getValue("CallingPartyNumber");
                 String servedMSISDN = tx.normalizeMSISDN(callingPartyNumber);
-                record.put("SERVED_MSISDN",servedMSISDN);
+                record.put("SERVED_MSISDN", servedMSISDN);
                 try {
                     ReferenceDimDialDigit ddk = tx.getDialedDigitSettings(servedMSISDN);
                     if (ddk != null) {
                         record.put("SERVED_MSISDN_DIALED_KEY", ddk.getDialDigitKey());
                     }
                 } catch (Exception e) {
-                e.printStackTrace();
+                    e.printStackTrace();
                 }
 
                 String calledPartyNumber = tx.getValue("CalledPartyNumber");
                 String otherMSISDN = tx.normalizeMSISDN(calledPartyNumber);
-                record.put("OTHER_MSISDN",otherMSISDN);
+                record.put("OTHER_MSISDN", otherMSISDN);
                 try {
                     ReferenceDimDialDigit ddk = tx.getDialedDigitSettings(otherMSISDN);
                     if (ddk != null) {
                         record.put("OTHER_MSISDN_DIALED_KEY", ddk.getDialDigitKey());
                         String providerDesc = ddk.getProviderDesc();
-                        record.put("OTHER_PARTY_OPERATOR" , providerDesc);
+                        record.put("OTHER_PARTY_OPERATOR", providerDesc);
                         String targetCountryCode = ddk.getTargetCountryCode();
                         String otherPartyNwIndKey = "";
-                        if (targetCountryCode.equals("966")){
-                            switch (providerDesc){
+                        if (targetCountryCode.equals("966")) {
+                            switch (providerDesc) {
                                 case "GSM-Lebara Mobile":
                                 case "LEBARA- Free Number":
                                 case "LEBARA-Spl Number":
@@ -134,45 +134,49 @@ public class CbsVoiceRecordEnrichment implements IEnrichment {
                         else {
                             otherPartyNwIndKey = "-99";
                         }
-                        record.put("OTHER_PARTY_NW_IND_KEY" , otherPartyNwIndKey);
+                        record.put("OTHER_PARTY_NW_IND_KEY", otherPartyNwIndKey);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                 record.put("SERVED_IMSI",tx.getValue("CallingPartyIMSI"));
-                 record.put("OTHER_IMSI",tx.getValue("CalledPartyIMSI"));
-                 record.put("SERVED_CUG",tx.getValue("CallingCUGNo"));
-                 record.put("OTHER_CUG",tx.getValue("CalledCUGNo"));
-                 record.put("SERVED_PLMN",tx.getValue("CallingRoamInfo"));
-                 record.put("SERVED_CELL",tx.getValue("CallingCellID"));
-                 record.put("OTHER_PLMN",tx.getValue("CalledRoamInfo"));
-                 record.put("OTHER_CELL",tx.getValue("CalledCellID"));
-                 record.put("SERVED_CC",tx.getValue("CallingHomeCountryCode"));
-                 record.put("SERVED_AREA_CODE",tx.getValue("CallingHomeAreaNumber"));
-                 record.put("SERVED_NETWORK_CODE",tx.getValue("CallingHomeNetworkCode"));
-                 record.put("SERVED_ROAMING_CC",tx.getValue("CallingRoamCountryCode"));
-                 record.put("SERVED_ROAM_AREA_CODE",tx.getValue("CallingRoamAreaNumber"));
-                 record.put("SERVED_ROAM_NETWORK_CODE",tx.getValue("CallingRoamNetworkCode"));
-                 record.put("OTHER_CC",tx.getValue("CalledHomeCountryCode"));
-                 record.put("OTHER_AREA_CODE",tx.getValue("CalledHomeAreaNumber"));
-                 record.put("OTHER_NETWORK_CODE",tx.getValue("CalledHomeNetworkCode"));
-                 record.put("OTHER_ROAM_CC",tx.getValue("CalledRoamCountryCode"));
-                 record.put("OTHER_ROAM_AREA_CODE",tx.getValue("CalledRoamAreaNumber"));
-                 record.put("OTHER_ROAM_NETWORK_CODE",tx.getValue("CalledRoamNetworkCode"));
-                 record.put("SERVED_NW_TYPE",tx.getValue("CallingNetworkType"));
-                 record.put("OTHER_NW_TYPE",tx.getValue("CalledNetworkType"));
-                 record.put("SERVED_VPN_TOP_GROUP_NUMBER",tx.getValue("CallingVPNTopGroupNumber"));
-                 record.put("SERVED_VPN_GROUP_NUMBER",tx.getValue("CallingVPNGroupNumber"));
-                 record.put("SERVED_VPN_SHORT_NUMBER",tx.getValue("CallingVPNShortNumber"));
-                 record.put("OTHER_VPN_TOP_GROUP_NUMBER",tx.getValue("CalledVPNTopGroupNumber"));
-                 record.put("OTHER_VPN_GROUP_NUMBER",tx.getValue("CalledVPNGroupNumber"));
-                 record.put("OTHER_VPN_SHORT_NUMBER",tx.getValue("CalledVPNShortNumber"));
+                record.put("SERVED_IMSI", tx.getValue("CallingPartyIMSI"));
+                record.put("OTHER_IMSI", tx.getValue("CalledPartyIMSI"));
+                record.put("SERVED_CUG", tx.getValue("CallingCUGNo"));
+                record.put("OTHER_CUG", tx.getValue("CalledCUGNo"));
+                record.put("SERVED_PLMN", tx.getValue("CallingRoamInfo"));
+                record.put("SERVED_CELL", tx.getValue("CallingCellID"));
+                record.put("OTHER_PLMN", tx.getValue("CalledRoamInfo"));
+                record.put("OTHER_CELL", tx.getValue("CalledCellID"));
+                record.put("SERVED_CC", tx.getValue("CallingHomeCountryCode"));
+                record.put("SERVED_AREA_CODE", tx.getValue("CallingHomeAreaNumber"));
+                record.put("SERVED_NETWORK_CODE", tx.getValue("CallingHomeNetworkCode"));
+                record.put("SERVED_ROAMING_CC", tx.getValue("CallingRoamCountryCode"));
+                record.put("SERVED_ROAM_AREA_CODE", tx.getValue("CallingRoamAreaNumber"));
+                record.put("SERVED_ROAM_NETWORK_CODE", tx.getValue("CallingRoamNetworkCode"));
+                record.put("OTHER_CC", tx.getValue("CalledHomeCountryCode"));
+                record.put("OTHER_AREA_CODE", tx.getValue("CalledHomeAreaNumber"));
+                record.put("OTHER_NETWORK_CODE", tx.getValue("CalledHomeNetworkCode"));
+                record.put("OTHER_ROAM_CC", tx.getValue("CalledRoamCountryCode"));
+                record.put("OTHER_ROAM_AREA_CODE", tx.getValue("CalledRoamAreaNumber"));
+                record.put("OTHER_ROAM_NETWORK_CODE", tx.getValue("CalledRoamNetworkCode"));
+                record.put("SERVED_NW_TYPE", tx.getValue("CallingNetworkType"));
+                record.put("OTHER_NW_TYPE", tx.getValue("CalledNetworkType"));
+                record.put("SERVED_VPN_TOP_GROUP_NUMBER", tx.getValue("CallingVPNTopGroupNumber"));
+                record.put("SERVED_VPN_GROUP_NUMBER", tx.getValue("CallingVPNGroupNumber"));
+                record.put("SERVED_VPN_SHORT_NUMBER", tx.getValue("CallingVPNShortNumber"));
+                record.put("OTHER_VPN_TOP_GROUP_NUMBER", tx.getValue("CalledVPNTopGroupNumber"));
+                record.put("OTHER_VPN_GROUP_NUMBER", tx.getValue("CalledVPNGroupNumber"));
+                record.put("OTHER_VPN_SHORT_NUMBER", tx.getValue("CalledVPNShortNumber"));
             }
 
-            else if ("2".equals(serviceFlow.trim())){
-                String callingPartyNumber = tx.getValue("CallingPartyNumber");
-                String servedMSISDN = tx.normalizeMSISDN(callingPartyNumber);
-                record.put("SERVED_MSISDN",servedMSISDN);
+            else if ("2".equals(serviceFlow.trim())) {
+                String callingPartyNumber1 = tx.getValue("CallingPartyNumber");
+                String calledPartyNumber1 = tx.getValue("CalledPartyNumber");
+                String servedMSISDN = tx.normalizeMSISDN(calledPartyNumber1);
+                String otherMSISDN1 = tx.normalizeMSISDN(callingPartyNumber1);
+                record.put("SERVED_MSISDN", servedMSISDN);
+                record.put("OTHER_MSISDN", otherMSISDN1);
+
                 try {
                     ReferenceDimDialDigit ddk = tx.getDialedDigitSettings(servedMSISDN);
                     if (ddk != null) {
@@ -182,19 +186,16 @@ public class CbsVoiceRecordEnrichment implements IEnrichment {
                     e.printStackTrace();
                 }
 
-                String calledPartyNumber1 = tx.getValue("CalledPartyNumber");
-                String otherMSISDN1 = tx.normalizeMSISDN(calledPartyNumber1);
-                record.put("OTHER_MSISDN",otherMSISDN1);
                 try {
                     ReferenceDimDialDigit ddk = tx.getDialedDigitSettings(otherMSISDN1);
                     if (ddk != null) {
                         record.put("OTHER_MSISDN_DIALED_KEY", ddk.getDialDigitKey());
                         String providerDesc = ddk.getProviderDesc();
-                        record.put("OTHER_PARTY_OPERATOR" , providerDesc);
+                        record.put("OTHER_PARTY_OPERATOR", providerDesc);
                         String targetCountryCode = ddk.getTargetCountryCode();
                         String otherPartyNwIndKey = "";
-                        if (targetCountryCode.equals("966")){
-                            switch (providerDesc){
+                        if (targetCountryCode.equals("966")) {
+                            switch (providerDesc) {
                                 case "GSM-Lebara Mobile":
                                 case "LEBARA- Free Number":
                                 case "LEBARA-Spl Number":
@@ -211,39 +212,85 @@ public class CbsVoiceRecordEnrichment implements IEnrichment {
                         else {
                             otherPartyNwIndKey = "-99";
                         }
-                        record.put("OTHER_PARTY_NW_IND_KEY" , otherPartyNwIndKey);
+                        record.put("OTHER_PARTY_NW_IND_KEY", otherPartyNwIndKey);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                record.put("SERVED_IMSI",tx.getValue("CalledPartyIMSI"));
-                record.put("OTHER_IMSI",tx.getValue("CallingPartyIMSI"));
-                record.put("SERVED_CUG",tx.getValue("CalledCUGNo"));
-                record.put("OTHER_CUG",tx.getValue("CallingCUGNo"));
-                record.put("SERVED_NW_TYPE",tx.getValue("CalledNetworkType"));
-                record.put("OTHER_NW_TYPE",tx.getValue("CallingNetworkType"));
-                record.put("SERVED_PLMN",tx.getValue("CalledRoamInfo"));
-                record.put("SERVED_CELL",tx.getValue("CalledCellID"));
-                record.put("OTHER_PLMN",tx.getValue("CallingRoamInfo"));
-                record.put("OTHER_CELL",tx.getValue("CallingCellID"));
-                record.put("SERVED_CC",tx.getValue("CalledHomeCountryCode"));
-                record.put("SERVED_AREA_CODE",tx.getValue("CalledHomeAreaNumber"));
-                record.put("SERVED_NETWORK_CODE",tx.getValue("CalledHomeNetworkCode"));
-                record.put("SERVED_ROAMING_CC",tx.getValue("CalledRoamCountryCode"));
-                record.put("SERVED_ROAM_AREA_CODE",tx.getValue("CalledRoamAreaNumber"));
-                record.put("SERVED_ROAM_NETWORK_CODE",tx.getValue("CalledRoamNetworkCode"));
-                record.put("OTHER_CC",tx.getValue("CallingHomeCountryCode"));
-                record.put("OTHER_AREA_CODE",tx.getValue("CallingHomeAreaNumber"));
-                record.put("OTHER_NETWORK_CODE",tx.getValue("CallingHomeNetworkCode"));
-                record.put("OTHER_ROAM_CC",tx.getValue("CallingRoamCountryCode"));
-                record.put("OTHER_ROAM_AREA_CODE",tx.getValue("CallingRoamAreaNumber"));
-                record.put("OTHER_ROAM_NETWORK_CODE",tx.getValue("CallingRoamNetworkCode"));
-                record.put("SERVED_VPN_TOP_GROUP_NUMBER",tx.getValue("CalledVPNTopGroupNumber"));
-                record.put("SERVED_VPN_GROUP_NUMBER",tx.getValue("CalledVPNGroupNumber"));
-                record.put("SERVED_VPN_SHORT_NUMBER",tx.getValue("CalledVPNShortNumber"));
-                record.put("OTHER_VPN_TOP_GROUP_NUMBER",tx.getValue("CallingVPNTopGroupNumber"));
-                record.put("OTHER_VPN_GROUP_NUMBER",tx.getValue("CallingVPNGroupNumber"));
-                record.put("OTHER_VPN_SHORT_NUMBER",tx.getValue("CallingVPNShortNumber"));
+                record.put("SERVED_IMSI", tx.getValue("CalledPartyIMSI"));
+                record.put("OTHER_IMSI", tx.getValue("CallingPartyIMSI"));
+                record.put("SERVED_CUG", tx.getValue("CalledCUGNo"));
+                record.put("OTHER_CUG", tx.getValue("CallingCUGNo"));
+                record.put("SERVED_NW_TYPE", tx.getValue("CalledNetworkType"));
+                record.put("OTHER_NW_TYPE", tx.getValue("CallingNetworkType"));
+                record.put("SERVED_PLMN", tx.getValue("CalledRoamInfo"));
+                record.put("SERVED_CELL", tx.getValue("CalledCellID"));
+                record.put("OTHER_PLMN", tx.getValue("CallingRoamInfo"));
+                record.put("OTHER_CELL", tx.getValue("CallingCellID"));
+                record.put("SERVED_CC", tx.getValue("CalledHomeCountryCode"));
+                record.put("SERVED_AREA_CODE", tx.getValue("CalledHomeAreaNumber"));
+                record.put("SERVED_NETWORK_CODE", tx.getValue("CalledHomeNetworkCode"));
+                record.put("SERVED_ROAMING_CC", tx.getValue("CalledRoamCountryCode"));
+                record.put("SERVED_ROAM_AREA_CODE", tx.getValue("CalledRoamAreaNumber"));
+                record.put("SERVED_ROAM_NETWORK_CODE", tx.getValue("CalledRoamNetworkCode"));
+                record.put("OTHER_CC", tx.getValue("CallingHomeCountryCode"));
+                record.put("OTHER_AREA_CODE", tx.getValue("CallingHomeAreaNumber"));
+                record.put("OTHER_NETWORK_CODE", tx.getValue("CallingHomeNetworkCode"));
+                record.put("OTHER_ROAM_CC", tx.getValue("CallingRoamCountryCode"));
+                record.put("OTHER_ROAM_AREA_CODE", tx.getValue("CallingRoamAreaNumber"));
+                record.put("OTHER_ROAM_NETWORK_CODE", tx.getValue("CallingRoamNetworkCode"));
+                record.put("SERVED_VPN_TOP_GROUP_NUMBER", tx.getValue("CalledVPNTopGroupNumber"));
+                record.put("SERVED_VPN_GROUP_NUMBER", tx.getValue("CalledVPNGroupNumber"));
+                record.put("SERVED_VPN_SHORT_NUMBER", tx.getValue("CalledVPNShortNumber"));
+                record.put("OTHER_VPN_TOP_GROUP_NUMBER", tx.getValue("CallingVPNTopGroupNumber"));
+                record.put("OTHER_VPN_GROUP_NUMBER", tx.getValue("CallingVPNGroupNumber"));
+                record.put("OTHER_VPN_SHORT_NUMBER", tx.getValue("CallingVPNShortNumber"));
+            }
+            else if ("3".equals(serviceFlow.trim())) {
+                String callingPartyNumber1 = tx.getValue("CallingPartyNumber");
+                String otherMSISDN1 = tx.normalizeMSISDN(callingPartyNumber1);
+                record.put("OTHER_MSISDN", otherMSISDN1);
+                String originalCalledParty = tx.getValue("OriginalCalledParty");
+                String servedMSISDN = tx.normalizeMSISDN(originalCalledParty);
+                record.put("SERVED_MSISDN", servedMSISDN);
+
+                try {
+                    ReferenceDimDialDigit ddk = tx.getDialedDigitSettings(servedMSISDN);
+                    if (ddk != null) {
+                        record.put("SERVED_MSISDN_DIALED_KEY", ddk.getDialDigitKey());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    ReferenceDimDialDigit ddk = tx.getDialedDigitSettings(otherMSISDN1);
+                    if (ddk != null) {
+                        record.put("OTHER_MSISDN_DIALED_KEY", ddk.getDialDigitKey());
+                        String providerDesc = ddk.getProviderDesc();
+                        record.put("OTHER_PARTY_OPERATOR", providerDesc);
+                        String targetCountryCode = ddk.getTargetCountryCode();
+                        String otherPartyNwIndKey = "";
+                        if (targetCountryCode.equals("966")) {
+                            switch (providerDesc) {
+                                case "GSM-Lebara Mobile":
+                                case "LEBARA- Free Number":
+                                case "LEBARA-Spl Number":
+                                    otherPartyNwIndKey = "1";
+                                    break;
+                                default:
+                                    otherPartyNwIndKey = "2";
+                                    break;
+                            }
+                        } else if (!targetCountryCode.equals("966")) {
+                            otherPartyNwIndKey = "3";
+                        } else {
+                            otherPartyNwIndKey = "-99";
+                        }
+                        record.put("OTHER_PARTY_NW_IND_KEY", otherPartyNwIndKey);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -254,6 +301,10 @@ public class CbsVoiceRecordEnrichment implements IEnrichment {
             if (!s.equals("0")) zeroDurationIndDefault.set(0);
         });
         record.put("ZERO_DURATION_IND", zeroDurationIndDefault.get());
+
+        //  EVENT_TYPE_KEY
+        Optional<String> eventTypeKey = tx.getEventTypeKey();
+        eventTypeKey.ifPresent(s -> record.put("EVENT_TYPE_KEY", s));
 
         //  EVENT_DATE
         record.put("EVENT_DATE", tx.genFullDate);
