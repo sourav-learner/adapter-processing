@@ -81,10 +81,6 @@ public class CbsVoiceRecordEnrichment implements IEnrichment {
         String payType = tx.getValue("PayType");
         record.put("PAY_TYPE", payType);
 
-//        SERVICE_CATEGORY
-        String serviceCategory = tx.getValue("SERVICE_CATEGORY");
-        record.put("SERVICE_CATEGORY1",serviceCategory);
-
         // SERVICE_FLOW
         String serviceFlow = tx.getValue("ServiceFlow");
         if(serviceFlow != null) {
