@@ -467,7 +467,6 @@
             <Field sourceFieldName="CHARGE"/>
             <Field sourceFieldName="PAY_TYPE"/>
             <Field sourceFieldName="SERVICE_FLOW"/>
-            <Field sourceFieldName="SERVICE_CATEGORY1"/>
             <Field sourceFieldName="CallingPartyNumber" targetFieldName="CALLING_PARTY_NUMBER"/>
             <Field sourceFieldName="CalledPartyNumber" targetFieldName="CALLED_PARTY_NUMBER"/>
             <Field sourceFieldName="CallingPartyIMSI" targetFieldName="CALLING_PARTY_IMSI"/>
