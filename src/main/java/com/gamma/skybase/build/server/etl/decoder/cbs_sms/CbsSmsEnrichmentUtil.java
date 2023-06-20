@@ -373,12 +373,14 @@ public class CbsSmsEnrichmentUtil {
         if (number != null) {
             if (number.startsWith("0")) {
                 number = ltrim(number, '0');
-                if (number.length() < 10) {
-                    number = "966" + number;
-                }
             }
             if (number.length() < 10) {
-                number = "966" + number;
+                if (number.startsWith("966")){
+                    return number;
+                }
+                else {
+                    number = "966" + number;
+                }
             }
             return number;
         }
