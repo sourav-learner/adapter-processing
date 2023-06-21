@@ -406,7 +406,6 @@
             <Field sourceFieldName="ACCESS_METHOD"/>
             <Field sourceFieldName="ADVANCE_PREPAID_BALANCE"/>
             <Field sourceFieldName="CREDIT_POSTPAID_BALANCE"/>
-            <Field sourceFieldName="SERVICE_CATEGORY1"/>
             <Field sourceFieldName="EVENT_DATE"/>
             <Field sourceFieldName="PAY_TYPE"/>
             <Field sourceFieldName="filename" targetFieldName="FILE_NAME"/>

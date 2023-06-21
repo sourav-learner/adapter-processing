@@ -440,7 +440,6 @@
             <Field sourceFieldName="BLACK_LIST_IND" default="-97"/>
             <Field sourceFieldName="CHARGE"/>
             <Field sourceFieldName="PAY_TYPE"/>
-            <Field sourceFieldName="SERVICE_CATEGORY1"/>
             <Field sourceFieldName="TotalFlux" targetFieldName="TOTAL_VOL"/>
             <Field sourceFieldName="UpFlux" targetFieldName="UPLOAD_VOLUME"/>
             <Field sourceFieldName="DownFlux" targetFieldName="DOWNLOAD_VOLUME"/>
