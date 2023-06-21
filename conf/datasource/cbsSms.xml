@@ -462,7 +462,6 @@
             <Field sourceFieldName="CHARGE" targetFieldName="CHARGE"/>
             <Field sourceFieldName="PAY_TYPE"/>
             <Field sourceFieldName="SERVICE_FLOW"/>
-            <Field sourceFieldName="SERVICE_CATEGORY1"/>
             <Field sourceFieldName="EVENT_DATE"/>
             <Field sourceFieldName="filename" targetFieldName="File_Name"/>
             <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
