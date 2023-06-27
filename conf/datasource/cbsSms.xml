@@ -241,7 +241,7 @@
             <Field sourceFieldName="BD3_ACCT_ID"/>
             <Field sourceFieldName="BD3_ACCT_BALANCE_ID"/>
             <Field sourceFieldName="BD3_BALANCE_TYPE"/>
-            <Field sourceFieldName="BD3_BONUS_AMOUNT"/>
+            <Field sourceFieldName="BD3_BONUS_AMOUNT" dataType="double" default="0"/>
             <Field sourceFieldName="BD3_CURRENT_BALANCE"/>
             <Field sourceFieldName="BD3_CURRENCY_ID"/>
             <Field sourceFieldName="BD3_OPER_TYPE"/>
@@ -377,7 +377,7 @@
             <Field sourceFieldName="CallingPartyNumber" targetFieldName="SERVED_MSISDN"/>
             <Field sourceFieldName="CalledPartyNumber" targetFieldName="OTHER_MSISDN"/>
             <Field sourceFieldName="CallingPartyIMSI" targetFieldName="SERVED_IMSI"/>
-            <Field sourceFieldName="CallingPartyIMSI" targetFieldName="OTHER_IMSI"/>
+            <Field sourceFieldName="CalledPartyIMSI" targetFieldName="OTHER_IMSI"/>
             <Field sourceFieldName="DialedNumber" targetFieldName="DIALED_NUMBER"/>
             <Field sourceFieldName="OriginalCalledParty" targetFieldName="ORIGINAL_CALLED_PARTY"/>
             <Field sourceFieldName="EVENT_DIRECTION_KEY"/>
