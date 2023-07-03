@@ -457,9 +457,9 @@
             <Field sourceFieldName="OTHER_PARTY_NW_IND_KEY" default="-99"/>
             <Field sourceFieldName="SERVED_ROAM_DIALED_KEY" default="-99"/>
             <Field sourceFieldName="ZERO_CHARGE_IND"/>
-            <Field sourceFieldName="ZERO_DURATION_IND" targetFieldName="ZERO_DURATION_IND"/>
-            <Field sourceFieldName="BLACK_LIST_IND" targetFieldName="BLACK_LIST_IND" default="-97"/>
-            <Field sourceFieldName="CHARGE" targetFieldName="CHARGE"/>
+            <Field sourceFieldName="ZERO_DURATION_IND"/>
+            <Field sourceFieldName="BLACK_LIST_IND" default="-97"/>
+            <Field sourceFieldName="CHARGE"/>
             <Field sourceFieldName="PAY_TYPE"/>
             <Field sourceFieldName="SERVICE_FLOW"/>
             <Field sourceFieldName="EVENT_DATE"/>
