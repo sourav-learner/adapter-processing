@@ -173,17 +173,17 @@ public class CbsSubscriptionComEnrichmentUtil {
         return Optional.empty();
     }
 
-    String eventTypeKey , serviceFlow;
+    String eventTypeKey , serviceCategory;
 
     public Optional<String> getEventTypeKey() {
-        serviceFlow = getValue("ServiceFlow");
-        if (serviceFlow != null) {
-            switch (serviceFlow) {
+        serviceCategory = getValue("SERVICE_CATEGORY");
+        if (serviceCategory != null) {
+            switch (serviceCategory) {
                 case "3":
                     eventTypeKey = "9";
                     break;
                 default:
-                    eventTypeKey = serviceFlow;
+                    eventTypeKey = serviceCategory;
                     break;
             }
         }
