@@ -1356,6 +1356,258 @@ public class CbsAdjEnrichmentUtil {
         return Optional.empty();
     }
 
+    String BC2OperType;
+
+    public Optional<String> getBC2OperType() {
+        BC2OperType = getValue("BC2_OPER_TYPE");
+        if (BC2OperType != null) {
+            switch (BC2OperType) {
+                case "0":
+                    BC2OperType = "expend";
+                    break;
+                case "1":
+                    BC2OperType = "perform accounting";
+                    break;
+                case "2":
+                    BC2OperType = "update the income";
+                    break;
+                case "3":
+                    BC2OperType = "increase the income";
+                    break;
+                default:
+                    BC2OperType = "unknown";
+                    break;
+            }
+        }
+        if (BC2OperType != null)
+            return Optional.of(BC2OperType);
+        return Optional.empty();
+    }
+
+    String BC3OperType;
+
+    public Optional<String> getBC3OperType() {
+        BC3OperType = getValue("BC3_OPER_TYPE");
+        if (BC3OperType != null) {
+            switch (BC3OperType) {
+                case "0":
+                    BC3OperType = "expend";
+                    break;
+                case "1":
+                    BC3OperType = "perform accounting";
+                    break;
+                case "2":
+                    BC3OperType = "update the income";
+                    break;
+                case "3":
+                    BC3OperType = "increase the income";
+                    break;
+                default:
+                    BC3OperType = "unknown";
+                    break;
+            }
+        }
+        if (BC3OperType != null)
+            return Optional.of(BC3OperType);
+        return Optional.empty();
+    }
+
+    String BC4OperType;
+
+    public Optional<String> getBC4OperType() {
+        BC4OperType = getValue("BC4_OPER_TYPE");
+        if (BC4OperType != null) {
+            switch (BC4OperType) {
+                case "0":
+                    BC4OperType = "expend";
+                    break;
+                case "1":
+                    BC4OperType = "perform accounting";
+                    break;
+                case "2":
+                    BC4OperType = "update the income";
+                    break;
+                case "3":
+                    BC4OperType = "increase the income";
+                    break;
+                default:
+                    BC4OperType = "unknown";
+                    break;
+            }
+        }
+        if (BC4OperType != null)
+            return Optional.of(BC4OperType);
+        return Optional.empty();
+    }
+
+    String BC5OperType;
+
+    public Optional<String> getBC5OperType() {
+        BC5OperType = getValue("BC5_OPER_TYPE");
+        if (BC5OperType != null) {
+            switch (BC5OperType) {
+                case "0":
+                    BC5OperType = "expend";
+                    break;
+                case "1":
+                    BC5OperType = "perform accounting";
+                    break;
+                case "2":
+                    BC5OperType = "update the income";
+                    break;
+                case "3":
+                    BC5OperType = "increase the income";
+                    break;
+                default:
+                    BC5OperType = "unknown";
+                    break;
+            }
+        }
+        if (BC5OperType != null)
+            return Optional.of(BC5OperType);
+        return Optional.empty();
+    }
+
+    String BC6OperType;
+
+    public Optional<String> getBC6OperType() {
+        BC6OperType = getValue("BC6_OPER_TYPE");
+        if (BC6OperType != null) {
+            switch (BC6OperType) {
+                case "0":
+                    BC6OperType = "expend";
+                    break;
+                case "1":
+                    BC6OperType = "perform accounting";
+                    break;
+                case "2":
+                    BC6OperType = "update the income";
+                    break;
+                case "3":
+                    BC6OperType = "increase the income";
+                    break;
+                default:
+                    BC6OperType = "unknown";
+                    break;
+            }
+        }
+        if (BC6OperType != null)
+            return Optional.of(BC6OperType);
+        return Optional.empty();
+    }
+
+    String BC7OperType;
+
+    public Optional<String> getBC7OperType() {
+        BC7OperType = getValue("BC7_OPER_TYPE");
+        if (BC7OperType != null) {
+            switch (BC7OperType) {
+                case "0":
+                    BC7OperType = "expend";
+                    break;
+                case "1":
+                    BC7OperType = "perform accounting";
+                    break;
+                case "2":
+                    BC7OperType = "update the income";
+                    break;
+                case "3":
+                    BC7OperType = "increase the income";
+                    break;
+                default:
+                    BC7OperType = "unknown";
+                    break;
+            }
+        }
+        if (BC7OperType != null)
+            return Optional.of(BC7OperType);
+        return Optional.empty();
+    }
+
+    String BC8OperType;
+
+    public Optional<String> getBC8OperType() {
+        BC8OperType = getValue("BC8_OPER_TYPE");
+        if (BC8OperType != null) {
+            switch (BC8OperType) {
+                case "0":
+                    BC8OperType = "expend";
+                    break;
+                case "1":
+                    BC8OperType = "perform accounting";
+                    break;
+                case "2":
+                    BC8OperType = "update the income";
+                    break;
+                case "3":
+                    BC8OperType = "increase the income";
+                    break;
+                default:
+                    BC8OperType = "unknown";
+                    break;
+            }
+        }
+        if (BC8OperType != null)
+            return Optional.of(BC8OperType);
+        return Optional.empty();
+    }
+
+    String BC9OperType;
+
+    public Optional<String> getBC9OperType() {
+        BC9OperType = getValue("BC9_OPER_TYPE");
+        if (BC9OperType != null) {
+            switch (BC9OperType) {
+                case "0":
+                    BC9OperType = "expend";
+                    break;
+                case "1":
+                    BC9OperType = "perform accounting";
+                    break;
+                case "2":
+                    BC9OperType = "update the income";
+                    break;
+                case "3":
+                    BC9OperType = "increase the income";
+                    break;
+                default:
+                    BC9OperType = "unknown";
+                    break;
+            }
+        }
+        if (BC9OperType != null)
+            return Optional.of(BC9OperType);
+        return Optional.empty();
+    }
+
+    String BC10OperType;
+
+    public Optional<String> getBC10OperType() {
+        BC10OperType = getValue("BC10_OPER_TYPE");
+        if (BC10OperType != null) {
+            switch (BC10OperType) {
+                case "0":
+                    BC10OperType = "expend";
+                    break;
+                case "1":
+                    BC10OperType = "perform accounting";
+                    break;
+                case "2":
+                    BC10OperType = "update the income";
+                    break;
+                case "3":
+                    BC10OperType = "increase the income";
+                    break;
+                default:
+                    BC10OperType = "unknown";
+                    break;
+            }
+        }
+        if (BC10OperType != null)
+            return Optional.of(BC10OperType);
+        return Optional.empty();
+    }
+
     String FC1FuOwnType;
 
     public Optional<String> getFC1FUOwnType() {
@@ -1378,6 +1630,231 @@ public class CbsAdjEnrichmentUtil {
         }
         if (FC1FuOwnType != null)
             return Optional.of(FC1FuOwnType);
+        return Optional.empty();
+    }
+
+    String FC2FuOwnType;
+
+    public Optional<String> getFC2FUOwnType() {
+        FC2FuOwnType = getValue("FC2_FU_OWN_TYPE");
+        if (FC2FuOwnType != null) {
+            switch (FC2FuOwnType.toUpperCase()) {
+                case "S":
+                    FC2FuOwnType = "subscriber";
+                    break;
+                case "G":
+                    FC2FuOwnType = "subscriber group";
+                    break;
+                case "C":
+                    FC2FuOwnType = "customer";
+                    break;
+                default:
+                    FC2FuOwnType = "unknown";
+                    break;
+            }
+        }
+        if (FC2FuOwnType != null)
+            return Optional.of(FC2FuOwnType);
+        return Optional.empty();
+    }
+
+    String FC3FuOwnType;
+
+    public Optional<String> getFC3FUOwnType() {
+        FC3FuOwnType = getValue("FC3_FU_OWN_TYPE");
+        if (FC3FuOwnType != null) {
+            switch (FC3FuOwnType.toUpperCase()) {
+                case "S":
+                    FC3FuOwnType = "subscriber";
+                    break;
+                case "G":
+                    FC3FuOwnType = "subscriber group";
+                    break;
+                case "C":
+                    FC3FuOwnType = "customer";
+                    break;
+                default:
+                    FC3FuOwnType = "unknown";
+                    break;
+            }
+        }
+        if (FC3FuOwnType != null)
+            return Optional.of(FC3FuOwnType);
+        return Optional.empty();
+    }
+
+    String FC4FuOwnType;
+
+    public Optional<String> getFC4FUOwnType() {
+        FC4FuOwnType = getValue("FC4_FU_OWN_TYPE");
+        if (FC4FuOwnType != null) {
+            switch (FC4FuOwnType.toUpperCase()) {
+                case "S":
+                    FC4FuOwnType = "subscriber";
+                    break;
+                case "G":
+                    FC4FuOwnType = "subscriber group";
+                    break;
+                case "C":
+                    FC4FuOwnType = "customer";
+                    break;
+                default:
+                    FC4FuOwnType = "unknown";
+                    break;
+            }
+        }
+        if (FC4FuOwnType != null)
+            return Optional.of(FC4FuOwnType);
+        return Optional.empty();
+    }
+
+    String FC5FuOwnType;
+
+    public Optional<String> getFC5FUOwnType() {
+        FC5FuOwnType = getValue("FC5_FU_OWN_TYPE");
+        if (FC5FuOwnType != null) {
+            switch (FC5FuOwnType.toUpperCase()) {
+                case "S":
+                    FC5FuOwnType = "subscriber";
+                    break;
+                case "G":
+                    FC5FuOwnType = "subscriber group";
+                    break;
+                case "C":
+                    FC5FuOwnType = "customer";
+                    break;
+                default:
+                    FC5FuOwnType = "unknown";
+                    break;
+            }
+        }
+        if (FC5FuOwnType != null)
+            return Optional.of(FC5FuOwnType);
+        return Optional.empty();
+    }
+
+    String FC6FuOwnType;
+
+    public Optional<String> getFC6FUOwnType() {
+        FC6FuOwnType = getValue("FC6_FU_OWN_TYPE");
+        if (FC6FuOwnType != null) {
+            switch (FC6FuOwnType.toUpperCase()) {
+                case "S":
+                    FC6FuOwnType = "subscriber";
+                    break;
+                case "G":
+                    FC6FuOwnType = "subscriber group";
+                    break;
+                case "C":
+                    FC6FuOwnType = "customer";
+                    break;
+                default:
+                    FC6FuOwnType = "unknown";
+                    break;
+            }
+        }
+        if (FC6FuOwnType != null)
+            return Optional.of(FC6FuOwnType);
+        return Optional.empty();
+    }
+
+    String FC7FuOwnType;
+
+    public Optional<String> getFC7FUOwnType() {
+        FC7FuOwnType = getValue("FC7_FU_OWN_TYPE");
+        if (FC7FuOwnType != null) {
+            switch (FC7FuOwnType.toUpperCase()) {
+                case "S":
+                    FC7FuOwnType = "subscriber";
+                    break;
+                case "G":
+                    FC7FuOwnType = "subscriber group";
+                    break;
+                case "C":
+                    FC7FuOwnType = "customer";
+                    break;
+                default:
+                    FC7FuOwnType = "unknown";
+                    break;
+            }
+        }
+        if (FC7FuOwnType != null)
+            return Optional.of(FC7FuOwnType);
+        return Optional.empty();
+    }
+
+    String FC8FuOwnType;
+
+    public Optional<String> getFC8FUOwnType() {
+        FC8FuOwnType = getValue("FC8_FU_OWN_TYPE");
+        if (FC8FuOwnType != null) {
+            switch (FC8FuOwnType.toUpperCase()) {
+                case "S":
+                    FC8FuOwnType = "subscriber";
+                    break;
+                case "G":
+                    FC8FuOwnType = "subscriber group";
+                    break;
+                case "C":
+                    FC8FuOwnType = "customer";
+                    break;
+                default:
+                    FC8FuOwnType = "unknown";
+                    break;
+            }
+        }
+        if (FC8FuOwnType != null)
+            return Optional.of(FC8FuOwnType);
+        return Optional.empty();
+    }
+
+    String FC9FuOwnType;
+
+    public Optional<String> getFC9FUOwnType() {
+        FC9FuOwnType = getValue("FC9_FU_OWN_TYPE");
+        if (FC9FuOwnType != null) {
+            switch (FC9FuOwnType.toUpperCase()) {
+                case "S":
+                    FC9FuOwnType = "subscriber";
+                    break;
+                case "G":
+                    FC9FuOwnType = "subscriber group";
+                    break;
+                case "C":
+                    FC9FuOwnType = "customer";
+                    break;
+                default:
+                    FC9FuOwnType = "unknown";
+                    break;
+            }
+        }
+        if (FC9FuOwnType != null)
+            return Optional.of(FC9FuOwnType);
+        return Optional.empty();
+    }
+
+    String FC10FuOwnType;
+
+    public Optional<String> getFC10FUOwnType() {
+        FC10FuOwnType = getValue("FC10_FU_OWN_TYPE");
+        if (FC10FuOwnType != null) {
+            switch (FC10FuOwnType.toUpperCase()) {
+                case "S":
+                    FC10FuOwnType = "subscriber";
+                    break;
+                case "G":
+                    FC10FuOwnType = "subscriber group";
+                    break;
+                case "C":
+                    FC10FuOwnType = "customer";
+                    break;
+                default:
+                    FC10FuOwnType = "unknown";
+                    break;
+            }
+        }
+        if (FC10FuOwnType != null)
+            return Optional.of(FC10FuOwnType);
         return Optional.empty();
     }
 
@@ -1406,6 +1883,231 @@ public class CbsAdjEnrichmentUtil {
         return Optional.empty();
     }
 
+    String FC2OperType;
+
+    public Optional<String> getFC2OperType() {
+        FC2OperType = getValue("FC2_OPER_TYPE");
+        if (FC2OperType != null) {
+            switch (FC2OperType) {
+                case "0":
+                    FC2OperType = "expend";
+                    break;
+                case "1":
+                    FC2OperType = "update the income";
+                    break;
+                case "2":
+                    FC2OperType = "increase the income";
+                    break;
+                default:
+                    FC2OperType = "unknown";
+                    break;
+            }
+        }
+        if (FC2OperType != null)
+            return Optional.of(FC2OperType);
+        return Optional.empty();
+    }
+
+    String FC3OperType;
+
+    public Optional<String> getFC3OperType() {
+        FC3OperType = getValue("FC3_OPER_TYPE");
+        if (FC3OperType != null) {
+            switch (FC3OperType) {
+                case "0":
+                    FC3OperType = "expend";
+                    break;
+                case "1":
+                    FC3OperType = "update the income";
+                    break;
+                case "2":
+                    FC3OperType = "increase the income";
+                    break;
+                default:
+                    FC3OperType = "unknown";
+                    break;
+            }
+        }
+        if (FC3OperType != null)
+            return Optional.of(FC3OperType);
+        return Optional.empty();
+    }
+
+    String FC4OperType;
+
+    public Optional<String> getFC4OperType() {
+        FC4OperType = getValue("FC4_OPER_TYPE");
+        if (FC4OperType != null) {
+            switch (FC4OperType) {
+                case "0":
+                    FC4OperType = "expend";
+                    break;
+                case "1":
+                    FC4OperType = "update the income";
+                    break;
+                case "2":
+                    FC4OperType = "increase the income";
+                    break;
+                default:
+                    FC4OperType = "unknown";
+                    break;
+            }
+        }
+        if (FC4OperType != null)
+            return Optional.of(FC4OperType);
+        return Optional.empty();
+    }
+
+    String FC5OperType;
+
+    public Optional<String> getFC5OperType() {
+        FC5OperType = getValue("FC5_OPER_TYPE");
+        if (FC5OperType != null) {
+            switch (FC5OperType) {
+                case "0":
+                    FC5OperType = "expend";
+                    break;
+                case "1":
+                    FC5OperType = "update the income";
+                    break;
+                case "2":
+                    FC5OperType = "increase the income";
+                    break;
+                default:
+                    FC5OperType = "unknown";
+                    break;
+            }
+        }
+        if (FC5OperType != null)
+            return Optional.of(FC5OperType);
+        return Optional.empty();
+    }
+
+    String FC6OperType;
+
+    public Optional<String> getFC6OperType() {
+        FC6OperType = getValue("FC6_OPER_TYPE");
+        if (FC6OperType != null) {
+            switch (FC6OperType) {
+                case "0":
+                    FC6OperType = "expend";
+                    break;
+                case "1":
+                    FC6OperType = "update the income";
+                    break;
+                case "2":
+                    FC6OperType = "increase the income";
+                    break;
+                default:
+                    FC6OperType = "unknown";
+                    break;
+            }
+        }
+        if (FC6OperType != null)
+            return Optional.of(FC6OperType);
+        return Optional.empty();
+    }
+
+    String FC7OperType;
+
+    public Optional<String> getFC7OperType() {
+        FC7OperType = getValue("FC7_OPER_TYPE");
+        if (FC7OperType != null) {
+            switch (FC7OperType) {
+                case "0":
+                    FC7OperType = "expend";
+                    break;
+                case "1":
+                    FC7OperType = "update the income";
+                    break;
+                case "2":
+                    FC7OperType = "increase the income";
+                    break;
+                default:
+                    FC7OperType = "unknown";
+                    break;
+            }
+        }
+        if (FC7OperType != null)
+            return Optional.of(FC7OperType);
+        return Optional.empty();
+    }
+
+    String FC8OperType;
+
+    public Optional<String> getFC8OperType() {
+        FC8OperType = getValue("FC8_OPER_TYPE");
+        if (FC8OperType != null) {
+            switch (FC8OperType) {
+                case "0":
+                    FC8OperType = "expend";
+                    break;
+                case "1":
+                    FC8OperType = "update the income";
+                    break;
+                case "2":
+                    FC8OperType = "increase the income";
+                    break;
+                default:
+                    FC8OperType = "unknown";
+                    break;
+            }
+        }
+        if (FC8OperType != null)
+            return Optional.of(FC8OperType);
+        return Optional.empty();
+    }
+
+    String FC9OperType;
+
+    public Optional<String> getFC9OperType() {
+        FC9OperType = getValue("FC9_OPER_TYPE");
+        if (FC9OperType != null) {
+            switch (FC9OperType) {
+                case "0":
+                    FC9OperType = "expend";
+                    break;
+                case "1":
+                    FC9OperType = "update the income";
+                    break;
+                case "2":
+                    FC9OperType = "increase the income";
+                    break;
+                default:
+                    FC9OperType = "unknown";
+                    break;
+            }
+        }
+        if (FC9OperType != null)
+            return Optional.of(FC9OperType);
+        return Optional.empty();
+    }
+
+    String FC10OperType;
+
+    public Optional<String> getFC10OperType() {
+        FC10OperType = getValue("FC10_OPER_TYPE");
+        if (FC10OperType != null) {
+            switch (FC10OperType) {
+                case "0":
+                    FC10OperType = "expend";
+                    break;
+                case "1":
+                    FC10OperType = "update the income";
+                    break;
+                case "2":
+                    FC10OperType = "increase the income";
+                    break;
+                default:
+                    FC10OperType = "unknown";
+                    break;
+            }
+        }
+        if (FC10OperType != null)
+            return Optional.of(FC10OperType);
+        return Optional.empty();
+    }
+
     String BD1OperType;
 
     public Optional<String> getBD1OperType() {
@@ -1431,6 +2133,231 @@ public class CbsAdjEnrichmentUtil {
         return Optional.empty();
     }
 
+    String BD2OperType;
+
+    public Optional<String> getBD2OperType() {
+        BD2OperType = getValue("BD2_OPER_TYPE");
+        if (BD2OperType != null) {
+            switch (BD2OperType) {
+                case "4":
+                    BD2OperType = "roll over";
+                    break;
+                case "5":
+                    BD2OperType = "reward";
+                    break;
+                case "6":
+                    BD2OperType = "update the reward";
+                    break;
+                default:
+                    BD2OperType = "unknown";
+                    break;
+            }
+        }
+        if (BD2OperType != null)
+            return Optional.of(BD2OperType);
+        return Optional.empty();
+    }
+
+    String BD3OperType;
+
+    public Optional<String> getBD3OperType() {
+        BD3OperType = getValue("BD3_OPER_TYPE");
+        if (BD3OperType != null) {
+            switch (BD3OperType) {
+                case "4":
+                    BD3OperType = "roll over";
+                    break;
+                case "5":
+                    BD3OperType = "reward";
+                    break;
+                case "6":
+                    BD3OperType = "update the reward";
+                    break;
+                default:
+                    BD3OperType = "unknown";
+                    break;
+            }
+        }
+        if (BD3OperType != null)
+            return Optional.of(BD3OperType);
+        return Optional.empty();
+    }
+
+    String BD4OperType;
+
+    public Optional<String> getBD4OperType() {
+        BD4OperType = getValue("BD4_OPER_TYPE");
+        if (BD4OperType != null) {
+            switch (BD4OperType) {
+                case "4":
+                    BD4OperType = "roll over";
+                    break;
+                case "5":
+                    BD4OperType = "reward";
+                    break;
+                case "6":
+                    BD4OperType = "update the reward";
+                    break;
+                default:
+                    BD4OperType = "unknown";
+                    break;
+            }
+        }
+        if (BD4OperType != null)
+            return Optional.of(BD4OperType);
+        return Optional.empty();
+    }
+
+    String BD5OperType;
+
+    public Optional<String> getBD5OperType() {
+        BD5OperType = getValue("BD5_OPER_TYPE");
+        if (BD5OperType != null) {
+            switch (BD5OperType) {
+                case "4":
+                    BD5OperType = "roll over";
+                    break;
+                case "5":
+                    BD5OperType = "reward";
+                    break;
+                case "6":
+                    BD5OperType = "update the reward";
+                    break;
+                default:
+                    BD5OperType = "unknown";
+                    break;
+            }
+        }
+        if (BD5OperType != null)
+            return Optional.of(BD5OperType);
+        return Optional.empty();
+    }
+
+    String BD6OperType;
+
+    public Optional<String> getBD6OperType() {
+        BD6OperType = getValue("BD6_OPER_TYPE");
+        if (BD6OperType != null) {
+            switch (BD6OperType) {
+                case "4":
+                    BD6OperType = "roll over";
+                    break;
+                case "5":
+                    BD6OperType = "reward";
+                    break;
+                case "6":
+                    BD6OperType = "update the reward";
+                    break;
+                default:
+                    BD6OperType = "unknown";
+                    break;
+            }
+        }
+        if (BD6OperType != null)
+            return Optional.of(BD6OperType);
+        return Optional.empty();
+    }
+
+    String BD7OperType;
+
+    public Optional<String> getBD7OperType() {
+        BD7OperType = getValue("BD7_OPER_TYPE");
+        if (BD7OperType != null) {
+            switch (BD7OperType) {
+                case "4":
+                    BD7OperType = "roll over";
+                    break;
+                case "5":
+                    BD7OperType = "reward";
+                    break;
+                case "6":
+                    BD7OperType = "update the reward";
+                    break;
+                default:
+                    BD7OperType = "unknown";
+                    break;
+            }
+        }
+        if (BD7OperType != null)
+            return Optional.of(BD7OperType);
+        return Optional.empty();
+    }
+
+    String BD8OperType;
+
+    public Optional<String> getBD8OperType() {
+        BD8OperType = getValue("BD8_OPER_TYPE");
+        if (BD8OperType != null) {
+            switch (BD8OperType) {
+                case "4":
+                    BD8OperType = "roll over";
+                    break;
+                case "5":
+                    BD8OperType = "reward";
+                    break;
+                case "6":
+                    BD8OperType = "update the reward";
+                    break;
+                default:
+                    BD8OperType = "unknown";
+                    break;
+            }
+        }
+        if (BD8OperType != null)
+            return Optional.of(BD8OperType);
+        return Optional.empty();
+    }
+
+    String BD9OperType;
+
+    public Optional<String> getBD9OperType() {
+        BD9OperType = getValue("BD9_OPER_TYPE");
+        if (BD9OperType != null) {
+            switch (BD9OperType) {
+                case "4":
+                    BD9OperType = "roll over";
+                    break;
+                case "5":
+                    BD9OperType = "reward";
+                    break;
+                case "6":
+                    BD9OperType = "update the reward";
+                    break;
+                default:
+                    BD9OperType = "unknown";
+                    break;
+            }
+        }
+        if (BD9OperType != null)
+            return Optional.of(BD9OperType);
+        return Optional.empty();
+    }
+
+    String BD10OperType;
+
+    public Optional<String> getBD10OperType() {
+        BD10OperType = getValue("BD10_OPER_TYPE");
+        if (BD10OperType != null) {
+            switch (BD10OperType) {
+                case "4":
+                    BD10OperType = "roll over";
+                    break;
+                case "5":
+                    BD10OperType = "reward";
+                    break;
+                case "6":
+                    BD10OperType = "update the reward";
+                    break;
+                default:
+                    BD10OperType = "unknown";
+                    break;
+            }
+        }
+        if (BD10OperType != null)
+            return Optional.of(BD10OperType);
+        return Optional.empty();
+    }
+
     String FR1FuOwnType;
 
     public Optional<String> getFR1FUOwnType() {
@@ -1450,6 +2377,204 @@ public class CbsAdjEnrichmentUtil {
         }
         if (FR1FuOwnType != null)
             return Optional.of(FR1FuOwnType);
+        return Optional.empty();
+    }
+
+    String FR2FuOwnType;
+
+    public Optional<String> getFR2FUOwnType() {
+        FR2FuOwnType = getValue("FR2_FU_OWN_TYPE");
+        if (FR2FuOwnType != null) {
+            switch (FR2FuOwnType) {
+                case "S":
+                    FR2FuOwnType = "subscriber";
+                    break;
+                case "G":
+                    FR2FuOwnType = "subscriber group";
+                    break;
+                default:
+                    FR2FuOwnType = "unknown";
+                    break;
+            }
+        }
+        if (FR2FuOwnType != null)
+            return Optional.of(FR2FuOwnType);
+        return Optional.empty();
+    }
+
+    String FR3FuOwnType;
+
+    public Optional<String> getFR3FUOwnType() {
+        FR3FuOwnType = getValue("FR3_FU_OWN_TYPE");
+        if (FR3FuOwnType != null) {
+            switch (FR3FuOwnType) {
+                case "S":
+                    FR3FuOwnType = "subscriber";
+                    break;
+                case "G":
+                    FR3FuOwnType = "subscriber group";
+                    break;
+                default:
+                    FR3FuOwnType = "unknown";
+                    break;
+            }
+        }
+        if (FR3FuOwnType != null)
+            return Optional.of(FR3FuOwnType);
+        return Optional.empty();
+    }
+
+    String FR4FuOwnType;
+
+    public Optional<String> getFR4FUOwnType() {
+        FR4FuOwnType = getValue("FR4_FU_OWN_TYPE");
+        if (FR4FuOwnType != null) {
+            switch (FR4FuOwnType) {
+                case "S":
+                    FR4FuOwnType = "subscriber";
+                    break;
+                case "G":
+                    FR4FuOwnType = "subscriber group";
+                    break;
+                default:
+                    FR4FuOwnType = "unknown";
+                    break;
+            }
+        }
+        if (FR4FuOwnType != null)
+            return Optional.of(FR4FuOwnType);
+        return Optional.empty();
+    }
+
+    String FR5FuOwnType;
+
+    public Optional<String> getFR5FUOwnType() {
+        FR5FuOwnType = getValue("FR5_FU_OWN_TYPE");
+        if (FR5FuOwnType != null) {
+            switch (FR5FuOwnType) {
+                case "S":
+                    FR5FuOwnType = "subscriber";
+                    break;
+                case "G":
+                    FR5FuOwnType = "subscriber group";
+                    break;
+                default:
+                    FR5FuOwnType = "unknown";
+                    break;
+            }
+        }
+        if (FR5FuOwnType != null)
+            return Optional.of(FR5FuOwnType);
+        return Optional.empty();
+    }
+
+    String FR6FuOwnType;
+
+    public Optional<String> getFR6FUOwnType() {
+        FR6FuOwnType = getValue("FR6_FU_OWN_TYPE");
+        if (FR6FuOwnType != null) {
+            switch (FR6FuOwnType) {
+                case "S":
+                    FR6FuOwnType = "subscriber";
+                    break;
+                case "G":
+                    FR6FuOwnType = "subscriber group";
+                    break;
+                default:
+                    FR6FuOwnType = "unknown";
+                    break;
+            }
+        }
+        if (FR6FuOwnType != null)
+            return Optional.of(FR6FuOwnType);
+        return Optional.empty();
+    }
+
+    String FR7FuOwnType;
+
+    public Optional<String> getFR7FUOwnType() {
+        FR7FuOwnType = getValue("FR7_FU_OWN_TYPE");
+        if (FR7FuOwnType != null) {
+            switch (FR7FuOwnType) {
+                case "S":
+                    FR7FuOwnType = "subscriber";
+                    break;
+                case "G":
+                    FR7FuOwnType = "subscriber group";
+                    break;
+                default:
+                    FR7FuOwnType = "unknown";
+                    break;
+            }
+        }
+        if (FR7FuOwnType != null)
+            return Optional.of(FR7FuOwnType);
+        return Optional.empty();
+    }
+
+    String FR8FuOwnType;
+
+    public Optional<String> getFR8FUOwnType() {
+        FR8FuOwnType = getValue("FR8_FU_OWN_TYPE");
+        if (FR8FuOwnType != null) {
+            switch (FR8FuOwnType) {
+                case "S":
+                    FR8FuOwnType = "subscriber";
+                    break;
+                case "G":
+                    FR8FuOwnType = "subscriber group";
+                    break;
+                default:
+                    FR8FuOwnType = "unknown";
+                    break;
+            }
+        }
+        if (FR8FuOwnType != null)
+            return Optional.of(FR8FuOwnType);
+        return Optional.empty();
+    }
+
+    String FR9FuOwnType;
+
+    public Optional<String> getFR9FUOwnType() {
+        FR9FuOwnType = getValue("FR9_FU_OWN_TYPE");
+        if (FR9FuOwnType != null) {
+            switch (FR9FuOwnType) {
+                case "S":
+                    FR9FuOwnType = "subscriber";
+                    break;
+                case "G":
+                    FR9FuOwnType = "subscriber group";
+                    break;
+                default:
+                    FR9FuOwnType = "unknown";
+                    break;
+            }
+        }
+        if (FR9FuOwnType != null)
+            return Optional.of(FR9FuOwnType);
+        return Optional.empty();
+    }
+
+    String FR10FuOwnType;
+
+    public Optional<String> getFR10FUOwnType() {
+        FR10FuOwnType = getValue("FR10_FU_OWN_TYPE");
+        if (FR10FuOwnType != null) {
+            switch (FR10FuOwnType) {
+                case "S":
+                    FR10FuOwnType = "subscriber";
+                    break;
+                case "G":
+                    FR10FuOwnType = "subscriber group";
+                    break;
+                default:
+                    FR10FuOwnType = "unknown";
+                    break;
+            }
+        }
+        if (FR10FuOwnType != null)
+            return Optional.of(FR10FuOwnType);
         return Optional.empty();
     }
 
@@ -1475,6 +2600,231 @@ public class CbsAdjEnrichmentUtil {
         }
         if (FR1OperType != null)
             return Optional.of(FR1OperType);
+        return Optional.empty();
+    }
+
+    String FR2OperType;
+
+    public Optional<String> getFR2OperType() {
+        FR2OperType = getValue("FR2_OPER_TYPE");
+        if (FR2OperType != null) {
+            switch (FR2OperType) {
+                case "4":
+                    FR2OperType = "roll over";
+                    break;
+                case "5":
+                    FR2OperType = "reward";
+                    break;
+                case "6":
+                    FR2OperType = "update the reward";
+                    break;
+                default:
+                    FR2OperType = "unknown";
+                    break;
+            }
+        }
+        if (FR2OperType != null)
+            return Optional.of(FR2OperType);
+        return Optional.empty();
+    }
+
+    String FR3OperType;
+
+    public Optional<String> getFR3OperType() {
+        FR3OperType = getValue("FR3_OPER_TYPE");
+        if (FR3OperType != null) {
+            switch (FR3OperType) {
+                case "4":
+                    FR3OperType = "roll over";
+                    break;
+                case "5":
+                    FR3OperType = "reward";
+                    break;
+                case "6":
+                    FR3OperType = "update the reward";
+                    break;
+                default:
+                    FR3OperType = "unknown";
+                    break;
+            }
+        }
+        if (FR3OperType != null)
+            return Optional.of(FR3OperType);
+        return Optional.empty();
+    }
+
+    String FR4OperType;
+
+    public Optional<String> getFR4OperType() {
+        FR4OperType = getValue("FR4_OPER_TYPE");
+        if (FR4OperType != null) {
+            switch (FR4OperType) {
+                case "4":
+                    FR4OperType = "roll over";
+                    break;
+                case "5":
+                    FR4OperType = "reward";
+                    break;
+                case "6":
+                    FR4OperType = "update the reward";
+                    break;
+                default:
+                    FR4OperType = "unknown";
+                    break;
+            }
+        }
+        if (FR4OperType != null)
+            return Optional.of(FR4OperType);
+        return Optional.empty();
+    }
+
+    String FR5OperType;
+
+    public Optional<String> getFR5OperType() {
+        FR5OperType = getValue("FR5_OPER_TYPE");
+        if (FR5OperType != null) {
+            switch (FR5OperType) {
+                case "4":
+                    FR5OperType = "roll over";
+                    break;
+                case "5":
+                    FR5OperType = "reward";
+                    break;
+                case "6":
+                    FR5OperType = "update the reward";
+                    break;
+                default:
+                    FR5OperType = "unknown";
+                    break;
+            }
+        }
+        if (FR5OperType != null)
+            return Optional.of(FR5OperType);
+        return Optional.empty();
+    }
+
+    String FR6OperType;
+
+    public Optional<String> getFR6OperType() {
+        FR6OperType = getValue("FR6_OPER_TYPE");
+        if (FR6OperType != null) {
+            switch (FR6OperType) {
+                case "4":
+                    FR6OperType = "roll over";
+                    break;
+                case "5":
+                    FR6OperType = "reward";
+                    break;
+                case "6":
+                    FR6OperType = "update the reward";
+                    break;
+                default:
+                    FR6OperType = "unknown";
+                    break;
+            }
+        }
+        if (FR6OperType != null)
+            return Optional.of(FR6OperType);
+        return Optional.empty();
+    }
+
+    String FR7OperType;
+
+    public Optional<String> getFR7OperType() {
+        FR7OperType = getValue("FR7_OPER_TYPE");
+        if (FR7OperType != null) {
+            switch (FR7OperType) {
+                case "4":
+                    FR7OperType = "roll over";
+                    break;
+                case "5":
+                    FR7OperType = "reward";
+                    break;
+                case "6":
+                    FR7OperType = "update the reward";
+                    break;
+                default:
+                    FR7OperType = "unknown";
+                    break;
+            }
+        }
+        if (FR7OperType != null)
+            return Optional.of(FR7OperType);
+        return Optional.empty();
+    }
+
+    String FR8OperType;
+
+    public Optional<String> getFR8OperType() {
+        FR8OperType = getValue("FR8_OPER_TYPE");
+        if (FR8OperType != null) {
+            switch (FR8OperType) {
+                case "4":
+                    FR8OperType = "roll over";
+                    break;
+                case "5":
+                    FR8OperType = "reward";
+                    break;
+                case "6":
+                    FR8OperType = "update the reward";
+                    break;
+                default:
+                    FR8OperType = "unknown";
+                    break;
+            }
+        }
+        if (FR8OperType != null)
+            return Optional.of(FR8OperType);
+        return Optional.empty();
+    }
+
+    String FR9OperType;
+
+    public Optional<String> getFR9OperType() {
+        FR9OperType = getValue("FR9_OPER_TYPE");
+        if (FR9OperType != null) {
+            switch (FR9OperType) {
+                case "4":
+                    FR9OperType = "roll over";
+                    break;
+                case "5":
+                    FR9OperType = "reward";
+                    break;
+                case "6":
+                    FR9OperType = "update the reward";
+                    break;
+                default:
+                    FR9OperType = "unknown";
+                    break;
+            }
+        }
+        if (FR9OperType != null)
+            return Optional.of(FR9OperType);
+        return Optional.empty();
+    }
+
+    String FR10OperType;
+
+    public Optional<String> getFR10OperType() {
+        FR10OperType = getValue("FR10_OPER_TYPE");
+        if (FR10OperType != null) {
+            switch (FR10OperType) {
+                case "4":
+                    FR10OperType = "roll over";
+                    break;
+                case "5":
+                    FR10OperType = "reward";
+                    break;
+                case "6":
+                    FR10OperType = "update the reward";
+                    break;
+                default:
+                    FR10OperType = "unknown";
+                    break;
+            }
+        }
+        if (FR10OperType != null)
+            return Optional.of(FR10OperType);
         return Optional.empty();
     }
 
