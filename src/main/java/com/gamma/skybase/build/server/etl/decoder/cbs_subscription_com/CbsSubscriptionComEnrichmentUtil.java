@@ -2607,6 +2607,31 @@ public class CbsSubscriptionComEnrichmentUtil {
         return Optional.empty();
     }
 
+    String srvTypeKey , payType;
+
+    public Optional<String> getSrvTypeKey() {
+        payType = getValue("PayType");
+        if (payType != null){
+            switch (payType) {
+                case "0":
+                    srvTypeKey = "2";
+                    break;
+                case "1":
+                    srvTypeKey = "1";
+                    break;
+                case "2":
+                    srvTypeKey = "7";
+                    break;
+                default:
+                    srvTypeKey = "Unknown";
+                    break;
+            }
+        }
+        if (srvTypeKey != null)
+            return Optional.of(srvTypeKey);
+        return Optional.empty();
+    }
+
     ReferenceDimDialDigit getDialedDigitSettings(String otherMSISDN) {
         return txLib.getDialedDigitSettings(otherMSISDN);
     }
