@@ -76,13 +76,10 @@
             <Field sourceFieldName="SRV_TYPE_KEY"/>
             <Field sourceFieldName="CHRG_UNIT_ID_KEY"/>
             <Field sourceFieldName="EVENT_DIRECTION_KEY"/>
-            <Field sourceFieldName="TERMINATION_REASON_KEY" default="-97"/>
             <Field sourceFieldName="EVENT_TYPE_KEY"/>
             <Field sourceFieldName="BILLABLE_PULSE"/>
             <Field sourceFieldName="EVENT_START_TIME"/>
             <Field sourceFieldName="EVENT_END_TIME"/>
-<!--            <Field sourceFieldName="FLEXI_COL1"/>-->
-<!--            <Field sourceFieldName="FLEXI_COL2"/>-->
             <Field sourceFieldName="filename" targetFieldName="FILE_NAME"/>
             <Field sourceFieldName="EVENT_DATE" targetFieldName="EVENT_DATE"/>
             <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
