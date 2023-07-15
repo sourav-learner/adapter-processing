@@ -23,10 +23,6 @@ public class CbsVoiceRecordEnrichment implements IEnrichment {
         Optional<String> status = tx.getStatus();
         status.ifPresent(s -> record.put("CDR_STATUS", s));
 
-        // OBJ_TYPE
-        Optional<String> objType = tx.getObjType();
-        objType.ifPresent(s -> record.put("OBJTYPE", s));
-
         // EVENT_START_TIME
         Optional<String> starTime = tx.getStartTime("CUST_LOCAL_START_DATE");
         starTime.ifPresent(s -> {
@@ -34,52 +30,49 @@ public class CbsVoiceRecordEnrichment implements IEnrichment {
             record.put("XDR_DATE", s);
         });
 
-        // FILE_NAME , POPULATION_DATE
-        record.put("FILE_NAME", record.get("fileName"));
-        record.put("POPULATION_DATE", sdfT.get().format(new Date()));
-
         // EVENT_END_TIME
         Optional<String> endTime = tx.getEndTime("CUST_LOCAL_END_DATE");
         endTime.ifPresent(s -> record.put("EVENT_END_TIME", s));
 
-        //  EVENT_DIRECTION_KEY
-        Optional<String> eventDirectionKey = tx.getEventDirectionKey();
-        eventDirectionKey.ifPresent(s -> record.put("EVENT_DIRECTION_KEY", s));
+        // OBJ_TYPE
+//        Optional<String> objType = tx.getObjType();
+//        objType.ifPresent(s -> record.put("OBJTYPE", s));
+
+        //  EVENT_TYPE_KEY
+        Optional<String> eventTypeKey = tx.getEventTypeKey();
+        eventTypeKey.ifPresent(s -> record.put("EVENT_TYPE_KEY", s));
 
         // RESULT_CODE
         Optional<String> resultCode = tx.getResultCode();
-        resultCode.ifPresent(s -> record.put("RESULTCODE", s));
+        resultCode.ifPresent(s -> record.put("RESULT_CODE", s));
 
-        // CHARGING_TIME
-        Optional<String> chargingTime = tx.getChargingTime("ChargingTime");
-        chargingTime.ifPresent(s -> record.put("CHARGING_TIME", s));
+//        ACTUAL_USAGE_PAYG
+        Optional<Double> actualUsagePayg = tx.getActualUsagePayg();
+        actualUsagePayg.ifPresent(s -> record.put("ACTUAL_USAGE_PAYG", s));
 
-//      SERVED_TYPE
-        Optional<String> servedType = tx.getServedType();
-        servedType.ifPresent(s -> record.put("SERVED_TYPE", s));
+        //        ACTUAL_USAGE_BONUS
+        Optional<Double> actualUsageBonus = tx.getActualUsageBonus();
+        actualUsageBonus.ifPresent(s -> record.put("ACTUAL_USAGE_BONUS", s));
 
-        //  ONLINE_CHARGING_FLAG
-        Optional<String> onlineChargingFlag = tx.getOnlineChargingFlag();
-        onlineChargingFlag.ifPresent(s -> record.put("ONLINE_CHARGING_FLAG", s));
+//        ACTUAL_USAGE_ALLOWANCE
+        Optional<Double> actualUsageAllowance = tx.getActualUsageAllowance();
+        actualUsageAllowance.ifPresent(s -> record.put("ACTUAL_USAGE_ALLOWANCE", s));
 
-        //  GROUP_PAY_FLAG
-        Optional<String> groupPayFlag = tx.getGroupPayFlag();
-        groupPayFlag.ifPresent(s -> record.put("GROUP_PAY_FLAG", s));
+//        RATE_USAGE_PAYG
+        Optional<Double> rateUsagePayg = tx.getRateUsagePayg();
+        rateUsagePayg.ifPresent(s -> record.put("RATE_USAGE_PAYG", s));
 
-        //  START_TIME_OF_BILL_CYCLE
-        Optional<String> startTimeOfBill = tx.getStartTimeOfBillCycle("StartTimeOfBillCycle");
-        startTimeOfBill.ifPresent(s -> record.put("START_TIME_OF_BILL_CYCLE", s));
+//        RATE_USAGE_BONUS
+        Optional<Double> rateUsageBonus = tx.getRateUsageBonus();
+        rateUsageBonus.ifPresent(s -> record.put("RATE_USAGE_BONUS", s));
 
-        // CHARGE, ZERO_CHRG_IND
-        Optional<String> charge = tx.getCharge("DEBIT_AMOUNT");
-        charge.ifPresent(s -> {
-            record.put("CHARGE", s);
-            record.put("ZERO_CHARGE_IND", s.equals("0") ? "1" : "0");
-        });
+//        RATE_USAGE_ALLOWANCE
+        Optional<String> rateUsageAllowance = tx.getRateUsageAllowance();
+        rateUsageAllowance.ifPresent(s -> record.put("RATE_USAGE_ALLOWANCE", s));
 
-        // PAY_TYPE
-        String payType = tx.getValue("PayType");
-        record.put("PAY_TYPE", payType);
+//        REAL_REVENUE
+        Optional<String> realRevenue = tx.getRealRevenue();
+        realRevenue.ifPresent(s -> record.put("REAL_REVENUE", s));
 
         // SERVICE_FLOW
         String serviceFlow = tx.getValue("ServiceFlow");
@@ -106,6 +99,8 @@ public class CbsVoiceRecordEnrichment implements IEnrichment {
                     if (ddk != null) {
                         record.put("OTHER_MSISDN_DIALED_KEY", ddk.getDialDigitKey());
                         String providerDesc = ddk.getProviderDesc();
+                        String isoCountryCode = ddk.getIsoCountryCode();
+                        record.put("OTHER_PARTY_ISO" , isoCountryCode);
                         record.put("OTHER_PARTY_OPERATOR", providerDesc);
                         String targetCountryCode = ddk.getTargetCountryCode();
                         String otherPartyNwIndKey = "";
@@ -186,6 +181,8 @@ public class CbsVoiceRecordEnrichment implements IEnrichment {
                     ReferenceDimDialDigit ddk = tx.getDialedDigitSettings(otherMSISDN1);
                     if (ddk != null) {
                         record.put("OTHER_MSISDN_DIALED_KEY", ddk.getDialDigitKey());
+                        String isoCountryCode = ddk.getIsoCountryCode();
+                        record.put("OTHER_PARTY_ISO" , isoCountryCode);
                         String providerDesc = ddk.getProviderDesc();
                         record.put("OTHER_PARTY_OPERATOR", providerDesc);
                         String targetCountryCode = ddk.getTargetCountryCode();
@@ -263,6 +260,8 @@ public class CbsVoiceRecordEnrichment implements IEnrichment {
                     if (ddk != null) {
                         record.put("OTHER_MSISDN_DIALED_KEY", ddk.getDialDigitKey());
                         String providerDesc = ddk.getProviderDesc();
+                        String isoCountryCode = ddk.getIsoCountryCode();
+                        record.put("OTHER_PARTY_ISO" , isoCountryCode);
                         record.put("OTHER_PARTY_OPERATOR", providerDesc);
                         String targetCountryCode = ddk.getTargetCountryCode();
                         String otherPartyNwIndKey = "";
@@ -290,7 +289,42 @@ public class CbsVoiceRecordEnrichment implements IEnrichment {
             }
         }
 
-//        ZeroDurationInd
+//        DIALED_NUMBER
+        Optional<String> dialedNumber = tx.getDialedNumber();
+        dialedNumber.ifPresent(s -> record.put("DIALED_NUMBER", s));
+
+        //  EVENT_DIRECTION_KEY
+        Optional<String> eventDirectionKey = tx.getEventDirectionKey();
+        eventDirectionKey.ifPresent(s -> record.put("EVENT_DIRECTION_KEY", s));
+
+//      SERVED_TYPE
+        Optional<String> servedType = tx.getServedType();
+        servedType.ifPresent(s -> record.put("SERVED_TYPE", s));
+
+        // CHARGING_TIME
+        Optional<String> chargingTime = tx.getChargingTime("ChargingTime");
+        chargingTime.ifPresent(s -> record.put("CHARGING_TIME", s));
+
+        //  ONLINE_CHARGING_FLAG
+        Optional<String> onlineChargingFlag = tx.getOnlineChargingFlag();
+        onlineChargingFlag.ifPresent(s -> record.put("ONLINE_CHARGING_FLAG", s));
+
+        //  START_TIME_OF_BILL_CYCLE
+        Optional<String> startTimeOfBill = tx.getStartTimeOfBillCycle("StartTimeOfBillCycle");
+        startTimeOfBill.ifPresent(s -> record.put("START_TIME_OF_BILL_CYCLE", s));
+
+        //  GROUP_PAY_FLAG
+        Optional<String> groupPayFlag = tx.getGroupPayFlag();
+        groupPayFlag.ifPresent(s -> record.put("GROUP_PAY_FLAG", s));
+
+        // CHARGE, ZERO_CHRG_IND
+        Optional<String> charge = tx.getCharge("DEBIT_AMOUNT");
+        charge.ifPresent(s -> {
+            record.put("CHARGE", s);
+            record.put("ZERO_CHARGE_IND", s.equals("0") ? "1" : "0");
+        });
+
+        //        ZeroDurationInd
         AtomicInteger zeroDurationIndDefault = new AtomicInteger(1);
         Optional<String> zeroDurationInd = tx.getZeroDurationInd();
         zeroDurationInd.ifPresent(s -> {
@@ -298,12 +332,16 @@ public class CbsVoiceRecordEnrichment implements IEnrichment {
         });
         record.put("ZERO_DURATION_IND", zeroDurationIndDefault.get());
 
-        //  EVENT_TYPE_KEY
-        Optional<String> eventTypeKey = tx.getEventTypeKey();
-        eventTypeKey.ifPresent(s -> record.put("EVENT_TYPE_KEY", s));
+        // PAY_TYPE
+        String payType = tx.getValue("PayType");
+        record.put("PAY_TYPE", payType);
 
         //  EVENT_DATE
         record.put("EVENT_DATE", tx.genFullDate);
+
+        // FILE_NAME , POPULATION_DATE
+        record.put("FILE_NAME", record.get("fileName"));
+        record.put("POPULATION_DATE", sdfT.get().format(new Date()));
 
         response.setResponseCode(true);
         response.setResponse(record);

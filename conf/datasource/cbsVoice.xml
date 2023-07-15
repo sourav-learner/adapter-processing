@@ -31,7 +31,7 @@
             <Field sourceFieldName="CDR_BATCH_ID"/>
             <Field sourceFieldName="SRC_REC_LINE_NO"/>
             <Field sourceFieldName="SRC_CDR_ID"/>
-            <Field sourceFieldName="SRC_CDR_NO" targetFieldName="REC_SEQ_NUM"/>
+            <Field sourceFieldName="SRC_CDR_NO"/>
             <Field sourceFieldName="CDR_STATUS"/>
             <Field sourceFieldName="RE_RATING_TIMES"/>
             <Field sourceFieldName="CREATE_DATE"/>
@@ -41,7 +41,7 @@
             <Field sourceFieldName="EVENT_END_TIME"/>
             <Field sourceFieldName="STD_EVT_TYPE_ID"/>
             <Field sourceFieldName="EVT_SOURCE_CATEGORY"/>
-            <Field sourceFieldName="OBJTYPE"/>
+            <Field sourceFieldName="OBJ_TYPE"/>
             <Field sourceFieldName="OBJ_ID"/>
             <Field sourceFieldName="OWNER_CUST_ID"/>
             <Field sourceFieldName="DEFAULT_ACCT_ID"/>
@@ -50,15 +50,21 @@
             <Field sourceFieldName="EVENT_TYPE_KEY"/>
             <Field sourceFieldName="USAGE_SERVICE_TYPE"/>
             <Field sourceFieldName="SESSION_ID"/>
-            <Field sourceFieldName="RESULTCODE"/>
+            <Field sourceFieldName="RESULT_CODE"/>
             <Field sourceFieldName="RESULT_REASON"/>
             <Field sourceFieldName="BE_ID"/>
             <Field sourceFieldName="HOT_SEQ"/>
             <Field sourceFieldName="CP_ID"/>
             <Field sourceFieldName="RECIPIENT_NUMBER" targetFieldName="RECIPIENT_NUMBER"/>
             <Field sourceFieldName="USAGE_MEASURE_ID"/>
-            <Field sourceFieldName="ACTUAL_USAGE" targetFieldName="ORIGINAL_DURATION"/>
-            <Field sourceFieldName="RATE_USAGE" targetFieldName="RATED_DURATION"/>
+            <Field sourceFieldName="ACTUAL_USAGE"/>
+            <Field sourceFieldName="ACTUAL_USAGE_PAYG"/>
+            <Field sourceFieldName="ACTUAL_USAGE_BONUS"/>
+            <Field sourceFieldName="ACTUAL_USAGE_ALLOWANCE"/>
+            <Field sourceFieldName="RATE_USAGE"/>
+            <Field sourceFieldName="RATE_USAGE_PAYG"/>
+            <Field sourceFieldName="RATE_USAGE_BONUS"/>
+            <Field sourceFieldName="RATE_USAGE_ALLOWANCE"/>
             <Field sourceFieldName="SERVICE_UNIT_TYPE"/>
             <Field sourceFieldName="USAGE_MEASURE_ID2"/>
             <Field sourceFieldName="ACTUAL_USAGE2"/>
@@ -71,6 +77,7 @@
             <Field sourceFieldName="DEBIT_FROM_POSTPAID"/>
             <Field sourceFieldName="DEBIT_FROM_ADVANCE_POSTPAID"/>
             <Field sourceFieldName="DEBIT_FROM_CREDIT_POSTPAID"/>
+            <Field sourceFieldName="REAL_REVENUE"/>
             <Field sourceFieldName="TOTAL_TAX"/>
             <Field sourceFieldName="FREE_UNIT_AMOUNT_OF_TIMES"/>
             <Field sourceFieldName="FREE_UNIT_AMOUNT_OF_DURATION"/>
@@ -379,7 +386,7 @@
             <Field sourceFieldName="OTHER_MSISDN"/>
             <Field sourceFieldName="SERVED_IMSI"/>
             <Field sourceFieldName="OTHER_IMSI"/>
-            <Field sourceFieldName="DialedNumber" targetFieldName="DIALED_NUMBER"/>
+            <Field sourceFieldName="DIALED_NUMBER"/>
             <Field sourceFieldName="OriginalCalledParty" targetFieldName="ORIGINAL_CALLED_PARTY"/>
             <Field sourceFieldName="EVENT_DIRECTION_KEY"/>
             <Field sourceFieldName="CallForwardIndicator" targetFieldName="CFIND"/>
@@ -460,6 +467,7 @@
             <Field sourceFieldName="OTHER_MSISDN_DIALED_KEY" default="-99"/>
             <Field sourceFieldName="OTHER_PARTY_OPERATOR" default="-99"/>
             <Field sourceFieldName="OTHER_PARTY_NW_IND_KEY" default="-99"/>
+            <Field sourceFieldName="OTHER_PARTY_ISO" default="-99"/>
             <Field sourceFieldName="SERVED_ROAM_DIALED_KEY" default="-99"/>
             <Field sourceFieldName="ZERO_CHARGE_IND" default="0"/>
             <Field sourceFieldName="ZERO_DURATION_IND" default="1"/>
@@ -475,7 +483,7 @@
             <Field sourceFieldName="EVENT_DATE" targetFieldName="EVENT_DATE"/>
             <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
             <Field sourceFieldName="POPULATION_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
-            <Field sourceFieldName="_SEQUENCE_NUMBER"/>
+            <Field sourceFieldName="REC_SEQ_NO_X"/>
         </Event>
     </DataDef>
 </Adapter>

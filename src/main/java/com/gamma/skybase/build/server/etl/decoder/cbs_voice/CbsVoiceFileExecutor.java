@@ -52,7 +52,7 @@ public class CbsVoiceFileExecutor extends CbsVoiceFileProcessor {
                 try {
                     LinkedHashMap<String, Object> record = decoder.next();
                     if (jsonOutputRequired) jsonRecords.add(record);
-                    record.put("_SEQUENCE_NUMBER",recCount);
+                    record.put("REC_SEQ_NO_X",recCount);
                     record.put("fileName", metadata.decompFileName);
                     processRecord(record, enrichment);
                 } catch (Exception e) {
