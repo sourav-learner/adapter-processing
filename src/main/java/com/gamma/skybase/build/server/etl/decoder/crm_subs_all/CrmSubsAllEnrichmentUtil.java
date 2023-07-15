@@ -9,6 +9,8 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.gamma.telco.utility.TelcoEnrichmentUtility.ltrim;
+
 
 public class CrmSubsAllEnrichmentUtil extends LebaraUtil{
 
@@ -84,12 +86,17 @@ public class CrmSubsAllEnrichmentUtil extends LebaraUtil{
     }
 
     String normalizeMSISDN(String number) {
-        if (number != null){
-            if (number.startsWith("966")) {
-                return number;
+        if (number != null) {
+            if (number.startsWith("0")) {
+                number = ltrim(number, '0');
             }
-            else{
-                number = "966" + number;
+            if (number.length() < 10) {
+                if (number.startsWith("966")){
+                    return number;
+                }
+                else {
+                    number = "966" + number;
+                }
             }
             return number;
         }
