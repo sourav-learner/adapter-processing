@@ -60,7 +60,7 @@ public class TAPRecordEnrichment implements IEnrichment {
         Object eventType = record.get("eventType");
         txRecord.put("eventType", eventType);
         txRecord.put("FILE_NAME", record.get("fileName"));
-        txRecord.put("_SEQUENCE_NUMBER",record.get("_SEQUENCE_NUMBER"));
+        txRecord.put("REC_SEQ_NO_X",record.get("REC_SEQ_NO_X"));
 
         switch (eventType.toString().trim().toLowerCase()) {
             case "notification":
