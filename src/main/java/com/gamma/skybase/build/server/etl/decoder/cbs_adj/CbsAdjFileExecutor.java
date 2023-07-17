@@ -398,7 +398,7 @@ public class CbsAdjFileExecutor extends CbsAdjFileProcessor {
                     }
 
                     record.put("fileName", metadata.decompFileName);
-                    record.put("_SEQUENCE_NUMBER", recCount);
+                    record.put("REC_SEQ_NO_X", recCount);
                     processRecord(record, enrichment);
 
                 } catch (Exception e) {

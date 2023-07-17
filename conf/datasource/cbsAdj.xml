@@ -640,7 +640,7 @@
             <Field sourceFieldName="EVENT_DATE" targetFieldName="EVENT_DATE"/>
             <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
             <Field sourceFieldName="POPULATION_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
-            <Field sourceFieldName="_SEQUENCE_NUMBER"/>
+            <Field sourceFieldName="REC_SEQ_NO_X"/>
         </Event>
     </DataDef>
 </Adapter>
