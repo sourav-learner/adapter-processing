@@ -211,8 +211,8 @@ public class GGSNRecordEnrichment implements IEnrichment {
                 String strServingNodeType = strServingNode.substring(strServingNode.indexOf('=') + 1, strServingNode.indexOf('}'));
                 rg.put("SERVING_NODE_TYPE", strServingNodeType);
                 rg.put("CDR_SEQUENCE_NUM", data.get("localSequenceNumber"));
-                Object seqNumber = data.get("_SEQUENCE_NUMBER");
-                rg.put("_SEQUENCE_NUMBER", seqNumber);
+                Object seqNumber = data.get("REC_SEQ_NO_X");
+                rg.put("REC_SEQ_NO_X", seqNumber);
                 rg.put("FILE_NAME", data.get("fileName"));
             }
             records.put(key, rg);

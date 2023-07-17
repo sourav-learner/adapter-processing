@@ -198,7 +198,7 @@
             <Field sourceFieldName="EVENT_DATE"/>
             <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
             <Field sourceFieldName="POPULATION_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
-            <Field sourceFieldName="_SEQUENCE_NUMBER"/>
+            <Field sourceFieldName="REC_SEQ_NO_X"/>
         </Event>
 
         <Event eventName="PGWRecord_RAW" tableName="PGWRecord_RAW" synonym="PGWRecord_RAW" dataBase="">
@@ -253,7 +253,7 @@
             <Field sourceFieldName="servingNodeType"/>
             <Field sourceFieldName="serviceIdentifier"/>
             <Field sourceFieldName="unknown"/>
-            <Field sourceFieldName="_SEQUENCE_NUMBER"/>
+            <Field sourceFieldName="REC_SEQ_NO_X"/>
         </Event>
 
         <Event eventName="PGWRecord_PRE" tableName="GGSN_PRE_FCT" synonym="GGSN_PRE_FCT" dataBase="">
@@ -302,7 +302,7 @@
             <Field sourceFieldName="TIME_LAST_USAGE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
             <Field sourceFieldName="REPORT_TIME" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
             <Field sourceFieldName="FILE_NAME"/>
-            <Field sourceFieldName="_SEQUENCE_NUMBER"/>
+            <Field sourceFieldName="REC_SEQ_NO_X"/>
         </Event>
 
         <Event eventName="PGWRecord_POST" tableName="GGSN_POST_FCT" synonym="GGSN_POST_FCT" dataBase="">
@@ -351,7 +351,7 @@
             <Field sourceFieldName="TIME_LAST_USAGE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
             <Field sourceFieldName="REPORT_TIME" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
             <Field sourceFieldName="FILE_NAME"/>
-            <Field sourceFieldName="_SEQUENCE_NUMBER"/>
+            <Field sourceFieldName="REC_SEQ_NO_X"/>
         </Event>
 
         <Event eventName="FCT_GGSN" tableName="FCT_GGSN" synonym="FCT_GGSN" dataBase="">
@@ -402,7 +402,7 @@
             <Field sourceFieldName="EVENT_DATE"/>
             <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
             <Field sourceFieldName="POPULATION_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
-            <Field sourceFieldName="_SEQUENCE_NUMBER"/>
+            <Field sourceFieldName="REC_SEQ_NO_X"/>
         </Event>
     </DataDef>
 </Adapter>
