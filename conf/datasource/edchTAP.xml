@@ -41,7 +41,7 @@
             <Field sourceFieldName="POPULATION_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
             <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
             <Field sourceFieldName="filename" targetFieldName="FILE_NAME"/>
-            <Field sourceFieldName="_SEQUENCE_NUMBER"/>
+            <Field sourceFieldName="REC_SEQ_NO_X"/>
         </Event>
 
         <Event eventName="TAP_VOICE_SMS_FCT" tableName="TAP_VOICE_SMS_FCT" synonym="TAP_VOICE_SMS_FCT" dataBase="hive">
@@ -80,7 +80,7 @@
             <Field sourceFieldName="POPULATION_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
             <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
             <Field sourceFieldName="filename" targetFieldName="FILE_NAME"/>
-            <Field sourceFieldName="_SEQUENCE_NUMBER"/>
+            <Field sourceFieldName="REC_SEQ_NO_X"/>
         </Event>
 
         <Event eventName="TAP_GPRS_FCT" tableName="TAP_GPRS_FCT" synonym="TAP_GPRS_FCT" dataBase="hive">
@@ -122,7 +122,7 @@
             <Field sourceFieldName="POPULATION_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
             <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
             <Field sourceFieldName="filename" targetFieldName="FILE_NAME"/>
-            <Field sourceFieldName="_SEQUENCE_NUMBER"/>
+            <Field sourceFieldName="REC_SEQ_NO_X"/>
         </Event>
     </DataDef>
 </Adapter>
