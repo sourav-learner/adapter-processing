@@ -36,6 +36,29 @@ public class CbsVoiceEnrichmentUtil {
         return null;
     }
 
+//    public Long getLongValue(String field) {
+//        Object l = rec.get(field);
+//        return (Long) l;
+////        return 0L;
+//    }
+
+    public double getDoubleValue(String field) {
+        Object value = rec.get(field);
+
+        if (value instanceof Double) {
+            return (Double) value;
+        } else if (value instanceof Long) {
+            return ((Long) value).doubleValue();
+        } else if (value instanceof String) {
+            try {
+                return Double.parseDouble((String) value);
+            } catch (NumberFormatException e) {
+                return 0.0;
+            }
+        }
+        return 0.0;
+    }
+
     String status;
 
     public Optional<String> getStatus() {
@@ -154,324 +177,106 @@ public class CbsVoiceEnrichmentUtil {
         return Optional.empty();
     }
 
-    String actualUsage, freeUnitAMountOfDuration, rateUsage, bc1BalanceType, bc2BalanceType, bc3BalanceType, bc4BalanceType, bc5BalanceType, bc6BalanceType, bc7BalanceType, bc8BalanceType, bc9BalanceType, bc10BalanceType;
-    String bc1ChgeBalance, bc2ChgeBalance, bc3ChgeBalance, bc4ChgeBalance, bc5ChgeBalance, bc6ChgeBalance, bc7ChgeBalance, bc8ChgeBalance, bc9ChgeBalance, bc10ChgeBalance, debitAmount;
+    Double actualUsage, freeUnitAMountOfDuration, rateUsage, bc1BalanceType, bc2BalanceType, bc3BalanceType, bc4BalanceType, bc5BalanceType, bc6BalanceType, bc7BalanceType, bc8BalanceType, bc9BalanceType, bc10BalanceType;
+    Double bc1ChgeBalance, bc2ChgeBalance, bc3ChgeBalance, bc4ChgeBalance, bc5ChgeBalance, bc6ChgeBalance, bc7ChgeBalance, bc8ChgeBalance, bc9ChgeBalance, bc10ChgeBalance, debitAmount;
 
-    Double result, result1, actualUsagePayg, amount;
-    String bc1Chg, bc2Chg, bc3Chg, bc4Chg, bc5Chg, bc6Chg, bc7Chg, bc8Chg, bc9Chg, bc10Chg;
+    Double actualUsagePayg ;
 
     public Optional<Double> getActualUsagePayg() {
-        actualUsage = getValue("ACTUAL_USAGE");
-        freeUnitAMountOfDuration = getValue("FREE_UNIT_AMOUNT_OF_DURATION");
-        rateUsage = getValue("RATE_USAGE");
-        bc1BalanceType = getValue("BC1_BALANCE_TYPE");
-        bc2BalanceType = getValue("BC2_BALANCE_TYPE");
-        bc3BalanceType = getValue("BC3_BALANCE_TYPE");
-        bc4BalanceType = getValue("BC4_BALANCE_TYPE");
-        bc5BalanceType = getValue("BC5_BALANCE_TYPE");
-        bc6BalanceType = getValue("BC6_BALANCE_TYPE");
-        bc7BalanceType = getValue("BC7_BALANCE_TYPE");
-        bc8BalanceType = getValue("BC8_BALANCE_TYPE");
-        bc9BalanceType = getValue("BC9_BALANCE_TYPE");
-        bc10BalanceType = getValue("BC10_BALANCE_TYPE");
-        bc1ChgeBalance = getValue("BC1_CHG_BALANCE");
-        bc2ChgeBalance = getValue("BC2_CHG_BALANCE");
-        bc3ChgeBalance = getValue("BC3_CHG_BALANCE");
-        bc4ChgeBalance = getValue("BC4_CHG_BALANCE");
-        bc5ChgeBalance = getValue("BC5_CHG_BALANCE");
-        bc6ChgeBalance = getValue("BC6_CHG_BALANCE");
-        bc7ChgeBalance = getValue("BC7_CHG_BALANCE");
-        bc8ChgeBalance = getValue("BC8_CHG_BALANCE");
-        bc9ChgeBalance = getValue("BC9_CHG_BALANCE");
-        bc10ChgeBalance = getValue("BC10_CHG_BALANCE");
-        debitAmount = getValue("DEBIT_AMOUNT");
+        actualUsage = getDoubleValue("ACTUAL_USAGE");
+        freeUnitAMountOfDuration = getDoubleValue("FREE_UNIT_AMOUNT_OF_DURATION");
+        rateUsage = getDoubleValue("RATE_USAGE");
+        bc1BalanceType = getDoubleValue("BC1_BALANCE_TYPE");
+        bc2BalanceType = getDoubleValue("BC2_BALANCE_TYPE");
+        bc3BalanceType = getDoubleValue("BC3_BALANCE_TYPE");
+        bc4BalanceType = getDoubleValue("BC4_BALANCE_TYPE");
+        bc5BalanceType = getDoubleValue("BC5_BALANCE_TYPE");
+        bc6BalanceType = getDoubleValue("BC6_BALANCE_TYPE");
+        bc7BalanceType = getDoubleValue("BC7_BALANCE_TYPE");
+        bc8BalanceType = getDoubleValue("BC8_BALANCE_TYPE");
+        bc9BalanceType = getDoubleValue("BC9_BALANCE_TYPE");
+        bc10BalanceType = getDoubleValue("BC10_BALANCE_TYPE");
+        bc1ChgeBalance = getDoubleValue("BC1_CHG_BALANCE");
+        bc2ChgeBalance = getDoubleValue("BC2_CHG_BALANCE");
+        bc3ChgeBalance = getDoubleValue("BC3_CHG_BALANCE");
+        bc4ChgeBalance = getDoubleValue("BC4_CHG_BALANCE");
+        bc5ChgeBalance = getDoubleValue("BC5_CHG_BALANCE");
+        bc6ChgeBalance = getDoubleValue("BC6_CHG_BALANCE");
+        bc7ChgeBalance = getDoubleValue("BC7_CHG_BALANCE");
+        bc8ChgeBalance = getDoubleValue("BC8_CHG_BALANCE");
+        bc9ChgeBalance = getDoubleValue("BC9_CHG_BALANCE");
+        bc10ChgeBalance = getDoubleValue("BC10_CHG_BALANCE");
+        debitAmount = getDoubleValue("DEBIT_AMOUNT");
 
-        if (freeUnitAMountOfDuration != null && actualUsage != null && rateUsage != null) {
-            amount = (Double.parseDouble(freeUnitAMountOfDuration) * Double.parseDouble(actualUsage)) / Double.parseDouble(rateUsage);
-            result = Double.parseDouble(actualUsage) - amount;
-        }
-        if (bc1BalanceType != null) {
-            if (bc1BalanceType.equalsIgnoreCase("2000") || bc1BalanceType.equalsIgnoreCase("3000") || bc1BalanceType.equalsIgnoreCase("7000")) {
-                if (bc1ChgeBalance != null) {
-                    bc1Chg = bc1ChgeBalance;
-                } else {
-                    bc1Chg = "0";
-                }
-            } else {
-                bc1Chg = "0";
-            }
-        }
+        actualUsagePayg = (actualUsage - (freeUnitAMountOfDuration * actualUsage / rateUsage))
+                * (
+                ((bc1BalanceType == 2000 || bc1BalanceType == 3000 || bc1BalanceType == 7000) ? (bc1ChgeBalance.toString() == null ? 0 : bc1ChgeBalance) : 0)
+                        + ((bc2BalanceType == 2000 || bc2BalanceType == 3000 || bc2BalanceType == 7000) ? (bc2ChgeBalance.toString() == null ? 0 : bc2ChgeBalance) : 0)
+                        + ((bc3BalanceType == 2000 || bc3BalanceType == 3000 || bc3BalanceType == 7000) ? (bc3ChgeBalance.toString() == null ? 0 : bc3ChgeBalance) : 0)
+                        + ((bc4BalanceType == 2000 || bc4BalanceType == 3000 || bc4BalanceType == 7000) ? (bc4ChgeBalance.toString() == null ? 0 : bc4ChgeBalance) : 0)
+                        + ((bc5BalanceType == 2000 || bc5BalanceType == 3000 || bc5BalanceType == 7000) ? (bc5ChgeBalance.toString() == null ? 0 : bc5ChgeBalance): 0)
+                        + ((bc6BalanceType == 2000 || bc6BalanceType == 3000 || bc6BalanceType == 7000) ? (bc6ChgeBalance.toString() == null ? 0 : bc6ChgeBalance) : 0)
+                        + ((bc7BalanceType == 2000 || bc7BalanceType == 3000 || bc7BalanceType == 7000) ? (bc7ChgeBalance.toString() == null ? 0 : bc8ChgeBalance) : 0)
+                        + ((bc8BalanceType == 2000 || bc8BalanceType == 3000 || bc8BalanceType == 7000) ? (bc8ChgeBalance.toString() == null ? 0 : bc9ChgeBalance) : 0)
+                        + ((bc9BalanceType == 2000 || bc9BalanceType == 3000 || bc9BalanceType == 7000) ? (bc9ChgeBalance.toString() == null ? 0 : bc9ChgeBalance) : 0)
+                        + ((bc10BalanceType == 2000 || bc10BalanceType == 3000 || bc10BalanceType == 7000) ? (bc10ChgeBalance.toString() == null ? 0 : bc10ChgeBalance ): 0))
+                / debitAmount;
 
-        if (bc2BalanceType != null) {
-            if (bc2BalanceType.equalsIgnoreCase("2000") || bc2BalanceType.equalsIgnoreCase("3000") || bc2BalanceType.equalsIgnoreCase("7000")) {
-                if (bc2ChgeBalance != null) {
-                    bc2Chg = bc2ChgeBalance;
-                } else {
-                    bc2Chg = "0";
-                }
-            } else {
-                bc2Chg = "0";
-            }
-        }
-
-        if (bc3BalanceType != null) {
-            if (bc3BalanceType.equalsIgnoreCase("2000") || bc3BalanceType.equalsIgnoreCase("3000") || bc3BalanceType.equalsIgnoreCase("7000")) {
-                if (bc3ChgeBalance != null) {
-                    bc3Chg = bc3ChgeBalance;
-                } else {
-                    bc3Chg = "0";
-                }
-            } else {
-                bc3Chg = "0";
-            }
-        }
-        if (bc4BalanceType != null) {
-            if (bc4BalanceType.equalsIgnoreCase("2000") || bc4BalanceType.equalsIgnoreCase("3000") || bc4BalanceType.equalsIgnoreCase("7000")) {
-                if (bc4ChgeBalance != null) {
-                    bc4Chg = bc4ChgeBalance;
-                } else {
-                    bc4Chg = "0";
-                }
-            } else {
-                bc4Chg = "0";
-            }
-        }
-        if (bc5BalanceType != null) {
-            if (bc5BalanceType.equalsIgnoreCase("2000") || bc5BalanceType.equalsIgnoreCase("3000") || bc5BalanceType.equalsIgnoreCase("7000")) {
-                if (bc5ChgeBalance != null) {
-                    bc5Chg = bc5ChgeBalance;
-                } else {
-                    bc5Chg = "0";
-                }
-            } else {
-                bc5Chg = "0";
-            }
-        }
-        if (bc6BalanceType != null) {
-            if (bc6BalanceType.equalsIgnoreCase("2000") || bc6BalanceType.equalsIgnoreCase("3000") || bc6BalanceType.equalsIgnoreCase("7000")) {
-                if (bc6ChgeBalance != null) {
-                    bc6Chg = bc6ChgeBalance;
-                } else {
-                    bc6Chg = "0";
-                }
-            } else {
-                bc6Chg = "0";
-            }
-        }
-        if (bc7BalanceType != null) {
-            if (bc7BalanceType.equalsIgnoreCase("2000") || bc7BalanceType.equalsIgnoreCase("3000") || bc7BalanceType.equalsIgnoreCase("7000")) {
-                if (bc7ChgeBalance != null) {
-                    bc7Chg = bc7ChgeBalance;
-                } else {
-                    bc7Chg = "0";
-                }
-            } else {
-                bc7Chg = "0";
-            }
-        }
-        if (bc8BalanceType != null) {
-            if (bc8BalanceType.equalsIgnoreCase("2000") || bc8BalanceType.equalsIgnoreCase("3000") || bc8BalanceType.equalsIgnoreCase("7000")) {
-                if (bc8ChgeBalance != null) {
-                    bc8Chg = bc8ChgeBalance;
-                } else {
-                    bc8Chg = "0";
-                }
-            } else {
-                bc8Chg = "0";
-            }
-        }
-        if (bc9BalanceType != null) {
-            if (bc9BalanceType.equalsIgnoreCase("2000") || bc9BalanceType.equalsIgnoreCase("3000") || bc9BalanceType.equalsIgnoreCase("7000")) {
-                if (bc9ChgeBalance != null) {
-                    bc9Chg = bc9ChgeBalance;
-                } else {
-                    bc9Chg = "0";
-                }
-            } else {
-                bc9Chg = "0";
-            }
-        }
-        if (bc10BalanceType != null) {
-            if (bc10BalanceType.equalsIgnoreCase("2000") || bc10BalanceType.equalsIgnoreCase("3000") || bc10BalanceType.equalsIgnoreCase("7000")) {
-                if (bc10ChgeBalance != null) {
-                    bc10Chg = bc10ChgeBalance;
-                } else {
-                    bc10Chg = "0";
-                }
-            } else {
-                bc10Chg = "0";
-            }
-        }
-        if (result != null && bc1Chg != null && bc2Chg != null && bc3Chg != null && bc4Chg != null && bc5Chg != null && bc6Chg != null && bc7Chg != null && bc8Chg != null && bc9Chg != null && bc10Chg != null){
-            result1 = (result * (Integer.parseInt(bc1Chg)) + (Integer.parseInt(bc2Chg)) + (Integer.parseInt(bc3Chg)) + (Integer.parseInt(bc4Chg)) + (Integer.parseInt(bc5Chg)) + (Integer.parseInt(bc6Chg)) + (Integer.parseInt(bc7Chg)) + (Integer.parseInt(bc8Chg)) + (Integer.parseInt(bc9Chg)) + (Integer.parseInt(bc10Chg)));
-        }
-
-        if(debitAmount != null && result1 != null){
-            actualUsagePayg = result1 / Double.parseDouble(debitAmount);
-        }
-
-        if (actualUsagePayg != null)
+        if (Double.isNaN(actualUsagePayg)) {
+            return Optional.of(0.0);
+        } else {
             return Optional.of(actualUsagePayg);
-        return Optional.empty();
+        }
     }
 
-    Double result2, result3, actualUsageBonus, amount1;
-    String actualUsg, freeUnitAmount, rateUsg, bc1ChgBal, bc2ChgBal, bc3ChgBal, bc4ChgBal, bc5ChgBal, bc6ChgBal, bc7ChgBal, bc8ChgBal, bc9ChgBal, bc10ChgBal;
-    String bc1Bal, bc2Bal, bc3Bal, bc4Bal, bc5Bal, bc6Bal, bc7Bal, bc8Bal, bc9Bal, bc10Bal, debitAmounts;
-    String bc1b, bc2b, bc3b, bc4b, bc5b, bc6b, bc7b, bc8b, bc9b, bc10b;
+    Double actualUsageBonus , actualUsg, freeUnitAmount, rateUsg, bc1ChgBal, bc2ChgBal, bc3ChgBal, bc4ChgBal, bc5ChgBal, bc6ChgBal, bc7ChgBal, bc8ChgBal, bc9ChgBal, bc10ChgBal;
+    Double bc1Bal, bc2Bal, bc3Bal, bc4Bal, bc5Bal, bc6Bal, bc7Bal, bc8Bal, bc9Bal, bc10Bal, debitAmounts;
 
     public Optional<Double> getActualUsageBonus() {
-        actualUsg = getValue("ACTUAL_USAGE");
-        freeUnitAmount = getValue("FREE_UNIT_AMOUNT_OF_DURATION");
-        rateUsg = getValue("RATE_USAGE");
-        bc1Bal = getValue("BC1_BALANCE_TYPE");
-        bc2Bal = getValue("BC2_BALANCE_TYPE");
-        bc3Bal = getValue("BC3_BALANCE_TYPE");
-        bc4Bal = getValue("BC4_BALANCE_TYPE");
-        bc5Bal = getValue("BC5_BALANCE_TYPE");
-        bc6Bal = getValue("BC6_BALANCE_TYPE");
-        bc7Bal = getValue("BC7_BALANCE_TYPE");
-        bc8Bal = getValue("BC8_BALANCE_TYPE");
-        bc9Bal = getValue("BC9_BALANCE_TYPE");
-        bc10Bal = getValue("BC10_BALANCE_TYPE");
-        bc1ChgBal = getValue("BC1_CHG_BALANCE");
-        bc2ChgBal = getValue("BC2_CHG_BALANCE");
-        bc3ChgBal = getValue("BC3_CHG_BALANCE");
-        bc4ChgBal = getValue("BC4_CHG_BALANCE");
-        bc5ChgBal = getValue("BC5_CHG_BALANCE");
-        bc6ChgBal = getValue("BC6_CHG_BALANCE");
-        bc7ChgBal = getValue("BC7_CHG_BALANCE");
-        bc8ChgBal = getValue("BC8_CHG_BALANCE");
-        bc9ChgBal = getValue("BC9_CHG_BALANCE");
-        bc10ChgBal = getValue("BC10_CHG_BALANCE");
-        debitAmounts = getValue("DEBIT_AMOUNT");
+        actualUsg = getDoubleValue("ACTUAL_USAGE");
+        freeUnitAmount = getDoubleValue("FREE_UNIT_AMOUNT_OF_DURATION");
+        rateUsg = getDoubleValue("RATE_USAGE");
+        bc1Bal = getDoubleValue("BC1_BALANCE_TYPE");
+        bc2Bal = getDoubleValue("BC2_BALANCE_TYPE");
+        bc3Bal = getDoubleValue("BC3_BALANCE_TYPE");
+        bc4Bal = getDoubleValue("BC4_BALANCE_TYPE");
+        bc5Bal = getDoubleValue("BC5_BALANCE_TYPE");
+        bc6Bal = getDoubleValue("BC6_BALANCE_TYPE");
+        bc7Bal = getDoubleValue("BC7_BALANCE_TYPE");
+        bc8Bal = getDoubleValue("BC8_BALANCE_TYPE");
+        bc9Bal = getDoubleValue("BC9_BALANCE_TYPE");
+        bc10Bal = getDoubleValue("BC10_BALANCE_TYPE");
+        bc1ChgBal = getDoubleValue("BC1_CHG_BALANCE");
+        bc2ChgBal = getDoubleValue("BC2_CHG_BALANCE");
+        bc3ChgBal = getDoubleValue("BC3_CHG_BALANCE");
+        bc4ChgBal = getDoubleValue("BC4_CHG_BALANCE");
+        bc5ChgBal = getDoubleValue("BC5_CHG_BALANCE");
+        bc6ChgBal = getDoubleValue("BC6_CHG_BALANCE");
+        bc7ChgBal = getDoubleValue("BC7_CHG_BALANCE");
+        bc8ChgBal = getDoubleValue("BC8_CHG_BALANCE");
+        bc9ChgBal = getDoubleValue("BC9_CHG_BALANCE");
+        bc10ChgBal = getDoubleValue("BC10_CHG_BALANCE");
+        debitAmounts = getDoubleValue("DEBIT_AMOUNT");
 
-        if (actualUsg != null && freeUnitAmount != null && rateUsg != null) {
-            amount1 = (Double.parseDouble(freeUnitAmount) * Double.parseDouble(actualUsg)) / Double.parseDouble(rateUsg);
-            result2 = Double.parseDouble(actualUsg) - amount1;
-        }
-        if (bc1Bal != null) {
-            if ((!bc1Bal.equalsIgnoreCase("2000")) || (!bc1Bal.equalsIgnoreCase("3000")) || (!bc1Bal.equalsIgnoreCase("7000"))) {
-                if (bc1ChgBal != null) {
-                    bc1b = bc1ChgBal;
-                } else {
-                    bc1b = "0";
-                }
-            } else {
-                bc1b = "0";
-            }
-        }
-        if (bc2Bal != null) {
-            if ((!bc2Bal.equalsIgnoreCase("2000")) || (!bc2Bal.equalsIgnoreCase("3000")) || (!bc2Bal.equalsIgnoreCase("7000"))) {
-                if (bc2ChgBal != null) {
-                    bc2b = bc2ChgBal;
-                } else {
-                    bc2b = "0";
-                }
-            } else {
-                bc2b = "0";
-            }
-        }
-        if (bc3Bal != null) {
-            if ((!bc3Bal.equalsIgnoreCase("2000")) || (!bc3Bal.equalsIgnoreCase("3000")) || (!bc3Bal.equalsIgnoreCase("7000"))) {
-                if (bc3ChgBal != null) {
-                    bc3b = bc3ChgBal;
-                } else {
-                    bc3b = "0";
-                }
-            } else {
-                bc3b = "0";
-            }
-        }
-        if (bc4Bal != null) {
-            if ((!bc4Bal.equalsIgnoreCase("2000")) || (!bc4Bal.equalsIgnoreCase("3000")) || (!bc4Bal.equalsIgnoreCase("7000"))) {
-                if (bc4ChgBal != null) {
-                    bc4b = bc4ChgBal;
-                } else {
-                    bc4b = "0";
-                }
-            } else {
-                bc4b = "0";
-            }
-        }
-        if (bc5Bal != null) {
-            if ((!bc5Bal.equalsIgnoreCase("2000")) || (!bc5Bal.equalsIgnoreCase("3000")) || (!bc5Bal.equalsIgnoreCase("7000"))) {
-                if (bc5ChgBal != null) {
-                    bc5b = bc5ChgBal;
-                } else {
-                    bc5b = "0";
-                }
-            } else {
-                bc5b = "0";
-            }
-        }
-        if (bc6Bal != null) {
-            if ((!bc6Bal.equalsIgnoreCase("2000")) || (!bc6Bal.equalsIgnoreCase("3000")) || (!bc6Bal.equalsIgnoreCase("7000"))) {
-                if (bc6ChgBal != null) {
-                    bc6b = bc6ChgBal;
-                } else {
-                    bc6b = "0";
-                }
-            } else {
-                bc6b = "0";
-            }
-        }
-        if (bc7Bal != null) {
-            if ((!bc7Bal.equalsIgnoreCase("2000")) || (!bc7Bal.equalsIgnoreCase("3000")) || (!bc7Bal.equalsIgnoreCase("7000"))) {
-                if (bc7ChgBal != null) {
-                    bc7b = bc7ChgBal;
-                } else {
-                    bc7b = "0";
-                }
-            } else {
-                bc7b = "0";
-            }
-        }
-        if (bc8Bal != null) {
-            if ((!bc8Bal.equalsIgnoreCase("2000")) || (!bc8Bal.equalsIgnoreCase("3000")) || (!bc8Bal.equalsIgnoreCase("7000"))) {
-                if (bc8ChgBal != null) {
-                    bc8b = bc8ChgBal;
-                } else {
-                    bc8b = "0";
-                }
-            } else {
-                bc8b = "0";
-            }
-        }
-        if (bc9Bal != null) {
-            if ((!bc9Bal.equalsIgnoreCase("2000")) || (!bc9Bal.equalsIgnoreCase("3000")) || (!bc9Bal.equalsIgnoreCase("7000"))) {
-                if (bc9ChgBal != null) {
-                    bc9b = bc9ChgBal;
-                } else {
-                    bc9b = "0";
-                }
-            } else {
-                bc9b = "0";
-            }
-        }
-        if (bc10Bal != null) {
-            if ((!bc10Bal.equalsIgnoreCase("2000")) || (!bc10Bal.equalsIgnoreCase("3000")) || (!bc10Bal.equalsIgnoreCase("7000"))) {
-                if (bc10ChgBal != null) {
-                    bc10b = bc10ChgBal;
-                } else {
-                    bc10b = "0";
-                }
-            } else {
-                bc10b = "0";
-            }
-        }
+        actualUsageBonus = (actualUsg - (freeUnitAmount * actualUsg / rateUsg))
+                * (
+                ((bc1Bal != 2000 || bc1Bal != 3000 || bc1Bal != 7000) ? bc1ChgBal: 0)
+                        + ((bc2Bal != 2000 || bc2Bal != 3000 || bc2Bal != 7000) ? bc2ChgBal : 0)
+                        + ((bc3Bal != 2000 || bc3Bal != 3000 || bc3Bal != 7000) ? bc3ChgBal : 0)
+                        + ((bc4Bal != 2000 || bc4Bal != 3000 || bc4Bal != 7000) ? bc4ChgBal : 0)
+                        + ((bc5Bal != 2000 || bc5Bal != 3000 || bc5Bal != 7000) ? bc5ChgBal : 0)
+                        + ((bc6Bal != 2000 || bc6Bal != 3000 || bc6Bal != 7000) ? bc6ChgBal : 0)
+                        + ((bc7Bal != 2000 || bc7Bal != 3000 || bc7Bal != 7000) ? bc7ChgBal : 0)
+                        + ((bc8Bal != 2000 || bc8Bal != 3000 || bc8Bal != 7000) ? bc8ChgBal : 0)
+                        + ((bc9Bal != 2000 || bc9Bal != 3000 || bc9Bal != 7000) ? bc9ChgBal : 0)
+                        + ((bc10Bal != 2000 || bc10Bal != 3000 || bc10Bal != 7000) ? bc10ChgBal : 0))
+                / debitAmounts;
 
-        if (result2 != null && bc1b != null && bc2b !=null && bc3b !=null && bc4b != null && bc5b != null && bc6b!= null && bc7b != null && bc8b != null && bc9b != null && bc10b != null){
-            result3 = (result2 * (Integer.parseInt(bc1b)) + (Integer.parseInt(bc2b)) + (Integer.parseInt(bc3b)) + (Integer.parseInt(bc4b)) + (Integer.parseInt(bc5b)) + (Integer.parseInt(bc6b)) + (Integer.parseInt(bc7b)) + (Integer.parseInt(bc8b)) + (Integer.parseInt(bc9b)) + (Integer.parseInt(bc10b)));
-        }
-
-        if (debitAmounts != null && result3 != null){
-            actualUsageBonus = result3 / Double.parseDouble(debitAmounts);
-        }
-
-        if (actualUsageBonus != null)
+        if (Double.isNaN(actualUsageBonus)) {
+            return Optional.of(0.0);
+        } else {
             return Optional.of(actualUsageBonus);
-        return Optional.empty();
+        }
     }
 
     String freeUnitAmountOfDuration1, actualUsage1, rateUsage1;
@@ -486,324 +291,110 @@ public class CbsVoiceEnrichmentUtil {
             allowance1 = (Double.parseDouble(freeUnitAmountOfDuration1)) * (Double.parseDouble(actualUsage1));
             allowance = allowance1 / (Double.parseDouble(rateUsage1));
         }
-        if (Double.isNaN(allowance)){
-            return Optional.empty();
-        }
-        else {
+        if (Double.isNaN(allowance)) {
+            return Optional.of(0.0);
+        } else {
             return Optional.of(allowance);
         }
     }
 
-    String rateUse, freeUnit, bc1Balance, bc2Balance, bc3Balance, bc4Balance, bc5Balance, bc6Balance, bc7Balance, bc8Balance, bc9Balance, bc10Balance;
-    String bc1ChgBalance, bc2ChgBalance, bc3ChgBalance, bc4ChgBalance, bc5ChgBalance, bc6ChgBalance, bc7ChgBalance, bc8ChgBalance, bc9ChgBalance, bc10ChgBalance, debits;
-    Double results, rateUsagePayg, amounts;
-    String bc1c, bc2c, bc3c, bc4c, bc5c, bc6c, bc7c, bc8c, bc9c, bc10c;
+    Double rateUse, freeUnit, bc1Balance, bc2Balance, bc3Balance, bc4Balance, bc5Balance, bc6Balance, bc7Balance, bc8Balance, bc9Balance, bc10Balance;
+    Double bc1ChgBalance, bc2ChgBalance, bc3ChgBalance, bc4ChgBalance, bc5ChgBalance, bc6ChgBalance, bc7ChgBalance, bc8ChgBalance, bc9ChgBalance, bc10ChgBalance, debits , rateUsagePayg;
 
     public Optional<Double> getRateUsagePayg() {
-        rateUse = getValue("RATE_USAGE");
-        freeUnit = getValue("FREE_UNIT_AMOUNT_OF_DURATION");
-        bc1Balance = getValue("BC1_BALANCE_TYPE");
-        bc2Balance = getValue("BC2_BALANCE_TYPE");
-        bc3Balance = getValue("BC3_BALANCE_TYPE");
-        bc4Balance = getValue("BC4_BALANCE_TYPE");
-        bc5Balance = getValue("BC5_BALANCE_TYPE");
-        bc6Balance = getValue("BC6_BALANCE_TYPE");
-        bc7Balance = getValue("BC7_BALANCE_TYPE");
-        bc8Balance = getValue("BC8_BALANCE_TYPE");
-        bc9Balance = getValue("BC9_BALANCE_TYPE");
-        bc10Balance = getValue("BC10_BALANCE_TYPE");
-        bc1ChgBalance = getValue("BC1_CHG_BALANCE");
-        bc2ChgBalance = getValue("BC2_CHG_BALANCE");
-        bc3ChgBalance = getValue("BC3_CHG_BALANCE");
-        bc4ChgBalance = getValue("BC4_CHG_BALANCE");
-        bc5ChgBalance = getValue("BC5_CHG_BALANCE");
-        bc6ChgBalance = getValue("BC6_CHG_BALANCE");
-        bc7ChgBalance = getValue("BC7_CHG_BALANCE");
-        bc8ChgBalance = getValue("BC8_CHG_BALANCE");
-        bc9ChgBalance = getValue("BC9_CHG_BALANCE");
-        bc10ChgBalance = getValue("BC10_CHG_BALANCE");
-        debits = getValue("DEBIT_AMOUNT");
+        rateUse = getDoubleValue("RATE_USAGE");
+        freeUnit = getDoubleValue("FREE_UNIT_AMOUNT_OF_DURATION");
+        bc1Balance = getDoubleValue("BC1_BALANCE_TYPE");
+        bc2Balance = getDoubleValue("BC2_BALANCE_TYPE");
+        bc3Balance = getDoubleValue("BC3_BALANCE_TYPE");
+        bc4Balance = getDoubleValue("BC4_BALANCE_TYPE");
+        bc5Balance = getDoubleValue("BC5_BALANCE_TYPE");
+        bc6Balance = getDoubleValue("BC6_BALANCE_TYPE");
+        bc7Balance = getDoubleValue("BC7_BALANCE_TYPE");
+        bc8Balance = getDoubleValue("BC8_BALANCE_TYPE");
+        bc9Balance = getDoubleValue("BC9_BALANCE_TYPE");
+        bc10Balance = getDoubleValue("BC10_BALANCE_TYPE");
+        bc1ChgBalance = getDoubleValue("BC1_CHG_BALANCE");
+        bc2ChgBalance = getDoubleValue("BC2_CHG_BALANCE");
+        bc3ChgBalance = getDoubleValue("BC3_CHG_BALANCE");
+        bc4ChgBalance = getDoubleValue("BC4_CHG_BALANCE");
+        bc5ChgBalance = getDoubleValue("BC5_CHG_BALANCE");
+        bc6ChgBalance = getDoubleValue("BC6_CHG_BALANCE");
+        bc7ChgBalance = getDoubleValue("BC7_CHG_BALANCE");
+        bc8ChgBalance = getDoubleValue("BC8_CHG_BALANCE");
+        bc9ChgBalance = getDoubleValue("BC9_CHG_BALANCE");
+        bc10ChgBalance = getDoubleValue("BC10_CHG_BALANCE");
+        debits = getDoubleValue("DEBIT_AMOUNT");
 
-        if (freeUnit != null && rateUse != null) {
-            amounts = (Double.parseDouble(rateUse) - Double.parseDouble(freeUnit));
-        }
-        if (bc1Balance != null){
-            if (bc1Balance.equalsIgnoreCase("2000") || bc1Balance.equalsIgnoreCase("3000") || bc1Balance.equalsIgnoreCase("7000")) {
-                if (bc1ChgBalance != null) {
-                    bc1c = bc1ChgBalance;
-                } else {
-                    bc1c = "0";
-                }
-            } else {
-                bc1c = "0";
-            }
-        }
-        if (bc2Balance != null){
-            if (bc2Balance.equalsIgnoreCase("2000") || bc2Balance.equalsIgnoreCase("3000") || bc2Balance.equalsIgnoreCase("7000")) {
-                if (bc2ChgBalance != null) {
-                    bc2c = bc2ChgBalance;
-                } else {
-                    bc2c = "0";
-                }
-            } else {
-                bc2c = "0";
-            }
-        }
-        if (bc3Balance != null){
-            if (bc3Balance.equalsIgnoreCase("2000") || bc3Balance.equalsIgnoreCase("3000") || bc3Balance.equalsIgnoreCase("7000")) {
-                if (bc3ChgBalance != null) {
-                    bc3c = bc3ChgBalance;
-                } else {
-                    bc3c = "0";
-                }
-            } else {
-                bc3c = "0";
-            }
-        }
-        if (bc4Balance != null){
-            if (bc4Balance.equalsIgnoreCase("2000") || bc4Balance.equalsIgnoreCase("3000") || bc4Balance.equalsIgnoreCase("7000")) {
-                if (bc4ChgBalance != null) {
-                    bc4c = bc4ChgBalance;
-                } else {
-                    bc4c = "0";
-                }
-            } else {
-                bc4c = "0";
-            }
-        }
-        if (bc5Balance != null){
-            if (bc5Balance.equalsIgnoreCase("2000") || bc5Balance.equalsIgnoreCase("3000") || bc5Balance.equalsIgnoreCase("7000")) {
-                if (bc5ChgBalance != null) {
-                    bc5c = bc5ChgBalance;
-                } else {
-                    bc5c = "0";
-                }
-            } else {
-                bc5c = "0";
-            }
-        }
-        if (bc6Balance != null){
-            if (bc6Balance.equalsIgnoreCase("2000") || bc6Balance.equalsIgnoreCase("3000") || bc6Balance.equalsIgnoreCase("7000")) {
-                if (bc6ChgBalance != null) {
-                    bc6c = bc6ChgBalance;
-                } else {
-                    bc6c = "0";
-                }
-            } else {
-                bc6c = "0";
-            }
-        }
-        if (bc7Balance != null){
-            if (bc7Balance.equalsIgnoreCase("2000") || bc7Balance.equalsIgnoreCase("3000") || bc7Balance.equalsIgnoreCase("7000")) {
-                if (bc7ChgBalance != null) {
-                    bc7c = bc7ChgBalance;
-                } else {
-                    bc7c = "0";
-                }
-            } else {
-                bc7c = "0";
-            }
-        }
-        if (bc8Balance != null){
-            if (bc8Balance.equalsIgnoreCase("2000") || bc8Balance.equalsIgnoreCase("3000") || bc8Balance.equalsIgnoreCase("7000")) {
-                if (bc8ChgBalance != null) {
-                    bc8c = bc8ChgBalance;
-                } else {
-                    bc8c = "0";
-                }
-            } else {
-                bc8c = "0";
-            }
-        }
-        if (bc9Balance != null){
-            if (bc9Balance.equalsIgnoreCase("2000") || bc9Balance.equalsIgnoreCase("3000") || bc9Balance.equalsIgnoreCase("7000")) {
-                if (bc9ChgBalance != null) {
-                    bc9c = bc9ChgBalance;
-                } else {
-                    bc9c = "0";
-                }
-            } else {
-                bc9c = "0";
-            }
-        }
-        if (bc10Balance != null){
-            if (bc10Balance.equalsIgnoreCase("2000") || bc10Balance.equalsIgnoreCase("3000") || bc10Balance.equalsIgnoreCase("7000")) {
-                if (bc10ChgBalance != null) {
-                    bc10c = bc10ChgBalance;
-                } else {
-                    bc10c = "0";
-                }
-            } else {
-                bc10c = "0";
-            }
-        }
-        if (amounts != null && bc1c != null && bc2c != null && bc3c != null && bc4c != null && bc5c != null && bc6c != null && bc7c != null && bc8c != null && bc9c != null && bc10c != null){
-            results = (amounts * (Integer.parseInt(bc1c)) + (Integer.parseInt(bc2c)) + (Integer.parseInt(bc3c)) + (Integer.parseInt(bc4c)) + (Integer.parseInt(bc5c)) + (Integer.parseInt(bc6c)) + (Integer.parseInt(bc7c)) + (Integer.parseInt(bc8c)) + (Integer.parseInt(bc9c)) + (Integer.parseInt(bc10c)));
-        }
+        rateUsagePayg = (rateUse - freeUnit)
+                * (
+                ((bc1Balance == 2000 || bc1Balance == 3000 || bc1Balance == 7000) ? bc1ChgBalance: 0)
+                        + ((bc2Balance == 2000 || bc2Balance == 3000 || bc2Balance == 7000) ? bc2ChgBalance : 0)
+                        + ((bc3Balance == 2000 || bc3Balance == 3000 || bc3Balance == 7000) ? bc3ChgBalance : 0)
+                        + ((bc4Balance == 2000 || bc4Balance == 3000 || bc4Balance == 7000) ? bc4ChgBalance : 0)
+                        + ((bc5Balance == 2000 || bc5Balance == 3000 || bc5Balance == 7000) ? bc5ChgBalance : 0)
+                        + ((bc6Balance == 2000 || bc6Balance == 3000 || bc6Balance == 7000) ? bc6ChgBalance : 0)
+                        + ((bc7Balance == 2000 || bc7Balance == 3000 || bc7Balance == 7000) ? bc7ChgBalance : 0)
+                        + ((bc8Balance == 2000 || bc8Balance == 3000 || bc8Balance == 7000) ? bc8ChgBalance : 0)
+                        + ((bc9Balance == 2000 || bc9Balance == 3000 || bc9Balance == 7000) ? bc9ChgBalance : 0)
+                        + ((bc10Balance == 2000 || bc10Balance == 3000 || bc10Balance == 7000) ? bc10ChgBalance : 0))
+                / debits;
 
-        if (debits != null && results != null){
-            rateUsagePayg = results / Double.parseDouble(debits);
-        }
-
-        if (rateUsagePayg != null)
+        if (Double.isNaN(rateUsagePayg)) {
+            return Optional.of(0.0);
+        } else {
             return Optional.of(rateUsagePayg);
-        return Optional.empty();
+        }
     }
 
-    Double results2, results3, rateUsageBonus, amounts1;
-    String bc1Chgbal, bc2Chgbal, bc3Chgbal, bc4Chgbal, bc5Chgbal, bc6Chgbal, bc7Chgbal, bc8Chgbal, bc9Chgbal, bc10Chgbal, rateUses, freeUnitAMountOfDur;
-    String bc1BalType, bc2BalType, bc3BalType, bc4BalType, bc5BalType, bc6BalType, bc7BalType, bc8BalType, bc9BalType, bc10BalType, debitAmt;
-    String bc1ChgBalan, bc2ChgBalan, bc3ChgBalan, bc4ChgBalan, bc5ChgBalan, bc6ChgBalan, bc7ChgBalan, bc8ChgBalan, bc9ChgBalan, bc10ChgBalan;
+    Double rateUses, freeUnitAMountOfDur;
+    Double bc1BalType, bc2BalType, bc3BalType, bc4BalType, bc5BalType, bc6BalType, bc7BalType, bc8BalType, bc9BalType, bc10BalType, debitAmt;
+    Double bc1ChgBalan, bc2ChgBalan, bc3ChgBalan, bc4ChgBalan, bc5ChgBalan, bc6ChgBalan, bc7ChgBalan, bc8ChgBalan, bc9ChgBalan, bc10ChgBalan;
 
     public Optional<Double> getRateUsageBonus() {
-        freeUnitAMountOfDur = getValue("FREE_UNIT_AMOUNT_OF_DURATION");
-        rateUses = getValue("RATE_USAGE");
-        bc1BalType = getValue("BC1_BALANCE_TYPE");
-        bc2BalType = getValue("BC2_BALANCE_TYPE");
-        bc3BalType = getValue("BC3_BALANCE_TYPE");
-        bc4BalType = getValue("BC4_BALANCE_TYPE");
-        bc5BalType = getValue("BC5_BALANCE_TYPE");
-        bc6BalType = getValue("BC6_BALANCE_TYPE");
-        bc7BalType = getValue("BC7_BALANCE_TYPE");
-        bc8BalType = getValue("BC8_BALANCE_TYPE");
-        bc9BalType = getValue("BC9_BALANCE_TYPE");
-        bc10BalType = getValue("BC10_BALANCE_TYPE");
-        bc1ChgBalan = getValue("BC1_CHG_BALANCE");
-        bc2ChgBalan = getValue("BC2_CHG_BALANCE");
-        bc3ChgBalan = getValue("BC3_CHG_BALANCE");
-        bc4ChgBalan = getValue("BC4_CHG_BALANCE");
-        bc5ChgBalan = getValue("BC5_CHG_BALANCE");
-        bc6ChgBalan = getValue("BC6_CHG_BALANCE");
-        bc7ChgBalan = getValue("BC7_CHG_BALANCE");
-        bc8ChgBalan = getValue("BC8_CHG_BALANCE");
-        bc9ChgBalan = getValue("BC9_CHG_BALANCE");
-        bc10ChgBalan = getValue("BC10_CHG_BALANCE");
-        debitAmt = getValue("DEBIT_AMOUNT");
+        freeUnitAMountOfDur = getDoubleValue("FREE_UNIT_AMOUNT_OF_DURATION");
+        rateUses = getDoubleValue("RATE_USAGE");
+        bc1BalType = getDoubleValue("BC1_BALANCE_TYPE");
+        bc2BalType = getDoubleValue("BC2_BALANCE_TYPE");
+        bc3BalType = getDoubleValue("BC3_BALANCE_TYPE");
+        bc4BalType = getDoubleValue("BC4_BALANCE_TYPE");
+        bc5BalType = getDoubleValue("BC5_BALANCE_TYPE");
+        bc6BalType = getDoubleValue("BC6_BALANCE_TYPE");
+        bc7BalType = getDoubleValue("BC7_BALANCE_TYPE");
+        bc8BalType = getDoubleValue("BC8_BALANCE_TYPE");
+        bc9BalType = getDoubleValue("BC9_BALANCE_TYPE");
+        bc10BalType = getDoubleValue("BC10_BALANCE_TYPE");
+        bc1ChgBalan = getDoubleValue("BC1_CHG_BALANCE");
+        bc2ChgBalan = getDoubleValue("BC2_CHG_BALANCE");
+        bc3ChgBalan = getDoubleValue("BC3_CHG_BALANCE");
+        bc4ChgBalan = getDoubleValue("BC4_CHG_BALANCE");
+        bc5ChgBalan = getDoubleValue("BC5_CHG_BALANCE");
+        bc6ChgBalan = getDoubleValue("BC6_CHG_BALANCE");
+        bc7ChgBalan = getDoubleValue("BC7_CHG_BALANCE");
+        bc8ChgBalan = getDoubleValue("BC8_CHG_BALANCE");
+        bc9ChgBalan = getDoubleValue("BC9_CHG_BALANCE");
+        bc10ChgBalan = getDoubleValue("BC10_CHG_BALANCE");
+        debitAmt = getDoubleValue("DEBIT_AMOUNT");
 
-        if (freeUnitAMountOfDur != null && rateUse != null) {
-            amounts1 = (Double.parseDouble(freeUnitAMountOfDuration) * Double.parseDouble(actualUsage)) / Double.parseDouble(rateUsage);
-            results2 = Double.parseDouble(actualUsage) - amounts1;
-        }
-        if (bc1BalType != null){
-            if ((!bc1BalType.equalsIgnoreCase("2000")) || (!bc1BalType.equalsIgnoreCase("3000")) || (!bc1BalType.equalsIgnoreCase("7000"))) {
-                if (bc1ChgBalan != null) {
-                    bc1Chgbal = bc1ChgBalan;
-                } else {
-                    bc1Chgbal = "0";
-                }
-            } else {
-                bc1Chgbal = "0";
-            }
-        }
-        if (bc2BalType != null){
-            if ((!bc2BalType.equalsIgnoreCase("2000")) || (!bc2BalType.equalsIgnoreCase("3000")) || (!bc2BalType.equalsIgnoreCase("7000"))) {
-                if (bc2ChgBalan != null) {
-                    bc2Chgbal = bc2ChgBalan;
-                } else {
-                    bc2Chgbal = "0";
-                }
-            } else {
-                bc2Chgbal = "0";
-            }
-        }
-        if (bc3BalType != null){
-            if ((!bc3BalType.equalsIgnoreCase("2000")) || (!bc3BalType.equalsIgnoreCase("3000")) || (!bc3BalType.equalsIgnoreCase("7000"))) {
-                if (bc3ChgBalan != null) {
-                    bc3Chgbal = bc3ChgBalan;
-                } else {
-                    bc3Chgbal = "0";
-                }
-            } else {
-                bc3Chgbal = "0";
-            }
-        }
-        if (bc4BalType != null){
-            if ((!bc4BalType.equalsIgnoreCase("2000")) || (!bc4BalType.equalsIgnoreCase("3000")) || (!bc4BalType.equalsIgnoreCase("7000"))) {
-                if (bc3ChgBalan != null) {
-                    bc4Chgbal = bc3ChgBalan;
-                } else {
-                    bc4Chgbal = "0";
-                }
-            } else {
-                bc4Chgbal = "0";
-            }
-        }
-        if (bc5BalType != null){
-            if ((!bc5BalType.equalsIgnoreCase("2000")) || (!bc5BalType.equalsIgnoreCase("3000")) || (!bc5BalType.equalsIgnoreCase("7000"))) {
-                if (bc4ChgBalan != null) {
-                    bc5Chgbal = bc4ChgBalan;
-                } else {
-                    bc5Chgbal = "0";
-                }
-            } else {
-                bc5Chgbal = "0";
-            }
-        }
-        if (bc6BalType != null){
-            if ((!bc6BalType.equalsIgnoreCase("2000")) || (!bc6BalType.equalsIgnoreCase("3000")) || (!bc6BalType.equalsIgnoreCase("7000"))) {
-                if (bc5ChgBalan != null) {
-                    bc6Chgbal = bc5ChgBalan;
-                } else {
-                    bc6Chgbal = "0";
-                }
-            } else {
-                bc6Chgbal = "0";
-            }
-        }
-        if (bc7BalType != null){
-            if ((!bc7BalType.equalsIgnoreCase("2000")) || (!bc7BalType.equalsIgnoreCase("3000")) || (!bc7BalType.equalsIgnoreCase("7000"))) {
-                if (bc7ChgBalan != null) {
-                    bc7Chgbal = bc7ChgBalan;
-                } else {
-                    bc7Chgbal = "0";
-                }
-            } else {
-                bc7Chgbal = "0";
-            }
-        }
-        if (bc6BalType != null){
-            if ((!bc8BalType.equalsIgnoreCase("2000")) || (!bc8BalType.equalsIgnoreCase("3000")) || (!bc8BalType.equalsIgnoreCase("7000"))) {
-                if (bc8ChgBalan != null) {
-                    bc8Chgbal = bc8ChgBalan;
-                } else {
-                    bc8Chgbal = "0";
-                }
-            } else {
-                bc8Chgbal = "0";
-            }
-        }
-        if (bc9BalType != null){
-            if ((!bc9BalType.equalsIgnoreCase("2000")) || (!bc9BalType.equalsIgnoreCase("3000")) || (!bc9BalType.equalsIgnoreCase("7000"))) {
-                if (bc9ChgBalan != null) {
-                    bc9Chgbal = bc9ChgBalan;
-                } else {
-                    bc9Chgbal = "0";
-                }
-            } else {
-                bc9Chgbal = "0";
-            }
-        }
-        if (bc10BalType != null){
-            if ((!bc10BalType.equalsIgnoreCase("2000")) || (!bc10BalType.equalsIgnoreCase("3000")) || (!bc10BalType.equalsIgnoreCase("7000"))) {
-                if (bc10ChgBalan != null) {
-                    bc10Chgbal = bc10ChgBalan;
-                } else {
-                    bc10Chgbal = "0";
-                }
-            } else {
-                bc10Chgbal = "0";
-            }
-        }
-        if (results2 != null && bc1Chgbal != null && bc2Chgbal != null && bc3Chgbal != null && bc4Chgbal != null && bc5Chgbal != null && bc6Chgbal != null && bc7Chgbal != null && bc8Chgbal != null && bc9Chgbal != null && bc10Chgbal != null){
-            results3 = (results2 * (Integer.parseInt(bc1Chgbal)) + (Integer.parseInt(bc2Chgbal)) + (Integer.parseInt(bc3Chgbal)) + (Integer.parseInt(bc4Chgbal)) + (Integer.parseInt(bc5Chgbal)) + (Integer.parseInt(bc6Chgbal)) + (Integer.parseInt(bc7Chgbal)) + (Integer.parseInt(bc8Chgbal)) + (Integer.parseInt(bc9Chgbal)) + (Integer.parseInt(bc10Chgbal)));
-        }
-        if (debitAmt != null && result3 != null){
-            rateUsageBonus = results3 / Double.parseDouble(debitAmt);
-        }
+        actualUsageBonus = (actualUsg - (freeUnitAmount * actualUsg / rateUsg))
+                * (
+                ((bc1BalType != 2000 || bc1BalType != 3000 || bc1BalType != 7000) ? bc1ChgBalan: 0)
+                        + ((bc2BalType != 2000 || bc2BalType != 3000 || bc2BalType != 7000) ? bc2ChgBalan : 0)
+                        + ((bc3BalType != 2000 || bc3BalType != 3000 || bc3BalType != 7000) ? bc3ChgBalan : 0)
+                        + ((bc4BalType != 2000 || bc4BalType != 3000 || bc4BalType != 7000) ? bc4ChgBalan : 0)
+                        + ((bc5BalType != 2000 || bc5BalType != 3000 || bc5BalType != 7000) ? bc5ChgBalan : 0)
+                        + ((bc6BalType != 2000 || bc6BalType != 3000 || bc6BalType != 7000) ? bc6ChgBalan : 0)
+                        + ((bc7BalType != 2000 || bc7BalType != 3000 || bc7BalType != 7000) ? bc7ChgBalan : 0)
+                        + ((bc8BalType != 2000 || bc8BalType != 3000 || bc8BalType != 7000) ? bc8ChgBalan : 0)
+                        + ((bc9BalType != 2000 || bc9BalType != 3000 || bc9BalType != 7000) ? bc9ChgBalan : 0)
+                        + ((bc10BalType != 2000 || bc10BalType != 3000 || bc10BalType != 7000) ? bc10ChgBalan : 0))
+                / debitAmt;
 
-        if (rateUsageBonus != null)
-            return Optional.of(rateUsageBonus);
-        return Optional.empty();
+        if (Double.isNaN(actualUsageBonus)) {
+            return Optional.of(0.0);
+        } else {
+            return Optional.of(actualUsageBonus);
+        }
     }
 
     String rateUsageAllowance;
