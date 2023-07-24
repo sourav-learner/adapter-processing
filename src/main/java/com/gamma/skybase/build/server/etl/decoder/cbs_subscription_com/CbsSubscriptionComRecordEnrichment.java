@@ -609,7 +609,7 @@ public class CbsSubscriptionComRecordEnrichment implements IEnrichment {
 
 //        SRV_TYPE_KEY
         Optional<String> srvTypeKey = tx.getSrvTypeKey();
-        srvTypeKey.ifPresent(s -> record.put("SRV_TYPE_KEY" ,s));
+        srvTypeKey.ifPresent(s -> record.put("SERVED_TYPE" ,s));
 
 //        SERVED_MSISDN
         String callingPartyNumber = tx.getValue("CallingPartyNumber");
