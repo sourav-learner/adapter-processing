@@ -115,7 +115,7 @@ public class UvcSuppliedEnrichmentUtil {
 
     String normalizeMSISDN(String number) {
         if (number != null){
-            if (!number.startsWith("966") || !number.startsWith("MCC")) {
+            if (!number.startsWith("966")) {
                 number = "966" + number;
             }
             else{

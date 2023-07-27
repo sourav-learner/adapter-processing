@@ -71,7 +71,7 @@ public class UvcSuppliedRecordEnrichment implements IEnrichment {
 
 //        CHANNELTYPE
         Optional<String> channelType = tx.getChannelType();
-        channelType.ifPresent(s -> record.put("CHANNELTYPE", s));
+        channelType.ifPresent(s -> record.put("CHANNEL_TYPE", s));
 
 //        FILE_NAME
         record.put("FILE_NAME", record.get("fileName"));
