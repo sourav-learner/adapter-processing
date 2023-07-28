@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Adapter Name="UVC_supply" Type="ASN.1" Version="1.0" Active="true" StatusDBHandler="mongo" rawJson="true"
+         decoderExecClass="com.gamma.skybase.build.server.etl.decoder.uvc_supply.UvcsupplyFileExecutor" ExecMode="server"
+         txExecClass="com.gamma.skybase.build.server.etl.decoder.uvc_supply.UvcsupplyRecordEnrichment" ignoreLogging="false"
+         ignoreDuplicates="false" parallel="1" instance-size="1" load-factor="1" customized="enable">
+
+    <!--Extraction tag-->
+    <Extraction type="sniff" protocol="local" execClass="com.gamma.skybase.server.core.collector.sniff.DefaultSniffingExtractionAgent">
+        <Settings host="" port="" path="/raetl/processing/app-logs/uvc_supply/poll" username="" password="">
+            <Signature required="false" key=""/>
+            <Extract pattern="" metaFields="fileName\" dateFieldPattern="yyyyMMdd"/>
+        </Settings>
+    </Extraction>
+
+    <DirConfig>
+        <Source path="/raetl/processing/app-logs/uvc_supply/source" clogging="true"/>
+        <Backup path="/raetl/processing/app-logs/uvc_supply/backup" clogging="true" compress="gz"/>
+        <Staging path="/raetl/processing/app-logs/uvc_supply/staging" clogging="true"/>
+        <Output path="/raetl/processing/app-logs/uvc_supply/output" clogging="true"/>
+        <Error path="/raetl/processing/app-logs/uvc_supply/error" clogging="true"/>
+        <Target protocol="" host="" path="/" pwd="" user="" active="true"/>
+    </DirConfig>
+
+    <DataDef>
+        <Event eventName="FCT_UVC_SUPPLY" tableName="FCT_UVC_SUPPLY" synonym="FCT_UVC_SUPPLY" dataBase="">
+            <Field sourceFieldName="ACCOUNTNUMBER" targetFieldName="ACCOUNT_NUMBER"/>
+            <Field sourceFieldName="BATCHNO" targetFieldName="BATCH_NUMBER"/>
+            <Field sourceFieldName="SEQUENCE"  targetFieldName="VOU_SERIAL_NUMBER"/>
+            <Field sourceFieldName="DENOMINATION"/>
+            <Field sourceFieldName="CURRENCY"/>
+            <Field sourceFieldName="CARD_START_DATE"/>
+            <Field sourceFieldName="CARD_STOP_DATE"/>
+            <Field sourceFieldName="HOTCARDFLAG"/>
+            <Field sourceFieldName="USESTATE"/>
+            <Field sourceFieldName="CURDISTRIBUTOR"/>
+            <Field sourceFieldName="RECHARGE_TIMESTAMP"/>
+            <Field sourceFieldName="OPRTYPE"/>
+            <Field sourceFieldName="CARDCOSID"/>
+            <Field sourceFieldName="CARDSPID"/>
+            <Field sourceFieldName="CARDTENANTID"/>
+            <Field sourceFieldName="SERVED_MSISDN"/>
+            <Field sourceFieldName="SRV_TYPE_KEY"/>
+            <Field sourceFieldName="OPRTYPE_DESC"/>
+            <Field sourceFieldName="USE_STATE_DESC"/>
+            <Field sourceFieldName="HOT_CARD_FLAG_DESC"/>
+            <Field sourceFieldName="RECHARGE_TYPE"/>
+            <Field sourceFieldName="filename" targetFieldName="FILE_NAME"/>
+            <Field sourceFieldName="EVENT_DATE"/>
+            <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+            <Field sourceFieldName="POPULATION_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
+            <Field sourceFieldName="REC_SEQ_NO_X"/>
+        </Event>
+    </DataDef>
+</Adapter>
