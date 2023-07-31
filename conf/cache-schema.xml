@@ -545,4 +545,25 @@
         </cache-load-policy>
     </cache-config>
 
+    <cache-config id="20" name="DIM_CBS_OFFER_PAYTYPE_CACHE" dbHandler="mongo" claz="com.gamma.components.cache.service.CachingServiceHandler" storeName="DIM_CBS_OFFER_PAYTYPE">
+        <keys>
+            <key type="java.lang.String">offerId</key>
+        </keys>
+        <values multiple="false" type="com.gamma.skybase.build.server.etl.decoder.ReferenceDimCbsOfferPayType"/>
+        <cache-load-policy type="advanced">
+            <components>
+                <component id="1" storeName="DIM_CBS_OFFER_PAYTYPE">
+                    <column>offerId</column>
+                    <column>offerName</column>
+                    <column>primaryFlag</column>
+                    <column>payMode</column>
+                    <column>payModeD</column>
+                    <column>offerTypeBi</column>
+                    <column>segmentCategoryBi</column>
+                </component>
+            </components>
+            <connectors>
+            </connectors>
+        </cache-load-policy>
+    </cache-config>
 </cache-shema>

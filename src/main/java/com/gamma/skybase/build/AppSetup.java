@@ -2,6 +2,7 @@ package com.gamma.skybase.build;
 
 import com.gamma.components.commons.app.AppConfig;
 import com.gamma.decoder.ascii.DelimitedFileDecoder;
+import com.gamma.skybase.build.server.etl.decoder.ReferenceDimCbsOfferPayType;
 import com.gamma.skybase.build.server.etl.decoder.ReferenceDimRoamingPartnerInfo;
 import com.gamma.skybase.build.server.etl.decoder.ReferenceDimServiceRangeLookup;
 import com.gamma.skybase.build.server.etl.decoder.ReferenceDimSuscriberCRMInf;
@@ -76,6 +77,7 @@ public class AppSetup {
             loader.clearContent("DIM_SERVICE_RANGE_LOOKUP_CACHE");
             loader.clearContent("DIM_CRM_INF_SUBSCRIBER_ALL");
             loader.clearContent("DIM_ROAMING_PARTNER_INFO");
+            loader.clearContent("DIM_CBS_OFFER_PAYTYPE");
 
 //            loader.loadDimTableContent("DIM_SYSTEM", genericObjectLoad(baseDir + "DIM_SYSTEM.CSV", ReferenceDimSystem.class));
 //            loader.loadDimTableContent("DIM_SERVICE_TYPE", genericObjectLoad(baseDir + "DIM_SERVICE_TYPE.CSV", ReferenceDimServiceType.class));
@@ -96,7 +98,7 @@ public class AppSetup {
             loader.loadDimTableContent("DIM_SERVICE_RANGE_LOOKUP", genericObjectLoad(baseDir + "DIM_SERVICE_RANGE_LOOKUP.csv", ReferenceDimServiceRangeLookup.class));
             loader.loadDimTableContent("DIM_CRM_INF_SUBSCRIBER_ALL", genericObjectLoad(baseDir + "DIM_CRM_INF_SUBSCRIBER_ALL.csv", ReferenceDimSuscriberCRMInf.class));
             loader.loadDimTableContent("DIM_ROAMING_PARTNER_INFO", genericObjectLoad(baseDir + "DIM_ROAMING_PARTNER_INFO.csv", ReferenceDimRoamingPartnerInfo.class));
-
+            loader.loadDimTableContent("DIM_CBS_OFFER_PAYTYPE", genericObjectLoad(baseDir + "DIM_CBS_OFFER_PAYTYPE.csv", ReferenceDimCbsOfferPayType.class));
             settings.markSetupDone();
         }
     }

@@ -33,6 +33,16 @@ public class LebaraUtil {
         return null;
     }
 
+    public static ReferenceDimCbsOfferPayType getDimcbsOfferId(String offerId) {
+        try {
+            Object offers = cache.getRecord("DIM_CBS_OFFER_PAYTYPE_CACHE", offerId);
+            if (offers != null)
+                return (ReferenceDimCbsOfferPayType) offers;
+        } catch (Exception ignore) {
+        }
+        return null;
+    }
+
     public int isPrepaid(String msisdn) {
         String value;
 
