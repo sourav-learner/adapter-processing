@@ -1,5 +1,7 @@
 package com.gamma.skybase.build.server.etl.decoder.cbs_sms;
 
+import com.gamma.skybase.build.server.etl.decoder.LebaraUtil;
+import com.gamma.skybase.build.server.etl.decoder.ReferenceDimCbsOfferPayType;
 import com.gamma.skybase.contract.decoders.IEnrichment;
 import com.gamma.skybase.contract.decoders.MEnrichmentReq;
 import com.gamma.skybase.contract.decoders.MEnrichmentResponse;
@@ -57,10 +59,6 @@ public class CbsSmsRecordEnrichment implements IEnrichment {
 //        REFUND_INDICATOR
         Optional<String> refundIndicator = tx.getRefundIndicator();
         refundIndicator.ifPresent(s -> record.put("REFUND_INDICATOR", s));
-
-//      SERVED_TYPE
-        Optional<String> servedType = tx.getServedType();
-        servedType.ifPresent(s -> record.put("SERVED_TYPE", s));
 
 //      ON_NET_INDICATOR
         Optional<String> OnNetIndicator = tx.getOnNetIndicator();
@@ -286,9 +284,55 @@ public class CbsSmsRecordEnrichment implements IEnrichment {
         });
         record.put("ZERO_DURATION_IND", zeroDurationIndDefault.get());
 
-//        PAY_TYPE
-        String payType = tx.getValue("PayType");
-        record.put("PAY_TYPE", payType);
+//        OFFER_NAME , PAY_MODE , OFFER_TYPE_BI , SERVED_TYPE
+        String offerid = tx.getValue("MainOfferingID");
+        String servedType = null;
+        String usageServiceType = tx.getValue("USAGE_SERVICE_TYPE");
+        ReferenceDimCbsOfferPayType offeringInfo = LebaraUtil.getDimcbsOfferId(offerid);
+
+        if (offeringInfo != null) {
+            record.put("OFFER_NAME", offeringInfo.getOfferName());
+            record.put("PAY_MODE", offeringInfo.getPayMode());
+            record.put("OFFER_TYPE_BI", offeringInfo.getOfferTypeBi());
+            String payMode = offeringInfo.getPayMode();
+            String offerType = offeringInfo.getOfferTypeBi();
+
+            if (usageServiceType.equals("15")) {
+                if (payMode.equals("0") && offerType.equalsIgnoreCase("PREPAID")) {
+                    servedType = "6";
+                } else if (payMode.equals("0") && offerType == null) {
+                    servedType = "6";
+                } else if (payMode.equals("1") && offerType.equalsIgnoreCase("POSTPAID")) {
+                    servedType = "5";
+                } else if (payMode.equals("1") && offerType == null) {
+                    servedType = "5";
+                } else if (payMode != null && offerType.equalsIgnoreCase("POSTPAID2")) {
+                    servedType = "2";
+                } else if (payMode.equals("3") && offerType.equalsIgnoreCase("HYBRID")) {
+                    servedType = "8";
+                } else if (payMode.equals("3") && offerType == null) {
+                    servedType = "8";
+                }
+            }
+            else {
+                if (payMode.equals("0") && offerType.equalsIgnoreCase("PREPAID")) {
+                    servedType = "2";
+                } else if (payMode.equals("0") && offerType == null) {
+                    servedType = "2";
+                } else if (payMode.equals("1") && offerType.equalsIgnoreCase("POSTPAID")) {
+                    servedType = "1";
+                } else if (payMode.equals("1") && offerType == null) {
+                    servedType = "1";
+                } else if (payMode != null && offerType.equalsIgnoreCase("POSTPAID2")) {
+                    servedType = "1";
+                } else if (payMode.equals("3") && offerType.equalsIgnoreCase("HYBRID")) {
+                    servedType = "7";
+                } else if (payMode.equals("3") && offerType == null) {
+                    servedType = "8";
+                }
+            }
+            record.put("SERVED_TYPE" , servedType);
+        }
 
 //        SERVICE_FLOW
         record.put("SERVICE_FLOW", serviceFlow);

@@ -230,7 +230,7 @@ public class CbsSmsEnrichmentUtil {
         return Optional.empty();
     }
 
-    String servedType, roamState, payType;
+    String servedType1, roamState, payType;
 
     public Optional<String> getServedType() {
         payType = getValue("PayType");
@@ -241,36 +241,36 @@ public class CbsSmsEnrichmentUtil {
                 case "3":
                     switch (payType) {
                         case "1":
-                            servedType = "5";
+                            servedType1 = "5";
                             break;
                         case "0":
-                            servedType = "6";
+                            servedType1 = "6";
                             break;
                         case "2":
-                            servedType = "8";
+                            servedType1 = "8";
                             break;
                     }
                     break;
                 case "0":
                     switch (payType) {
                         case "0":
-                            servedType = "2";
+                            servedType1 = "2";
                             break;
                         case "1":
-                            servedType = "1";
+                            servedType1 = "1";
                             break;
                         case "2":
-                            servedType = "7";
+                            servedType1 = "7";
                             break;
                     }
                     break;
                 default:
-                    servedType = payType;
+                    servedType1 = payType;
                     break;
             }
         }
-        if (servedType != null)
-            return Optional.of(servedType);
+        if (servedType1 != null)
+            return Optional.of(servedType1);
         return Optional.empty();
     }
 

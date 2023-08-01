@@ -473,7 +473,6 @@
             <Field sourceFieldName="ZERO_DURATION_IND"/>
             <Field sourceFieldName="BLACK_LIST_IND" default="-97"/>
             <Field sourceFieldName="CHARGE"/>
-            <Field sourceFieldName="PAY_TYPE"/>
             <Field sourceFieldName="SERVICE_FLOW"/>
             <Field sourceFieldName="EVENT_DATE"/>
             <Field sourceFieldName="filename" targetFieldName="File_Name"/>
