@@ -379,7 +379,10 @@
             <Field sourceFieldName="OPERATION_ID"/>
             <Field sourceFieldName="OPERATION_TYPE"/>
             <Field sourceFieldName="BRAND_ID"/>
-            <Field sourceFieldName="MAIN_OFFERING_ID"/>
+            <Field sourceFieldName="MainOfferingID" targetFieldName="MAIN_OFFERING_ID"/>
+            <Field sourceFieldName="OFFER_NAME"/>
+            <Field sourceFieldName="PAY_MODE"/>
+            <Field sourceFieldName="OFFER_TYPE_BI"/>
             <Field sourceFieldName="SERVED_TYPE"/>
             <Field sourceFieldName="START_TIME_OF_BILL_CYCLE"/>
             <Field sourceFieldName="RESERVE"/>
