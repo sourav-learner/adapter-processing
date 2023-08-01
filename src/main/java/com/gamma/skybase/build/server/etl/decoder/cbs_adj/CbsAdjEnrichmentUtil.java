@@ -523,7 +523,7 @@ public class CbsAdjEnrichmentUtil {
     public Optional<String> getFC2CurAmount() {
         fc2CurAmount = getValue("FC2_CUR_AMOUNT");
         if (fc2CurAmount != null) {
-            int adjAmt = Integer.parseInt(fc2CurAmount)/30000;
+            int adjAmt = Integer.parseInt(fc2CurAmount)/10000;
             fc2CurAmount = String.valueOf(adjAmt);
         }
         if (fc2CurAmount != null)
@@ -536,7 +536,7 @@ public class CbsAdjEnrichmentUtil {
     public Optional<String> getFC2ChgAmount() {
         fc2ChgAmount = getValue("FC2_CHG_AMOUNT");
         if (fc2ChgAmount != null) {
-            int adjAmt = Integer.parseInt(fc2ChgAmount)/30000;
+            int adjAmt = Integer.parseInt(fc2ChgAmount)/10000;
             fc2ChgAmount = String.valueOf(adjAmt);
         }
         if (fc2ChgAmount != null)
@@ -1865,7 +1865,7 @@ public class CbsAdjEnrichmentUtil {
         if (FC1OperType != null) {
             switch (FC1OperType) {
                 case "0":
-                    FC1OperType = "expend";
+                    FC1OperType = "Expend a free unit";
                     break;
                 case "1":
                     FC1OperType = "update the income";
@@ -1890,7 +1890,7 @@ public class CbsAdjEnrichmentUtil {
         if (FC2OperType != null) {
             switch (FC2OperType) {
                 case "0":
-                    FC2OperType = "expend";
+                    FC2OperType = "Expend a free unit";
                     break;
                 case "1":
                     FC2OperType = "update the income";
@@ -1915,7 +1915,7 @@ public class CbsAdjEnrichmentUtil {
         if (FC3OperType != null) {
             switch (FC3OperType) {
                 case "0":
-                    FC3OperType = "expend";
+                    FC3OperType = "Expend a free unit";
                     break;
                 case "1":
                     FC3OperType = "update the income";
@@ -1940,7 +1940,7 @@ public class CbsAdjEnrichmentUtil {
         if (FC4OperType != null) {
             switch (FC4OperType) {
                 case "0":
-                    FC4OperType = "expend";
+                    FC4OperType = "Expend a free unit";
                     break;
                 case "1":
                     FC4OperType = "update the income";
@@ -1965,7 +1965,7 @@ public class CbsAdjEnrichmentUtil {
         if (FC5OperType != null) {
             switch (FC5OperType) {
                 case "0":
-                    FC5OperType = "expend";
+                    FC5OperType = "Expend a free unit";
                     break;
                 case "1":
                     FC5OperType = "update the income";
@@ -1990,7 +1990,7 @@ public class CbsAdjEnrichmentUtil {
         if (FC6OperType != null) {
             switch (FC6OperType) {
                 case "0":
-                    FC6OperType = "expend";
+                    FC6OperType = "Expend a free unit";
                     break;
                 case "1":
                     FC6OperType = "update the income";
@@ -2015,7 +2015,7 @@ public class CbsAdjEnrichmentUtil {
         if (FC7OperType != null) {
             switch (FC7OperType) {
                 case "0":
-                    FC7OperType = "expend";
+                    FC7OperType = "Expend a free unit";
                     break;
                 case "1":
                     FC7OperType = "update the income";
@@ -2040,7 +2040,7 @@ public class CbsAdjEnrichmentUtil {
         if (FC8OperType != null) {
             switch (FC8OperType) {
                 case "0":
-                    FC8OperType = "expend";
+                    FC8OperType = "Expend a free unit";
                     break;
                 case "1":
                     FC8OperType = "update the income";
@@ -2065,7 +2065,7 @@ public class CbsAdjEnrichmentUtil {
         if (FC9OperType != null) {
             switch (FC9OperType) {
                 case "0":
-                    FC9OperType = "expend";
+                    FC9OperType = "Expend a free unit";
                     break;
                 case "1":
                     FC9OperType = "update the income";
@@ -2090,7 +2090,7 @@ public class CbsAdjEnrichmentUtil {
         if (FC10OperType != null) {
             switch (FC10OperType) {
                 case "0":
-                    FC10OperType = "expend";
+                    FC10OperType = "Expend a free unit";
                     break;
                 case "1":
                     FC10OperType = "update the income";
