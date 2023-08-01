@@ -376,6 +376,9 @@
             <Field sourceFieldName="FR10_OPER_TYPE"/>
             <Field sourceFieldName="BrandID" targetFieldName="BRAND_ID"/>
             <Field sourceFieldName="MainOfferingID" targetFieldName="MAIN_OFFERING_ID"/>
+            <Field sourceFieldName="OFFER_NAME"/>
+            <Field sourceFieldName="PAY_MODE"/>
+            <Field sourceFieldName="OFFER_TYPE_BI"/>
             <Field sourceFieldName="SERVED_TYPE"/>
             <Field sourceFieldName="SERVED_MSISDN"/>
             <Field sourceFieldName="CHARGING_PARTY_TYPE"/>
