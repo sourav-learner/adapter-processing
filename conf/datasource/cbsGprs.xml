@@ -381,6 +381,10 @@
             <Field sourceFieldName="FR10_CURRENT_AMOUNT"/>
             <Field sourceFieldName="FR10_FU_MEASURE_ID"/>
             <Field sourceFieldName="FR10_OPER_TYPE"/>
+            <Field sourceFieldName="OFFER_NAME"/>
+            <Field sourceFieldName="PAY_MODE"/>
+            <Field sourceFieldName="OFFER_TYPE_BI"/>
+            <Field sourceFieldName="SERVED_TYPE"/>
             <Field sourceFieldName="SERVED_MSISDN"/>
             <Field sourceFieldName="APN"/>
             <Field sourceFieldName="URL"/>
@@ -446,13 +450,6 @@
             <Field sourceFieldName="ZERO_CHARGE_IND"/>
             <Field sourceFieldName="BLACK_LIST_IND" default="-97"/>
             <Field sourceFieldName="CHARGE"/>
-            <Field sourceFieldName="PAY_TYPE"/>
-            <Field sourceFieldName="TotalFlux" targetFieldName="TOTAL_VOL"/>
-            <Field sourceFieldName="UpFlux" targetFieldName="UPLOAD_VOLUME"/>
-            <Field sourceFieldName="DownFlux" targetFieldName="DOWNLOAD_VOLUME"/>
-            <Field sourceFieldName="COMPUTED_UPLOAD_VOL"/>
-            <Field sourceFieldName="COMPUTED_DOWNLOAD_VOL"/>
-            <Field sourceFieldName="COMPUTED_TOTAL_VOL"/>
             <Field sourceFieldName="EVENT_DATE"/>
             <Field sourceFieldName="filename" targetFieldName="FILE_NAME"/>
             <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>
