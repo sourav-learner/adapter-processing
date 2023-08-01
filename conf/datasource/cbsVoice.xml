@@ -382,6 +382,10 @@
             <Field sourceFieldName="FR10_CURRENT_AMOUNT"/>
             <Field sourceFieldName="FR10_FU_MEASURE_ID"/>
             <Field sourceFieldName="FR10_OPER_TYPE"/>
+            <Field sourceFieldName="OFFER_NAME"/>
+            <Field sourceFieldName="PAY_MODE"/>
+            <Field sourceFieldName="OFFER_TYPE_BI"/>
+            <Field sourceFieldName="SERVED_TYPE"/>
             <Field sourceFieldName="SERVED_MSISDN"/>
             <Field sourceFieldName="OTHER_MSISDN"/>
             <Field sourceFieldName="SERVED_IMSI"/>
@@ -390,7 +394,7 @@
             <Field sourceFieldName="OriginalCalledParty" targetFieldName="ORIGINAL_CALLED_PARTY"/>
             <Field sourceFieldName="EVENT_DIRECTION_KEY"/>
             <Field sourceFieldName="CallForwardIndicator" targetFieldName="CFIND"/>
-            <Field sourceFieldName="SERVED_PLMN"/>
+            <Field sourceFieldName="SERVED_ROAM_INFO"/>
             <Field sourceFieldName="SERVED_CELL"/>
             <Field sourceFieldName="OTHER_PLMN"/>
             <Field sourceFieldName="OTHER_CEll"/>

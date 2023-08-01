@@ -74,9 +74,17 @@ public class CbsVoiceRecordEnrichment implements IEnrichment {
         Optional<String> realRevenue = tx.getRealRevenue();
         realRevenue.ifPresent(s -> record.put("REAL_REVENUE", s));
 
+//        DIALED_NUMBER
+        Optional<String> dialedNumber = tx.getDialedNumber();
+        dialedNumber.ifPresent(s -> record.put("DIALED_NUMBER", s));
+
+//        EVENT_DIRECTION_KEY
+        Optional<String> eventDirectionKey = tx.getEventDirectionKey();
+        eventDirectionKey.ifPresent(s -> record.put("EVENT_DIRECTION_KEY", s));
+
         // SERVICE_FLOW
         String serviceFlow = tx.getValue("ServiceFlow");
-        if(serviceFlow != null) {
+        if (serviceFlow != null) {
             record.put("SERVICE_FLOW", serviceFlow);
             if ("1".equals(serviceFlow.trim())) {
                 String callingPartyNumber = tx.getValue("CallingPartyNumber");
@@ -88,7 +96,7 @@ public class CbsVoiceRecordEnrichment implements IEnrichment {
                         record.put("SERVED_MSISDN_DIALED_KEY", ddk.getDialDigitKey());
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+//                    e.printStackTrace();
                 }
 
                 String calledPartyNumber = tx.getValue("CalledPartyNumber");
@@ -100,7 +108,7 @@ public class CbsVoiceRecordEnrichment implements IEnrichment {
                         record.put("OTHER_MSISDN_DIALED_KEY", ddk.getDialDigitKey());
                         String providerDesc = ddk.getProviderDesc();
                         String isoCountryCode = ddk.getIsoCountryCode();
-                        record.put("OTHER_PARTY_ISO" , isoCountryCode);
+                        record.put("OTHER_PARTY_ISO", isoCountryCode);
                         record.put("OTHER_PARTY_OPERATOR", providerDesc);
                         String targetCountryCode = ddk.getTargetCountryCode();
                         String otherPartyNwIndKey = "";
@@ -118,11 +126,9 @@ public class CbsVoiceRecordEnrichment implements IEnrichment {
                                     otherPartyNwIndKey = "2";
                                     break;
                             }
-                        }
-                        else if (!targetCountryCode.equals("966")){
+                        } else if (!targetCountryCode.equals("966")) {
                             otherPartyNwIndKey = "3";
-                        }
-                        else {
+                        } else {
                             otherPartyNwIndKey = "-99";
                         }
                         record.put("OTHER_PARTY_NW_IND_KEY", otherPartyNwIndKey);
@@ -134,7 +140,7 @@ public class CbsVoiceRecordEnrichment implements IEnrichment {
                 record.put("OTHER_IMSI", tx.getValue("CalledPartyIMSI"));
                 record.put("SERVED_CUG", tx.getValue("CallingCUGNo"));
                 record.put("OTHER_CUG", tx.getValue("CalledCUGNo"));
-                record.put("SERVED_PLMN", tx.getValue("CallingRoamInfo"));
+                record.put("SERVED_ROAM_INFO", tx.getValue("CallingRoamInfo"));
                 record.put("SERVED_CELL", tx.getValue("CallingCellID"));
                 record.put("OTHER_PLMN", tx.getValue("CalledRoamInfo"));
                 record.put("OTHER_CELL", tx.getValue("CalledCellID"));
@@ -158,9 +164,7 @@ public class CbsVoiceRecordEnrichment implements IEnrichment {
                 record.put("OTHER_VPN_TOP_GROUP_NUMBER", tx.getValue("CalledVPNTopGroupNumber"));
                 record.put("OTHER_VPN_GROUP_NUMBER", tx.getValue("CalledVPNGroupNumber"));
                 record.put("OTHER_VPN_SHORT_NUMBER", tx.getValue("CalledVPNShortNumber"));
-            }
-
-            else if ("2".equals(serviceFlow.trim())) {
+            } else if ("2".equals(serviceFlow.trim())) {
                 String callingPartyNumber1 = tx.getValue("CallingPartyNumber");
                 String calledPartyNumber1 = tx.getValue("CalledPartyNumber");
                 String servedMSISDN = tx.normalizeMSISDN(calledPartyNumber1);
@@ -198,11 +202,9 @@ public class CbsVoiceRecordEnrichment implements IEnrichment {
                                     otherPartyNwIndKey = "2";
                                     break;
                             }
-                        }
-                        else if (!targetCountryCode.equals("966")){
+                        } else if (!targetCountryCode.equals("966")) {
                             otherPartyNwIndKey = "3";
-                        }
-                        else {
+                        } else {
                             otherPartyNwIndKey = "-99";
                         }
                         record.put("OTHER_PARTY_NW_IND_KEY", otherPartyNwIndKey);
@@ -239,67 +241,7 @@ public class CbsVoiceRecordEnrichment implements IEnrichment {
                 record.put("OTHER_VPN_GROUP_NUMBER", tx.getValue("CallingVPNGroupNumber"));
                 record.put("OTHER_VPN_SHORT_NUMBER", tx.getValue("CallingVPNShortNumber"));
             }
-            else if ("3".equals(serviceFlow.trim())) {
-                String callingPartyNumber1 = tx.getValue("CallingPartyNumber");
-                String otherMSISDN1 = tx.normalizeMSISDN(callingPartyNumber1);
-                record.put("OTHER_MSISDN", otherMSISDN1);
-                String originalCalledParty = tx.getValue("OriginalCalledParty");
-                String servedMSISDN = tx.normalizeMSISDN(originalCalledParty);
-                record.put("SERVED_MSISDN", servedMSISDN);
-
-                try {
-                    ReferenceDimDialDigit ddk = tx.getDialedDigitSettings(servedMSISDN);
-                    if (ddk != null) {
-                        record.put("SERVED_MSISDN_DIALED_KEY", ddk.getDialDigitKey());
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                try {
-                    ReferenceDimDialDigit ddk = tx.getDialedDigitSettings(otherMSISDN1);
-                    if (ddk != null) {
-                        record.put("OTHER_MSISDN_DIALED_KEY", ddk.getDialDigitKey());
-                        String providerDesc = ddk.getProviderDesc();
-                        String isoCountryCode = ddk.getIsoCountryCode();
-                        record.put("OTHER_PARTY_ISO" , isoCountryCode);
-                        record.put("OTHER_PARTY_OPERATOR", providerDesc);
-                        String targetCountryCode = ddk.getTargetCountryCode();
-                        String otherPartyNwIndKey = "";
-                        if (targetCountryCode.equals("966")) {
-                            switch (providerDesc) {
-                                case "GSM-Lebara Mobile":
-                                case "LEBARA- Free Number":
-                                case "LEBARA-Spl Number":
-                                    otherPartyNwIndKey = "1";
-                                    break;
-                                default:
-                                    otherPartyNwIndKey = "2";
-                                    break;
-                            }
-                        } else if (!targetCountryCode.equals("966")) {
-                            otherPartyNwIndKey = "3";
-                        } else {
-                            otherPartyNwIndKey = "-99";
-                        }
-                        record.put("OTHER_PARTY_NW_IND_KEY", otherPartyNwIndKey);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
         }
-
-//        DIALED_NUMBER
-        Optional<String> dialedNumber = tx.getDialedNumber();
-        dialedNumber.ifPresent(s -> record.put("DIALED_NUMBER", s));
-
-        //  EVENT_DIRECTION_KEY
-        Optional<String> eventDirectionKey = tx.getEventDirectionKey();
-        eventDirectionKey.ifPresent(s -> record.put("EVENT_DIRECTION_KEY", s));
-
-//      SERVED_TYPE
-        Optional<String> servedType = tx.getServedType();
-        servedType.ifPresent(s -> record.put("SERVED_TYPE", s));
 
         // CHARGING_TIME
         Optional<String> chargingTime = tx.getChargingTime("ChargingTime");
