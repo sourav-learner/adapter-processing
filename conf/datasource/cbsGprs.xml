@@ -446,6 +446,9 @@
             <Field sourceFieldName="LostAmount" targetFieldName="LOST_AMOUNT"/>
             <Field sourceFieldName="ADVANCE_PREPAID_BALANCE"/>
             <Field sourceFieldName="CREDIT_POSTPAID_BALANCE"/>
+            <Field sourceFieldName="COMPUTED_UPLOAD_VOL"/>
+            <Field sourceFieldName="COMPUTED_DOWNLOAD_VOL"/>
+            <Field sourceFieldName="COMPUTED_TOTAL_VOL"/>
             <Field sourceFieldName="SERVED_MSISDN_DIALED_KEY" default="-99"/>
             <Field sourceFieldName="ZERO_CHARGE_IND"/>
             <Field sourceFieldName="BLACK_LIST_IND" default="-97"/>
