@@ -28,6 +28,10 @@
             <Field sourceFieldName="ACCT_ID"/>
             <Field sourceFieldName="CUST_ID"/>
             <Field sourceFieldName="SUB_ID"/>
+            <Field sourceFieldName="OFFER_NAME"/>
+            <Field sourceFieldName="PAY_MODE"/>
+            <Field sourceFieldName="OFFER_TYPE_BI"/>
+            <Field sourceFieldName="SERVED_TYPE"/>
             <Field sourceFieldName="SERVED_MSISDN"/>
             <Field sourceFieldName="BATCH_NO"/>
             <Field sourceFieldName="CHANNEL_ID"/>
@@ -496,7 +500,6 @@
             <Field sourceFieldName="AdditionalInfo" targetFieldName="ADDITIONAL_INFO"/>
             <Field sourceFieldName="Merchant" targetFieldName="MERCHANT"/>
             <Field sourceFieldName="Service" targetFieldName="SERVICE"/>
-            <Field sourceFieldName="PAY_TYPE"/>
             <Field sourceFieldName="filename" targetFieldName="FileName"/>
             <Field sourceFieldName="EVENT_DATE" targetFieldName="EVENT_DATE"/>
             <Field sourceFieldName="XDR_DATE" dataType="date" SourceFormat="yyyyMMdd HH:mm:ss" default="19700101 00:00:01"/>

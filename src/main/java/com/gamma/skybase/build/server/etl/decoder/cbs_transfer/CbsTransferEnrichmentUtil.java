@@ -136,30 +136,4 @@ public class CbsTransferEnrichmentUtil {
             return Optional.of(status);
         return Optional.empty();
     }
-
-    String payType , servedType;
-
-    public Optional<String> getServedType() {
-        payType = getValue("PayType");
-
-        if (payType != null) {
-            switch (payType) {
-                case "0":
-                    servedType = "PREPAID";
-                    break;
-                case "1":
-                    servedType = "POSTPAID";
-                    break;
-                case "2":
-                    servedType = "HYBRID";
-                    break;
-                default:
-                    servedType = "UNKNOW";
-                    break;
-            }
-        }
-        if (servedType != null)
-            return Optional.of(servedType);
-        return Optional.empty();
-    }
 }
