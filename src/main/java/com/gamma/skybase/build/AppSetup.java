@@ -98,7 +98,7 @@ public class AppSetup {
             loader.loadDimTableContent("DIM_SERVICE_RANGE_LOOKUP", genericObjectLoad(baseDir + "DIM_SERVICE_RANGE_LOOKUP.csv", ReferenceDimServiceRangeLookup.class));
             loader.loadDimTableContent("DIM_CRM_INF_SUBSCRIBER_ALL", genericObjectLoad(baseDir + "DIM_CRM_INF_SUBSCRIBER_ALL.csv", ReferenceDimSuscriberCRMInf.class));
             loader.loadDimTableContent("DIM_ROAMING_PARTNER_INFO", genericObjectLoad(baseDir + "DIM_ROAMING_PARTNER_INFO.csv", ReferenceDimRoamingPartnerInfo.class));
-            loader.loadDimTableContent("DIM_CBS_OFFER_PAYTYPE", genericObjectLoad(baseDir + "DIM_CBS_OFFER_PAYTYPE.csv", ReferenceDimCbsOfferPayType.class));
+            loader.loadDimTableContent("DIM_CBS_OFFER_PAYTYPE", genericObjectLoad(baseDir + "DIM_CBS_OFFER_PAYTYPE.CSV", ReferenceDimCbsOfferPayType.class));
             settings.markSetupDone();
         }
     }
