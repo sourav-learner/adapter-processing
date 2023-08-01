@@ -56,11 +56,17 @@
             <Field sourceFieldName="CP_ID "/>
             <Field sourceFieldName="RECIPIENT_NUMBER " targetFieldName="RECIPIENT_NUMBER"/>
             <Field sourceFieldName="USAGE_MEASURE_ID "/>
-            <Field sourceFieldName="ACTUAL_USAGE " targetFieldName="ORIGINAL_DURATION"/>
-            <Field sourceFieldName="RATE_USAGE " targetFieldName="RATED_DURATION"/>
-            <Field sourceFieldName="SERVICE_UNIT_TYPE "/>
-            <Field sourceFieldName="USAGE_MEASURE_ID2 "/>
-            <Field sourceFieldName="ACTUAL_USAGE2 "/>
+            <Field sourceFieldName="ACTUAL_USAGE"/>
+            <Field sourceFieldName="ACTUAL_USAGE_PAYG"/>
+            <Field sourceFieldName="ACTUAL_USAGE_BONUS"/>
+            <Field sourceFieldName="ACTUAL_USAGE_ALLOWANCE"/>
+            <Field sourceFieldName="RATE_USAGE"/>
+            <Field sourceFieldName="RATE_USAGE_PAYG"/>
+            <Field sourceFieldName="RATE_USAGE_BONUS"/>
+            <Field sourceFieldName="RATE_USAGE_ALLOWANCE"/>
+            <Field sourceFieldName="SERVICE_UNIT_TYPE"/>
+            <Field sourceFieldName="USAGE_MEASURE_ID2"/>
+            <Field sourceFieldName="ACTUAL_USAGE2"/>
             <Field sourceFieldName="RATE_USAGE2"/>
             <Field sourceFieldName="SERVICE_UNIT_TYPE2"/>
             <Field sourceFieldName="DEBIT_AMOUNT"/>
@@ -70,6 +76,7 @@
             <Field sourceFieldName="DEBIT_FROM_POSTPAID"/>
             <Field sourceFieldName="DEBIT_FROM_ADVANCE_POSTPAID"/>
             <Field sourceFieldName="DEBIT_FROM_CREDIT_POSTPAID"/>
+            <Field sourceFieldName="REAL_REVENUE"/>
             <Field sourceFieldName="TOTAL_TAX"/>
             <Field sourceFieldName="FREE_UNIT_AMOUNT_OF_TIMES"/>
             <Field sourceFieldName="FREE_UNIT_AMOUNT_OF_DURATION"/>
@@ -374,18 +381,22 @@
             <Field sourceFieldName="FR10_CURRENT_AMOUNT"/>
             <Field sourceFieldName="FR10_FU_MEASURE_ID"/>
             <Field sourceFieldName="FR10_OPER_TYPE"/>
-            <Field sourceFieldName="CallingPartyNumber" targetFieldName="SERVED_MSISDN"/>
-            <Field sourceFieldName="CalledPartyNumber" targetFieldName="OTHER_MSISDN"/>
-            <Field sourceFieldName="CallingPartyIMSI" targetFieldName="SERVED_IMSI"/>
-            <Field sourceFieldName="CalledPartyIMSI" targetFieldName="OTHER_IMSI"/>
-            <Field sourceFieldName="DialedNumber" targetFieldName="DIALED_NUMBER"/>
+            <Field sourceFieldName="OFFER_NAME"/>
+            <Field sourceFieldName="PAY_MODE"/>
+            <Field sourceFieldName="OFFER_TYPE_BI"/>
+            <Field sourceFieldName="SERVED_TYPE"/>
+            <Field sourceFieldName="SERVED_MSISDN"/>
+            <Field sourceFieldName="OTHER_MSISDN"/>
+            <Field sourceFieldName="SERVED_IMSI"/>
+            <Field sourceFieldName="OTHER_IMSI"/>
+            <Field sourceFieldName="DIALED_NUMBER"/>
             <Field sourceFieldName="OriginalCalledParty" targetFieldName="ORIGINAL_CALLED_PARTY"/>
             <Field sourceFieldName="EVENT_DIRECTION_KEY"/>
             <Field sourceFieldName="CallForwardIndicator " targetFieldName="CF_IND"/>
-            <Field sourceFieldName="CallingRoamInfo" targetFieldName="SERVED_PLMN"/>
-            <Field sourceFieldName="CallingCellID" targetFieldName="SERVED_CELL"/>
-            <Field sourceFieldName="CalledRoamInfo" targetFieldName="OTHER_PLMN"/>
-            <Field sourceFieldName="CalledCellID" targetFieldName="OTHER_CEll"/>
+            <Field sourceFieldName="SERVED_ROAM_INFO"/>
+            <Field sourceFieldName="SERVED_CELL"/>
+            <Field sourceFieldName="OTHER_SERVED_INFO"/>
+            <Field sourceFieldName="OTHER_CEll"/>
             <Field sourceFieldName="TimeStampOfSSP" targetFieldName="TIME_STAMP_OF_SSP"/>
             <Field sourceFieldName="TimeZoneOfSSP" targetFieldName="TIME_ZONE_OF_SSP"/>
             <Field sourceFieldName="BearerCapability" targetFieldName="BEARER_CAPABILITY"/>
@@ -455,6 +466,8 @@
             <Field sourceFieldName="OTHER_MSISDN_DIALED_KEY" default="-99"/>
             <Field sourceFieldName="OTHER_PARTY_OPERATOR" default="-99"/>
             <Field sourceFieldName="OTHER_PARTY_NW_IND_KEY" default="-99"/>
+            <Field sourceFieldName="OTHER_PARTY_ISO" default="-99"/>
+            <Field sourceFieldName="SERVED_PLMN_ISO" default="-99"/>
             <Field sourceFieldName="SERVED_ROAM_DIALED_KEY" default="-99"/>
             <Field sourceFieldName="ZERO_CHARGE_IND"/>
             <Field sourceFieldName="ZERO_DURATION_IND"/>
