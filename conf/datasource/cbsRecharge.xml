@@ -28,8 +28,12 @@
             <Field sourceFieldName="RECHARGE_AMT"/>
             <Field sourceFieldName="ACCT_ID"/>
             <Field sourceFieldName="SUB_ID"/>
+            <Field sourceFieldName="OFFER_NAME"/>
+            <Field sourceFieldName="PAY_MODE"/>
+            <Field sourceFieldName="OFFER_TYPE_BI"/>
+            <Field sourceFieldName="SERVED_TYPE"/>
             <Field sourceFieldName="SERVED_MSISDN"/>
-            <Field sourceFieldName="THIRD_PARTY_NUMBER" targetFieldName="THIRD_PARTY_MSISDN"/>
+            <Field sourceFieldName="THIRDPARTY_NUMBER"/>
             <Field sourceFieldName="CURRENCY_ID"/>
             <Field sourceFieldName="ORIGINAL_AMT"/>
             <Field sourceFieldName="CURRENCY_RATE"/>

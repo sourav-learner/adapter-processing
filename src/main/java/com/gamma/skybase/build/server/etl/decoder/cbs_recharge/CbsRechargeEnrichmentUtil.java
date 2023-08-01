@@ -114,4 +114,17 @@ public class CbsRechargeEnrichmentUtil {
             return Optional.of(servedType);
         return Optional.empty();
     }
+
+    String third, thirdPartyNumber;
+
+    public Optional<String> getThirdPartyNumber() {
+        third = getValue("THIRD_PARTY_NUMBER");
+        if (third != null) {
+            thirdPartyNumber = "966" + third;
+        }
+        if (thirdPartyNumber != null)
+            return Optional.of(thirdPartyNumber);
+        return Optional.empty();
+    }
+
 }

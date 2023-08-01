@@ -53,6 +53,10 @@ public class CbsRechargeRecordEnrichment implements IEnrichment {
             record.put("SERVED_MSISDN",servedMsisdn);
         }
 
+        //        THIRDPARTY_NUMBER
+        Optional<String> thirdPartyNumber = tx.getThirdPartyNumber();
+        thirdPartyNumber.ifPresent(s -> record.put("THIRDPARTY_NUMBER", s));
+
 //        FILE_NAME , POPULATION_DATE
         record.put("FILE_NAME", record.get("fileName"));
         record.put("POPULATION_DATE", sdfT.get().format(new Date()));
