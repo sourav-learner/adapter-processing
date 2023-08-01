@@ -104,7 +104,7 @@ public class CbsSubscriptionCmEnrichmentUtil {
                     objType = "GROUP";
                     break;
                 default:
-                    objType = "-99";
+                    objType = "UNKNOWN";
                     break;
             }
         }
