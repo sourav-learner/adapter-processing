@@ -105,34 +105,6 @@ public class CbsVoiceEnrichmentUtil {
         return Optional.empty();
     }
 
-    String objType;
-
-    public Optional<String> getObjType() {
-        objType = getValue("OBJ_TYPE");
-        if (objType != null) {
-            switch (objType) {
-                case "A":
-                    objType = "ACC";
-                    break;
-                case "C":
-                    objType = "CUSTOMER";
-                    break;
-                case "S":
-                    objType = "SUBSCRIBER";
-                    break;
-                case "G":
-                    objType = "GROUP";
-                    break;
-                default:
-                    objType = "UNKNOWN";
-                    break;
-            }
-        }
-        if (objType != null)
-            return Optional.of(objType);
-        return Optional.empty();
-    }
-
     String eventTypeKey;
 
     public Optional<String> getEventTypeKey() {

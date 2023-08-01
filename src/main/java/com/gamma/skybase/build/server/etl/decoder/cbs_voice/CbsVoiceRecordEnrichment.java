@@ -1,5 +1,7 @@
 package com.gamma.skybase.build.server.etl.decoder.cbs_voice;
 
+import com.gamma.skybase.build.server.etl.decoder.LebaraUtil;
+import com.gamma.skybase.build.server.etl.decoder.ReferenceDimCbsOfferPayType;
 import com.gamma.skybase.contract.decoders.IEnrichment;
 import com.gamma.skybase.contract.decoders.MEnrichmentReq;
 import com.gamma.skybase.contract.decoders.MEnrichmentResponse;
@@ -33,10 +35,6 @@ public class CbsVoiceRecordEnrichment implements IEnrichment {
         // EVENT_END_TIME
         Optional<String> endTime = tx.getEndTime("CUST_LOCAL_END_DATE");
         endTime.ifPresent(s -> record.put("EVENT_END_TIME", s));
-
-        // OBJ_TYPE
-//        Optional<String> objType = tx.getObjType();
-//        objType.ifPresent(s -> record.put("OBJTYPE", s));
 
         //  EVENT_TYPE_KEY
         Optional<String> eventTypeKey = tx.getEventTypeKey();
@@ -74,6 +72,57 @@ public class CbsVoiceRecordEnrichment implements IEnrichment {
         Optional<String> realRevenue = tx.getRealRevenue();
         realRevenue.ifPresent(s -> record.put("REAL_REVENUE", s));
 
+//        OFFER_NAME , PAY_MODE , OFFER_TYPE_BI , SERVED_TYPE
+        String offerid = tx.getValue("MainOfferingID");
+        String servedType = null;
+        String usageServiceType = tx.getValue("USAGE_SERVICE_TYPE");
+        ReferenceDimCbsOfferPayType offeringInfo = LebaraUtil.getDimcbsOfferId(offerid);
+//        Map<String, Object> values = new HashMap<>();
+
+        if (offeringInfo != null) {
+            record.put("OFFER_NAME", offeringInfo.getOfferName());
+            record.put("PAY_MODE", offeringInfo.getPayMode());
+            record.put("OFFER_TYPE_BI", offeringInfo.getOfferTypeBi());
+            String payMode = offeringInfo.getPayMode();
+            String offerType = offeringInfo.getOfferTypeBi();
+
+            if (usageServiceType.equals("15")) {
+                if (payMode.equals("0") && offerType.equalsIgnoreCase("PREPAID")) {
+                    servedType = "6";
+                } else if (payMode.equals("0") && offerType == null) {
+                    servedType = "6";
+                } else if (payMode.equals("1") && offerType.equalsIgnoreCase("POSTPAID")) {
+                    servedType = "5";
+                } else if (payMode.equals("1") && offerType == null) {
+                    servedType = "5";
+                } else if (payMode != null && offerType.equalsIgnoreCase("POSTPAID2")) {
+                    servedType = "2";
+                } else if (payMode.equals("3") && offerType.equalsIgnoreCase("HYBRID")) {
+                    servedType = "8";
+                } else if (payMode.equals("3") && offerType == null) {
+                    servedType = "8";
+                }
+            }
+            else {
+                if (payMode.equals("0") && offerType.equalsIgnoreCase("PREPAID")) {
+                    servedType = "2";
+                } else if (payMode.equals("0") && offerType == null) {
+                    servedType = "2";
+                } else if (payMode.equals("1") && offerType.equalsIgnoreCase("POSTPAID")) {
+                    servedType = "1";
+                } else if (payMode.equals("1") && offerType == null) {
+                    servedType = "1";
+                } else if (payMode != null && offerType.equalsIgnoreCase("POSTPAID2")) {
+                    servedType = "1";
+                } else if (payMode.equals("3") && offerType.equalsIgnoreCase("HYBRID")) {
+                    servedType = "7";
+                } else if (payMode.equals("3") && offerType == null) {
+                    servedType = "8";
+                }
+            }
+            record.put("SERVED_TYPE" , servedType);
+        }
+
 //        DIALED_NUMBER
         Optional<String> dialedNumber = tx.getDialedNumber();
         dialedNumber.ifPresent(s -> record.put("DIALED_NUMBER", s));
@@ -96,7 +145,7 @@ public class CbsVoiceRecordEnrichment implements IEnrichment {
                         record.put("SERVED_MSISDN_DIALED_KEY", ddk.getDialDigitKey());
                     }
                 } catch (Exception e) {
-//                    e.printStackTrace();
+                    e.printStackTrace();
                 }
 
                 String calledPartyNumber = tx.getValue("CalledPartyNumber");
@@ -186,7 +235,7 @@ public class CbsVoiceRecordEnrichment implements IEnrichment {
                     if (ddk != null) {
                         record.put("OTHER_MSISDN_DIALED_KEY", ddk.getDialDigitKey());
                         String isoCountryCode = ddk.getIsoCountryCode();
-                        record.put("OTHER_PARTY_ISO" , isoCountryCode);
+                        record.put("OTHER_PARTY_ISO", isoCountryCode);
                         String providerDesc = ddk.getProviderDesc();
                         record.put("OTHER_PARTY_OPERATOR", providerDesc);
                         String targetCountryCode = ddk.getTargetCountryCode();
