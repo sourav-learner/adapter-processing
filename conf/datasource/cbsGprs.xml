@@ -57,7 +57,13 @@
             <Field sourceFieldName="RECIPIENT_NUMBER" targetFieldName="OTHER_MSISDN"/>
             <Field sourceFieldName="USAGE_MEASURE_ID"/>
             <Field sourceFieldName="ACTUAL_USAGE" targetFieldName="ORIGINAL_DURATION"/>
-            <Field sourceFieldName="RATE_USAGE" targetFieldName="RATED_DURATION"/>
+            <Field sourceFieldName="ACTUAL_USAGE_PAYG"/>
+            <Field sourceFieldName="ACTUAL_USAGE_BONUS"/>
+            <Field sourceFieldName="ACTUAL_USAGE_ALLOWANCE"/>
+            <Field sourceFieldName="RATE_USAGE"/>
+            <Field sourceFieldName="RATE_USAGE_PAYG"/>
+            <Field sourceFieldName="RATE_USAGE_BONUS"/>
+            <Field sourceFieldName="RATE_USAGE_ALLOWANCE"/>
             <Field sourceFieldName="SERVICE_UNIT_TYPE"/>
             <Field sourceFieldName="USAGE_MEASURE_ID2"/>
             <Field sourceFieldName="ACTUAL_USAGE2"/>
@@ -70,6 +76,7 @@
             <Field sourceFieldName="DEBIT_FROM_POSTPAID"/>
             <Field sourceFieldName="DEBIT_FROM_ADVANCE_POSTPAID"/>
             <Field sourceFieldName="DEBIT_FROM_CREDIT_POSTPAID"/>
+            <Field sourceFieldName="REAL_REVENUE"/>
             <Field sourceFieldName="TOTAL_TAX"/>
             <Field sourceFieldName="FREE_UNIT_AMOUNT_OF_TIMES"/>
             <Field sourceFieldName="FREE_UNIT_AMOUNT_OF_DURATION"/>
@@ -374,7 +381,7 @@
             <Field sourceFieldName="FR10_CURRENT_AMOUNT"/>
             <Field sourceFieldName="FR10_FU_MEASURE_ID"/>
             <Field sourceFieldName="FR10_OPER_TYPE"/>
-            <Field sourceFieldName="CallingPartyNumber" targetFieldName="SERVED_MSISDN"/>
+            <Field sourceFieldName="SERVED_MSISDN"/>
             <Field sourceFieldName="APN"/>
             <Field sourceFieldName="URL"/>
             <Field sourceFieldName="CallingPartyIMSI" targetFieldName="SERVED_IMSI"/>
@@ -400,8 +407,8 @@
             <Field sourceFieldName="TransitionID" targetFieldName="TRANSITION_ID"/>
             <Field sourceFieldName=" ServiceLevel" targetFieldName=" SERVICE_LEVEL"/>
             <Field sourceFieldName=" BrandID" targetFieldName=" BRAND_ID"/>
-            <Field sourceFieldName="MainOfferingID" targetFieldName="MAIN_OFFERING_ID"/>
-            <Field sourceFieldName="ChargingPartyNumber" targetFieldName="CHARGING_PARTY_NUMBER"/>
+            <Field sourceFieldName="MAIN_OFFERING_ID"/>
+            <Field sourceFieldName="CHARGING_PARTY_NUMBER"/>
             <Field sourceFieldName="SERVED_TYPE"/>
             <Field sourceFieldName="ChargingType" targetFieldName="CHARGING_TYPE"/>
             <Field sourceFieldName="RoamState" targetFieldName="ROAM_STATE"/>

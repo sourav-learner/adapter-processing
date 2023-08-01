@@ -81,6 +81,43 @@ public class CbsGprsRecordEnrichment implements IEnrichment {
         String TotalFlux = tx.getValue("TotalFlux");
         record.put("TotalFlux", TotalFlux);
 
+        //        CHARGING_PARTY_NUMBER
+        Optional<String> chargingPartyNumber = tx.getChargingPartyNumber();
+        chargingPartyNumber.ifPresent(s -> record.put("CHARGING_PARTY_NUMBER", s));
+
+//        ACTUAL_USAGE_PAYG
+        Optional<Double> actualUsagePayg = tx.getActualUsagePayg();
+        actualUsagePayg.ifPresent(s -> record.put("ACTUAL_USAGE_PAYG", s));
+
+        //        ACTUAL_USAGE_BONUS
+        Optional<Double> actualUsageBonus = tx.getActualUsageBonus();
+        actualUsageBonus.ifPresent(s -> record.put("ACTUAL_USAGE_BONUS", s));
+
+//        ACTUAL_USAGE_ALLOWANCE
+        Optional<Double> actualUsageAllowance = tx.getActualUsageAllowance();
+        actualUsageAllowance.ifPresent(s -> record.put("ACTUAL_USAGE_ALLOWANCE", s));
+
+//        RATE_USAGE_PAYG
+        Optional<Double> rateUsagePayg = tx.getRateUsagePayg();
+        rateUsagePayg.ifPresent(s -> record.put("RATE_USAGE_PAYG", s));
+
+//        RATE_USAGE_BONUS
+        Optional<Double> rateUsageBonus = tx.getRateUsageBonus();
+        rateUsageBonus.ifPresent(s -> record.put("RATE_USAGE_BONUS", s));
+
+//        RATE_USAGE_ALLOWANCE
+        Optional<String> rateUsageAllowance = tx.getRateUsageAllowance();
+        rateUsageAllowance.ifPresent(s -> record.put("RATE_USAGE_ALLOWANCE", s));
+
+//        REAL_REVENUE
+        Optional<String> realRevenue = tx.getRealRevenue();
+        realRevenue.ifPresent(s -> record.put("REAL_REVENUE", s));
+
+//        SERVED_MSISDN
+        String callingPartyNumber = tx.getValue("CallingPartyNumber");
+        String servedMSISDN = tx.normalizeMSISDN(callingPartyNumber);
+        record.put("SERVED_MSISDN", servedMSISDN);
+
 //      SERVICE_CATEGORY
         String serviceCategory = tx.getValue("SERVICE_CATEGORY");
         record.put("SERVICE_CATEGORY1",serviceCategory);
