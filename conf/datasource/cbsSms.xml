@@ -36,8 +36,8 @@
             <Field sourceFieldName="CREATE_DATE "/>
             <Field sourceFieldName="START_DATE "/>
             <Field sourceFieldName="END_DATE "/>
-            <Field sourceFieldName="EVENT_START_TIME"/>
-            <Field sourceFieldName="EVENT_END_TIME"/>
+            <Field sourceFieldName="CUST_LOCAL_STARTDATE"/>
+            <Field sourceFieldName="CUST_LOCAL_ENDDATE"/>
             <Field sourceFieldName="STD_EVT_TYPE_ID "/>
             <Field sourceFieldName="EVT_SOURCE_CATEGORY "/>
             <Field sourceFieldName="OBJTYPE "/>

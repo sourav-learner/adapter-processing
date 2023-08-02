@@ -26,13 +26,13 @@ public class CbsGprsRecordEnrichment implements IEnrichment {
         // EVENT_START_TIME
         Optional<String> starTime = tx.getStartTime("CUST_LOCAL_START_DATE");
         starTime.ifPresent(s -> {
-            record.put("EVENT_START_TIME", s);
+            record.put("CUST_LOCAL_STARTDATE", s);
             record.put("XDR_DATE", s);
         });
 
         // EVENT_END_TIME
         Optional<String> endTime = tx.getEndTime("CUST_LOCAL_END_DATE");
-        endTime.ifPresent(s -> record.put("EVENT_END_TIME", s));
+        endTime.ifPresent(s -> record.put("CUST_LOCAL_ENDDATE", s));
 
         // OBJTYPE
         Optional<String> objType = tx.getObjType();

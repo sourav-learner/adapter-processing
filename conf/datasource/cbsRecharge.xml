@@ -94,8 +94,8 @@
             <Field sourceFieldName="LOAN_POUNDATE"/>
             <Field sourceFieldName="BC1_ACCT_ID"/>
             <Field sourceFieldName="BC1_ACCT_BALANCE_ID"/>
-            <Field sourceFieldName="BC1_CUR_BALANCE"/>
             <Field sourceFieldName="BC1_BALANCE_TYPE"/>
+            <Field sourceFieldName="BC1_CUR_BALANCE"/>
             <Field sourceFieldName="BC1_CHG_BALANCE"/>
             <Field sourceFieldName="BC1_PRE_APPLY_TIME"/>
             <Field sourceFieldName="BC1_PRE_EXPIRE_TIME"/>
