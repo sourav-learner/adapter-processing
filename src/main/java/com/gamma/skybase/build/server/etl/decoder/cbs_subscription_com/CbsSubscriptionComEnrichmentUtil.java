@@ -2452,6 +2452,9 @@ public class CbsSubscriptionComEnrichmentUtil {
         provisionType = getValue("ProvisionType");
         if (provisionType != null) {
             switch (provisionType) {
+                case "104":
+                    provisionType = "movie series";
+                    break;
                 case "105":
                     provisionType = "album";
                     break;
@@ -2462,7 +2465,7 @@ public class CbsSubscriptionComEnrichmentUtil {
                     provisionType = "TV Series";
                     break;
                 default:
-                    provisionType = "unknown";
+                    provisionType = "Unknown";
                     break;
             }
         }

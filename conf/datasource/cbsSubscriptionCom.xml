@@ -413,6 +413,9 @@
             <Field sourceFieldName="ChgFreeUnitInfo" targetFieldName="CHG_FREE_UNIT_INFO"/>
             <Field sourceFieldName="UserState" targetFieldName="USER_STATE"/>
             <Field sourceFieldName="GroupPayFlag" targetFieldName="GROUP_PAY_FLAG"/>
+            <Field sourceFieldName="OFFER_NAME"/>
+            <Field sourceFieldName="PAY_MODE"/>
+            <Field sourceFieldName="OFFER_TYPE_BI"/>
             <Field sourceFieldName="SERVED_TYPE"/>
             <Field sourceFieldName="TransactionID" targetFieldName="TRANSACTION_ID"/>
             <Field sourceFieldName="AdditionalInfo" targetFieldName="ADDITIONAL_INFO"/>
