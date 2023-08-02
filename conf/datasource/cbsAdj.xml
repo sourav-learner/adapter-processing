@@ -619,8 +619,11 @@
             <Field sourceFieldName="CUR_S8_EXP_DATE" targetFieldName="CUR_S8_EXP_DATE"/>
             <Field sourceFieldName="OLD_S9_EXP_DATE" targetFieldName="OLD_S9_EXP_DATE"/>
             <Field sourceFieldName="CUR_S9_EXP_DATE" targetFieldName="CUR_S9_EXP_DATE"/>
-            <Field sourceFieldName="Brandid" targetFieldName="Brand_id"/>
-            <Field sourceFieldName="Main" targetFieldName="Main_offering_id"/>
+            <Field sourceFieldName="Brandid" targetFieldName="BRAND_ID"/>
+            <Field sourceFieldName="MainOfferingID" targetFieldName="MAIN_OFFERING_ID"/>
+            <Field sourceFieldName="OFFER_NAME"/>
+            <Field sourceFieldName="PAY_MODE"/>
+            <Field sourceFieldName="OFFER_TYPE_BI"/>
             <Field sourceFieldName="SERVED_TYPE"/>
             <Field sourceFieldName="START_TIMEOF_BILLCYLE"/>
             <Field sourceFieldName="ADDITIONALINFO"/>
